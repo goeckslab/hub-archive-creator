@@ -5,6 +5,7 @@ Assembly Hub visualization.
 """
 
 import sys
+import tempfile
 import getopt
 import zipfile
 import subprocess
@@ -26,12 +27,15 @@ def main(argv):
             # We retrieve the input file
             inputfile = open(arg, 'r')
         elif opt in ("-o", "--ofile"):
-            outputfile = open(arg, 'w+')
+            outputfile = open(arg, 'w')
 
-            genePredFile = open('temp.genepred', 'w+')
-            unsortedBedFile = open('temp.unsortedBed', 'w+')
-            sortedBedFile = open('temp.sortedBed', 'w+')
-            bigBedFile = open('temp.bb', 'w+')
+            # TODO: See if we need these temporary files as part of the generated files
+            genePredFile = tempfile.NamedTemporaryFile()
+            unsortedBedFile = tempfile.NamedTemporaryFile()
+            sortedBedFile = tempfile.NamedTemporaryFile()
+            bigBedFile = tempfile.NamedTemporaryFile()
+
+            print genePredFile.name
 
             # gff3ToGenePred processing
             p = subprocess.Popen(
@@ -62,11 +66,15 @@ def main(argv):
             p.wait()
 
             # bedToBigBed processing
-            p = subprocess.Popen(
-                ['Tools/bedToBigBed',
-                    sortedBedFile.name,
-                    bigBedFile.name])
-            p.wait()
+            # bedToBigBed processing
+            # p = subprocess.Popen(
+            #    ['Tools/bedToBigBed',
+            #        sortedBedFile.name,
+            #        bigBedFile.name])
+            # p.wait()
+
+            outputfile.write("Coucou")
+            outputfile.seek(0)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

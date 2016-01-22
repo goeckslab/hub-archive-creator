@@ -1,0 +1,22 @@
+<tool id="hubArchiveCreator" name="Hub Archive Creator" version="0.1.0">
+  <description>
+    This Galaxy tool permits to prepare your files to be ready for
+    Assembly Hub visualization.
+  </description>
+  <command interpreter="python">hubArchiveCreator.py -i $input -o $output</command>
+  <inputs>
+    <param
+      format="fasta"
+      name="Fasta Track"
+      type="Data"
+      label="Fasta track to display" />
+  </inputs>
+  <outputs>
+    <data format="text" name="output" />
+  </outputs>
+
+  <help>
+    This Galaxy tool permits to prepare your files to be ready for
+    Assembly Hub visualization.
+  </help>
+</tool>

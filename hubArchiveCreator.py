@@ -16,7 +16,7 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
     except getopt.GetoptError:
-        print 'hubArchiveCreator.py -i <inputfile>'
+        print 'hubArchiveCreator.py -i <inputfile> -o <outputfile>'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':

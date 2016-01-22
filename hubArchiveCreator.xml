@@ -6,10 +6,10 @@
   <command interpreter="python">hubArchiveCreator.py -i $input -o $output</command>
   <inputs>
     <param
-      format="fasta"
-      name="Fasta Track"
-      type="Data"
-      label="Fasta track to display" />
+      format="gff3"
+      name="GFF3 Track"
+      type="data"
+      label="GFF3 track to display" />
   </inputs>
   <outputs>
     <data format="text" name="output" />

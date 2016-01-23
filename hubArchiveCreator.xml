@@ -12,7 +12,7 @@
       label="GFF3 track to display" />
   </inputs>
   <outputs>
-    <data format="text" name="output" />
+    <data format="zip" name="output" />
   </outputs>
 
   <help>

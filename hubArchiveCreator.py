@@ -27,15 +27,13 @@ def main(argv):
             # We retrieve the input file
             inputfile = open(arg, 'r')
         elif opt in ("-o", "--ofile"):
-            outputfile = open(arg, 'w')
+            outputZip = zipfile.ZipFile(arg, 'w')
 
             # TODO: See if we need these temporary files as part of the generated files
             genePredFile = tempfile.NamedTemporaryFile()
             unsortedBedFile = tempfile.NamedTemporaryFile()
             sortedBedFile = tempfile.NamedTemporaryFile()
             bigBedFile = tempfile.NamedTemporaryFile()
-
-            print genePredFile.name
 
             # gff3ToGenePred processing
             p = subprocess.Popen(
@@ -72,6 +70,9 @@ def main(argv):
             #        sortedBedFile.name,
             #        bigBedFile.name])
             # p.wait()
+
+            outputZip.write(sortedBedFile.name)
+            outputZip.close()
 
 if __name__ == "__main__":
     main(sys.argv[1:])

@@ -10,6 +10,9 @@ import getopt
 import zipfile
 import subprocess
 
+# Internal dependencies
+from twoBitCreator import twoBitFileCreator
+
 
 def main(argv):
     inputfile = ''
@@ -62,6 +65,10 @@ def main(argv):
                     '-o',
                     sortedBedFile.name])
             p.wait()
+
+            # 2bit file creation from input fasta
+            twoBitFile = twoBitFileCreator(inputfile)
+            print twoBitFile.name
 
             # bedToBigBed processing
             # bedToBigBed processing

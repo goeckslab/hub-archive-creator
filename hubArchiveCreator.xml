@@ -3,13 +3,18 @@
     This Galaxy tool permits to prepare your files to be ready for
     Assembly Hub visualization.
   </description>
-  <command interpreter="python">hubArchiveCreator.py -i $input -o $output</command>
+  <command interpreter="python">hubArchiveCreator.py -ig $GFF3_Track -if Fasta_File -o $output</command>
   <inputs>
     <param
       format="gff3"
-      name="GFF3 Track"
+      name="GFF3_Track"
       type="data"
       label="GFF3 track to display" />
+      <param
+        format="fasta"
+        name="Fasta_File"
+        type="data"
+        label="Fasta track to process" />
   </inputs>
   <outputs>
     <data format="zip" name="output" />

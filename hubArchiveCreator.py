@@ -15,21 +15,32 @@ from twoBitCreator import twoBitFileCreator
 
 
 def main(argv):
-    inputfile = ''
+    inputGFF3File = ''
+    inputFastaFile = ''
     outputfile = ''
     try:
-        opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
+        opts, args = getopt.getopt(argv,
+            "hg:f:o:",
+            ['help',
+            'gff3=',
+            'fasta=',
+            'output='])
     except getopt.GetoptError:
-        print 'hubArchiveCreator.py -i <inputfile> -o <outputfile>'
+        # TODO: Modify
+        print 'hubArchiveCreator.py -if <inputFastaFile> -ig <inputGFF3File> -o <outputfile>'
         sys.exit(2)
     for opt, arg in opts:
-        if opt == '-h':
-            print 'test.py -i <inputfile> -o <outputfile>'
+        if opt in ('-h', 'help'):
+            # TODO: Modify
+            print 'test.py -if <inputFastaFile> -ig <inputGFF3File> -o <outputfile>'
             sys.exit()
-        elif opt in ("-i", "--ifile"):
+        elif opt in ("-g", 'gff3'):
             # We retrieve the input file
-            inputfile = open(arg, 'r')
-        elif opt in ("-o", "--ofile"):
+            inputGFF3File = open(arg, 'r')
+        elif opt in ("-f", 'fasta'):
+            # We retrieve the input file
+            inputFastaFile = open(arg, 'r')
+        elif opt in ("-o", 'output'):
             outputZip = zipfile.ZipFile(arg, 'w')
 
             # TODO: See if we need these temporary files as part of the generated files
@@ -41,8 +52,9 @@ def main(argv):
             # gff3ToGenePred processing
             p = subprocess.Popen(
                 ['Tools/gff3ToGenePred',
-                    inputfile.name,
-                    genePredFile.name])
+                    inputGFF3File.name,
+                    genePredFile.name],
+                shell=True)
             # We need to wait the time gff3ToGenePred terminate so genePredToBed can begin
             # TODO: Check if we should use communicate instead of wait
             p.wait()
@@ -51,7 +63,8 @@ def main(argv):
             p = subprocess.Popen(
                 ['Tools/genePredToBed',
                     genePredFile.name,
-                    unsortedBedFile.name])
+                    unsortedBedFile.name],
+                shell=True)
             p.wait()
 
             # Sort processing
@@ -63,11 +76,12 @@ def main(argv):
                     '2,2n',
                     unsortedBedFile.name,
                     '-o',
-                    sortedBedFile.name])
+                    sortedBedFile.name],
+                shell=True)
             p.wait()
 
             # 2bit file creation from input fasta
-            twoBitFile = twoBitFileCreator(inputfile)
+            twoBitFile = twoBitFileCreator(inputFastaFile)
             print twoBitFile.name
 
             # bedToBigBed processing

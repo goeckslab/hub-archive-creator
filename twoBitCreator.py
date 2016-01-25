@@ -15,7 +15,8 @@ def twoBitFileCreator(fastaFile):
     p = subprocess.Popen(
         ['faTwoBit',
             fastaFile.name,
-            twoBitFile.name])
+            twoBitFile.name],
+        shell=True)
 
     p.wait()
 

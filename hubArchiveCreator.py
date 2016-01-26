@@ -48,6 +48,8 @@ def main(argv):
             genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
             unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
             sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
+            twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
+            chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
             bigBedFile = tempfile.NamedTemporaryFile(suffix=".bb")
 
             # gff3ToGenePred processing
@@ -81,6 +83,29 @@ def main(argv):
 
             # 2bit file creation from input fasta
             twoBitFile = twoBitFileCreator(inputFastaFile)
+
+            # Generate the chrom.sizes
+            # TODO: Isolate in a function
+            # We first get the twoBit Infos
+            p = subprocess.Popen(
+                ['tools/twoBitInfo',
+                    twoBitFile.name,
+                    'stdout'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE)
+
+            twoBitInfo_out, twoBitInfo_err = p.communicate()
+            twoBitInfoFile.write(twoBitInfo_out)
+
+            # Then we get the output to inject into the sort
+            # TODO: Check if no errors
+            p = subprocess.Popen(
+                ['sort',
+                    '-k2rn',
+                    twoBitInfoFile.name,
+                    '-o',
+                    chromSizesFile.name])
+            p.wait()
 
             # bedToBigBed processing
             # bedToBigBed processing

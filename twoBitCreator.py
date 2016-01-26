@@ -13,7 +13,7 @@ def twoBitFileCreator(fastaFile):
     twoBitFile = tempfile.NamedTemporaryFile()
 
     p = subprocess.Popen(
-        ['faTwoBit',
+        ['tools/faToTwoBit',
             fastaFile.name,
             twoBitFile.name],
         shell=True)

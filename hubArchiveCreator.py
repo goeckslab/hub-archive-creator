@@ -44,14 +44,14 @@ def main(argv):
             outputZip = zipfile.ZipFile(arg, 'w')
 
             # TODO: See if we need these temporary files as part of the generated files
-            genePredFile = tempfile.NamedTemporaryFile()
-            unsortedBedFile = tempfile.NamedTemporaryFile()
+            genePredFile = tempfile.NamedTemporaryFile(suffix=".genePred")
+            unsortedBedFile = tempfile.NamedTemporaryFile(suffix=".bed")
             sortedBedFile = tempfile.NamedTemporaryFile()
             bigBedFile = tempfile.NamedTemporaryFile()
 
             # gff3ToGenePred processing
             p = subprocess.Popen(
-                ['Tools/gff3ToGenePred',
+                ['tools/gff3ToGenePred',
                     inputGFF3File.name,
                     genePredFile.name],
                 shell=True)
@@ -61,7 +61,7 @@ def main(argv):
 
             # genePredToBed processing
             p = subprocess.Popen(
-                ['Tools/genePredToBed',
+                ['tools/genePredToBed',
                     genePredFile.name,
                     unsortedBedFile.name],
                 shell=True)

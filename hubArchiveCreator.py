@@ -53,7 +53,6 @@ def main(argv):
             bigBedFile = tempfile.NamedTemporaryFile(suffix=".bb")
 
             # gff3ToGenePred processing
-            print inputGFF3File.name
             p = subprocess.Popen(
                 ['tools/gff3ToGenePred',
                     inputGFF3File.name,
@@ -108,15 +107,18 @@ def main(argv):
             p.wait()
 
             # bedToBigBed processing
-            # bedToBigBed processing
-            # p = subprocess.Popen(
-            #    ['Tools/bedToBigBed',
-            #        sortedBedFile.name,
-            #        bigBedFile.name])
-            # p.wait()
+            # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
+            print bigBedFile.name
+            p = subprocess.Popen(
+                ['tools/bedToBigBed',
+                    sortedBedFile.name,
+                    chromSizesFile.name,
+                    bigBedFile.name])
+            p.wait()
 
             outputZip.write(sortedBedFile.name)
             outputZip.write(twoBitFile.name)
+            outputZip.write(bigBedFile.name)
             outputZip.close()
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ import tempfile
 import getopt
 import zipfile
 import subprocess
+import os
 
 # Internal dependencies
 from twoBitCreator import twoBitFileCreator
@@ -44,17 +45,17 @@ def main(argv):
             outputZip = zipfile.ZipFile(arg, 'w')
 
             # TODO: See if we need these temporary files as part of the generated files
-            genePredFile = tempfile.NamedTemporaryFile(suffix=".genePred")
-            unsortedBedFile = tempfile.NamedTemporaryFile(suffix=".bed")
-            sortedBedFile = tempfile.NamedTemporaryFile()
-            bigBedFile = tempfile.NamedTemporaryFile()
+            genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
+            unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
+            sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
+            bigBedFile = tempfile.NamedTemporaryFile(suffix=".bb")
 
             # gff3ToGenePred processing
+            print inputGFF3File.name
             p = subprocess.Popen(
                 ['tools/gff3ToGenePred',
                     inputGFF3File.name,
-                    genePredFile.name],
-                shell=True)
+                    genePredFile.name])
             # We need to wait the time gff3ToGenePred terminate so genePredToBed can begin
             # TODO: Check if we should use communicate instead of wait
             p.wait()
@@ -63,8 +64,7 @@ def main(argv):
             p = subprocess.Popen(
                 ['tools/genePredToBed',
                     genePredFile.name,
-                    unsortedBedFile.name],
-                shell=True)
+                    unsortedBedFile.name])
             p.wait()
 
             # Sort processing
@@ -76,13 +76,11 @@ def main(argv):
                     '2,2n',
                     unsortedBedFile.name,
                     '-o',
-                    sortedBedFile.name],
-                shell=True)
+                    sortedBedFile.name])
             p.wait()
 
             # 2bit file creation from input fasta
             twoBitFile = twoBitFileCreator(inputFastaFile)
-            print twoBitFile.name
 
             # bedToBigBed processing
             # bedToBigBed processing
@@ -93,6 +91,7 @@ def main(argv):
             # p.wait()
 
             outputZip.write(sortedBedFile.name)
+            outputZip.write(twoBitFile.name)
             outputZip.close()
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ from twoBitCreator import twoBitFileCreator
 def main(argv):
     inputGFF3File = ''
     inputFastaFile = ''
-    outputfile = ''
+
     try:
         opts, args = getopt.getopt(argv,
             "hg:f:o:",
@@ -44,13 +44,15 @@ def main(argv):
         elif opt in ("-o", 'output'):
             outputZip = zipfile.ZipFile(arg, 'w')
 
+            # Create the structure of the Assembly Hub
+            rootAssemblyHub = createAssemblyHub(outputZip)
+
             # TODO: See if we need these temporary files as part of the generated files
             genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
             unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
             sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
             twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
             chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
-            bigBedFile = tempfile.NamedTemporaryFile(suffix=".bb")
 
             # gff3ToGenePred processing
             p = subprocess.Popen(
@@ -108,18 +110,47 @@ def main(argv):
 
             # bedToBigBed processing
             # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
-            print bigBedFile.name
-            p = subprocess.Popen(
-                ['tools/bedToBigBed',
-                    sortedBedFile.name,
-                    chromSizesFile.name,
-                    bigBedFile.name])
-            p.wait()
+            with open('track.bb', 'w') as bigBedFile:
+                p = subprocess.Popen(
+                    ['tools/bedToBigBed',
+                        sortedBedFile.name,
+                        chromSizesFile.name,
+                        bigBedFile.name])
+                p.wait()
+
+            createZip(outputZip, rootAssemblyHub)
 
             outputZip.write(sortedBedFile.name)
             outputZip.write(twoBitFile.name)
             outputZip.write(bigBedFile.name)
             outputZip.close()
+
+
+def createAssemblyHub(outputZip):
+    # Create the root directory
+    myHubPath = "myHub"
+    if not os.path.exists(myHubPath):
+        os.makedirs(myHubPath)
+
+    genomesTxtFilePath = os.path.join(myHubPath, 'genomes.txt')
+    fillGenomesTxt(genomesTxtFilePath)
+
+    return myHubPath
+
+
+def fillGenomesTxt(genomesTxtFilePath):
+    # TODO: Think about the inputs and outputs
+    # TODO: Manage the template of this file
+    with open(genomesTxtFilePath, 'w') as genomesTxtFile:
+        # Write the content of the file genomes.txt
+        genomesTxtFile.write("genome ricCom1")
+
+
+def createZip(myZip, folder):
+    for root, dirs, files in os.walk(folder):
+        # Get all files and construct the dir at the same time
+        for file in files:
+            myZip.write(os.path.join(root, file))
 
 if __name__ == "__main__":
     main(sys.argv[1:])

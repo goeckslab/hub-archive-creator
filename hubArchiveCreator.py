@@ -120,9 +120,10 @@ def main(argv):
 
             createZip(outputZip, rootAssemblyHub)
 
-            outputZip.write(sortedBedFile.name)
-            outputZip.write(twoBitFile.name)
-            outputZip.write(bigBedFile.name)
+            # outputZip.write(sortedBedFile.name)
+            # outputZip.write(twoBitFile.name)
+            # TODO: Add the .bb file in the zip, at the right place
+            # outputZip.write(bigBedFile.name)
             outputZip.close()
 
 
@@ -132,8 +133,20 @@ def createAssemblyHub(outputZip):
     if not os.path.exists(myHubPath):
         os.makedirs(myHubPath)
 
+    # Add the genomes.txt file
     genomesTxtFilePath = os.path.join(myHubPath, 'genomes.txt')
     fillGenomesTxt(genomesTxtFilePath)
+
+    # Add the hub.txt file
+    # Add the dbia.html file
+    # TODO: Change the name and get it depending on the specie
+
+    # Create the specie folder
+    # TODO: Generate the name depending on the specie
+
+    # Create the trackDb.txt file in the specie folder
+
+    # Create the description html file in the specie folder
 
     return myHubPath
 

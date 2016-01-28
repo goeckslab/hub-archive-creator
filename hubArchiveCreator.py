@@ -190,6 +190,7 @@ def fillHubHtmlFile(hubHtmlFilePath):
         genomesTxtFile.write("</body>")
         genomesTxtFile.write("</html>")
 
+
 def fillTrackDbTxtFile(trackDbTxtFilePath):
     # TODO: Modify according to the files passed in parameter
     with open(trackDbTxtFilePath, 'w') as trackDbFile:

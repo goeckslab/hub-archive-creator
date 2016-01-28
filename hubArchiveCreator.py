@@ -143,13 +143,20 @@ def createAssemblyHub(outputZip):
     hubTxtFilePath = os.path.join(myHubPath, 'hub.txt')
     fillHubTxt(hubTxtFilePath)
 
-    # Add the dbia.html file
+    # Add the hub.html file
     # TODO: Change the name and get it depending on the specie
+    hubHtmlFilePath = os.path.join(myHubPath, 'specie.html')
+    fillHubHtmlFile(hubHtmlFilePath)
 
     # Create the specie folder
     # TODO: Generate the name depending on the specie
+    mySpecieFolderPath = os.path.join(myHubPath, "dbia3")
+    if not os.path.exists(mySpecieFolderPath):
+        os.makedirs(mySpecieFolderPath)
 
     # Create the trackDb.txt file in the specie folder
+    trackDbTxtFilePath = os.path.join(mySpecieFolderPath, 'trackDb.txt')
+    fillTrackDbTxtFile(trackDbTxtFilePath)
 
     # Create the description html file in the specie folder
 
@@ -170,6 +177,33 @@ def fillHubTxt(hubTxtFilePath):
     with open(hubTxtFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
         genomesTxtFile.write("hub hubName")
+
+
+def fillHubHtmlFile(hubHtmlFilePath):
+    # TODO: Think about the inputs and outputs
+    # TODO: Manage the template of this file
+    with open(hubHtmlFilePath, 'w') as genomesTxtFile:
+        # Write the content of the file genomes.txt
+        genomesTxtFile.write("<html>")
+        genomesTxtFile.write("<body>")
+        genomesTxtFile.write("This is the description of the hub")
+        genomesTxtFile.write("</body>")
+        genomesTxtFile.write("</html>")
+
+def fillTrackDbTxtFile(trackDbTxtFilePath):
+    # TODO: Modify according to the files passed in parameter
+    with open(trackDbTxtFilePath, 'w') as trackDbFile:
+        trackDbFile.write("track augustusTrack")
+        trackDbFile.write("\n")
+        trackDbFile.write("longLabel Augustus_dbia3")
+        trackDbFile.write("\n")
+        trackDbFile.write("shortLabel a_dbia")
+        trackDbFile.write("\n")
+        trackDbFile.write("bigDataUrl tracks/augustusDbia3.bb")
+        trackDbFile.write("\n")
+        trackDbFile.write("type bigBed 12 +")
+        trackDbFile.write("\n")
+        trackDbFile.write("visibility dense")
 
 
 def createZip(myZip, folder):

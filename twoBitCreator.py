@@ -1,5 +1,6 @@
 #! python
 
+import os
 import tempfile
 import subprocess
 
@@ -10,13 +11,16 @@ def twoBitFileCreator(fastaFile):
     Need faTwoBit kentUtil.
     Output a .2bit file
     """
-    twoBitFile = tempfile.NamedTemporaryFile(suffix=".2bit")
+    baseNameFasta = os.path.basename(fastaFile.name)
+    suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
+    nameTwoBit = suffixTwoBit + '.2bit'
 
-    p = subprocess.Popen(
-        ['tools/faToTwoBit',
-            fastaFile.name,
-            twoBitFile.name])
+    with open(nameTwoBit, 'w') as twoBitFile:
+        p = subprocess.Popen(
+            ['tools/faToTwoBit',
+                fastaFile.name,
+                twoBitFile.name])
 
-    p.wait()
+        p.wait()
 
     return twoBitFile

@@ -123,7 +123,10 @@ def main(argv):
             createZip(outputZip, rootAssemblyHub)
 
             # outputZip.write(sortedBedFile.name)
-            # outputZip.write(twoBitFile.name)
+            # TODO: Find the best to get this path without hardcoding it
+            mySpecieFolderPath = os.path.join("myHub", "dbia3")
+            twoBitFileFinalLocation = os.path.join(mySpecieFolderPath, os.path.basename(twoBitFile.name))
+            outputZip.write(twoBitFile.name, twoBitFileFinalLocation)
             # TODO: Add the .bb file in the zip, at the right place
             # outputZip.write(bigBedFile.name)
             outputZip.close()

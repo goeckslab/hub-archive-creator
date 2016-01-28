@@ -110,16 +110,6 @@ def main(argv):
                     chromSizesFile.name])
             p.wait()
 
-            # bedToBigBed processing
-            # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
-            with open('track.bb', 'w') as bigBedFile:
-                p = subprocess.Popen(
-                    ['tools/bedToBigBed',
-                        sortedBedFile.name,
-                        chromSizesFile.name,
-                        bigBedFile.name])
-                p.wait()
-
             createZip(outputZip, rootAssemblyHub)
 
             # outputZip.write(sortedBedFile.name)
@@ -127,12 +117,29 @@ def main(argv):
             mySpecieFolderPath = os.path.join("myHub", "dbia3")
             twoBitFileFinalLocation = os.path.join(mySpecieFolderPath, os.path.basename(twoBitFile.name))
             outputZip.write(twoBitFile.name, twoBitFileFinalLocation)
+
+            # bedToBigBed processing
+            # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
+            # TODO: Find the best to get this path without hardcoding it
+            myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
+            myBigBedFilePath = os.path.join(myTrackFolderPath, 'track.bb')
+            with open(myBigBedFilePath, 'w') as bigBedFile:
+                p = subprocess.Popen(
+                    ['tools/bedToBigBed',
+                        sortedBedFile.name,
+                        chromSizesFile.name,
+                        bigBedFile.name])
+                p.wait()
+
             # TODO: Add the .bb file in the zip, at the right place
+            outputZip.write(bigBedFile.name)
+
             # outputZip.write(bigBedFile.name)
             outputZip.close()
 
 
 def createAssemblyHub(outputZip):
+    # TODO: Manage to put every fill Function in a file dedicated for reading reasons
     # Create the root directory
     myHubPath = "myHub"
     if not os.path.exists(myHubPath):
@@ -164,6 +171,15 @@ def createAssemblyHub(outputZip):
     # Create the description html file in the specie folder
     descriptionHtmlFilePath = os.path.join(mySpecieFolderPath, 'description.html')
     fillDescriptionHtmlFile(descriptionHtmlFilePath)
+
+    # Create the file groups.txt
+    groupsTxtFilePath = os.path.join(mySpecieFolderPath, 'groups.txt')
+    fillGroupsTxtFile(groupsTxtFilePath)
+
+    # Create the folder tracks into the specie folder
+    tracksFolderPath = os.path.join(mySpecieFolderPath, "tracks")
+    if not os.path.exists(tracksFolderPath):
+        os.makedirs(tracksFolderPath)
 
     return myHubPath
 
@@ -222,6 +238,13 @@ def fillDescriptionHtmlFile(descriptionHtmlFilePath):
         descriptionHtmlFile.write("This is the description of the specie")
         descriptionHtmlFile.write("</body>")
         descriptionHtmlFile.write("</html>")
+
+
+def fillGroupsTxtFile(groupsTxtFilePath):
+    with open(groupsTxtFilePath, 'w') as groupsTxtFile:
+        # Write the content of groups.txt
+        groupsTxtFile.write('name map')
+
 
 def createZip(myZip, folder):
     for root, dirs, files in os.walk(folder):

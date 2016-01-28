@@ -2,6 +2,8 @@
 """
 This Galaxy tool permits to prepare your files to be ready for
 Assembly Hub visualization.
+Program test arguments:
+hubArchiveCreator.py -g test_data/augustusDbia3.gff3 -f test_data/dbia3.fa -o output.zip
 """
 
 import sys
@@ -138,6 +140,9 @@ def createAssemblyHub(outputZip):
     fillGenomesTxt(genomesTxtFilePath)
 
     # Add the hub.txt file
+    hubTxtFilePath = os.path.join(myHubPath, 'hub.txt')
+    fillHubTxt(hubTxtFilePath)
+
     # Add the dbia.html file
     # TODO: Change the name and get it depending on the specie
 
@@ -157,6 +162,14 @@ def fillGenomesTxt(genomesTxtFilePath):
     with open(genomesTxtFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
         genomesTxtFile.write("genome ricCom1")
+
+
+def fillHubTxt(hubTxtFilePath):
+    # TODO: Think about the inputs and outputs
+    # TODO: Manage the template of this file
+    with open(hubTxtFilePath, 'w') as genomesTxtFile:
+        # Write the content of the file genomes.txt
+        genomesTxtFile.write("hub hubName")
 
 
 def createZip(myZip, folder):

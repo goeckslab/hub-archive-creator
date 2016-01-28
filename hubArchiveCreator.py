@@ -162,6 +162,8 @@ def createAssemblyHub(outputZip):
     fillTrackDbTxtFile(trackDbTxtFilePath)
 
     # Create the description html file in the specie folder
+    descriptionHtmlFilePath = os.path.join(mySpecieFolderPath, 'description.html')
+    fillDescriptionHtmlFile(descriptionHtmlFilePath)
 
     return myHubPath
 
@@ -209,6 +211,17 @@ def fillTrackDbTxtFile(trackDbTxtFilePath):
         trackDbFile.write("\n")
         trackDbFile.write("visibility dense")
 
+
+def fillDescriptionHtmlFile(descriptionHtmlFilePath):
+    # TODO: Think about the inputs and outputs
+    # TODO: Manage the template of this file
+    with open(descriptionHtmlFilePath, 'w') as descriptionHtmlFile:
+        # Write the content of the file genomes.txt
+        descriptionHtmlFile.write("<html>")
+        descriptionHtmlFile.write("<body>")
+        descriptionHtmlFile.write("This is the description of the specie")
+        descriptionHtmlFile.write("</body>")
+        descriptionHtmlFile.write("</html>")
 
 def createZip(myZip, folder):
     for root, dirs, files in os.walk(folder):

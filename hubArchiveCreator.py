@@ -248,18 +248,17 @@ def fillHubHtmlFile(hubHtmlFilePath):
 
 def fillTrackDbTxtFile(trackDbTxtFilePath):
     # TODO: Modify according to the files passed in parameter
+    mylookup = TemplateLookup(directories=['templates/trackDb'], output_encoding='utf-8', encoding_errors='replace')
+    mytemplate = mylookup.get_template("layout.txt")
     with open(trackDbTxtFilePath, 'w') as trackDbFile:
-        trackDbFile.write("track augustusTrack")
-        trackDbFile.write("\n")
-        trackDbFile.write("longLabel Augustus_dbia3")
-        trackDbFile.write("\n")
-        trackDbFile.write("shortLabel a_dbia")
-        trackDbFile.write("\n")
-        trackDbFile.write("bigDataUrl tracks/augustusDbia3.bb")
-        trackDbFile.write("\n")
-        trackDbFile.write("type bigBed 12 +")
-        trackDbFile.write("\n")
-        trackDbFile.write("visibility dense")
+        htmlMakoRendered = mytemplate.render(
+            trackName='augustusTrack',
+            trackDataURL='Augustus_dbia3',
+            shortLabel='a_dbia',
+            longLabel='tracks/augustusDbia3.bb',
+            trackType='bigBed 12 +',
+        )
+        trackDbFile.write(htmlMakoRendered)
 
 
 def fillDescriptionHtmlFile(descriptionHtmlFilePath):

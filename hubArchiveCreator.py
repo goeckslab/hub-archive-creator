@@ -12,6 +12,7 @@ import getopt
 import zipfile
 import subprocess
 import os
+import pystache
 
 # Internal dependencies
 from twoBitCreator import twoBitFileCreator
@@ -132,7 +133,7 @@ def main(argv):
                 p.wait()
 
             # TODO: Add the .bb file in the zip, at the right place
-            outputZip.write(bigBedFile.name)
+            # outputZip.write(bigBedFile.name)
 
             # outputZip.write(bigBedFile.name)
             outputZip.close()
@@ -203,13 +204,23 @@ def fillHubTxt(hubTxtFilePath):
 def fillHubHtmlFile(hubHtmlFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
+    renderer = pystache.Renderer(search_dirs="templates/hubDescription")
     with open(hubHtmlFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
-        genomesTxtFile.write("<html>")
-        genomesTxtFile.write("<body>")
-        genomesTxtFile.write("This is the description of the hub")
-        genomesTxtFile.write("</body>")
-        genomesTxtFile.write("</html>")
+        htmlPystached = renderer.render_name(
+            "layout",
+            {'specie': 'Dbia',
+            'toolUsed': 'Augustus',
+            'ncbiSpecieUrl': 'http://www.ncbi.nlm.nih.gov/genome/3499',
+            'genomeID': '3499',
+            'SpecieFullName': 'Drosophila biarmipes'})
+        genomesTxtFile.write(htmlPystached)
+        # genomesTxtFile.write()
+        # genomesTxtFile.write("<html>")
+        # genomesTxtFile.write("<body>")
+        # genomesTxtFile.write("This is the description of the hub")
+        # genomesTxtFile.write("</body>")
+        # genomesTxtFile.write("</html>")
 
 
 def fillTrackDbTxtFile(trackDbTxtFilePath):

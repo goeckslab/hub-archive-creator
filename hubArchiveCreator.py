@@ -13,9 +13,11 @@ import zipfile
 import subprocess
 import os
 import pystache
+from string import Template
 
 # Internal dependencies
 from twoBitCreator import twoBitFileCreator
+import templates.hubDescription.layout
 
 
 def main(argv):
@@ -218,17 +220,26 @@ def fillHubTxt(hubTxtFilePath):
 def fillHubHtmlFile(hubHtmlFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
-    renderer = pystache.Renderer(search_dirs="templates/hubDescription")
-    with open(hubHtmlFilePath, 'w') as genomesTxtFile:
+    # renderer = pystache.Renderer(search_dirs="templates/hubDescription")
+    t = Template(templates.hubDescription.layout.html)
+    with open(hubHtmlFilePath, 'w') as hubHtmlFile:
         # Write the content of the file genomes.txt
-        htmlPystached = renderer.render_name(
-            "layout",
-            {'specie': 'Dbia',
-            'toolUsed': 'Augustus',
-            'ncbiSpecieUrl': 'http://www.ncbi.nlm.nih.gov/genome/3499',
-            'genomeID': '3499',
-            'SpecieFullName': 'Drosophila biarmipes'})
-        genomesTxtFile.write(htmlPystached)
+        # htmlPystached = renderer.render_name(
+        #     "layout",
+        #     {'specie': 'Dbia',
+        #     'toolUsed': 'Augustus',
+        #     'ncbiSpecieUrl': 'http://www.ncbi.nlm.nih.gov/genome/3499',
+        #     'genomeID': '3499',
+        #     'SpecieFullName': 'Drosophila biarmipes'})
+        htmlSubstituted = t.substitute(
+            specie='Dbia',
+            toolUsed='Augustus',
+            ncbiSpecieUrl='http://www.ncbi.nlm.nih.gov/genome/3499',
+            genomeID='3499',
+            specieFullName='Drosophila biarmipes'
+        )
+        # hubHtmlFile.write(htmlPystached)
+        hubHtmlFile.write(htmlSubstituted)
 
 
 def fillTrackDbTxtFile(trackDbTxtFilePath):

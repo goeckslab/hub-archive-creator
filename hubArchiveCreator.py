@@ -214,9 +214,19 @@ def fillGenomesTxt(genomesTxtFilePath):
 def fillHubTxt(hubTxtFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
+    mylookup = TemplateLookup(directories='templates/hubTxt', output_encoding='utf-8', encoding_errors='replace')
+    mytemplate = mylookup.get_template('layout.txt')
     with open(hubTxtFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
-        genomesTxtFile.write("hub hubName")
+        htmlMakoRendered = mytemplate.render(
+            hubName='dbiaOnly',
+            shortLabel='dbia',
+            longLabel='This hub only contains dbia with the gene predictions',
+            genomesFile='genomes.txt',
+            email='rmarenco@gwu.edu',
+            descriptionUrl='dbia.html'
+        )
+        genomesTxtFile.write(htmlMakoRendered)
 
 
 def fillHubHtmlFile(hubHtmlFilePath):

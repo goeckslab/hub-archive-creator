@@ -191,23 +191,24 @@ def createAssemblyHub(outputZip):
 def fillGenomesTxt(genomesTxtFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
-    renderer = pystache.Renderer(search_dirs="templates/genomesAssembly")
+    # renderer = pystache.Renderer(search_dirs="templates/genomesAssembly")
+    mylookup = TemplateLookup(directories=['templates/genomesAssembly'], output_encoding='utf-8', encoding_errors='replace')
+    mytemplate = mylookup.get_template("layout.txt")
     with open(genomesTxtFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
-        htmlPystached = renderer.render_name(
-            "layout",
-            {'genomeName': "dbia3",
-            'trackDbPath': "dbia3/trackDb.txt",
-            'groupsPath': "dbia3/groups.txt",
-            'genomeDescription': "March 2013 Drosophilia biarmipes unplaced genomic scaffold",
-            'twoBitPath': "dbia3/dbia3.2bit",
-            'organismName': "Drosophilia biarmipes",
-            'defaultPosition': "contig1",
-            'orderKey': "4500",
-            'scientificName': "Drosophilia biarmipes",
-            'pathAssemblyHtmlDescription': "dbia3/description.html"}
+        htmlSubstituted = mytemplate.render(
+            genomeName="dbia3",
+            trackDbPath="dbia3/trackDb.txt",
+            groupsPath="dbia3/groups.txt",
+            genomeDescription="March 2013 Drosophilia biarmipes unplaced genomic scaffold",
+            twoBitPath="dbia3/dbia3.2bit",
+            organismName="Drosophilia biarmipes",
+            defaultPosition="contig1",
+            orderKey="4500",
+            scientificName="Drosophilia biarmipes",
+            pathAssemblyHtmlDescription="dbia3/description.html"
         )
-        genomesTxtFile.write(htmlPystached)
+        genomesTxtFile.write(htmlSubstituted)
 
 
 def fillHubTxt(hubTxtFilePath):

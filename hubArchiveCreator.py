@@ -196,7 +196,7 @@ def fillGenomesTxt(genomesTxtFilePath):
     mytemplate = mylookup.get_template("layout.txt")
     with open(genomesTxtFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
-        htmlSubstituted = mytemplate.render(
+        htmlMakoRendered = mytemplate.render(
             genomeName="dbia3",
             trackDbPath="dbia3/trackDb.txt",
             groupsPath="dbia3/groups.txt",
@@ -208,7 +208,7 @@ def fillGenomesTxt(genomesTxtFilePath):
             scientificName="Drosophilia biarmipes",
             pathAssemblyHtmlDescription="dbia3/description.html"
         )
-        genomesTxtFile.write(htmlSubstituted)
+        genomesTxtFile.write(htmlMakoRendered)
 
 
 def fillHubTxt(hubTxtFilePath):
@@ -235,7 +235,7 @@ def fillHubHtmlFile(hubHtmlFilePath):
         #     'ncbiSpecieUrl': 'http://www.ncbi.nlm.nih.gov/genome/3499',
         #     'genomeID': '3499',
         #     'SpecieFullName': 'Drosophila biarmipes'})
-        htmlSubstituted = mytemplate.render(
+        htmlMakoRendered = mytemplate.render(
             specie='Dbia',
             toolUsed='Augustus',
             ncbiSpecieUrl='http://www.ncbi.nlm.nih.gov/genome/3499',
@@ -243,7 +243,7 @@ def fillHubHtmlFile(hubHtmlFilePath):
             specieFullName='Drosophila biarmipes'
         )
         # hubHtmlFile.write(htmlPystached)
-        hubHtmlFile.write(htmlSubstituted)
+        hubHtmlFile.write(htmlMakoRendered)
 
 
 def fillTrackDbTxtFile(trackDbTxtFilePath):
@@ -265,13 +265,14 @@ def fillTrackDbTxtFile(trackDbTxtFilePath):
 def fillDescriptionHtmlFile(descriptionHtmlFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
+    mylookup = TemplateLookup(directories=['templates/specieDescription'], output_encoding='utf-8', encoding_errors='replace')
+    mytemplate = mylookup.get_template("layout.txt")
     with open(descriptionHtmlFilePath, 'w') as descriptionHtmlFile:
         # Write the content of the file genomes.txt
-        descriptionHtmlFile.write("<html>")
-        descriptionHtmlFile.write("<body>")
-        descriptionHtmlFile.write("This is the description of the specie")
-        descriptionHtmlFile.write("</body>")
-        descriptionHtmlFile.write("</html>")
+        htmlMakoRendered = mytemplate.render(
+            specieDescription='This is the description of the dbia',
+        )
+        descriptionHtmlFile.write(htmlMakoRendered)
 
 
 def fillGroupsTxtFile(groupsTxtFilePath):

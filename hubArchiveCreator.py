@@ -188,9 +188,23 @@ def createAssemblyHub(outputZip):
 def fillGenomesTxt(genomesTxtFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
+    renderer = pystache.Renderer(search_dirs="templates/genomesAssembly")
     with open(genomesTxtFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
-        genomesTxtFile.write("genome ricCom1")
+        htmlPystached = renderer.render_name(
+            "layout",
+            {'genomeName': "dbia3",
+            'trackDbPath': "dbia3/trackDb.txt",
+            'groupsPath': "dbia3/groups.txt",
+            'genomeDescription': "March 2013 Drosophilia biarmipes unplaced genomic scaffold",
+            'twoBitPath': "dbia3/dbia3.2bit",
+            'organismName': "Drosophilia biarmipes",
+            'defaultPosition': "contig1",
+            'orderKey': "4500",
+            'scientificName': "Drosophilia biarmipes",
+            'pathAssemblyHtmlDescription': "dbia3/description.html"}
+        )
+        genomesTxtFile.write(htmlPystached)
 
 
 def fillHubTxt(hubTxtFilePath):
@@ -215,12 +229,6 @@ def fillHubHtmlFile(hubHtmlFilePath):
             'genomeID': '3499',
             'SpecieFullName': 'Drosophila biarmipes'})
         genomesTxtFile.write(htmlPystached)
-        # genomesTxtFile.write()
-        # genomesTxtFile.write("<html>")
-        # genomesTxtFile.write("<body>")
-        # genomesTxtFile.write("This is the description of the hub")
-        # genomesTxtFile.write("</body>")
-        # genomesTxtFile.write("</html>")
 
 
 def fillTrackDbTxtFile(trackDbTxtFilePath):

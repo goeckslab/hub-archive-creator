@@ -13,11 +13,12 @@ import zipfile
 import subprocess
 import os
 import pystache
-from string import Template
+
+from mako.template import Template
+from mako.lookup import TemplateLookup
 
 # Internal dependencies
 from twoBitCreator import twoBitFileCreator
-import templates.hubDescription.layout
 
 
 def main(argv):
@@ -221,7 +222,9 @@ def fillHubHtmlFile(hubHtmlFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
     # renderer = pystache.Renderer(search_dirs="templates/hubDescription")
-    t = Template(templates.hubDescription.layout.html)
+    # t = Template(templates.hubDescription.layout.html)
+    mylookup = TemplateLookup(directories=['templates/hubDescription'], output_encoding='utf-8', encoding_errors='replace')
+    mytemplate = mylookup.get_template("layout.txt")
     with open(hubHtmlFilePath, 'w') as hubHtmlFile:
         # Write the content of the file genomes.txt
         # htmlPystached = renderer.render_name(
@@ -231,7 +234,7 @@ def fillHubHtmlFile(hubHtmlFilePath):
         #     'ncbiSpecieUrl': 'http://www.ncbi.nlm.nih.gov/genome/3499',
         #     'genomeID': '3499',
         #     'SpecieFullName': 'Drosophila biarmipes'})
-        htmlSubstituted = t.substitute(
+        htmlSubstituted = mytemplate.render(
             specie='Dbia',
             toolUsed='Augustus',
             ncbiSpecieUrl='http://www.ncbi.nlm.nih.gov/genome/3499',

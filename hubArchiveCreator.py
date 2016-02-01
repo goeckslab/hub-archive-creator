@@ -126,7 +126,8 @@ def main(argv):
             # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
             # TODO: Find the best to get this path without hardcoding it
             myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
-            myBigBedFilePath = os.path.join(myTrackFolderPath, 'track.bb')
+            # TODO: Change the name of the bb, to tool + genome + .bb
+            myBigBedFilePath = os.path.join(myTrackFolderPath, 'augustusDbia3.bb')
             with open(myBigBedFilePath, 'w') as bigBedFile:
                 p = subprocess.Popen(
                     ['tools/bedToBigBed',
@@ -134,6 +135,7 @@ def main(argv):
                         chromSizesFile.name,
                         bigBedFile.name])
                 p.wait()
+            outputZip.write(bigBedFile.name)
 
             # TODO: Add the .bb file in the zip, at the right place
             # outputZip.write(bigBedFile.name)
@@ -159,7 +161,7 @@ def createAssemblyHub(outputZip):
 
     # Add the hub.html file
     # TODO: Change the name and get it depending on the specie
-    hubHtmlFilePath = os.path.join(myHubPath, 'specie.html')
+    hubHtmlFilePath = os.path.join(myHubPath, 'dbia.html')
     fillHubHtmlFile(hubHtmlFilePath)
 
     # Create the specie folder
@@ -268,6 +270,7 @@ def fillTrackDbTxtFile(trackDbTxtFilePath):
             shortLabel='a_dbia',
             longLabel='tracks/augustusDbia3.bb',
             trackType='bigBed 12 +',
+            visibility='dense'
         )
         trackDbFile.write(htmlMakoRendered)
 
@@ -286,11 +289,11 @@ def fillDescriptionHtmlFile(descriptionHtmlFilePath):
 
 
 def fillGroupsTxtFile(groupsTxtFilePath):
-    mylookup = TemplateLookup(directories=['templates/specieDescription'], output_encoding='utf-8', encoding_errors='replace')
+    mylookup = TemplateLookup(directories=['templates/groupsTxt'], output_encoding='utf-8', encoding_errors='replace')
     mytemplate = mylookup.get_template("layout.txt")
     with open(groupsTxtFilePath, 'w') as groupsTxtFile:
         # Write the content of groups.txt
-        groupsTxtFile.write('name map')
+        # groupsTxtFile.write('name map')
         htmlMakoRendered = mytemplate.render(
             mapName='map',
             labelMapping='Mapping',

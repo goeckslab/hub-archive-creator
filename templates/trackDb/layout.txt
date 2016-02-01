@@ -4,3 +4,4 @@ longLabel ${trackDataURL}
 shortLabel ${shortLabel}
 bigDataUrl ${longLabel}
 type ${trackType}
+visibility ${visibility}

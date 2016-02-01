@@ -211,7 +211,7 @@ def fillGenomesTxt(genomesTxtFilePath):
             scientificName="Drosophilia biarmipes",
             pathAssemblyHtmlDescription="dbia3/description.html"
         )
-        # genomesTxtFile.write(htmlMakoRendered)
+        genomesTxtFile.write(htmlMakoRendered)
 
 
 def fillHubTxt(hubTxtFilePath):

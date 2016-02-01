@@ -12,7 +12,6 @@ import getopt
 import zipfile
 import subprocess
 import os
-import pystache
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
@@ -32,14 +31,17 @@ def main(argv):
             'gff3=',
             'fasta=',
             'output='])
-    except getopt.GetoptError:
+    except getopt.GetoptError, exc:
         # TODO: Modify
-        print 'hubArchiveCreator.py -if <inputFastaFile> -ig <inputGFF3File> -o <outputfile>'
-        sys.exit(2)
+        print sys.argv
+        print exc.msg
+        # print 'hubArchiveCreator.py -if <inputFastaFile> -ig <inputGFF3File> -o <outputfile>'
+        sys.exit(-1)
     for opt, arg in opts:
         if opt in ('-h', 'help'):
             # TODO: Modify
-            print 'test.py -if <inputFastaFile> -ig <inputGFF3File> -o <outputfile>'
+            print sys.argv
+            print '-g myGff3.gff3 -f myFasta.fa -o myOutput.zip'
             sys.exit()
         elif opt in ("-g", 'gff3'):
             # We retrieve the input file

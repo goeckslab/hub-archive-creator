@@ -48,6 +48,7 @@ def main(argv):
             # We retrieve the input file
             inputFastaFile = open(arg, 'r')
         elif opt in ("-o", 'output'):
+            # TODO: Manage the already existing zip (Erase or rename / add a number + warning?)
             outputZip = zipfile.ZipFile(arg, 'w')
 
             # Create the structure of the Assembly Hub
@@ -135,7 +136,6 @@ def main(argv):
                         chromSizesFile.name,
                         bigBedFile.name])
                 p.wait()
-            outputZip.write(bigBedFile.name)
 
             # TODO: Add the .bb file in the zip, at the right place
             # outputZip.write(bigBedFile.name)
@@ -211,7 +211,7 @@ def fillGenomesTxt(genomesTxtFilePath):
             scientificName="Drosophilia biarmipes",
             pathAssemblyHtmlDescription="dbia3/description.html"
         )
-        genomesTxtFile.write(htmlMakoRendered)
+        # genomesTxtFile.write(htmlMakoRendered)
 
 
 def fillHubTxt(hubTxtFilePath):
@@ -300,7 +300,7 @@ def fillGroupsTxtFile(groupsTxtFilePath):
             prioriy='2',
             isClosed='0'
         )
-        groupsTxtFile.write(htmlMakoRendered)
+        # groupsTxtFile.write(htmlMakoRendered)
 
 
 def createZip(myZip, folder):

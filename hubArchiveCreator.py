@@ -177,6 +177,7 @@ def createAssemblyHub(outputZip):
     fillDescriptionHtmlFile(descriptionHtmlFilePath)
 
     # Create the file groups.txt
+    # TODO: If not inputs for this, do no create the file
     groupsTxtFilePath = os.path.join(mySpecieFolderPath, 'groups.txt')
     fillGroupsTxtFile(groupsTxtFilePath)
 
@@ -285,9 +286,18 @@ def fillDescriptionHtmlFile(descriptionHtmlFilePath):
 
 
 def fillGroupsTxtFile(groupsTxtFilePath):
+    mylookup = TemplateLookup(directories=['templates/specieDescription'], output_encoding='utf-8', encoding_errors='replace')
+    mytemplate = mylookup.get_template("layout.txt")
     with open(groupsTxtFilePath, 'w') as groupsTxtFile:
         # Write the content of groups.txt
         groupsTxtFile.write('name map')
+        htmlMakoRendered = mytemplate.render(
+            mapName='map',
+            labelMapping='Mapping',
+            prioriy='2',
+            isClosed='0'
+        )
+        groupsTxtFile.write(htmlMakoRendered)
 
 
 def createZip(myZip, folder):

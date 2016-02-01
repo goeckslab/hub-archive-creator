@@ -1,0 +1,4 @@
+name ${mapName}
+label ${labelMapping}
+priority ${prioriy}
+defaultIsClosed ${isClosed}

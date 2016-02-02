@@ -1,4 +1,4 @@
-# JsCoverageQC
+# Hub Archive Creator
 This Galaxy tool permits to prepare your files to be ready for Assembly Hub visualization.
 
 To try the software, you need to have a .gff3 and a .fa as input and set an output filename:

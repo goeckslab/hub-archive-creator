@@ -156,7 +156,7 @@ def main(argv):
             # outputZip.write(bigBedFile.name)
             outputZip.close()
 
-            sys.exit(-1)
+            sys.exit(0)
 
 
 def createAssemblyHub(outputZip, twoBitName):

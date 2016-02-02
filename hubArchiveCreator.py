@@ -3,7 +3,7 @@
 This Galaxy tool permits to prepare your files to be ready for
 Assembly Hub visualization.
 Program test arguments:
-hubArchiveCreator.py -g test_data/augustusDbia3.gff3 -f test_data/dbia3.fa -o output.zip
+hubArchiveCreator.py -g test_data/augustusDbia3.gff3 -f test_data/dbia3.fa -d . -o output.zip
 """
 
 import sys
@@ -19,17 +19,22 @@ from mako.lookup import TemplateLookup
 # Internal dependencies
 from twoBitCreator import twoBitFileCreator
 
+# TODO: REMOVE THIS FROM BEING A GLOBAL VARIABLE
+toolDirectory = '.'
+
 
 def main(argv):
+    global toolDirectory
     inputGFF3File = ''
     inputFastaFile = ''
 
     try:
         opts, args = getopt.getopt(argv,
-            "hg:f:o:",
+            "hg:f:d:o:",
             ['help',
             'gff3=',
             'fasta=',
+            'directory='
             'output='])
     except getopt.GetoptError, exc:
         # TODO: Modify
@@ -49,6 +54,8 @@ def main(argv):
         elif opt in ("-f", 'fasta'):
             # We retrieve the input file
             inputFastaFile = open(arg, 'r')
+        elif opt in ("-d", 'directory'):
+            toolDirectory = arg
         elif opt in ("-o", 'output'):
             # TODO: Manage the already existing zip (Erase or rename / add a number + warning?)
             outputZip = zipfile.ZipFile(arg, 'w')
@@ -57,7 +64,8 @@ def main(argv):
             rootAssemblyHub = createAssemblyHub(outputZip)
 
             # TODO: See if we need these temporary files as part of the generated files
-            genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
+            genePredFile = open('genePred.genePred', 'w')
+            # tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
             unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
             sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
             twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
@@ -197,7 +205,8 @@ def fillGenomesTxt(genomesTxtFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
     # renderer = pystache.Renderer(search_dirs="templates/genomesAssembly")
-    mylookup = TemplateLookup(directories=['templates/genomesAssembly'], output_encoding='utf-8', encoding_errors='replace')
+    pathTemplate = os.path.join(toolDirectory, 'templates/genomesAssembly')
+    mylookup = TemplateLookup(directories=[pathTemplate], output_encoding='utf-8', encoding_errors='replace')
     mytemplate = mylookup.get_template("layout.txt")
     with open(genomesTxtFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
@@ -219,7 +228,7 @@ def fillGenomesTxt(genomesTxtFilePath):
 def fillHubTxt(hubTxtFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
-    mylookup = TemplateLookup(directories='templates/hubTxt', output_encoding='utf-8', encoding_errors='replace')
+    mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/hubTxt')], output_encoding='utf-8', encoding_errors='replace')
     mytemplate = mylookup.get_template('layout.txt')
     with open(hubTxtFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
@@ -239,7 +248,7 @@ def fillHubHtmlFile(hubHtmlFilePath):
     # TODO: Manage the template of this file
     # renderer = pystache.Renderer(search_dirs="templates/hubDescription")
     # t = Template(templates.hubDescription.layout.html)
-    mylookup = TemplateLookup(directories=['templates/hubDescription'], output_encoding='utf-8', encoding_errors='replace')
+    mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/hubDescription')], output_encoding='utf-8', encoding_errors='replace')
     mytemplate = mylookup.get_template("layout.txt")
     with open(hubHtmlFilePath, 'w') as hubHtmlFile:
         # Write the content of the file genomes.txt
@@ -263,7 +272,7 @@ def fillHubHtmlFile(hubHtmlFilePath):
 
 def fillTrackDbTxtFile(trackDbTxtFilePath):
     # TODO: Modify according to the files passed in parameter
-    mylookup = TemplateLookup(directories=['templates/trackDb'], output_encoding='utf-8', encoding_errors='replace')
+    mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/trackDb')], output_encoding='utf-8', encoding_errors='replace')
     mytemplate = mylookup.get_template("layout.txt")
     with open(trackDbTxtFilePath, 'w') as trackDbFile:
         htmlMakoRendered = mytemplate.render(
@@ -280,7 +289,7 @@ def fillTrackDbTxtFile(trackDbTxtFilePath):
 def fillDescriptionHtmlFile(descriptionHtmlFilePath):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
-    mylookup = TemplateLookup(directories=['templates/specieDescription'], output_encoding='utf-8', encoding_errors='replace')
+    mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/specieDescription')], output_encoding='utf-8', encoding_errors='replace')
     mytemplate = mylookup.get_template("layout.txt")
     with open(descriptionHtmlFilePath, 'w') as descriptionHtmlFile:
         # Write the content of the file genomes.txt
@@ -291,7 +300,7 @@ def fillDescriptionHtmlFile(descriptionHtmlFilePath):
 
 
 def fillGroupsTxtFile(groupsTxtFilePath):
-    mylookup = TemplateLookup(directories=['templates/groupsTxt'], output_encoding='utf-8', encoding_errors='replace')
+    mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/groupsTxt')], output_encoding='utf-8', encoding_errors='replace')
     mytemplate = mylookup.get_template("layout.txt")
     with open(groupsTxtFilePath, 'w') as groupsTxtFile:
         # Write the content of groups.txt

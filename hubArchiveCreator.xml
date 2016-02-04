@@ -24,7 +24,7 @@
     <regex match="^pass1"
            source="stderr"
            level="log"
-           description="Passes on bedToBigBed" />
+           description="bedToBigBed" />
     <!-- TODO: Add the case pass1 and 0 chroms -->
     <!-- TODO: Add the case pass2 and 0 records or 0 fields -->
   </stdio>

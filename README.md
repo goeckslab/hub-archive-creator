@@ -8,3 +8,8 @@ You will get a .zip file, that you need to put on a server accessible from the o
 
 ## Requirements:
 You need to install [Mako](http://www.makotemplates.org/download.html)
+
+### Install in Galaxy
+1. Take the hubAssembly.py in the hubaDatatype folder, and add it into lib/galaxy/datatypes in your Galaxy instance
+2. Add this line in config/datatypes_conf.xml:
+<datatype extension="huba" type="galaxy.datatypes.hubAssembly:HubAssembly" display_in_upload="true" />

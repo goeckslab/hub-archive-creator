@@ -106,7 +106,10 @@ def main(argv):
             mySpecieFolderPath = os.path.join("myHub", "dbia3")
             # 2bit file creation from input fasta
             twoBitFile = twoBitFileCreator(inputFastaFile, toolDirectory)
-            twoBitFileFinalLocation = os.path.join(mySpecieFolderPath, os.path.basename(twoBitFile.name))
+            # twoBitFileFinalLocation = os.path.join(mySpecieFolderPath, os.path.basename(twoBitFile.name))
+            twoBitFileFinalLocation = os.path.join("myHub", os.path.basename(twoBitFile.name))
+            print "twoBitFileFinalLocation: " + twoBitFileFinalLocation
+            print "twoBitFile.name: " + twoBitFile.name
             outputZip.write(twoBitFile.name, twoBitFileFinalLocation)
 
             # Generate the chrom.sizes
@@ -137,7 +140,8 @@ def main(argv):
             # TODO: Find the best to get this path without hardcoding it
             myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
             # TODO: Change the name of the bb, to tool + genome + .bb
-            myBigBedFilePath = os.path.join(myTrackFolderPath, 'augustusDbia3.bb')
+            # myBigBedFilePath = os.path.join(myTrackFolderPath, 'augustusDbia3.bb')
+            myBigBedFilePath = os.path.join("myHub", 'augustusDbia3.bb')
             with open(myBigBedFilePath, 'w') as bigBedFile:
                 p = subprocess.Popen(
                     [os.path.join(toolDirectory, 'tools/bedToBigBed'),
@@ -186,16 +190,19 @@ def createAssemblyHub(outputZip, twoBitName):
         os.makedirs(mySpecieFolderPath)
 
     # Create the trackDb.txt file in the specie folder
-    trackDbTxtFilePath = os.path.join(mySpecieFolderPath, 'trackDb.txt')
+    # trackDbTxtFilePath = os.path.join(mySpecieFolderPath, 'trackDb.txt')
+    trackDbTxtFilePath = os.path.join(myHubPath, 'trackDb.txt')
     fillTrackDbTxtFile(trackDbTxtFilePath)
 
     # Create the description html file in the specie folder
-    descriptionHtmlFilePath = os.path.join(mySpecieFolderPath, 'description.html')
+    # descriptionHtmlFilePath = os.path.join(mySpecieFolderPath, 'description.html')
+    descriptionHtmlFilePath = os.path.join(myHubPath, 'description.html')
     fillDescriptionHtmlFile(descriptionHtmlFilePath)
 
     # Create the file groups.txt
     # TODO: If not inputs for this, do no create the file
-    groupsTxtFilePath = os.path.join(mySpecieFolderPath, 'groups.txt')
+    # groupsTxtFilePath = os.path.join(mySpecieFolderPath, 'groups.txt')
+    groupsTxtFilePath = os.path.join(myHubPath, 'groups.txt')
     fillGroupsTxtFile(groupsTxtFilePath)
 
     # Create the folder tracks into the specie folder
@@ -215,18 +222,18 @@ def fillGenomesTxt(genomesTxtFilePath, twoBitName):
     mytemplate = mylookup.get_template("layout.txt")
     with open(genomesTxtFilePath, 'w') as genomesTxtFile:
         # Write the content of the file genomes.txt
-        twoBitPath = os.path.join('dbia3/', twoBitName)
+        # twoBitPath = os.path.join('dbia3/', twoBitName)
         htmlMakoRendered = mytemplate.render(
             genomeName="dbia3",
-            trackDbPath="dbia3/trackDb.txt",
-            groupsPath="dbia3/groups.txt",
+            trackDbPath="trackDb.txt",
+            groupsPath="groups.txt",
             genomeDescription="March 2013 Drosophilia biarmipes unplaced genomic scaffold",
-            twoBitPath=twoBitPath,
+            twoBitPath=twoBitName,
             organismName="Drosophilia biarmipes",
             defaultPosition="contig1",
             orderKey="4500",
             scientificName="Drosophilia biarmipes",
-            pathAssemblyHtmlDescription="dbia3/description.html"
+            pathAssemblyHtmlDescription="description.html"
         )
         genomesTxtFile.write(htmlMakoRendered)
 
@@ -285,7 +292,7 @@ def fillTrackDbTxtFile(trackDbTxtFilePath):
             trackName='augustusTrack',
             trackDataURL='Augustus_dbia3',
             shortLabel='a_dbia',
-            longLabel='tracks/augustusDbia3.bb',
+            longLabel='augustusDbia3.bb',
             trackType='bigBed 12 +',
             visibility='dense'
         )

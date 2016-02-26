@@ -12,6 +12,7 @@ import getopt
 import zipfile
 import subprocess
 import os
+import argparse
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
@@ -21,148 +22,142 @@ from twoBitCreator import twoBitFileCreator
 
 # TODO: REMOVE THIS FROM BEING A GLOBAL VARIABLE
 toolDirectory = '.'
-
+extra_files_path = '.'
 
 def main(argv):
+    # Command Line parsing init
+    parser = argparse.ArgumentParser(description='Create a foo.txt inside the given folder.')
+
+    parser.add_argument('-g', '--gff3', help='Directory where to put the foo.txt')
+    parser.add_argument('-f', '--fasta', help='Directory where to put the foo.txt')
+    parser.add_argument('-d', '--directory', help='Directory where to put the foo.txt')
+    parser.add_argument('-e', '--extra_files_path', help='Directory where to put the foo.txt')
+    parser.add_argument('-o', '--output', help='Directory where to put the foo.txt')
+
+
     global toolDirectory
+    global extra_files_path
     inputGFF3File = ''
     inputFastaFile = ''
 
-    try:
-        opts, args = getopt.getopt(argv,
-            "hg:f:d:o:",
-            ['help',
-            'gff3=',
-            'fasta=',
-            'directory='
-            'output='])
-    except getopt.GetoptError, exc:
-        # TODO: Modify
-        print sys.argv
-        print exc.msg
-        # print 'hubArchiveCreator.py -if <inputFastaFile> -ig <inputGFF3File> -o <outputfile>'
-        sys.exit(-1)
-    for opt, arg in opts:
-        if opt in ('-h', 'help'):
-            # TODO: Modify
-            print sys.argv
-            print '-g myGff3.gff3 -f myFasta.fa -o myOutput.zip'
-            sys.exit()
-        elif opt in ("-g", 'gff3'):
-            # We retrieve the input file
-            inputGFF3File = open(arg, 'r')
-        elif opt in ("-f", 'fasta'):
-            # We retrieve the input file
-            inputFastaFile = open(arg, 'r')
-        elif opt in ("-d", 'directory'):
-            toolDirectory = arg
-        elif opt in ("-o", 'output'):
-            # TODO: Manage the already existing zip (Erase or rename / add a number + warning?)
-            outputZip = zipfile.ZipFile(arg, 'w')
+    # Get the args passed in parameter
+    args = parser.parse_args()
 
-            # Create the structure of the Assembly Hub
-            # TODO: Merge the following processing into a function as it is also used in twoBitCreator
-            baseNameFasta = os.path.basename(inputFastaFile.name)
-            suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
-            nameTwoBit = suffixTwoBit + '.2bit'
+    inputGFF3File = open(args.gff3, 'r')
+    inputFastaFile = open(args.fasta, 'r')
 
-            rootAssemblyHub = createAssemblyHub(outputZip, twoBitName=nameTwoBit)
+    if args.directory:
+        toolDirectory = args.directory
+    if args.extra_files_path:
+        extra_files_path = args.extra_files_path
 
-            # TODO: See if we need these temporary files as part of the generated files
-            genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
-            unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
-            sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
-            twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
-            chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
+    outputZip = zipfile.ZipFile(args.output, 'w')
 
-            # gff3ToGenePred processing
-            p = subprocess.Popen(
-                [os.path.join(toolDirectory, 'tools/gff3ToGenePred'),
-                    inputGFF3File.name,
-                    genePredFile.name])
-            # We need to wait the time gff3ToGenePred terminate so genePredToBed can begin
-            # TODO: Check if we should use communicate instead of wait
-            p.wait()
 
-            # genePredToBed processing
-            p = subprocess.Popen(
-                [os.path.join(toolDirectory, 'tools/genePredToBed'),
-                    genePredFile.name,
-                    unsortedBedFile.name])
-            p.wait()
+    # Create the structure of the Assembly Hub
+    # TODO: Merge the following processing into a function as it is also used in twoBitCreator
+    baseNameFasta = os.path.basename(inputFastaFile.name)
+    suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
+    nameTwoBit = suffixTwoBit + '.2bit'
 
-            # Sort processing
-            p = subprocess.Popen(
-                ['sort',
-                    '-k'
-                    '1,1',
-                    '-k'
-                    '2,2n',
-                    unsortedBedFile.name,
-                    '-o',
-                    sortedBedFile.name])
-            p.wait()
+    rootAssemblyHub = createAssemblyHub(outputZip, twoBitName=nameTwoBit)
 
-            mySpecieFolderPath = os.path.join("myHub", "dbia3")
-            # 2bit file creation from input fasta
-            twoBitFile = twoBitFileCreator(inputFastaFile, toolDirectory)
-            twoBitFileFinalLocation = os.path.join(mySpecieFolderPath, os.path.basename(twoBitFile.name))
-            outputZip.write(twoBitFile.name, twoBitFileFinalLocation)
+    # TODO: See if we need these temporary files as part of the generated files
+    genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
+    unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
+    sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
+    twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
+    chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
 
-            # Generate the chrom.sizes
-            # TODO: Isolate in a function
-            # We first get the twoBit Infos
-            p = subprocess.Popen(
-                [os.path.join(toolDirectory, 'tools/twoBitInfo'),
-                    twoBitFile.name,
-                    'stdout'],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE)
+    # gff3ToGenePred processing
+    p = subprocess.Popen(
+        [os.path.join(toolDirectory, 'tools/gff3ToGenePred'),
+            inputGFF3File.name,
+            genePredFile.name])
+    # We need to wait the time gff3ToGenePred terminate so genePredToBed can begin
+    # TODO: Check if we should use communicate instead of wait
+    p.wait()
 
-            twoBitInfo_out, twoBitInfo_err = p.communicate()
-            twoBitInfoFile.write(twoBitInfo_out)
+    # genePredToBed processing
+    p = subprocess.Popen(
+        [os.path.join(toolDirectory, 'tools/genePredToBed'),
+            genePredFile.name,
+            unsortedBedFile.name])
+    p.wait()
 
-            # Then we get the output to inject into the sort
-            # TODO: Check if no errors
-            p = subprocess.Popen(
-                ['sort',
-                    '-k2rn',
-                    twoBitInfoFile.name,
-                    '-o',
-                    chromSizesFile.name])
-            p.wait()
+    # Sort processing
+    p = subprocess.Popen(
+        ['sort',
+            '-k'
+            '1,1',
+            '-k'
+            '2,2n',
+            unsortedBedFile.name,
+            '-o',
+            sortedBedFile.name])
+    p.wait()
 
-            # bedToBigBed processing
-            # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
-            # TODO: Find the best to get this path without hardcoding it
-            myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
-            # TODO: Change the name of the bb, to tool + genome + .bb
-            myBigBedFilePath = os.path.join(myTrackFolderPath, 'augustusDbia3.bb')
-            with open(myBigBedFilePath, 'w') as bigBedFile:
-                p = subprocess.Popen(
-                    [os.path.join(toolDirectory, 'tools/bedToBigBed'),
-                        sortedBedFile.name,
-                        chromSizesFile.name,
-                        bigBedFile.name])
-                p.wait()
+    mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
-            # TODO: Add the .bb file in the zip, at the right place
+    # 2bit file creation from input fasta
+    twoBitFile = twoBitFileCreator(inputFastaFile, toolDirectory)
+    twoBitFileFinalLocation = os.path.join(mySpecieFolderPath, os.path.basename(twoBitFile.name))
+    outputZip.write(twoBitFile.name, twoBitFileFinalLocation)
 
-            createZip(outputZip, rootAssemblyHub)
+    # Generate the chrom.sizes
+    # TODO: Isolate in a function
+    # We first get the twoBit Infos
+    p = subprocess.Popen(
+        [os.path.join(toolDirectory, 'tools/twoBitInfo'),
+            twoBitFile.name,
+            'stdout'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE)
 
-            # outputZip.write(sortedBedFile.name)
-            # TODO: Find the best to get this path without hardcoding it
+    twoBitInfo_out, twoBitInfo_err = p.communicate()
+    twoBitInfoFile.write(twoBitInfo_out)
 
-            # outputZip.write(bigBedFile.name)
-            outputZip.close()
+    # Then we get the output to inject into the sort
+    # TODO: Check if no errors
+    p = subprocess.Popen(
+        ['sort',
+            '-k2rn',
+            twoBitInfoFile.name,
+            '-o',
+            chromSizesFile.name])
+    p.wait()
 
-            sys.exit(0)
+    # bedToBigBed processing
+    # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
+    # TODO: Find the best to get this path without hardcoding it
+    myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
+    # TODO: Change the name of the bb, to tool + genome + .bb
+    myBigBedFilePath = os.path.join(myTrackFolderPath, 'augustusDbia3.bb')
+    with open(myBigBedFilePath, 'w') as bigBedFile:
+        p = subprocess.Popen(
+            [os.path.join(toolDirectory, 'tools/bedToBigBed'),
+                sortedBedFile.name,
+                chromSizesFile.name,
+                bigBedFile.name])
+        p.wait()
+
+    # TODO: Add the .bb file in the zip, at the right place
+
+    createZip(outputZip, rootAssemblyHub)
+
+    # outputZip.write(sortedBedFile.name)
+    # TODO: Find the best to get this path without hardcoding it
+
+    # outputZip.write(bigBedFile.name)
+    outputZip.close()
+
+    sys.exit(0)
 
 
 def createAssemblyHub(outputZip, twoBitName):
     # TODO: Manage to put every fill Function in a file dedicated for reading reasons
     # Create the root directory
-    myHubPath = "myHub"
+    myHubPath = os.path.join(extra_files_path, "myHub")
     if not os.path.exists(myHubPath):
         os.makedirs(myHubPath)
 
@@ -327,4 +322,4 @@ def createZip(myZip, folder):
             myZip.write(os.path.join(root, file))
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main(sys.argv)

@@ -100,9 +100,7 @@ def main(argv):
     mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
     # 2bit file creation from input fasta
-    twoBitFile = twoBitFileCreator(inputFastaFile, toolDirectory)
-    twoBitFileFinalLocation = os.path.join(mySpecieFolderPath, os.path.basename(twoBitFile.name))
-    outputZip.write(twoBitFile.name, twoBitFileFinalLocation)
+    twoBitFile = twoBitFileCreator(inputFastaFile, toolDirectory, mySpecieFolderPath)
 
     # Generate the chrom.sizes
     # TODO: Isolate in a function

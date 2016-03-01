@@ -2,7 +2,8 @@
 HubAssembly datatype
 """
 import logging
-from galaxy.datatypes.images import Html
+from galaxy.datatypes.text import Html
+from galaxy.datatypes.metadata import MetadataElement
 
 log = logging.getLogger(__name__)
 
@@ -21,6 +22,7 @@ class HubAssembly( Html ):
     # set_in_upload=True)
     # MetadataElement( name="pheno_path", desc="Path to phenotype data for this experiment",
     # default="rexpression.pheno", visible=True)
+
     file_ext = 'huba'
     composite_type = 'auto_primary_file'
 

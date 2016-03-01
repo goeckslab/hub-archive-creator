@@ -51,7 +51,7 @@ def main(argv):
     if args.extra_files_path:
         extra_files_path = args.extra_files_path
 
-    outputZip = zipfile.ZipFile(args.output, 'w')
+    outputZip = zipfile.ZipFile(os.path.join(extra_files_path, 'myHub.zip'), 'w')
 
 
     # Create the structure of the Assembly Hub
@@ -148,6 +148,14 @@ def main(argv):
 
     # outputZip.write(bigBedFile.name)
     outputZip.close()
+
+    # Just a test to output a simple HTML
+    with open(args.output, 'w') as htmlOutput:
+        htmlOutput.write('<html>')
+        htmlOutput.write('<body>')
+        htmlOutput.write('<p>Hello World!</p>')
+        htmlOutput.write('</body>')
+        htmlOutput.write('</html>')
 
     sys.exit(0)
 

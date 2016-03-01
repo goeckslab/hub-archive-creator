@@ -15,3 +15,4 @@ Here is the link to get these tools: http://hgdownload.soe.ucsc.edu/admin/exe/
 1. Take the hubAssembly.py in the hubaDatatype folder, and add it into lib/galaxy/datatypes in your Galaxy instance
 2. Add this line in config/datatypes_conf.xml:
 ```<datatype extension="huba" type="galaxy.datatypes.hubAssembly:HubAssembly" display_in_upload="true" />```
+3. Look into hubaDatatype/README.md for more informations

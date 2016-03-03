@@ -3,7 +3,7 @@
 This Galaxy tool permits to prepare your files to be ready for
 Assembly Hub visualization.
 Program test arguments:
-hubArchiveCreator.py -g test_data/augustusDbia3.gff3 -f test_data/dbia3.fa -d . -o output.html
+hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . -o output.html
 """
 
 import sys

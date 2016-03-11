@@ -4,6 +4,10 @@
         Assembly Hub visualization.
     </description>
 
+    <requirements>
+        <requirement type="package" version="312">ucsc_tools</requirement>
+    </requirements>
+
     <stdio>
         <regex match="^pass1"
                source="stderr"

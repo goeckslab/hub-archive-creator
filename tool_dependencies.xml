@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <!-- TODO: Require:
+        - GFF TO BED => https://usegalaxy.org/root?tool_id=gff2bed1 => https://toolshed.g2.bx.psu.edu/repository?repository_id=afcb6456d8e300ed&changeset_revision=5c6f33e20fcc
+        - Bed to BigBed => https://usegalaxy.org/root?tool_id=bed_to_bigBed
+
+    -->
+    <package name="ucsc_tools" version="312">
+      <repository name="package_ucsc_tools_312" owner="iuc" prior_installation_required="False" />
+    </package>
+</tool_dependency>

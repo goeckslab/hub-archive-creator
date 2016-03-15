@@ -21,7 +21,6 @@ from mako.lookup import TemplateLookup
 from twoBitCreator import twoBitFileCreator
 
 # TODO: REMOVE THIS FROM BEING A GLOBAL VARIABLE
-extra_files_path = '.'
 
 def main(argv):
     # Command Line parsing init
@@ -39,7 +38,7 @@ def main(argv):
 
 
     toolDirectory = '.'
-    global extra_files_path
+    extra_files_path = '.'
 
     # Get the args passed in parameter
     args = parser.parse_args()
@@ -63,7 +62,7 @@ def main(argv):
     suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
     nameTwoBit = suffixTwoBit + '.2bit'
 
-    rootAssemblyHub = createAssemblyHub(outputZip, twoBitName=nameTwoBit, toolDirectory=toolDirectory)
+    rootAssemblyHub = createAssemblyHub(outputZip, twoBitName=nameTwoBit, toolDirectory=toolDirectory, extra_files_path=extra_files_path)
 
     # TODO: See if we need these temporary files as part of the generated files
     genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
@@ -183,7 +182,7 @@ def main(argv):
     sys.exit(0)
 
 
-def createAssemblyHub(outputZip, twoBitName, toolDirectory):
+def createAssemblyHub(outputZip, twoBitName, toolDirectory, extra_files_path):
     # TODO: Manage to put every fill Function in a file dedicated for reading reasons
     # Create the root directory
     myHubPath = os.path.join(extra_files_path, "myHub")

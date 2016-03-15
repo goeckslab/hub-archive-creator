@@ -3,7 +3,7 @@
 This Galaxy tool permits to prepare your files to be ready for
 Assembly Hub visualization.
 Program test arguments:
-hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . -o output.html
+hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . -u ./tools -o output.html
 """
 
 import sys
@@ -22,6 +22,7 @@ from twoBitCreator import twoBitFileCreator
 
 # TODO: REMOVE THIS FROM BEING A GLOBAL VARIABLE
 toolDirectory = '.'
+ucsc_tools_path = './tools'
 extra_files_path = '.'
 
 def main(argv):
@@ -31,14 +32,14 @@ def main(argv):
     parser.add_argument('-g', '--gff3', help='Directory where to put the foo.txt')
     parser.add_argument('-f', '--fasta', help='Directory where to put the foo.txt')
     parser.add_argument('-d', '--directory', help='Directory where to put the foo.txt')
+    parser.add_argument('-u', '--ucsc_tools_path', help='Directory where to put the foo.txt')
     parser.add_argument('-e', '--extra_files_path', help='Directory where to put the foo.txt')
     parser.add_argument('-o', '--output', help='Directory where to put the foo.txt')
 
 
     global toolDirectory
     global extra_files_path
-    inputGFF3File = ''
-    inputFastaFile = ''
+    global ucsc_tools_path
 
     # Get the args passed in parameter
     args = parser.parse_args()
@@ -50,6 +51,8 @@ def main(argv):
         toolDirectory = args.directory
     if args.extra_files_path:
         extra_files_path = args.extra_files_path
+    if args.ucsc_tools_path:
+        ucsc_tools_path = args.ucsc_tools_path
 
     outputZip = zipfile.ZipFile(os.path.join(extra_files_path, 'myHub.zip'), 'w')
 
@@ -71,7 +74,7 @@ def main(argv):
 
     # gff3ToGenePred processing
     p = subprocess.Popen(
-        [os.path.join(toolDirectory, 'tools/gff3ToGenePred'),
+        [os.path.join(ucsc_tools_path, 'gff3ToGenePred'),
             inputGFF3File.name,
             genePredFile.name])
     # We need to wait the time gff3ToGenePred terminate so genePredToBed can begin
@@ -80,7 +83,7 @@ def main(argv):
 
     # genePredToBed processing
     p = subprocess.Popen(
-        [os.path.join(toolDirectory, 'tools/genePredToBed'),
+        [os.path.join(ucsc_tools_path, 'genePredToBed'),
             genePredFile.name,
             unsortedBedFile.name])
     p.wait()
@@ -100,13 +103,13 @@ def main(argv):
     mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
     # 2bit file creation from input fasta
-    twoBitFile = twoBitFileCreator(inputFastaFile, toolDirectory, mySpecieFolderPath)
+    twoBitFile = twoBitFileCreator(inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
 
     # Generate the chrom.sizes
     # TODO: Isolate in a function
     # We first get the twoBit Infos
     p = subprocess.Popen(
-        [os.path.join(toolDirectory, 'tools/twoBitInfo'),
+        [os.path.join(ucsc_tools_path, 'twoBitInfo'),
             twoBitFile.name,
             'stdout'],
         stdout=subprocess.PIPE,
@@ -131,9 +134,20 @@ def main(argv):
     myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
     # TODO: Change the name of the bb, to tool + genome + .bb
     myBigBedFilePath = os.path.join(myTrackFolderPath, 'augustusDbia3.bb')
+    #     if return_code:
+    #     tmp_stderr.flush()
+    #     tmp_stderr.seek(0)
+    #     print >> sys.stderr, "Error building index:"
+    #     while True:
+    #         chunk = tmp_stderr.read( CHUNK_SIZE )
+    #         if not chunk:
+    #             break
+    #         sys.stderr.write( chunk )
+    #     sys.exit( return_code )
+    #     tmp_stderr.close()
     with open(myBigBedFilePath, 'w') as bigBedFile:
         p = subprocess.Popen(
-            [os.path.join(toolDirectory, 'tools/bedToBigBed'),
+            [os.path.join(ucsc_tools_path, 'bedToBigBed'),
                 sortedBedFile.name,
                 chromSizesFile.name,
                 bigBedFile.name])

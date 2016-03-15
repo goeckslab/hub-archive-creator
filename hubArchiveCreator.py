@@ -21,8 +21,6 @@ from mako.lookup import TemplateLookup
 from twoBitCreator import twoBitFileCreator
 
 # TODO: REMOVE THIS FROM BEING A GLOBAL VARIABLE
-toolDirectory = '.'
-ucsc_tools_path = './tools'
 extra_files_path = '.'
 
 def main(argv):
@@ -37,9 +35,11 @@ def main(argv):
     parser.add_argument('-o', '--output', help='Directory where to put the foo.txt')
 
 
-    global toolDirectory
+    ucsc_tools_path = './tools'
+
+
+    toolDirectory = '.'
     global extra_files_path
-    global ucsc_tools_path
 
     # Get the args passed in parameter
     args = parser.parse_args()
@@ -63,7 +63,7 @@ def main(argv):
     suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
     nameTwoBit = suffixTwoBit + '.2bit'
 
-    rootAssemblyHub = createAssemblyHub(outputZip, twoBitName=nameTwoBit)
+    rootAssemblyHub = createAssemblyHub(outputZip, twoBitName=nameTwoBit, toolDirectory=toolDirectory)
 
     # TODO: See if we need these temporary files as part of the generated files
     genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
@@ -183,7 +183,7 @@ def main(argv):
     sys.exit(0)
 
 
-def createAssemblyHub(outputZip, twoBitName):
+def createAssemblyHub(outputZip, twoBitName, toolDirectory):
     # TODO: Manage to put every fill Function in a file dedicated for reading reasons
     # Create the root directory
     myHubPath = os.path.join(extra_files_path, "myHub")
@@ -192,16 +192,16 @@ def createAssemblyHub(outputZip, twoBitName):
 
     # Add the genomes.txt file
     genomesTxtFilePath = os.path.join(myHubPath, 'genomes.txt')
-    fillGenomesTxt(genomesTxtFilePath, twoBitName)
+    fillGenomesTxt(genomesTxtFilePath, twoBitName, toolDirectory)
 
     # Add the hub.txt file
     hubTxtFilePath = os.path.join(myHubPath, 'hub.txt')
-    fillHubTxt(hubTxtFilePath)
+    fillHubTxt(hubTxtFilePath, toolDirectory)
 
     # Add the hub.html file
     # TODO: Change the name and get it depending on the specie
     hubHtmlFilePath = os.path.join(myHubPath, 'dbia.html')
-    fillHubHtmlFile(hubHtmlFilePath)
+    fillHubHtmlFile(hubHtmlFilePath, toolDirectory)
 
     # Create the specie folder
     # TODO: Generate the name depending on the specie
@@ -211,16 +211,16 @@ def createAssemblyHub(outputZip, twoBitName):
 
     # Create the trackDb.txt file in the specie folder
     trackDbTxtFilePath = os.path.join(mySpecieFolderPath, 'trackDb.txt')
-    fillTrackDbTxtFile(trackDbTxtFilePath)
+    fillTrackDbTxtFile(trackDbTxtFilePath, toolDirectory)
 
     # Create the description html file in the specie folder
     descriptionHtmlFilePath = os.path.join(mySpecieFolderPath, 'description.html')
-    fillDescriptionHtmlFile(descriptionHtmlFilePath)
+    fillDescriptionHtmlFile(descriptionHtmlFilePath, toolDirectory)
 
     # Create the file groups.txt
     # TODO: If not inputs for this, do no create the file
     groupsTxtFilePath = os.path.join(mySpecieFolderPath, 'groups.txt')
-    fillGroupsTxtFile(groupsTxtFilePath)
+    fillGroupsTxtFile(groupsTxtFilePath, toolDirectory)
 
     # Create the folder tracks into the specie folder
     tracksFolderPath = os.path.join(mySpecieFolderPath, "tracks")
@@ -230,7 +230,7 @@ def createAssemblyHub(outputZip, twoBitName):
     return myHubPath
 
 
-def fillGenomesTxt(genomesTxtFilePath, twoBitName):
+def fillGenomesTxt(genomesTxtFilePath, twoBitName, toolDirectory):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
     # renderer = pystache.Renderer(search_dirs="templates/genomesAssembly")
@@ -255,7 +255,7 @@ def fillGenomesTxt(genomesTxtFilePath, twoBitName):
         genomesTxtFile.write(htmlMakoRendered)
 
 
-def fillHubTxt(hubTxtFilePath):
+def fillHubTxt(hubTxtFilePath, toolDirectory):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
     mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/hubTxt')], output_encoding='utf-8', encoding_errors='replace')
@@ -273,7 +273,7 @@ def fillHubTxt(hubTxtFilePath):
         genomesTxtFile.write(htmlMakoRendered)
 
 
-def fillHubHtmlFile(hubHtmlFilePath):
+def fillHubHtmlFile(hubHtmlFilePath, toolDirectory):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
     # renderer = pystache.Renderer(search_dirs="templates/hubDescription")
@@ -300,7 +300,7 @@ def fillHubHtmlFile(hubHtmlFilePath):
         hubHtmlFile.write(htmlMakoRendered)
 
 
-def fillTrackDbTxtFile(trackDbTxtFilePath):
+def fillTrackDbTxtFile(trackDbTxtFilePath, toolDirectory):
     # TODO: Modify according to the files passed in parameter
     mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/trackDb')], output_encoding='utf-8', encoding_errors='replace')
     mytemplate = mylookup.get_template("layout.txt")
@@ -316,7 +316,7 @@ def fillTrackDbTxtFile(trackDbTxtFilePath):
         trackDbFile.write(htmlMakoRendered)
 
 
-def fillDescriptionHtmlFile(descriptionHtmlFilePath):
+def fillDescriptionHtmlFile(descriptionHtmlFilePath, toolDirectory):
     # TODO: Think about the inputs and outputs
     # TODO: Manage the template of this file
     mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/specieDescription')], output_encoding='utf-8', encoding_errors='replace')
@@ -329,7 +329,7 @@ def fillDescriptionHtmlFile(descriptionHtmlFilePath):
         descriptionHtmlFile.write(htmlMakoRendered)
 
 
-def fillGroupsTxtFile(groupsTxtFilePath):
+def fillGroupsTxtFile(groupsTxtFilePath, toolDirectory):
     mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/groupsTxt')], output_encoding='utf-8', encoding_errors='replace')
     mytemplate = mylookup.get_template("layout.txt")
     with open(groupsTxtFilePath, 'w') as groupsTxtFile:

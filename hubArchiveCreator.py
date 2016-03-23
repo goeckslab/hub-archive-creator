@@ -20,6 +20,8 @@ from mako.lookup import TemplateLookup
 # Internal dependencies
 from twoBitCreator import twoBitFileCreator
 
+#TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
+
 def main(argv):
     # Command Line parsing init
     parser = argparse.ArgumentParser(description='Create a foo.txt inside the given folder.')

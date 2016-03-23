@@ -51,7 +51,7 @@ class HubAssembly( Html ):
 
     def set_peek( self, dataset, is_multi_byte=False ):
         if not dataset.dataset.purged:
-            dataset.peek = "Bowtie index file (%s)" % ( dataset.metadata.sequence_space )
+            dataset.peek = "Track Hub structure: Visualization in UCSC Track Hub"
             dataset.blurb = "%s space" % ( dataset.metadata.sequence_space )
         else:
             dataset.peek = 'file does not exist'
@@ -61,7 +61,7 @@ class HubAssembly( Html ):
         try:
             return dataset.peek
         except:
-            return "Bowtie index file"
+            return "Track Hub structure: Visualization in UCSC Track Hub"
 
     def sniff( self, filename ):
         return False

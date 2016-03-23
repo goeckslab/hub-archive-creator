@@ -20,8 +20,6 @@ from mako.lookup import TemplateLookup
 # Internal dependencies
 from twoBitCreator import twoBitFileCreator
 
-# TODO: REMOVE THIS FROM BEING A GLOBAL VARIABLE
-
 def main(argv):
     # Command Line parsing init
     parser = argparse.ArgumentParser(description='Create a foo.txt inside the given folder.')
@@ -34,7 +32,7 @@ def main(argv):
     parser.add_argument('-o', '--output', help='Directory where to put the foo.txt')
 
 
-    ucsc_tools_path = './tools'
+    ucsc_tools_path = ''
 
 
     toolDirectory = '.'
@@ -181,7 +179,6 @@ def main(argv):
 
     sys.exit(0)
 
-
 def createAssemblyHub(outputZip, twoBitName, toolDirectory, extra_files_path):
     # TODO: Manage to put every fill Function in a file dedicated for reading reasons
     # Create the root directory
@@ -227,7 +224,6 @@ def createAssemblyHub(outputZip, twoBitName, toolDirectory, extra_files_path):
         os.makedirs(tracksFolderPath)
 
     return myHubPath
-
 
 def fillGenomesTxt(genomesTxtFilePath, twoBitName, toolDirectory):
     # TODO: Think about the inputs and outputs

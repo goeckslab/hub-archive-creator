@@ -1,6 +1,6 @@
-HubArchiveCreator's TODO
+# HubArchiveCreator's TODO
 
-# TODO file inspired from: http://lifehacker.com/why-a-github-gist-is-my-favorite-to-do-list-1493063613
+*TODO file inspired from: http://lifehacker.com/why-a-github-gist-is-my-favorite-to-do-list-1493063613*
 
 - [ ] Add a class named AugustusProcess: Process the Augustus output to BigBed (and others needed in TrackHub) and (create folders + add the files into the right location => Process can be ported in a class responsible for that) 
 - [ ] Add a class named TrfBigProcess

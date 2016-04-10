@@ -133,17 +133,6 @@ def main(argv):
     myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
     # TODO: Change the name of the bb, to tool + genome + .bb
     myBigBedFilePath = os.path.join(myTrackFolderPath, 'augustusDbia3.bb')
-    #     if return_code:
-    #     tmp_stderr.flush()
-    #     tmp_stderr.seek(0)
-    #     print >> sys.stderr, "Error building index:"
-    #     while True:
-    #         chunk = tmp_stderr.read( CHUNK_SIZE )
-    #         if not chunk:
-    #             break
-    #         sys.stderr.write( chunk )
-    #     sys.exit( return_code )
-    #     tmp_stderr.close()
     with open(myBigBedFilePath, 'w') as bigBedFile:
         p = subprocess.Popen(
             [os.path.join(ucsc_tools_path, 'bedToBigBed'),

@@ -52,7 +52,6 @@ class HubAssembly( Html ):
     def set_peek( self, dataset, is_multi_byte=False ):
         if not dataset.dataset.purged:
             dataset.peek = "Track Hub structure: Visualization in UCSC Track Hub"
-            dataset.blurb = "%s space" % ( dataset.metadata.sequence_space )
         else:
             dataset.peek = 'file does not exist'
             dataset.blurb = 'file purged from disk'

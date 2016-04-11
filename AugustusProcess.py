@@ -34,8 +34,6 @@ class AugustusProcess:
         twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
         chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
 
-        print "extra_files_path: %s" % ucsc_tools_path
-
         # gff3ToGenePred processing
         p = subprocess.Popen(
             [os.path.join(ucsc_tools_path, 'gff3ToGenePred'),

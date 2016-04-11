@@ -45,17 +45,12 @@ def main(argv):
     inputFastaFile = args.fasta
     outputFile = args.output
 
-    print "received args.ucsc_tools_path: %s" % args.ucsc_tools_path
-
     if args.directory:
         toolDirectory = args.directory
     if args.extra_files_path:
         extra_files_path = args.extra_files_path
     if args.ucsc_tools_path:
-        print "We pass with: %s" % args.ucsc_tools_path
         ucsc_tools_path = args.ucsc_tools_path
-
-    print "converted args.ucsc_tools_path: %s" % ucsc_tools_path
 
     aug_proc = AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path)
 

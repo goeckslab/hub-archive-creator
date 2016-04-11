@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-import zipfile
 import tempfile
 import subprocess
 import os
@@ -10,9 +9,8 @@ from twoBitCreator import twoBitFileCreator
 
 
 class AugustusProcess(object):
-    def __init__(self, inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub, arg):
+    def __init__(self, inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub):
         super(AugustusProcess, self).__init__()
-        self.arg = arg
 
         inputGFF3File = open(inputGFF3File, 'r')
         inputFastaFile = open(inputFastaFile, 'r')

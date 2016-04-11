@@ -8,9 +8,8 @@ from mako.lookup import TemplateLookup
 
 class TrackHub(object):
     """docstring for TrackHub"""
-    def __init__(self, inputFastaFile, extra_files_path, toolDirectory, arg):
+    def __init__(self, inputFastaFile, extra_files_path, toolDirectory):
         super(TrackHub, self).__init__()
-        self.arg = arg
 
         self.rootAssemblyHub = None
 
@@ -79,7 +78,7 @@ class TrackHub(object):
 
         return myHubPath
 
-    def __fillGenomesTxt__(genomesTxtFilePath, twoBitName, toolDirectory):
+    def __fillGenomesTxt__(self, genomesTxtFilePath, twoBitName, toolDirectory):
         # TODO: Think about the inputs and outputs
         # TODO: Manage the template of this file
         # renderer = pystache.Renderer(search_dirs="templates/genomesAssembly")
@@ -103,7 +102,7 @@ class TrackHub(object):
             )
             genomesTxtFile.write(htmlMakoRendered)
 
-    def __fillHubTxt__(hubTxtFilePath, toolDirectory):
+    def __fillHubTxt__(self, hubTxtFilePath, toolDirectory):
         # TODO: Think about the inputs and outputs
         # TODO: Manage the template of this file
         mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/hubTxt')], output_encoding='utf-8', encoding_errors='replace')
@@ -120,7 +119,7 @@ class TrackHub(object):
             )
             genomesTxtFile.write(htmlMakoRendered)
 
-    def __fillHubHtmlFile__(hubHtmlFilePath, toolDirectory):
+    def __fillHubHtmlFile__(self, hubHtmlFilePath, toolDirectory):
         # TODO: Think about the inputs and outputs
         # TODO: Manage the template of this file
         # renderer = pystache.Renderer(search_dirs="templates/hubDescription")
@@ -146,7 +145,7 @@ class TrackHub(object):
             # hubHtmlFile.write(htmlPystached)
             hubHtmlFile.write(htmlMakoRendered)
 
-    def __fillTrackDbTxtFile__(trackDbTxtFilePath, toolDirectory):
+    def __fillTrackDbTxtFile__(self, trackDbTxtFilePath, toolDirectory):
         # TODO: Modify according to the files passed in parameter
         mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/trackDb')], output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template("layout.txt")
@@ -161,7 +160,7 @@ class TrackHub(object):
             )
             trackDbFile.write(htmlMakoRendered)
 
-    def __fillDescriptionHtmlFile__(descriptionHtmlFilePath, toolDirectory):
+    def __fillDescriptionHtmlFile__(self, descriptionHtmlFilePath, toolDirectory):
         # TODO: Think about the inputs and outputs
         # TODO: Manage the template of this file
         mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/specieDescription')], output_encoding='utf-8', encoding_errors='replace')
@@ -173,7 +172,7 @@ class TrackHub(object):
             )
             descriptionHtmlFile.write(htmlMakoRendered)
 
-    def __fillGroupsTxtFile__(groupsTxtFilePath, toolDirectory):
+    def __fillGroupsTxtFile__(self, groupsTxtFilePath, toolDirectory):
         # TODO: Reenable this function at some point
         mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/groupsTxt')], output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template("layout.txt")

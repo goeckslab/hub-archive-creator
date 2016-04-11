@@ -12,3 +12,4 @@
 - [ ] Add a class named TrackHubCreation: Create the base TrackHub hierarchy
 - [ ] Rename AugustusProcess into something more generic if the process is shared (gtf to BigBed)
 - [ ] Don't let the Tool Classes manage the archive (add or remove files / folders) => Everything should pass through TrackHub or another class dedicated to that
+- [ ] Fix the errors for the stdio regexp not properly processed in error case (always green)

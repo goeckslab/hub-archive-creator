@@ -10,6 +10,7 @@ import sys
 import argparse
 
 # Internal dependencies
+from TrackHub import TrackHub
 from AugustusProcess import AugustusProcess
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
@@ -47,7 +48,13 @@ def main(argv):
     if args.ucsc_tools_path:
         ucsc_tools_path = args.ucsc_tools_path
 
-    AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path)
+    # Create the Track Hub folder
+    trackHub = TrackHub(inputFastaFile, extra_files_path, toolDirectory)
+
+    # Process Augustus
+    AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+
+    # We process all the modifications to create the zip file
 
     sys.exit(0)
 

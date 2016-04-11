@@ -16,3 +16,5 @@ Here is the link to get these tools: http://hgdownload.soe.ucsc.edu/admin/exe/
 2. Add this line in config/datatypes_conf.xml:
 ```<datatype extension="huba" type="galaxy.datatypes.hubAssembly:HubAssembly" display_in_upload="true" />```
 3. Look into hubaDatatype/README.md for more informations
+
+See TODO.md for more informations

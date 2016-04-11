@@ -9,5 +9,6 @@
  - [ ] Creation of folders to be ported into a separated class
  - [ ] Refactoring of the AugustusProcess class to behave like a class and not like a procedural masked into a class
 - [ ] Add a class named TrfBigProcess
-- [ ] Add a class named ZipCreation: Create the base TrackHub hierarchy
+- [ ] Add a class named TrackHubCreation: Create the base TrackHub hierarchy
 - [ ] Rename AugustusProcess into something more generic if the process is shared (gtf to BigBed)
+- [ ] Don't let the Tool Classes manage the archive (add or remove files / folders) => Everything should pass through TrackHub or another class dedicated to that

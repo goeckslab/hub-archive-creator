@@ -7,18 +7,13 @@ hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . 
 """
 
 import sys
-import tempfile
-import subprocess
-import os
 import argparse
 
-from mako.lookup import TemplateLookup
-
 # Internal dependencies
-from twoBitCreator import twoBitFileCreator
 from AugustusProcess import AugustusProcess
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
+
 
 def main(argv):
     # Command Line parsing init
@@ -52,7 +47,7 @@ def main(argv):
     if args.ucsc_tools_path:
         ucsc_tools_path = args.ucsc_tools_path
 
-    aug_proc = AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path)
+    AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path)
 
     sys.exit(0)
 

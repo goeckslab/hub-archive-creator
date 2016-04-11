@@ -55,6 +55,7 @@ def main(argv):
     AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
 
     # We process all the modifications to create the zip file
+    trackHub.createZip()
 
     sys.exit(0)
 

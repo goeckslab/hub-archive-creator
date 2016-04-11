@@ -15,7 +15,7 @@ class TrackHub(object):
         self.rootAssemblyHub = None
 
         inputFastaFile = open(inputFastaFile, 'r')
-        outputZip = zipfile.ZipFile(os.path.join(extra_files_path, 'myHub.zip'), 'w')
+        self.outputZip = zipfile.ZipFile(os.path.join(extra_files_path, 'myHub.zip'), 'w')
 
         # Create the structure of the Assembly Hub
         # TODO: Merge the following processing into a function as it is also used in twoBitCreator
@@ -23,17 +23,17 @@ class TrackHub(object):
         suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
         nameTwoBit = suffixTwoBit + '.2bit'
 
-        self.rootAssemblyHub = self.__createAssemblyHub__(outputZip, twoBitName=nameTwoBit, toolDirectory=toolDirectory, extra_files_path=extra_files_path)
+        self.rootAssemblyHub = self.__createAssemblyHub__(twoBitName=nameTwoBit, toolDirectory=toolDirectory, extra_files_path=extra_files_path)
 
-    def createZip(self, outputZip):
+    def createZip(self):
         for root, dirs, files in os.walk(self.rootAssemblyHub):
             # Get all files and construct the dir at the same time
             for file in files:
-                outputZip.write(os.path.join(root, file))
+                self.outputZip.write(os.path.join(root, file))
 
-        outputZip.close()
+        self.outputZip.close()
 
-    def __createAssemblyHub__(self, outputZip, twoBitName, toolDirectory, extra_files_path):
+    def __createAssemblyHub__(self, twoBitName, toolDirectory, extra_files_path):
         # TODO: Manage to put every fill Function in a file dedicated for reading reasons
         # Create the root directory
         myHubPath = os.path.join(extra_files_path, "myHub")

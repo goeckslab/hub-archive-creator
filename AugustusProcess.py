@@ -17,8 +17,6 @@ class AugustusProcess(object):
         inputGFF3File = open(inputGFF3File, 'r')
         inputFastaFile = open(inputFastaFile, 'r')
 
-        rootAssemblyHub = trackHub.rootAssemblyHub
-
         # TODO: See if we need these temporary files as part of the generated files
         genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
         unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")

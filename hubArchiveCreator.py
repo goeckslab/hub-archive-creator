@@ -57,6 +57,9 @@ def main(argv):
     # We process all the modifications to create the zip file
     trackHub.createZip()
 
+    # We terminate le process and so create a HTML file summarizing all the files
+    trackHub.terminate()
+
     sys.exit(0)
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@ def main(argv):
     parser.add_argument('-d', '--directory', help='Running tool directory, where to find the templates. Default is running directory')
     parser.add_argument('-u', '--ucsc_tools_path', help='Directory where to find the executables needed to run this tool')
     parser.add_argument('-e', '--extra_files_path', help='Name, in galaxy, of the output folder. Where you would want to build the Track Hub Archive')
-    parser.add_argument('-o', '--output', help='Directory where to put the HTML summarizing the content of the Track Hub Archive')
+    parser.add_argument('-o', '--output', help='Name of the HTML summarizing the content of the Track Hub Archive')
 
     ucsc_tools_path = ''
 
@@ -49,7 +49,7 @@ def main(argv):
         ucsc_tools_path = args.ucsc_tools_path
 
     # Create the Track Hub folder
-    trackHub = TrackHub(inputFastaFile, extra_files_path, toolDirectory)
+    trackHub = TrackHub(inputFastaFile, outputFile, extra_files_path, toolDirectory)
 
     # Process Augustus
     AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)

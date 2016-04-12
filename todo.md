@@ -8,9 +8,9 @@
  - [x] create folders + add the files into the right location
  - [ ] Creation of folders to be ported into a separated class
  - [ ] Refactoring of the AugustusProcess class to behave like a class and not like a procedural masked into a class
+ - [ ] Rename AugustusProcess into something more generic if the process is shared (gtf to BigBed)
 - [ ] Add a class named TrfBigProcess
-- [ ] Add a class named TrackHubCreation: Create the base TrackHub hierarchy
-- [ ] Rename AugustusProcess into something more generic if the process is shared (gtf to BigBed)
+- [x] Add a class named TrackHub: Create the base TrackHub hierarchy
 - [ ] Don't let the Tool Classes manage the archive (add or remove files / folders) => Everything should pass through TrackHub or another class dedicated to that
 - [ ] Fix the errors for the stdio regexp not properly processed in error case (always green)
-- [ ] Move the classe and others program related files into separated folders
+- [ ] Move the class and others program related files, into separated folders

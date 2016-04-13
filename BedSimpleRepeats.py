@@ -68,7 +68,7 @@ class BedSimpleRepeats(object):
             p = subprocess.Popen(
                 [os.path.join(ucsc_tools_path, 'bedToBigBed'),
                     '-type=bed4+12',
-                    '-as=simpleRepeat.as',
+                    "%s %s" % ('-as=', os.path.join(toolDirectory, 'trf_simpleRepeat')),
                     sortedBedFile.name,
                     chromSizesFile.name,
                     bigBedFile.name])

@@ -23,10 +23,12 @@
     <command><![CDATA[
         mkdir -p $output.files_path &&
         python $__tool_directory__/hubArchiveCreator.py
-        #if $toolChoice.tool_select == "augustus"
-            -g $GFF3_Track
-        #if $toolChoice.tool_select == "trfBig"
-            -t $fasta_trfBig
+        #if $formatChoice.format_select == "gtf"
+            -g $GFF3
+        #if $formatChoice.format_select == "bed"
+            #if $bedChoice.bed_select == "bed_simple_repeats_option"
+                -t $BED_simple_repeats
+            #end if
         #end if
         -f $Fasta_File -d $__tool_directory__ -e $output.files_path -o $output;
     ]]></command>
@@ -37,30 +39,49 @@
             name="Fasta_File"
             type="data"
             label="Reference genome"
-        />
-        <conditional name="toolChoice">
-            <param name="tool_select" type="select" label="Tool">
-                <option value="augustus" selected="true">Augustus</option>
-                <option value="trfbig">TrfBig</option>
-            </param>
+            />
+        <repeat name="format" title="Formats">
+            <conditional name="formatChoice">
+                <param name="format_select" type="select" label="Format">
+                    <option value="gtf" selected="true">GTF</option>
+                    <option value="bed">BED</option>
+                </param>
 
-            <when value="augustus">
-                <param
-                    format="gff3"
-                    name="GFF3_Track"
-                    type="data"
-                    label="GFF3 track to display"
-                />
-            </when>
-            <when value="trfbig">
-                <param
-                    format="fasta"
-                    name="fasta_trfBig"
-                    type="data"
-                    label="Genome to mask"
-                />
-            </when>
-        </conditional>
+                <when value="gtf">
+                    <param
+                        format="gff3"
+                        name="GFF3"
+                        type="data"
+                        label="GFF3 track to display"
+                    />
+                </when>
+                <when value="bed">
+                    <conditional name="bedChoice">
+                        <param name="bed_select" type="select" label="Bed Choice">
+                            <option value="bed" selected="true">Generic BED</option>
+                            <option value="bed_simple_repeats_option">BED simple repeats</option>
+                        </param>
+                        <when value="bed">
+                           <!-- TODO -->
+                           <param
+                               format="bed"
+                               name="BED"
+                               type="data"
+                               label="Bed Type Choice"
+                            />
+                        </when>
+                        <when value="bed_simple_repeats_option">
+                            <param
+                                format="bed"
+                                name="BED_simple_repeats"
+                                type="data"
+                                label="Bed Simple Repeats (Bed4+12)"
+                            />
+                        </when>
+                    </conditional>
+                </when>
+            </conditional>
+        </repeat>
     </inputs>
 
     <outputs>
@@ -69,7 +90,7 @@
 
     <tests>
         <test>
-            <param name="GFF3_Track" value="augustusDbia3.gff3"/>
+            <param name="GFF3" value="augustusDbia3.gff3"/>
             <param name="Fasta_File" value="dbia3.fa"/>
             <output name="output">
                 <assert_contents>

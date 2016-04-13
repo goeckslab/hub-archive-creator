@@ -12,6 +12,7 @@ import argparse
 # Internal dependencies
 from TrackHub import TrackHub
 from AugustusProcess import AugustusProcess
+from BedSimpleRepeats import BedSimpleRepeats
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 

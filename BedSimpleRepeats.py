@@ -13,7 +13,6 @@ class BedSimpleRepeats(object):
         inputBedSimpleRepeatsFile = open(inputBedSimpleRepeatsFile, 'r')
         inputFastaFile = open(inputFastaFile, 'r')
 
-        unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
         sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
         twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
         chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
@@ -25,7 +24,7 @@ class BedSimpleRepeats(object):
                 '1,1',
                 '-k'
                 '2,2n',
-                unsortedBedFile.name,
+                inputBedSimpleRepeatsFile.name,
                 '-o',
                 sortedBedFile.name])
         p.wait()
@@ -68,7 +67,7 @@ class BedSimpleRepeats(object):
             p = subprocess.Popen(
                 [os.path.join(ucsc_tools_path, 'bedToBigBed'),
                     '-type=bed4+12',
-                    "%s %s" % ('-as=', os.path.join(toolDirectory, 'trf_simpleRepeat')),
+                    "%s%s" % ('-as=', os.path.join(toolDirectory, 'trf_simpleRepeat.as')),
                     sortedBedFile.name,
                     chromSizesFile.name,
                     bigBedFile.name])

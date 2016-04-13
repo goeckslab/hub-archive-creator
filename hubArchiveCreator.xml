@@ -23,13 +23,18 @@
     <command><![CDATA[
         mkdir -p $output.files_path &&
         python $__tool_directory__/hubArchiveCreator.py
-        #if $formatChoice.format_select == "gtf"
-            -g $GFF3
-        #if $formatChoice.format_select == "bed"
-            #if $bedChoice.bed_select == "bed_simple_repeats_option"
-                -t $BED_simple_repeats
+
+        #for $i, $f in enumerate( $format )
+            #if $f.formatChoice.format_select == "gtf"
+                -g $f.formatChoice.GFF3
             #end if
-        #end if
+            #if $f.formatChoice.format_select == "bed"
+                #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
+                    -t $f.formatChoice.bedChoice.BED_simple_repeats
+                #end if
+            #end if
+        #end for
+
         -f $Fasta_File -d $__tool_directory__ -e $output.files_path -o $output;
     ]]></command>
 

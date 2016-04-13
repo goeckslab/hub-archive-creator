@@ -20,8 +20,14 @@ def main(argv):
     # Command Line parsing init
     parser = argparse.ArgumentParser(description='Create a foo.txt inside the given folder.')
 
-    parser.add_argument('-g', '--gff3', help='GFF3 output of Augustus')
+    # Reference genome mandatory
     parser.add_argument('-f', '--fasta', help='Fasta file of the reference genome')
+
+    # GFF3 Management
+    parser.add_argument('-g', '--gff3', help='GFF3 output of Augustus')
+
+    # Bed4+12 (TrfBig)
+    parser.add_argument('-t', '--bedSimpleRepeats', help='Bed4+12 format, using simpleRepeats.as')
 
     # TODO: Check if the running directory can have issues if we run the tool outside
     parser.add_argument('-d', '--directory', help='Running tool directory, where to find the templates. Default is running directory')
@@ -37,8 +43,9 @@ def main(argv):
     # Get the args passed in parameter
     args = parser.parse_args()
 
-    inputGFF3File = args.gff3
     inputFastaFile = args.fasta
+    inputGFF3File = args.gff3
+    inputBedSimpleRepeatsFile = args.bedSimpleRepeats
     outputFile = args.output
 
     if args.directory:
@@ -52,7 +59,11 @@ def main(argv):
     trackHub = TrackHub(inputFastaFile, outputFile, extra_files_path, toolDirectory)
 
     # Process Augustus
-    AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+    if inputGFF3File:
+        AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+
+    if inputBedSimpleRepeatsFile:
+        BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
 
     # We process all the modifications to create the zip file
     trackHub.createZip()

@@ -1,7 +1,15 @@
 ## See this http://genome.ucsc.edu/goldenPath/help/hgTrackHubHelp.html
 track ${trackName}
-longLabel ${trackDataURL}
+longLabel ${longLabel}
 shortLabel ${shortLabel}
-bigDataUrl ${longLabel}
+bigDataUrl ${trackDataURL}
 type ${trackType}
 visibility ${visibility}
+
+## TODO: Ugly to duplicate. See loop in Mako, with python objects (trackDb ones?)
+track ${trackName2}
+longLabel ${longLabel2}
+shortLabel ${shortLabel2}
+bigDataUrl ${trackDataURL2}
+type ${trackType2}
+visibility ${visibility2}

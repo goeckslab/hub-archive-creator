@@ -11,6 +11,9 @@
  - [ ] Rename AugustusProcess into something more generic if the process is shared (gtf to BigBed)
 - [ ] Add a class named TrfBigProcess
 - [x] Add a class named TrackHub: Create the base TrackHub hierarchy
+- [ ] Change the Name of the classes
 - [ ] Don't let the Tool Classes manage the archive (add or remove files / folders) => Everything should pass through TrackHub or another class dedicated to that
 - [ ] Fix the errors for the stdio regexp not properly processed in error case (always green)
 - [ ] Move the class and others program related files, into separated folders
+- [ ] Add the
+- [ ] Add the possibility to add a new item in TrackDb.txt through a public function from TrackHub.py (fillTrackDbTxtFile)

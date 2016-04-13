@@ -172,11 +172,17 @@ class TrackHub(object):
         with open(trackDbTxtFilePath, 'w') as trackDbFile:
             htmlMakoRendered = mytemplate.render(
                 trackName='augustusTrack',
-                trackDataURL='Augustus_dbia3',
+                longLabel='Augustus_dbia3',
                 shortLabel='a_dbia',
-                longLabel='tracks/augustusDbia3.bb',
+                trackDataURL='tracks/augustusDbia3.bb',
                 trackType='bigBed 12 +',
-                visibility='dense'
+                visibility='dense',
+                trackName2='tandemRepeatsBig',
+                longLabel2='Tandem Repeats',
+                shortLabel2='Tandem Repeats Big by TrfBig',
+                trackDataURL2='tracks/dbia3_trfBig.bb',
+                trackType2='bigBed 4 +',
+                visibility2='dense'
             )
             trackDbFile.write(htmlMakoRendered)
 

@@ -19,23 +19,48 @@
         <!-- TODO: Add the case pass2 and 0 records or 0 fields -->
     </stdio>
 
+    <!-- Idea: python \ -augustus [parameters] \ -trfBig [parameters] -->
     <command><![CDATA[
         mkdir -p $output.files_path &&
-        python $__tool_directory__/hubArchiveCreator.py -g $GFF3_Track -f $Fasta_File -d $__tool_directory__ -e $output.files_path -o $output;
+        python $__tool_directory__/hubArchiveCreator.py
+        #if $toolChoice.tool_select == "augustus"
+            -g $GFF3_Track
+        #if $toolChoice.tool_select == "trfBig"
+            -t $fasta_trfBig
+        #end if
+        -f $Fasta_File -d $__tool_directory__ -e $output.files_path -o $output;
     ]]></command>
 
     <inputs>
         <param
-          format="gff3"
-          name="GFF3_Track"
-          type="data"
-          label="GFF3 track to display" />
+            format="fasta"
+            name="Fasta_File"
+            type="data"
+            label="Reference genome"
+        />
+        <conditional name="toolChoice">
+            <param name="tool_select" type="select" label="Tool">
+                <option value="augustus" selected="true">Augustus</option>
+                <option value="trfbig">TrfBig</option>
+            </param>
 
-        <param
-          format="fasta"
-          name="Fasta_File"
-          type="data"
-          label="Fasta track to process" />
+            <when value="augustus">
+                <param
+                    format="gff3"
+                    name="GFF3_Track"
+                    type="data"
+                    label="GFF3 track to display"
+                />
+            </when>
+            <when value="trfbig">
+                <param
+                    format="fasta"
+                    name="fasta_trfBig"
+                    type="data"
+                    label="Genome to mask"
+                />
+            </when>
+        </conditional>
     </inputs>
 
     <outputs>

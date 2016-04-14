@@ -25,7 +25,7 @@
         python $__tool_directory__/hubArchiveCreator.py
 
         #for $i, $f in enumerate( $format )
-            #if $f.formatChoice.format_select == "gtf"
+            #if $f.formatChoice.format_select == "gff3"
                 -g $f.formatChoice.GFF3
             #end if
             #if $f.formatChoice.format_select == "bed"
@@ -48,11 +48,11 @@
         <repeat name="format" title="Formats">
             <conditional name="formatChoice">
                 <param name="format_select" type="select" label="Format">
-                    <option value="gtf" selected="true">GTF</option>
+                    <option value="gff3" selected="true">GFF3</option>
                     <option value="bed">BED</option>
                 </param>
 
-                <when value="gtf">
+                <when value="gff3">
                     <param
                         format="gff3"
                         name="GFF3"
@@ -72,7 +72,7 @@
                                format="bed"
                                name="BED"
                                type="data"
-                               label="Bed Type Choice"
+                               label="Generic Bed File Choice"
                             />
                         </when>
                         <when value="bed_simple_repeats_option">
@@ -80,7 +80,7 @@
                                 format="bed"
                                 name="BED_simple_repeats"
                                 type="data"
-                                label="Bed Simple Repeats (Bed4+12)"
+                                label="Bed Simple Repeats (Bed4+12) File"
                             />
                         </when>
                     </conditional>

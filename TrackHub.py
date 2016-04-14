@@ -5,6 +5,8 @@ import zipfile
 
 from mako.lookup import TemplateLookup
 
+from TrackDb import TrackDb
+
 
 class TrackHub(object):
     """docstring for TrackHub"""
@@ -44,7 +46,6 @@ class TrackHub(object):
             htmlOutput.write('</p>')
             htmlOutput.write('<ul>')
             for root, dirs, files in os.walk(self.extra_files_path):
-                # Get all files and get all relative links at the same time
                 for file in files:
                     relDir = os.path.relpath(root, self.extra_files_path)
                     htmlOutput.write(str.format('<li><a href="{0}">{1}</a></li>', os.path.join(relDir, file), os.path.join(relDir, file)))
@@ -169,21 +170,30 @@ class TrackHub(object):
         # TODO: Modify according to the files passed in parameter
         mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/trackDb')], output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template("layout.txt")
+
+        trackDb_gff3 = TrackDb(
+            trackName='augustusTrack',
+            longLabel='Augustus_dbia3',
+            shortLabel='a_dbia',
+            trackDataURL='tracks/augustusDbia3.bb',
+            trackType='bigBed 12 +',
+            visibility='dense'
+        )
+
+        trackDb_bedSimpleRepeats = TrackDb(
+            trackName='tandemRepeatsBig',
+            longLabel='Tandem Repeats',
+            shortLabel='Tandem Repeats Big by TrfBig',
+            trackDataURL='tracks/dbia3_trfBig.bb',
+            trackType='bigBed 4 +',
+            visibility='dense'
+        )
+
         with open(trackDbTxtFilePath, 'w') as trackDbFile:
-            htmlMakoRendered = mytemplate.render(
-                trackName='augustusTrack',
-                longLabel='Augustus_dbia3',
-                shortLabel='a_dbia',
-                trackDataURL='tracks/augustusDbia3.bb',
-                trackType='bigBed 12 +',
-                visibility='dense',
-                trackName2='tandemRepeatsBig',
-                longLabel2='Tandem Repeats',
-                shortLabel2='Tandem Repeats Big by TrfBig',
-                trackDataURL2='tracks/dbia3_trfBig.bb',
-                trackType2='bigBed 4 +',
-                visibility2='dense'
-            )
+            htmlMakoRendered = mytemplate.render([
+                trackDb_gff3,
+                trackDb_bedSimpleRepeats
+            ])
             trackDbFile.write(htmlMakoRendered)
 
     def __fillDescriptionHtmlFile__(self, descriptionHtmlFilePath, toolDirectory):

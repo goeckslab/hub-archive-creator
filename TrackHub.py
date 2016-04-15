@@ -190,10 +190,10 @@ class TrackHub(object):
         )
 
         with open(trackDbTxtFilePath, 'w') as trackDbFile:
-            htmlMakoRendered = mytemplate.render([
-                trackDb_gff3,
-                trackDb_bedSimpleRepeats
-            ])
+	    trackDbs = [trackDb_gff3, trackDb_bedSimpleRepeats]  
+            htmlMakoRendered = mytemplate.render(
+                trackDbs=trackDbs
+            )
             trackDbFile.write(htmlMakoRendered)
 
     def __fillDescriptionHtmlFile__(self, descriptionHtmlFilePath, toolDirectory):

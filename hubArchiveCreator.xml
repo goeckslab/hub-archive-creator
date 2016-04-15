@@ -95,20 +95,24 @@
 
     <tests>
         <test>
-            <param name="Fasta_File" value="test-data/dbia3.fa"/>
+            <param name="Fasta_File" value="dbia3.fa"/>
             <repeat name="format">
                 <conditional name="formatChoice">
                     <param name="format_select" value="gff3"/>
-                    <param name="GFF3" value="test-data/augustusDbia3.gff3"/>
+                    <param name="GFF3" value="augustusDbia3.gff3"/>
                 </conditional>
+            </repeat>
+            <!--
+            <repeat name="format">
                 <conditional name="formatChoice">
                     <param name="format_select" value="bed"/>
                     <conditional name="bedChoice">
                         <param name="bed_select" value="bed_simple_repeats_option"/>
-                        <param name="BED_simple_repeats" value="test-data/dbia3_trfBig_sorted.bed"/>
+                        <param name="BED_simple_repeats" value="dbia3_trfBig_sorted.bed"/>
                     </conditional>
                 </conditional>
             </repeat>
+            -->
 
             <output name="output">
                 <assert_contents>

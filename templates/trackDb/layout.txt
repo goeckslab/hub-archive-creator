@@ -6,4 +6,5 @@
     bigDataUrl ${trackDb.trackDataURL}
     type ${trackDb.trackType}
     visibility ${trackDb.visibility}
+    
 % endfor

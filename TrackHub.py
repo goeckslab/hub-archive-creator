@@ -24,9 +24,10 @@ class TrackHub(object):
         # TODO: Merge the following processing into a function as it is also used in twoBitCreator
         baseNameFasta = os.path.basename(inputFastaFile.name)
         suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
-        nameTwoBit = suffixTwoBit + '.2bit'
+        self.twoBitName = suffixTwoBit + '.2bit'
 
-        self.rootAssemblyHub = self.__createAssemblyHub__(twoBitName=nameTwoBit, toolDirectory=toolDirectory, extra_files_path=extra_files_path)
+        self.rootAssemblyHub = self.__createAssemblyHub__(toolDirectory=toolDirectory, extra_files_path=extra_files_path)
+
 
     def createZip(self):
         for root, dirs, files in os.walk(self.rootAssemblyHub):
@@ -53,7 +54,7 @@ class TrackHub(object):
             htmlOutput.write('</body>')
             htmlOutput.write('</html>')
 
-    def __createAssemblyHub__(self, twoBitName, toolDirectory, extra_files_path):
+    def __createAssemblyHub__(self, toolDirectory, extra_files_path):
         # TODO: Manage to put every fill Function in a file dedicated for reading reasons
         # Create the root directory
         myHubPath = os.path.join(extra_files_path, "myHub")
@@ -62,7 +63,7 @@ class TrackHub(object):
 
         # Add the genomes.txt file
         genomesTxtFilePath = os.path.join(myHubPath, 'genomes.txt')
-        self.__fillGenomesTxt__(genomesTxtFilePath, twoBitName, toolDirectory)
+        self.__fillGenomesTxt__(genomesTxtFilePath, toolDirectory)
 
         # Add the hub.txt file
         hubTxtFilePath = os.path.join(myHubPath, 'hub.txt')
@@ -99,7 +100,7 @@ class TrackHub(object):
 
         return myHubPath
 
-    def __fillGenomesTxt__(self, genomesTxtFilePath, twoBitName, toolDirectory):
+    def __fillGenomesTxt__(self, genomesTxtFilePath, toolDirectory):
         # TODO: Think about the inputs and outputs
         # TODO: Manage the template of this file
         # renderer = pystache.Renderer(search_dirs="templates/genomesAssembly")
@@ -108,7 +109,7 @@ class TrackHub(object):
         mytemplate = mylookup.get_template("layout.txt")
         with open(genomesTxtFilePath, 'w') as genomesTxtFile:
             # Write the content of the file genomes.txt
-            twoBitPath = os.path.join('dbia3/', twoBitName)
+            twoBitPath = os.path.join('dbia3/', self.twoBitName)
             htmlMakoRendered = mytemplate.render(
                 genomeName="dbia3",
                 trackDbPath="dbia3/trackDb.txt",
@@ -190,7 +191,7 @@ class TrackHub(object):
         )
 
         with open(trackDbTxtFilePath, 'w') as trackDbFile:
-	    trackDbs = [trackDb_gff3, trackDb_bedSimpleRepeats]  
+	    trackDbs = [trackDb_gff3, trackDb_bedSimpleRepeats]
             htmlMakoRendered = mytemplate.render(
                 trackDbs=trackDbs
             )

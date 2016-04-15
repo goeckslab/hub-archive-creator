@@ -102,21 +102,26 @@
                     <param name="GFF3" value="augustusDbia3.gff3"/>
                 </conditional>
             </repeat>
-            <!--
             <repeat name="format">
+                <param name="BED_simple_repeats" value="dbia3_trfBig_unsorted.bed"/>
+                <!-- TODO: Ask why the tests are not passing with this xml:
+                     Error creating a job for these tool inputs - Error executing tool: 'NoneType' object has no attribute 'current_history'
                 <conditional name="formatChoice">
                     <param name="format_select" value="bed"/>
                     <conditional name="bedChoice">
                         <param name="bed_select" value="bed_simple_repeats_option"/>
-                        <param name="BED_simple_repeats" value="dbia3_trfBig_sorted.bed"/>
+                        <param name="BED_simple_repeats" value="dbia3_trfBig_unsorted.bed"/>
                     </conditional>
                 </conditional>
+                -->
             </repeat>
-            -->
 
             <output name="output">
                 <assert_contents>
                     <has_text text="myHub" />
+                </assert_contents>
+                <assert_contents>
+                    <has_text text="dbia3_trfBig.bb" />
                 </assert_contents>
             </output>
         </test>

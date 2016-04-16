@@ -20,3 +20,4 @@
 - [ ] Take into account the name of the reference genome / the change:
   - [ ] Somebody could want to launch two visualisations of two different genomes. Repeats of Genome with extensions associated
 - [ ] Add TDD => First add the test. It should not pass. Implement. It should now pass :)
+- [ ] Each time a file is added => Print it in the output with the full path (or relative path to root)

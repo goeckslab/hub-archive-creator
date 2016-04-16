@@ -62,6 +62,7 @@ def main(argv):
     # Process Augustus
     if inputGFF3File:
         AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+        trackHub.addTrack(augustusTrack)
 
     if inputBedSimpleRepeatsFile:
         BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)

@@ -14,6 +14,12 @@ class TrackHub(object):
         super(TrackHub, self).__init__()
 
         self.rootAssemblyHub = None
+        self.mySpecieFolderPath = None
+
+        # TODO: Modify according to the files passed in parameter
+        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/trackDb')], output_encoding='utf-8', encoding_errors='replace')
+        self.trackDbTemplate = mylookup.get_template("layout.txt")
+
         self.extra_files_path = extra_files_path
         self.outputFile = outputFile
 
@@ -28,7 +34,6 @@ class TrackHub(object):
 
         self.rootAssemblyHub = self.__createAssemblyHub__(toolDirectory=toolDirectory, extra_files_path=extra_files_path)
 
-
     def createZip(self):
         for root, dirs, files in os.walk(self.rootAssemblyHub):
             # Get all files and construct the dir at the same time
@@ -36,6 +41,43 @@ class TrackHub(object):
                 self.outputZip.write(os.path.join(root, file))
 
         self.outputZip.close()
+
+    def addTrack(self, trackName=None, longLabel=None, shortLabel=None, trackDataURL=None, trackType=None, visibility=None):
+        # Create the tralongLabel='ckDb.txt file in the specie folder
+        trackDbTxtFilePath = os.path.join(mySpecieFolderPath, 'trackDb.txt')
+
+        newTrack = TrackDb(
+            trackName=trackName
+            longLabel=longLabel,
+            shortLabel=shortLabel,
+            trackDataURL=trackDataURL,
+            trackType=trackType,
+            visibility=visibility,
+        )
+#        trackDb_gff3 = TrackDb(
+#            trackName='augustusTrack',
+#            longLabel='Augustus_dbia3',
+#            shortLabel='a_dbia',
+#            trackDataURL='tracks/augustusDbia3.bb',
+#            trackType='bigBed 12 +',
+#            visibility='dense'
+#        )
+
+#        trackDb_bedSimpleRepeats = TrackDb(
+#            trackName='tandemRepeatsBig',
+#            longLabel='Tandem Repeats',
+#            shortLabel='Tandem Repeats Big by TrfBig',
+#            trackDataURL='tracks/dbia3_trfBig.bb',
+#            trackType='bigBed 4 +',
+#            visibility='dense'
+#        )
+
+        with open(trackDbTxtFilePath, 'a+') as trackDbFile:
+            trackDbs = [newTrack]
+            htmlMakoRendered = mytemplate.render(
+                trackDbs=trackDbs
+            )
+            trackDbFile.write(htmlMakoRendered)
 
     def terminate(self):
         # Just a test to output a simple HTML
@@ -79,10 +121,7 @@ class TrackHub(object):
         mySpecieFolderPath = os.path.join(myHubPath, "dbia3")
         if not os.path.exists(mySpecieFolderPath):
             os.makedirs(mySpecieFolderPath)
-
-        # Create the trackDb.txt file in the specie folder
-        trackDbTxtFilePath = os.path.join(mySpecieFolderPath, 'trackDb.txt')
-        self.__fillTrackDbTxtFile__(trackDbTxtFilePath, toolDirectory)
+        self.mySpecieFolderPath = mySpecieFolderPath
 
         # Create the description html file in the specie folder
         descriptionHtmlFilePath = os.path.join(mySpecieFolderPath, 'description.html')
@@ -168,34 +207,6 @@ class TrackHub(object):
             hubHtmlFile.write(htmlMakoRendered)
 
     def __fillTrackDbTxtFile__(self, trackDbTxtFilePath, toolDirectory):
-        # TODO: Modify according to the files passed in parameter
-        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/trackDb')], output_encoding='utf-8', encoding_errors='replace')
-        mytemplate = mylookup.get_template("layout.txt")
-
-        trackDb_gff3 = TrackDb(
-            trackName='augustusTrack',
-            longLabel='Augustus_dbia3',
-            shortLabel='a_dbia',
-            trackDataURL='tracks/augustusDbia3.bb',
-            trackType='bigBed 12 +',
-            visibility='dense'
-        )
-
-        trackDb_bedSimpleRepeats = TrackDb(
-            trackName='tandemRepeatsBig',
-            longLabel='Tandem Repeats',
-            shortLabel='Tandem Repeats Big by TrfBig',
-            trackDataURL='tracks/dbia3_trfBig.bb',
-            trackType='bigBed 4 +',
-            visibility='dense'
-        )
-
-        with open(trackDbTxtFilePath, 'w') as trackDbFile:
-	    trackDbs = [trackDb_gff3, trackDb_bedSimpleRepeats]
-            htmlMakoRendered = mytemplate.render(
-                trackDbs=trackDbs
-            )
-            trackDbFile.write(htmlMakoRendered)
 
     def __fillDescriptionHtmlFile__(self, descriptionHtmlFilePath, toolDirectory):
         # TODO: Think about the inputs and outputs

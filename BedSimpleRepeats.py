@@ -5,6 +5,8 @@ import subprocess
 import os
 
 from twoBitCreator import twoBitFileCreator
+from Track import Track
+
 
 class BedSimpleRepeats(object):
     def __init__(self, inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub):
@@ -62,7 +64,8 @@ class BedSimpleRepeats(object):
         # TODO: Find the best to get this path without hardcoding it
         myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
         # TODO: Change the name of the bb, to tool + genome + .bb
-        myBigBedFilePath = os.path.join(myTrackFolderPath, 'dbia3_trfBig.bb')
+        trackName = 'dbia3_trfBig.bb'
+        myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as bigBedFile:
             p = subprocess.Popen(
                 [os.path.join(ucsc_tools_path, 'bedToBigBed'),
@@ -72,3 +75,15 @@ class BedSimpleRepeats(object):
                     chromSizesFile.name,
                     bigBedFile.name])
             p.wait()
+
+        # Create the Track Object
+        dataURL = "tracks/%s" % trackName
+        self.track = Track(
+            trackFile=myBigBedFilePath,
+            trackName=trackName,
+            longLabel='Tandem Repeats Big by TrfBig',
+            shortLabel='Tandem Repeats',
+            trackDataURL=dataURL,
+            trackType='bigBed 4 +',
+            visibility='dense'
+        )

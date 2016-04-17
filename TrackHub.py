@@ -42,39 +42,22 @@ class TrackHub(object):
 
         self.outputZip.close()
 
-    def addTrack(self, trackName=None, longLabel=None, shortLabel=None, trackDataURL=None, trackType=None, visibility=None):
-        # Create the tralongLabel='ckDb.txt file in the specie folder
-        trackDbTxtFilePath = os.path.join(mySpecieFolderPath, 'trackDb.txt')
+    def addTrack(self, trackObject=None):
+        # Create the traDb.txt file in the specie folder
+        trackDbTxtFilePath = os.path.join(self.mySpecieFolderPath, 'trackDb.txt')
 
         newTrack = TrackDb(
-            trackName=trackName
-            longLabel=longLabel,
-            shortLabel=shortLabel,
-            trackDataURL=trackDataURL,
-            trackType=trackType,
-            visibility=visibility,
+            trackName=trackObject.trackName,
+            longLabel=trackObject.longLabel,
+            shortLabel=trackObject.shortLabel,
+            trackDataURL=trackObject.trackDataURL,
+            trackType=trackObject.trackType,
+            visibility=trackObject.visibility,
         )
-#        trackDb_gff3 = TrackDb(
-#            trackName='augustusTrack',
-#            longLabel='Augustus_dbia3',
-#            shortLabel='a_dbia',
-#            trackDataURL='tracks/augustusDbia3.bb',
-#            trackType='bigBed 12 +',
-#            visibility='dense'
-#        )
-
-#        trackDb_bedSimpleRepeats = TrackDb(
-#            trackName='tandemRepeatsBig',
-#            longLabel='Tandem Repeats',
-#            shortLabel='Tandem Repeats Big by TrfBig',
-#            trackDataURL='tracks/dbia3_trfBig.bb',
-#            trackType='bigBed 4 +',
-#            visibility='dense'
-#        )
 
         with open(trackDbTxtFilePath, 'a+') as trackDbFile:
             trackDbs = [newTrack]
-            htmlMakoRendered = mytemplate.render(
+            htmlMakoRendered = self.trackDbTemplate.render(
                 trackDbs=trackDbs
             )
             trackDbFile.write(htmlMakoRendered)
@@ -205,8 +188,6 @@ class TrackHub(object):
             )
             # hubHtmlFile.write(htmlPystached)
             hubHtmlFile.write(htmlMakoRendered)
-
-    def __fillTrackDbTxtFile__(self, trackDbTxtFilePath, toolDirectory):
 
     def __fillDescriptionHtmlFile__(self, descriptionHtmlFilePath, toolDirectory):
         # TODO: Think about the inputs and outputs

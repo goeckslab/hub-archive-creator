@@ -6,11 +6,14 @@ import os
 
 # Internal dependencies
 from twoBitCreator import twoBitFileCreator
+from Track import Track
 
 
 class AugustusProcess(object):
     def __init__(self, inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub):
         super(AugustusProcess, self).__init__()
+
+        self.track = None
 
         inputGFF3File = open(inputGFF3File, 'r')
         inputFastaFile = open(inputFastaFile, 'r')
@@ -82,8 +85,9 @@ class AugustusProcess(object):
         # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
         # TODO: Find the best to get this path without hardcoding it
         myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
-        # TODO: Change the name of the bb, to tool + genome + .bb
-        myBigBedFilePath = os.path.join(myTrackFolderPath, 'augustusDbia3.bb')
+        # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
+        trackName = "augustusDbia3.bb"
+        myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as bigBedFile:
             p = subprocess.Popen(
                 [os.path.join(ucsc_tools_path, 'bedToBigBed'),
@@ -91,3 +95,14 @@ class AugustusProcess(object):
                     chromSizesFile.name,
                     bigBedFile.name])
             p.wait()
+
+        # Create the Track Object
+        dataURL = "tracks/%s" % trackName
+        self.track = Track(
+            trackFile=myBigBedFilePath,
+            trackName=trackName,
+            longLabel='From AugustusProcess',
+            shortLabel='Augustus_dbia3',
+            trackDataURL=dataURL,
+            trackType='bigBed 12 +',
+            visibility='dense')

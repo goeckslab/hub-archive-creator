@@ -8,6 +8,7 @@
         <requirement type="package" version="312">ucsc_tools</requirement>
         <requirement type="package" version="0.0.1">gff3ToGenePred</requirement>
         <requirement type="package" version="0.0.1">genePredToBed</requirement>
+        <requirement type="package" version="0.8.7.1">gffutils</requirement>
     </requirements>
 
     <stdio>
@@ -122,6 +123,9 @@
                 </assert_contents>
                 <assert_contents>
                     <has_text text="dbia3_trfBig.bb" />
+                </assert_contents>
+                <assert_contents>
+                    <has_text text="SAODOAii qwwqod92921"/>
                 </assert_contents>
             </output>
         </test>

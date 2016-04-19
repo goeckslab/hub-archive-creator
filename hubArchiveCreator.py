@@ -61,10 +61,12 @@ def main(argv):
 
     # Process Augustus
     if inputGFF3File:
-        AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+        augustusObject = AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+        trackHub.addTrack(augustusObject.track)
 
     if inputBedSimpleRepeatsFile:
-        BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+        bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+        trackHub.addTrack(bedRepeat.track)
 
     # We process all the modifications to create the zip file
     trackHub.createZip()

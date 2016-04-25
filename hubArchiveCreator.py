@@ -13,6 +13,7 @@ import argparse
 from TrackHub import TrackHub
 from AugustusProcess import AugustusProcess
 from BedSimpleRepeats import BedSimpleRepeats
+from Bed import Bed
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -29,6 +30,9 @@ def main(argv):
 
     # Bed4+12 (TrfBig)
     parser.add_argument('-t', '--bedSimpleRepeats', help='Bed4+12 format, using simpleRepeats.as')
+
+    # Generic Bed (Blastx transformed to bed)
+    parser.add_argument('-b', '--bed', help='Bed generic format')
 
     # TODO: Check if the running directory can have issues if we run the tool outside
     parser.add_argument('-d', '--directory', help='Running tool directory, where to find the templates. Default is running directory')
@@ -47,6 +51,7 @@ def main(argv):
     inputFastaFile = args.fasta
     inputGFF3File = args.gff3
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
+    inputBedGeneric = args.bed
     outputFile = args.output
 
     if args.directory:
@@ -67,6 +72,10 @@ def main(argv):
     if inputBedSimpleRepeatsFile:
         bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
         trackHub.addTrack(bedRepeat.track)
+
+    if inputBedGeneric:
+        bedGeneric = Bed(inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+        trackHub.addTrack(bedGeneric.track)
 
     # We process all the modifications to create the zip file
     trackHub.createZip()

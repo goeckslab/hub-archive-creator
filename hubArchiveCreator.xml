@@ -8,7 +8,6 @@
         <requirement type="package" version="312">ucsc_tools</requirement>
         <requirement type="package" version="0.0.1">gff3ToGenePred</requirement>
         <requirement type="package" version="0.0.1">genePredToBed</requirement>
-        <requirement type="package" version="0.8.7.1">gffutils</requirement>
     </requirements>
 
     <stdio>
@@ -30,6 +29,9 @@
                 -g $f.formatChoice.GFF3
             #end if
             #if $f.formatChoice.format_select == "bed"
+                #if $f.formatChoice.bedChoice.bed_select == "bed"
+                    -b $f.formatChoice.bedChoice.BED
+                #endif
                 #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
                     -t $f.formatChoice.bedChoice.BED_simple_repeats
                 #end if

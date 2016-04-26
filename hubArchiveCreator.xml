@@ -31,13 +31,12 @@
             #if $f.formatChoice.format_select == "bed"
                 #if $f.formatChoice.bedChoice.bed_select == "bed"
                     -b $f.formatChoice.bedChoice.BED
-                #endif
+                #end if
                 #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
                     -t $f.formatChoice.bedChoice.BED_simple_repeats
                 #end if
             #end if
         #end for
-
         -f $Fasta_File -d $__tool_directory__ -e $output.files_path -o $output;
     ]]></command>
 

@@ -8,7 +8,7 @@ You will get a .zip file, that you need to put on a server accessible from the o
 
 ## Requirements:
 1. You need to install [Mako](http://www.makotemplates.org/download.html)
-2. HubArchiveCreator use, for now, tools from UCSC Kent Utils. This repository use the linux.x86_64/ ones, but you NEED to replace them accordingly to your architecture.
+2. HubArchiveCreator use tools from UCSC Kent Utils. This repository use the linux.x86_64/ ones, but you NEED to replace them accordingly to your architecture.
 Here is the link to get these tools: http://hgdownload.soe.ucsc.edu/admin/exe/
 
 ### Install in Galaxy

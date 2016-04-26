@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
 <tool_dependency>
-    <!-- TODO: Require:
-        - ucsc_tools_312
-        - gff3ToGenePred => http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/gff3ToGenePred
-        - genePredToBed => http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
-    -->
     <!-- UCSC Tools in  -->
+    <!-- Useful for HAC are:
+        - twoBitInfo
+        - sort
+        - bedToBigBed
+        - gff3ToGenePred
+        - genePredToBed
+        - faToTwoBit
     <package name="ucsc_tools" version="312">
       <repository name="package_ucsc_tools_312" owner="iuc" prior_installation_required="False" />
     </package>

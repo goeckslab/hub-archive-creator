@@ -30,7 +30,7 @@ class Bed(object):
         mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
         # 2bit file creation from input fasta
-        twoBitFile = twoBitFileCreator(inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
+        twoBitFile = twoBitFileCreator(self.inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
 
         # Generate the chrom.sizes
         # TODO: Isolate in a function

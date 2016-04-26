@@ -16,5 +16,7 @@ Here is the link to get these tools: http://hgdownload.soe.ucsc.edu/admin/exe/
 2. Add this line in config/datatypes_conf.xml:
 ```<datatype extension="huba" type="galaxy.datatypes.hubAssembly:HubAssembly" display_in_upload="true" />```
 3. Look into hubaDatatype/README.md for more informations
+4. (Optional) If you want to test your tool locally, you need to install all the tool(shed) dependencies to your PATH.
+See [tool_dependencies.xml](tool_dependencies.xml)
 
 See TODO.md for more informations

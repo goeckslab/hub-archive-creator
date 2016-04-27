@@ -8,6 +8,7 @@
         - gff3ToGenePred
         - genePredToBed
         - faToTwoBit
+    -->
     <package name="ucsc_tools" version="312">
       <repository name="package_ucsc_tools_312" owner="iuc" prior_installation_required="False" />
     </package>

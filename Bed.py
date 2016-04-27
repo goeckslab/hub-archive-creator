@@ -15,8 +15,12 @@ class Bed(object):
 
         self.track = None
 
+        inputBedGeneric = open(inputBedGeneric, 'r')
         self.inputBedGeneric = inputBedGeneric
+
+        inputFastaFile = open(inputFastaFile, 'r')
         self.inputFastaFile = inputFastaFile
+
         self.chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
         self.twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
 

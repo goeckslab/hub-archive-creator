@@ -20,7 +20,7 @@
     </stdio>
 
     <!-- Idea: python \ -augustus [parameters] \ -trfBig [parameters] -->
-    <command><![CDATA[
+    <command detect_errors="exit_code"><![CDATA[
         mkdir -p $output.files_path &&
         python $__tool_directory__/hubArchiveCreator.py
 

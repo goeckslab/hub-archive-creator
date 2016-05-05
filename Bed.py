@@ -32,7 +32,7 @@ class Bed(object):
         self.trackHub = trackHub
 
         # Sort processing
-        p = subprocess.Popen(
+        p = subprocess.check_call(
             ['sort',
              '-k'
              '1,1',
@@ -41,8 +41,6 @@ class Bed(object):
              self.inputBedGeneric.name,
              '-o',
              self.sortedBedFile.name])
-        p.wait()
-
 
         # Before the bedToBigBed processing, we need to retrieve the chrom.sizes file from the reference genome
         mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
@@ -53,39 +51,43 @@ class Bed(object):
         # Generate the chrom.sizes
         # TODO: Isolate in a function
         # We first get the twoBit Infos
-        p = subprocess.Popen(
-            [os.path.join(ucsc_tools_path, 'twoBitInfo'),
-             self.twoBitFile.name,
-             'stdout'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
-
-        twoBitInfo_out, twoBitInfo_err = p.communicate()
-        self.twoBitInfoFile.write(twoBitInfo_out)
+        try:
+            p = subprocess.check_call(
+                [os.path.join(ucsc_tools_path, 'twoBitInfo'),
+                 self.twoBitFile.name,
+                 self.twoBitInfoFile.name]
+            )
+        except subprocess.CalledProcessError:
+            raise
 
         # Then we get the output to inject into the sort
         # TODO: Check if no errors
-        p = subprocess.Popen(
-            ['sort',
-             '-k2rn',
-             self.twoBitInfoFile.name,
-             '-o',
-             self.chromSizesFile.name])
-        p.wait()
+        try:
+            p = subprocess.check_call(
+                ['sort',
+                 '-k2rn',
+                 self.twoBitInfoFile.name,
+                 '-o',
+                 self.chromSizesFile.name])
+        except subprocess.CalledProcessError:
+            raise
 
         # bedToBigBed processing
         # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
         myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
         trackName = "bed.bb"
+
         myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as bigBedFile:
-            p = subprocess.Popen(
+            try:
+                p = subprocess.check_call(
                 [os.path.join(ucsc_tools_path, 'bedToBigBed'),
                  self.sortedBedFile.name,
                  self.chromSizesFile.name,
                  bigBedFile.name])
-            p.wait()
+            except subprocess.CalledProcessError:
+                raise
 
         # Create the Track Object
         dataURL = "tracks/%s" % trackName

@@ -16,11 +16,12 @@ def twoBitFileCreator(fastaFile, ucsc_tools_path, mySpecieFolder):
     nameTwoBit = suffixTwoBit + '.2bit'
 
     with open(os.path.join(mySpecieFolder, nameTwoBit), 'w') as twoBitFile:
-        p = subprocess.Popen(
-            [os.path.join(ucsc_tools_path, 'faToTwoBit'),
-             fastaFile.name,
-             twoBitFile.name])
-
-        p.wait()
+        try:
+            p = subprocess.check_call(
+                [os.path.join(ucsc_tools_path, 'faToTwoBit'),
+                 fastaFile.name,
+                 twoBitFile.name])
+        except subprocess.CalledProcessError:
+            raise
 
     return twoBitFile

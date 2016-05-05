@@ -20,16 +20,18 @@ class BedSimpleRepeats(object):
         chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
 
         # Sort processing
-        p = subprocess.Popen(
-            ['sort',
-                '-k'
-                '1,1',
-                '-k'
-                '2,2n',
-                inputBedSimpleRepeatsFile.name,
-                '-o',
-                sortedBedFile.name])
-        p.wait()
+        try:
+            p = subprocess.check_call(
+                ['sort',
+                 '-k'
+                 '1,1',
+                 '-k'
+                 '2,2n',
+                 inputBedSimpleRepeatsFile.name,
+                 '-o',
+                 sortedBedFile.name])
+        except subprocess.CalledProcessError:
+            raise
 
         mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
@@ -39,25 +41,29 @@ class BedSimpleRepeats(object):
         # Generate the chrom.sizes
         # TODO: Isolate in a function
         # We first get the twoBit Infos
-        p = subprocess.Popen(
-            [os.path.join(ucsc_tools_path, 'twoBitInfo'),
-                twoBitFile.name,
-                'stdout'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
-
+        try:
+            p = subprocess.check_call(
+                [os.path.join(ucsc_tools_path, 'twoBitInfo'),
+                 twoBitFile.name,
+                 'stdout'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE)
+        except subprocess.CalledProcessError:
+            raise
         twoBitInfo_out, twoBitInfo_err = p.communicate()
         twoBitInfoFile.write(twoBitInfo_out)
 
         # Then we get the output to inject into the sort
         # TODO: Check if no errors
-        p = subprocess.Popen(
-            ['sort',
-                '-k2rn',
-                twoBitInfoFile.name,
-                '-o',
-                chromSizesFile.name])
-        p.wait()
+        try:
+            p = subprocess.check_call(
+                ['sort',
+                 '-k2rn',
+                 twoBitInfoFile.name,
+                 '-o',
+                 chromSizesFile.name])
+        except subprocess.CalledProcessError:
+            raise
 
         # bedToBigBed processing
         # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
@@ -67,14 +73,16 @@ class BedSimpleRepeats(object):
         trackName = 'dbia3_trfBig.bb'
         myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as bigBedFile:
-            p = subprocess.Popen(
-                [os.path.join(ucsc_tools_path, 'bedToBigBed'),
-                    '-type=bed4+12',
-                    "%s%s" % ('-as=', os.path.join(toolDirectory, 'trf_simpleRepeat.as')),
-                    sortedBedFile.name,
-                    chromSizesFile.name,
-                    bigBedFile.name])
-            p.wait()
+            try:
+                p = subprocess.check_call(
+                    [os.path.join(ucsc_tools_path, 'bedToBigBed'),
+                     '-type=bed4+12',
+                     "%s%s" % ('-as=', os.path.join(toolDirectory, 'trf_simpleRepeat.as')),
+                     sortedBedFile.name,
+                     chromSizesFile.name,
+                     bigBedFile.name])
+            except subprocess.CalledProcessError:
+                raise
 
         # Create the Track Object
         dataURL = "tracks/%s" % trackName

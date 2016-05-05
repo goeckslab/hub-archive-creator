@@ -18,8 +18,8 @@ def twoBitFileCreator(fastaFile, ucsc_tools_path, mySpecieFolder):
     with open(os.path.join(mySpecieFolder, nameTwoBit), 'w') as twoBitFile:
         p = subprocess.Popen(
             [os.path.join(ucsc_tools_path, 'faToTwoBit'),
-                fastaFile.name,
-                twoBitFile.name])
+             fastaFile.name,
+             twoBitFile.name])
 
         p.wait()
 

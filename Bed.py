@@ -21,6 +21,7 @@ class Bed(object):
         inputFastaFile = open(inputFastaFile, 'r')
         self.inputFastaFile = inputFastaFile
 
+        self.sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
         self.chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
         self.twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
 
@@ -30,18 +31,31 @@ class Bed(object):
         self.ucsc_tools_path = ucsc_tools_path
         self.trackHub = trackHub
 
+        # Sort processing
+        p = subprocess.Popen(
+            ['sort',
+             '-k'
+             '1,1',
+             '-k'
+             '2,2n',
+             self.inputBedGeneric.name,
+             '-o',
+             self.sortedBedFile.name])
+        p.wait()
+
+
         # Before the bedToBigBed processing, we need to retrieve the chrom.sizes file from the reference genome
         mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
         # 2bit file creation from input fasta
-        twoBitFile = twoBitFileCreator(self.inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
+        self.twoBitFile = twoBitFileCreator(self.inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
 
         # Generate the chrom.sizes
         # TODO: Isolate in a function
         # We first get the twoBit Infos
         p = subprocess.Popen(
             [os.path.join(ucsc_tools_path, 'twoBitInfo'),
-             twoBitFile.name,
+             self.twoBitFile.name,
              'stdout'],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
@@ -68,7 +82,7 @@ class Bed(object):
         with open(myBigBedFilePath, 'w') as bigBedFile:
             p = subprocess.Popen(
                 [os.path.join(ucsc_tools_path, 'bedToBigBed'),
-                 self.inputBedGeneric.name,
+                 self.sortedBedFile.name,
                  self.chromSizesFile.name,
                  bigBedFile.name])
             p.wait()

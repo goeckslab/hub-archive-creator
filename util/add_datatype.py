@@ -15,7 +15,7 @@ import os
 import xml.etree.ElementTree as ET
 
 def main(argv):
-    add_datatype_conf()
+    # add_datatype_conf()
     add_huba_xml()
     add_hubAssembly()
 
@@ -49,6 +49,9 @@ def add_huba_xml():
 
 def add_hubAssembly():
     print "======= Add hubAssembly ======="
+    datatype_lib_path = "../../../lib/galaxy/datatypes/"
+    shutil.copy("../hubaDataType/hubAssembly.py", datatype_lib_path)
+    print "Content of %s now: %s" % (datatype_lib_path, os.listdir(datatype_lib_path))
     return
 
 if __name__ == "__main__":

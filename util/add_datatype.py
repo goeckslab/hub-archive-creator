@@ -9,19 +9,30 @@ Place yourself in the folder of the python script, and launch it
 - Based on the fact datatypes_conf
 """
 
+import argparse
 import shutil
 import sys
 import os
 import xml.etree.ElementTree as ET
 
 def main(argv):
-    # add_datatype_conf()
-    add_huba_xml()
-    add_hubAssembly()
+    # Command Line parsing init
+    parser = argparse.ArgumentParser(description='Create a foo.txt inside the given folder.')
 
-def add_datatype_conf():
+    parser.add_argument('-g', '--galaxy_root', help='Galaxy root folder', required=True)
+
+    # Get the args passed in parameter
+    args = parser.parse_args()
+
+    galaxy_root_path = args.galaxy_root
+
+    add_datatype_conf(galaxy_root_path)
+    add_huba_xml(galaxy_root_path)
+    add_hubAssembly(galaxy_root_path)
+
+def add_datatype_conf(galaxy_root_path):
     print "======= Add datatype ======="
-    datatype_conf_path = '../../../config/datatypes_conf.xml'
+    datatype_conf_path = os.path.join(galaxy_root_path, 'config/datatypes_conf.xml')
     # TODO: Not relative to this python file but based on a parameter galaxy_root
     # TODO: Check if datatypes_conf.xml, if not create it by copying datatypes_conf.xml.sample
     # TODO: For debug only
@@ -40,16 +51,16 @@ def add_datatype_conf():
     print "datatype added in %s" % datatype_conf_path
     return
 
-def add_huba_xml():
+def add_huba_xml(galaxy_root_path):
     print "======= Add hub xml ======="
-    displayApp_ucsc_path = "../../../display_applications/ucsc/"
+    displayApp_ucsc_path = os.path.join(galaxy_root_path, "display_applications/ucsc/")
     shutil.copy("../hubaDataType/huba.xml", displayApp_ucsc_path)
     print "Content of %s now: %s" % (displayApp_ucsc_path, os.listdir(displayApp_ucsc_path))
     return
 
-def add_hubAssembly():
+def add_hubAssembly(galaxy_root_path):
     print "======= Add hubAssembly ======="
-    datatype_lib_path = "../../../lib/galaxy/datatypes/"
+    datatype_lib_path = os.path.join(galaxy_root_path, "lib/galaxy/datatypes/")
     shutil.copy("../hubaDataType/hubAssembly.py", datatype_lib_path)
     print "Content of %s now: %s" % (datatype_lib_path, os.listdir(datatype_lib_path))
     return

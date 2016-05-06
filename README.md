@@ -13,9 +13,8 @@ Here is the link to get these tools: http://hgdownload.soe.ucsc.edu/admin/exe/
 
 ### Install in Galaxy
 1. Take the hubAssembly.py in the hubaDatatype folder, and add it into lib/galaxy/datatypes in your Galaxy instance
-2. Add this line in config/datatypes_conf.xml:
-```<datatype extension="huba" type="galaxy.datatypes.hubAssembly:HubAssembly" display_in_upload="true" />```
-3. Look into hubaDatatype/README.md for more informations
+2. Use `python ./util/add_datatype.py` to add huba datatype to the galaxy your tool is into
+3. Look into hubaDatatype/README.md for more informations / in case the script fails for some reasons
 4. (Optional) If you want to test your tool locally, you need to install all the tool(shed) dependencies to your PATH.
 See [tool_dependencies.xml](tool_dependencies.xml)
 

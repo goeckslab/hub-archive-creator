@@ -16,61 +16,6 @@
     <!-- TODO: Tools to install -->
     <!-- twoBitInfo / bedToBigBed / faToTwoBit
 
-    <package name="twoBitInfo" version="0.0.1">
-        <install version="1.0">
-            <actions>
-                <action type="download_binary" target_directory="bin">
-                    <url_template os="darwin">http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.${architecture}/twoBitInfo</url_template>
-                    <url_template os="linux">http://hgdownload.cse.ucsc.edu/admin/exe/linux.${architecture}/twoBitInfo</url_template>
-                </action>
-                <action type="chmod">
-                    <file mode="750">$INSTALL_DIR/bin/twoBitInfo</file>
-                </action>
-                <action type="set_environment">
-                    <environment_variable name="PATH" action="prepend_to">$INSTALL_DIR/bin</environment_variable>
-                </action>
-            </actions>
-        </install>
-        <readme>The tools downloaded by this dependency definition are free for academic use.</readme>
-    </package>
-
-    <package name="bedToBigBed" version="0.0.1">
-        <install version="1.0">
-            <actions>
-                <action type="download_binary" target_directory="bin">
-                    <url_template os="darwin">http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.${architecture}/bedToBigBed</url_template>
-                    <url_template os="linux">http://hgdownload.cse.ucsc.edu/admin/exe/linux.${architecture}/bedToBigBed</url_template>
-                </action>
-                <action type="chmod">
-                    <file mode="750">$INSTALL_DIR/bin/bedToBigBed</file>
-                </action>
-                <action type="set_environment">
-                    <environment_variable name="PATH" action="prepend_to">$INSTALL_DIR/bin</environment_variable>
-                </action>
-            </actions>
-        </install>
-        <readme>The tools downloaded by this dependency definition are free for academic use.</readme>
-    </package>
-
-    <package name="faToTwoBit" version="0.0.1">
-        <install version="1.0">
-            <actions>
-                <action type="download_binary" target_directory="bin">
-                    <url_template os="darwin">http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.${architecture}/faToTwoBit</url_template>
-                    <url_template os="linux">http://hgdownload.cse.ucsc.edu/admin/exe/linux.${architecture}/faToTwoBit</url_template>
-                </action>
-                <action type="chmod">
-                    <file mode="750">$INSTALL_DIR/bin/faToTwoBit</file>
-                </action>
-                <action type="set_environment">
-                    <environment_variable name="PATH" action="prepend_to">$INSTALL_DIR/bin</environment_variable>
-                </action>
-            </actions>
-        </install>
-        <readme>The tools downloaded by this dependency definition are free for academic use.</readme>
-    </package>
-    -->
-
     <!-- Package gff3ToGenePred -->
     <package name="gff3ToGenePred" version="0.0.1">
         <install version="1.0">

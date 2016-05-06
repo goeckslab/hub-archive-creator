@@ -2,7 +2,14 @@
 HubAssembly datatype
 """
 import logging
-from galaxy.datatypes.text import Html
+import galaxy.version as version
+
+# Support for Galaxy <= 16.01
+if version.VERSION_MAJOR <= "16.01":
+    from galaxy.datatypes.images import Html
+else:
+    from galaxy.datatypes.text import Html
+
 from galaxy.datatypes.metadata import MetadataElement
 
 log = logging.getLogger(__name__)

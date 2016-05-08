@@ -7,6 +7,7 @@ import os
 # Internal dependencies
 from twoBitCreator import twoBitFileCreator
 from Track import Track
+from util.SubTools import SubTools
 
 
 class AugustusProcess(object):
@@ -65,19 +66,9 @@ class AugustusProcess(object):
         twoBitFile = twoBitFileCreator(inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
 
         # Generate the chrom.sizes
-        # TODO: Isolate in a function
-        # We first get the twoBit Infos
-        try:
-            p = subprocess.check_call(
-                [os.path.join(ucsc_tools_path, 'twoBitInfo'),
-                 twoBitFile.name,
-                 'stdout'],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE)
-        except subprocess.CalledProcessError:
-            raise
-        twoBitInfo_out, twoBitInfo_err = p.communicate()
-        twoBitInfoFile.write(twoBitInfo_out)
+        subtools = SubTools()
+        subtools.twoBitInfo(twoBitFile.name, twoBitInfoFile.name)
+        print "Hey it worked!"
 
         # Then we get the output to inject into the sort
         # TODO: Check if no errors

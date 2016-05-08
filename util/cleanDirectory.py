@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """Use to clean the directory after the run of HubArchiveCreator.py manually"""
 import os
 import shutil

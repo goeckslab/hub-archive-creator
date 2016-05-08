@@ -26,16 +26,11 @@ class AugustusProcess(object):
         twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
         chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
 
+        # TODO: Check the SubTools object
+        self.subTools = SubTools()
+
         # gff3ToGenePred processing
-        try:
-            p = subprocess.check_call(
-                [os.path.join(ucsc_tools_path, 'gff3ToGenePred'),
-                 inputGFF3File.name,
-                 genePredFile.name])
-        except subprocess.CalledProcessError:
-            raise
-        # We need to wait the time gff3ToGenePred terminate so genePredToBed can begin
-        # TODO: Check if we should use communicate instead of wait
+        self.subTools.gff3ToGenePred(inputGFF3File.name, genePredFile.name)
 
         # genePredToBed processing
         try:
@@ -66,9 +61,7 @@ class AugustusProcess(object):
         twoBitFile = twoBitFileCreator(inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
 
         # Generate the chrom.sizes
-        subtools = SubTools()
-        subtools.twoBitInfo(twoBitFile.name, twoBitInfoFile.name)
-        print "Hey it worked!"
+        self.subTools.twoBitInfo(twoBitFile.name, twoBitInfoFile.name)
 
         # Then we get the output to inject into the sort
         # TODO: Check if no errors

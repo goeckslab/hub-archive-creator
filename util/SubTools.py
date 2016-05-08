@@ -83,7 +83,7 @@ class SubTools(object):
         p = self.__handleExceptionAndCheckCall__(array_call)
         return p
 
-    def bedToBigBed(self, sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name, type=None, autoSql=None):
+    def bedToBigBed(self, sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name, typeOption=None, autoSql=None):
         """
         Call bedToBigBed on sorted_bed_file_name, using chrom_sizes_file_name and write the result into big_bed_file_name
         :param sorted_bed_file_name:
@@ -92,8 +92,8 @@ class SubTools(object):
         :return:
         """
         array_call = ['bedToBigBed', sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name]
-        if type:
-            array_call.append(type)
+        if typeOption:
+            array_call.append(typeOption)
         if autoSql:
             array_call.append(autoSql)
 

@@ -49,3 +49,53 @@ class SubTools(object):
         array_call = ['gff3ToGenePred', input_gff3_file_name, gene_pred_file_name]
         p = self.__handleExceptionAndCheckCall__(array_call)
         return p
+
+    def genePredToBed(self, gene_pred_file_name, unsorted_bed_file_name):
+        """
+        Call genePredToBed and write the result into unsorted_bed_file_name
+        :param gene_pred_file_name:
+        :param unsorted_bed_file_name:
+        :return:
+        """
+        array_call = ['genePredToBed', gene_pred_file_name, unsorted_bed_file_name]
+        p = self.__handleExceptionAndCheckCall__(array_call)
+        return p
+
+    def sort(self, unsorted_bed_file_name, sorted_bed_file_name):
+        """
+        Call sort with -k1,1 -k2,2n on unsorted_bed_file_name and write the result into sorted_bed_file_name
+        :param unsorted_bed_file_name:
+        :param sorted_bed_file_name:
+        :return:
+        """
+        array_call = ['sort', '-k', '1,1', '-k', '2,2n', unsorted_bed_file_name, '-o', sorted_bed_file_name]
+        p = self.__handleExceptionAndCheckCall__(array_call)
+        return p
+
+    def sortChromSizes(self, two_bit_info_file_name, chrom_sizes_file_name):
+        """
+        Call sort with -k2rn on two_bit_info_file_name and write the result into chrom_sizes_file_name
+        :param two_bit_info_file_name:
+        :param chrom_sizes_file_name:
+        :return:
+        """
+        array_call = ['sort', '-k2rn', two_bit_info_file_name, '-o', chrom_sizes_file_name]
+        p = self.__handleExceptionAndCheckCall__(array_call)
+        return p
+
+    def bedToBigBed(self, sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name, type=None, autoSql=None):
+        """
+        Call bedToBigBed on sorted_bed_file_name, using chrom_sizes_file_name and write the result into big_bed_file_name
+        :param sorted_bed_file_name:
+        :param chrom_sizes_file_name:
+        :param big_bed_file_name:
+        :return:
+        """
+        array_call = ['bedToBigBed', sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name]
+        if type:
+            array_call.append(type)
+        if autoSql:
+            array_call.append(autoSql)
+
+        p = self.__handleExceptionAndCheckCall__(array_call)
+        return p

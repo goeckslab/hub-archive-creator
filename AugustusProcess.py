@@ -26,71 +26,38 @@ class AugustusProcess(object):
         twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
         chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
 
+        mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
+
         # TODO: Check the SubTools object
+        # Init SubTools to call all the tools needed
         self.subTools = SubTools()
 
         # gff3ToGenePred processing
         self.subTools.gff3ToGenePred(inputGFF3File.name, genePredFile.name)
 
         # genePredToBed processing
-        try:
-            p = subprocess.check_call(
-                [os.path.join(ucsc_tools_path, 'genePredToBed'),
-                 genePredFile.name,
-                 unsortedBedFile.name])
-        except subprocess.CalledProcessError:
-            raise
+        self.subTools.genePredToBed(genePredFile.name, unsortedBedFile.name)
 
         # Sort processing
-        try:
-            p = subprocess.check_call(
-                ['sort',
-                 '-k'
-                 '1,1',
-                 '-k'
-                 '2,2n',
-                 unsortedBedFile.name,
-                 '-o',
-                 sortedBedFile.name])
-        except subprocess.CalledProcessError:
-            raise
-
-        mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
+        self.subTools.sort(unsortedBedFile.name, sortedBedFile.name)
 
         # 2bit file creation from input fasta
         twoBitFile = twoBitFileCreator(inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
 
-        # Generate the chrom.sizes
+        # Generate the twoBitInfo
         self.subTools.twoBitInfo(twoBitFile.name, twoBitInfoFile.name)
 
-        # Then we get the output to inject into the sort
+        # Then we get the output to generate the chromSizes
         # TODO: Check if no errors
-        try:
-            p = subprocess.check_call(
-                ['sort',
-                 '-k2rn',
-                 twoBitInfoFile.name,
-                 '-o',
-                 chromSizesFile.name])
-        except subprocess.CalledProcessError:
-            raise
+        self.subTools.sortChromSizes(twoBitInfoFile.name, chromSizesFile.name)
 
         # bedToBigBed processing
-        # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
-        # TODO: Find the best to get this path without hardcoding it
         myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
         trackName = "augustusDbia3.bb"
         myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as bigBedFile:
-            try:
-                p = subprocess.check_call(
-                    [os.path.join(ucsc_tools_path, 'bedToBigBed'),
-                     sortedBedFile.name,
-                     chromSizesFile.name,
-                     bigBedFile.name])
-            except subprocess.CalledProcessError:
-                raise
+            self.subTools.bedToBigBed(sortedBedFile.name, chromSizesFile.name, bigBedFile.name)
 
         # Create the Track Object
         dataURL = "tracks/%s" % trackName

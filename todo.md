@@ -23,3 +23,5 @@
 - [ ] Add a script for Linux.x86_64 to download and and chmod +x the dependencies for local testing
 - [x] Add sorting BED if not sorted (Use the output of bedToBigBed)
 - [x] Add a script to install the huba datatype
+- [ ] Replace AugustusProcess by an abstract class GeneralFormat, with two sub-classes GFF3Format and GTFFormat
+- [ ] Use gffToBed for Gtf instead of GtfToGenePred

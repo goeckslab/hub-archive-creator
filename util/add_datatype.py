@@ -44,7 +44,7 @@ def add_datatype_conf(galaxy_root_path):
     registration = root[0]
     print registration.attrib
 
-    huba_datatype = ET.parse('../hubaDatatype/datatypes_conf.xml').getroot()
+    huba_datatype = ET.parse('../hubaDataType/datatypes_conf.xml').getroot()
     # TODO: Verify the datatype is not already existing, else do not add / write. And in another version, check it
     registration.append(huba_datatype)
     tree.write(datatype_conf_path)

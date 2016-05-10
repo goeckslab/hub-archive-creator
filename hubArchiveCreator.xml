@@ -22,7 +22,7 @@
 
     <!-- Idea: python \ -augustus [parameters] \ -trfBig [parameters] -->
     <command detect_errors="exit_code"><![CDATA[
-        mkdir -p $output.files_path &&
+        mkdir -p $output.extra_files_path;
         python $__tool_directory__/hubArchiveCreator.py
 
         #for $i, $f in enumerate( $format )
@@ -97,6 +97,8 @@
     </outputs>
 
     <tests>
+        <!-- Can also use assert_command to test command -->
+        <!-- Testing GFF3 input -->
         <test>
             <param name="Fasta_File" value="dbia3.fa"/>
             <repeat name="format">
@@ -131,6 +133,15 @@
                 </assert_contents>
             </output>
         </test>
+        <test>
+            <param name="Fasta_File" value="dbia3.fa" />
+            <param name="GFF3" value="augustusDbia3.gff3"/>
+            <output name="output" file="augustusOutput.html" lines_diff="2">
+                <extra_files type="file" name="myHub/dbia3/tracks/augustusDbia3.bb" value="augustusDbia3.bb" />
+            </output>
+        </test>
+        <!-- Testing Generic BED input -->
+        <!-- Testing Bed Simple repeat input -->
     </tests>
 
     <help>

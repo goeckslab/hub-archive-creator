@@ -1,0 +1,36 @@
+<h1 id="conversion-of-ncbi-blast-tblastn-results-to-psl-format">Conversion of NCBI BLAST+ tblastn results to PSL format</h1>
+<p>Wilson Leung <script type="text/javascript">
+<!--
+h='&#x77;&#x75;&#x73;&#116;&#108;&#46;&#x65;&#100;&#x75;';a='&#64;';n='&#x77;&#108;&#x65;&#x75;&#110;&#x67;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x77;&#108;&#x65;&#x75;&#110;&#x67;&#32;&#x61;&#116;&#32;&#x77;&#x75;&#x73;&#116;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x65;&#100;&#x75;</noscript></p>
+<p>Last Update: 04/24/2016</p>
+<h2 id="version-information">Version information</h2>
+<ul>
+<li>Kent source tree: v324</li>
+<li>NCBI BLAST+: BLAST 2.2.30+</li>
+</ul>
+<h2 id="data-sources">Data sources</h2>
+<p>For testing purposes, the database consists of only contig1 in the Dbia3 assembly while the protein sequences correspond to the three isoforms of the <em>D. melanogaster</em> <em>ci</em> gene in contig1. The protein sequences are available through <a href="http://flybase.org/cgi-bin/getseq.html?source=dmel&amp;id=FBgn0004859&amp;chr=4&amp;dump=PrecompiledFasta&amp;targetset=translation">FlyBase</a>.</p>
+<ul>
+<li>Dbia3.fa = contig1 sequence in the Dbia3 asssembly</li>
+<li>ci.pep = Protein sequences for the three isoforms of the <em>ci</em> gene in <em>D. melanogaster</em></li>
+</ul>
+<h2 id="conversion-protocol">Conversion protocol</h2>
+<ol style="list-style-type: decimal">
+<li><p>Create BLAST database for the assembly</p>
+<pre><code>makeblastdb -in Dbia3.fa -dbtype nucl</code></pre></li>
+<li><p>Perform tblastn search and output results in XML format</p>
+<pre><code>tblastn -outfmt 5 -db Dbia3.fa -query ci.pep -out tblastn_Dbia3_ci.xml -evalue 1e-2</code></pre></li>
+<li><p>Convert results into PSL format</p>
+<pre><code>blastXmlToPsl -convertToNucCoords tblastn_Dbia3_ci.xml tblastn_Dbia3_ci.xml.psl</code></pre></li>
+<li><p>Convert PSL output into BED format</p>
+<pre><code>pslToBed tblastn_Dbia3_ci.xml.psl tblastn_Dbia3_ci.xml.bed</code></pre></li>
+</ol>
+<h2 id="output-files">Output files</h2>
+<ul>
+<li>tblastn_Dbia3_ci.xml = tblastn results in XML format</li>
+<li>tblastn_Dbia3_ci.xml.psl = tblastn results in PSL format</li>
+<li>tblastn_Dbia3_ci.xml.bed = tblastn results in BED format</li>
+</ul>

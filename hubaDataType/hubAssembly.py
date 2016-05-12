@@ -10,8 +10,6 @@ if version.VERSION_MAJOR <= "16.01":
 else:
     from galaxy.datatypes.text import Html
 
-from galaxy.datatypes.metadata import MetadataElement
-
 log = logging.getLogger(__name__)
 
 
@@ -20,24 +18,11 @@ class HubAssembly( Html ):
     derived class for BioC data structures in Galaxy
     """
 
-    # MetadataElement( name="columns", default=0, desc="Number of columns", visible=True )
-    # MetadataElement( name="column_names", default=[], desc="Column names", visible=True )
-    # MetadataElement(name="pheCols", default=[], desc="Select list for potentially interesting variables",
-    # visible=True)
-    # MetadataElement( name="base_name",
-    # desc="base name for all transformed versions of this expression dataset", default='rexpression',
-    # set_in_upload=True)
-    # MetadataElement( name="pheno_path", desc="Path to phenotype data for this experiment",
-    # default="rexpression.pheno", visible=True)
-
     file_ext = 'huba'
     composite_type = 'auto_primary_file'
 
     def __init__(self, **kwd):
         Html.__init__(self, **kwd)
-        self.add_composite_file('hub.txt')
-        self.add_composite_file('genomes.txt')
-        # self.add_composite_file( 'trackDb.txt' )
 
     def generate_primary_file( self, dataset=None ):
         """

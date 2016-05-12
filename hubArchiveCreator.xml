@@ -137,7 +137,7 @@
             <param name="Fasta_File" value="dbia3.fa" />
             <param name="GFF3" value="augustusDbia3.gff3"/>
             <output name="output" file="augustusOutput.html" lines_diff="2">
-                <extra_files type="file" name="myHub/dbia3/tracks/augustusDbia3.bb" value="augustusDbia3.bb" />
+                <extra_files type="directory" value="myHub" />
             </output>
         </test>
         <!-- Testing Generic BED input -->

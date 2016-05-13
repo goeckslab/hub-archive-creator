@@ -5,13 +5,14 @@ import subprocess
 import tempfile
 
 # Internal dependencies
-from twoBitCreator import twoBitFileCreator
 from Track import Track
-
+from util.SubTools import SubTools
 
 class Bed(object):
     def __init__(self, inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub):
         super(Bed, self).__init__()
+
+        self.subtools = SubTools()
 
         self.track = None
 
@@ -46,7 +47,7 @@ class Bed(object):
         mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
         # 2bit file creation from input fasta
-        self.twoBitFile = twoBitFileCreator(self.inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
+        self.twoBitFile = self.subtools.faToTwoBit(self.inputFastaFile.name, mySpecieFolderPath)
 
         # Generate the chrom.sizes
         # TODO: Isolate in a function

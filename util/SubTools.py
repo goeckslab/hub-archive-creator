@@ -5,6 +5,7 @@ This class handles the subprocess calls of the different tools used
 in HubArchiveCreator
 """
 
+import os
 import subprocess
 
 
@@ -38,6 +39,23 @@ class SubTools(object):
         array_call = ['twoBitInfo', two_bit_file_name, two_bit_info_file]
         p = self.__handleExceptionAndCheckCall__(array_call)
         return p
+
+    def faToTwoBit(self, fasta_file_name, mySpecieFolder):
+        """
+        This function call faToTwoBit UCSC tool, and return the twoBitFile
+        :param fasta_file_name:
+        :param mySpecieFolder:
+        :return:
+        """
+        baseNameFasta = os.path.basename(fasta_file_name)
+        suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
+        nameTwoBit = suffixTwoBit + '.2bit'
+
+        with open(os.path.join(mySpecieFolder, nameTwoBit), 'w') as twoBitFile:
+            array_call = ['faToTwoBit', fasta_file_name, twoBitFile.name]
+            self.__handleExceptionAndCheckCall__(array_call)
+
+        return twoBitFile
 
     def gff3ToGenePred(self, input_gff3_file_name, gene_pred_file_name):
         """

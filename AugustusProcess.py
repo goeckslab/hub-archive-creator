@@ -5,7 +5,6 @@ import subprocess
 import os
 
 # Internal dependencies
-from twoBitCreator import twoBitFileCreator
 from Track import Track
 from util.SubTools import SubTools
 
@@ -42,7 +41,7 @@ class AugustusProcess(object):
         self.subTools.sort(unsortedBedFile.name, sortedBedFile.name)
 
         # 2bit file creation from input fasta
-        twoBitFile = twoBitFileCreator(inputFastaFile, ucsc_tools_path, mySpecieFolderPath)
+        twoBitFile = self.subTools.faToTwoBit(inputFastaFile, mySpecieFolderPath)
 
         # Generate the twoBitInfo
         self.subTools.twoBitInfo(twoBitFile.name, twoBitInfoFile.name)

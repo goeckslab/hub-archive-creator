@@ -41,7 +41,7 @@ class AugustusProcess(object):
         self.subTools.sort(unsortedBedFile.name, sortedBedFile.name)
 
         # 2bit file creation from input fasta
-        twoBitFile = self.subTools.faToTwoBit(inputFastaFile, mySpecieFolderPath)
+        twoBitFile = self.subTools.faToTwoBit(inputFastaFile.name, mySpecieFolderPath)
 
         # Generate the twoBitInfo
         self.subTools.twoBitInfo(twoBitFile.name, twoBitInfoFile.name)

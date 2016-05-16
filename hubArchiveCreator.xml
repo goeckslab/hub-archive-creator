@@ -138,6 +138,7 @@
             <param name="GFF3" value="augustusDbia3.gff3"/>
             <output name="output" file="augustusOutput.html" lines_diff="2">
                 <extra_files type="directory" value="myHub" />
+                <extra_files type="file" name="myHub/dbia3/tracks/augustusDbia3.bb" value="augustusDbia3.bb" />
             </output>
         </test>
         <!-- Testing Generic BED input -->

@@ -93,7 +93,7 @@
     </inputs>
 
     <outputs>
-        <data format="huba" name="output" />
+        <data format="trackhub" name="output" />
     </outputs>
 
     <tests>

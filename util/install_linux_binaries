@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Install twoBitInfo
+sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/twoBitInfo
+sudo chmod +x /usr/local/bin/twoBitInfo
+
+echo "twoBitInfo installed"
+
+# Install faToTwoBit
+sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faToTwoBit
+sudo chmod +x /usr/local/bin/faToTwoBit
+
+echo "faToTwoBit installed"
+
+# Install gff3ToGenePred
+sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/gff3ToGenePred
+sudo chmod +x /usr/local/bin/gff3ToGenePred
+
+echo "gff3ToGenePred installed"
+
+# Install genePredToBed
+sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
+sudo chmod +x /usr/local/bin/genePredToBed
+
+echo "genePredToBed installed"
+
+# Install bedToBigBed
+sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedToBigBed
+sudo chmod +x /usr/local/bin/bedToBigBed
+
+echo "bedToBigBed installed"
+

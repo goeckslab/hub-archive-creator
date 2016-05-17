@@ -10,7 +10,7 @@ Into a publicly accessible Galaxy (Linux for maximum tools compatibility), you w
 4. Install the UCSC Track Hub datatype:
   1. Take the hubAssembly.py in the hubaDatatype folder, and add it into lib/galaxy/datatypes in your Galaxy instance
   2. **Don't Use it this WIP because of changes for PR into Galaxy** ~~Use `python ./util/add_datatype.py --galaxy_root path/to/myGalaxy` to add huba datatype to the galaxy your tool is into~~
-  3. Look into [hubaDatatype README](hubaDatatype/README.md) for more informations / in case the script fails for some reasons
+  3. Look into [hubaDataType README](hubaDataType/README.md) for more informations / in case the script fails for some reasons
 
 ### Binaries used by HAC:
 - twoBitInfo

@@ -61,6 +61,8 @@ def main(argv):
     if args.ucsc_tools_path:
         ucsc_tools_path = args.ucsc_tools_path
 
+    # TODO: Check here all the binaries / tools we need. Exception is missing
+
     # Create the Track Hub folder
     trackHub = TrackHub(inputFastaFile, outputFile, extra_files_path, toolDirectory)
 

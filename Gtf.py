@@ -5,14 +5,11 @@ import tempfile
 
 # Internal dependencies
 from Track import Track
-from util.SubTools import SubTools
-
+from util import subtools
 
 class Gtf(object):
     def __init__(self, inputGtfFile, inputFastaFile, extra_files_path):
         super(Gtf, self).__init__()
-
-        self.subtools = SubTools()
 
         self.track = None
 
@@ -31,24 +28,24 @@ class Gtf(object):
         mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
         # GtfToGenePred
-        self.subtools.gtfToGenePred(self.inputGtfFile.name, genePredFile.name)
+        subtools.gtfToGenePred(self.inputGtfFile.name, genePredFile.name)
 
         # TODO: From there, refactor because common use with AugustusProcess.py (will be renamed GFF.py)
         #  genePredToBed processing
-        self.subtools.genePredToBed(genePredFile.name, unsortedBedFile.name)
+        subtools.genePredToBed(genePredFile.name, unsortedBedFile.name)
 
         # Sort processing
-        self.subtools.sort(unsortedBedFile.name, sortedBedFile.name)
+        subtools.sort(unsortedBedFile.name, sortedBedFile.name)
 
         # 2bit file creation from input fasta
-        twoBitFile = self.subtools.faToTwoBit(self.inputFastaFile.name, mySpecieFolderPath)
+        twoBitFile = subtools.faToTwoBit(self.inputFastaFile.name, mySpecieFolderPath)
 
         # Generate the twoBitInfo
-        self.subtools.twoBitInfo(twoBitFile.name, twoBitInfoFile.name)
+        subtools.twoBitInfo(twoBitFile.name, twoBitInfoFile.name)
 
         # Then we get the output to generate the chromSizes
         # TODO: Check if no errors
-        self.subtools.sortChromSizes(twoBitInfoFile.name, chromSizesFile.name)
+        subtools.sortChromSizes(twoBitInfoFile.name, chromSizesFile.name)
 
         # bedToBigBed processing
         myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
@@ -56,7 +53,7 @@ class Gtf(object):
         trackName = "gtf.bb"
         myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as bigBedFile:
-            self.subtools.bedToBigBed(sortedBedFile.name, chromSizesFile.name, bigBedFile.name)
+            subtools.bedToBigBed(sortedBedFile.name, chromSizesFile.name, bigBedFile.name)
 
         # Create the Track Object
         dataURL = "tracks/%s" % trackName

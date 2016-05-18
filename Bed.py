@@ -5,7 +5,7 @@ import tempfile
 
 # Internal dependencies
 from Track import Track
-import util.SubTools as subtools
+from util import subtools
 
 
 class Bed(object):

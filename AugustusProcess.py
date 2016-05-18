@@ -5,7 +5,7 @@ import os
 
 # Internal dependencies
 from Track import Track
-import util.SubTools as subtools
+from util import subtools
 
 
 class AugustusProcess(object):

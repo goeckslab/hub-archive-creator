@@ -39,7 +39,6 @@
             #end if
         #end for
         -f $Fasta_File -d $__tool_directory__ -e $output.files_path -o $output;
-        python print "Hello"
     ]]></command>
 
     <inputs>

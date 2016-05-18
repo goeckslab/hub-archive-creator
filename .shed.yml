@@ -7,3 +7,6 @@ exclude:
   - hubaDataType
   - tool_test_output.html
   - tool_test_output.json
+  - test-data
+  - tools
+

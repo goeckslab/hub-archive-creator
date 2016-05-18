@@ -33,15 +33,7 @@ class Bed(object):
         self.trackHub = trackHub
 
         # Sort processing
-        p = subprocess.check_call(
-            ['sort',
-             '-k'
-             '1,1',
-             '-k'
-             '2,2n',
-             self.inputBedGeneric.name,
-             '-o',
-             self.sortedBedFile.name])
+        self.subtools.sort(self.inputBedGeneric.name, self.sortedBedFile.name)
 
         # Before the bedToBigBed processing, we need to retrieve the chrom.sizes file from the reference genome
         mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
@@ -52,26 +44,11 @@ class Bed(object):
         # Generate the chrom.sizes
         # TODO: Isolate in a function
         # We first get the twoBit Infos
-        try:
-            p = subprocess.check_call(
-                [os.path.join(ucsc_tools_path, 'twoBitInfo'),
-                 self.twoBitFile.name,
-                 self.twoBitInfoFile.name]
-            )
-        except subprocess.CalledProcessError:
-            raise
+        self.subtools.twoBitInfo(self.twoBitFile.name, self.twoBitInfoFile.name)
 
         # Then we get the output to inject into the sort
         # TODO: Check if no errors
-        try:
-            p = subprocess.check_call(
-                ['sort',
-                 '-k2rn',
-                 self.twoBitInfoFile.name,
-                 '-o',
-                 self.chromSizesFile.name])
-        except subprocess.CalledProcessError:
-            raise
+        self.subtools.sortChromSizes(self.twoBitInfoFile.name, self.chromSizesFile.name)
 
         # bedToBigBed processing
         # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
@@ -80,15 +57,8 @@ class Bed(object):
         trackName = "bed.bb"
 
         myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
-        with open(myBigBedFilePath, 'w') as bigBedFile:
-            try:
-                p = subprocess.check_call(
-                [os.path.join(ucsc_tools_path, 'bedToBigBed'),
-                 self.sortedBedFile.name,
-                 self.chromSizesFile.name,
-                 bigBedFile.name])
-            except subprocess.CalledProcessError:
-                raise
+        with open(myBigBedFilePath, 'w') as self.bigBedFile:
+            self.subtools.bedToBigBed(self.sortedBedFile.name, self.chromSizesFile.name, self.bigBedFile.name)
 
         # Create the Track Object
         dataURL = "tracks/%s" % trackName
@@ -103,3 +73,4 @@ class Bed(object):
             trackType='bigBed',
             visibility='dense')
 
+        print("- %s created in %s" % (trackName, myBigBedFilePath))

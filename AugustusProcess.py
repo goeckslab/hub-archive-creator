@@ -68,3 +68,5 @@ class AugustusProcess(object):
             trackDataURL=dataURL,
             trackType='bigBed 12 +',
             visibility='dense')
+
+        print("- %s created in %s" % (trackName, myBigBedFilePath))

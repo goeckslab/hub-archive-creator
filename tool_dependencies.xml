@@ -14,7 +14,8 @@
     </package>
 
     <!-- TODO: Tools to install -->
-    <!-- twoBitInfo / bedToBigBed / faToTwoBit
+    <!-- twoBitInfo / bedToBigBed / faToTwoBit -->
+
 
     <!-- Package gff3ToGenePred -->
     <package name="gff3ToGenePred" version="0.0.1">

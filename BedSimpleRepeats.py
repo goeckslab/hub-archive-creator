@@ -63,3 +63,5 @@ class BedSimpleRepeats(object):
             trackType='bigBed 4 +',
             visibility='dense'
         )
+
+        print("- %s created in %s" % (trackName, myBigBedFilePath))

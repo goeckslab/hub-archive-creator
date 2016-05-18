@@ -34,6 +34,7 @@ class AugustusProcess(object):
         # gff3ToGenePred processing
         self.subTools.gff3ToGenePred(inputGFF3File.name, genePredFile.name)
 
+        # TODO: From there, refactor because common use with Gtf.py
         # genePredToBed processing
         self.subTools.genePredToBed(genePredFile.name, unsortedBedFile.name)
 

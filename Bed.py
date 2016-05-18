@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import os
-import subprocess
 import tempfile
 
 # Internal dependencies
@@ -67,7 +66,7 @@ class Bed(object):
         self.track = Track(
             trackFile=myBigBedFilePath,
             trackName=trackName,
-            longLabel='From Bed',
+            longLabel='From Bed',  # TODO: Change this because it can be called by others thing that .bed => .gtf/.gff3
             shortLabel='bed file',
             trackDataURL=dataURL,
             trackType='bigBed',

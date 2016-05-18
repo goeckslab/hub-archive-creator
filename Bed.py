@@ -5,13 +5,12 @@ import tempfile
 
 # Internal dependencies
 from Track import Track
-from util.SubTools import SubTools
+from util import subtools
+
 
 class Bed(object):
     def __init__(self, inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub):
         super(Bed, self).__init__()
-
-        self.subtools = SubTools()
 
         self.track = None
 
@@ -32,22 +31,22 @@ class Bed(object):
         self.trackHub = trackHub
 
         # Sort processing
-        self.subtools.sort(self.inputBedGeneric.name, self.sortedBedFile.name)
+        subtools.sort(self.inputBedGeneric.name, self.sortedBedFile.name)
 
         # Before the bedToBigBed processing, we need to retrieve the chrom.sizes file from the reference genome
         mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
         # 2bit file creation from input fasta
-        self.twoBitFile = self.subtools.faToTwoBit(self.inputFastaFile.name, mySpecieFolderPath)
+        self.twoBitFile = subtools.faToTwoBit(self.inputFastaFile.name, mySpecieFolderPath)
 
         # Generate the chrom.sizes
         # TODO: Isolate in a function
         # We first get the twoBit Infos
-        self.subtools.twoBitInfo(self.twoBitFile.name, self.twoBitInfoFile.name)
+        subtools.twoBitInfo(self.twoBitFile.name, self.twoBitInfoFile.name)
 
         # Then we get the output to inject into the sort
         # TODO: Check if no errors
-        self.subtools.sortChromSizes(self.twoBitInfoFile.name, self.chromSizesFile.name)
+        subtools.sortChromSizes(self.twoBitInfoFile.name, self.chromSizesFile.name)
 
         # bedToBigBed processing
         # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
@@ -57,7 +56,7 @@ class Bed(object):
 
         myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as self.bigBedFile:
-            self.subtools.bedToBigBed(self.sortedBedFile.name, self.chromSizesFile.name, self.bigBedFile.name)
+            subtools.bedToBigBed(self.sortedBedFile.name, self.chromSizesFile.name, self.bigBedFile.name)
 
         # Create the Track Object
         dataURL = "tracks/%s" % trackName

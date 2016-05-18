@@ -19,6 +19,7 @@ Into a publicly accessible Galaxy (Linux for maximum tools compatibility), you w
 - twoBitInfo
 - faToTwoBit
 - gff3ToGenePred
+- gtfToGenePred
 - genePredToBed
 - sort
 - bedToBigBed

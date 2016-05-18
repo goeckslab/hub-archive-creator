@@ -14,6 +14,7 @@ from TrackHub import TrackHub
 from AugustusProcess import AugustusProcess
 from BedSimpleRepeats import BedSimpleRepeats
 from Bed import Bed
+from Gtf import Gtf
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -27,6 +28,9 @@ def main(argv):
 
     # GFF3 Management
     parser.add_argument('-g', '--gff3', help='GFF3 output of Augustus')
+
+    # GTF Management
+    parser.add_argument('-z', '--gtf', help='GTF format')
 
     # Bed4+12 (TrfBig)
     parser.add_argument('-t', '--bedSimpleRepeats', help='Bed4+12 format, using simpleRepeats.as')
@@ -52,6 +56,7 @@ def main(argv):
     inputGFF3File = args.gff3
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
     inputBedGeneric = args.bed
+    inputGTFFile = args.gtf
     outputFile = args.output
 
     if args.directory:
@@ -71,13 +76,20 @@ def main(argv):
         augustusObject = AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
         trackHub.addTrack(augustusObject.track)
 
+    # Process Bed simple repeats => From Tandem Repeats Finder / TrfBig
     if inputBedSimpleRepeatsFile:
         bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
         trackHub.addTrack(bedRepeat.track)
 
+    # Process a Bed => tBlastN or TopHat
     if inputBedGeneric:
         bedGeneric = Bed(inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
         trackHub.addTrack(bedGeneric.track)
+
+    # Process a GTF => Tophat
+    if inputGTFFile:
+        gtf = Gtf(inputGTFFile, inputFastaFile, extra_files_path)
+        trackHub.addTrack(gtf.track)
 
     # We process all the modifications to create the zip file
     trackHub.createZip()

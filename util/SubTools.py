@@ -13,7 +13,7 @@ class SubTools(object):
     def __init__(self):
         super(SubTools, self).__init__()
 
-    def __handleExceptionAndCheckCall__(self, array_call, **kwargs):
+    def __handleExceptionAndCheckCall(self, array_call, **kwargs):
         """
         This class handle exceptions and call the tool.
         It maps the signature of subprocess.check_call:
@@ -37,7 +37,7 @@ class SubTools(object):
         :return the subprocess.check_call return object:
         """
         array_call = ['twoBitInfo', two_bit_file_name, two_bit_info_file]
-        p = self.__handleExceptionAndCheckCall__(array_call)
+        p = self.__handleExceptionAndCheckCall(array_call)
         return p
 
     def faToTwoBit(self, fasta_file_name, mySpecieFolder):
@@ -53,7 +53,7 @@ class SubTools(object):
 
         with open(os.path.join(mySpecieFolder, nameTwoBit), 'w') as twoBitFile:
             array_call = ['faToTwoBit', fasta_file_name, twoBitFile.name]
-            self.__handleExceptionAndCheckCall__(array_call)
+            self.__handleExceptionAndCheckCall(array_call)
 
         return twoBitFile
 
@@ -65,7 +65,18 @@ class SubTools(object):
         :return:
         """
         array_call = ['gff3ToGenePred', input_gff3_file_name, gene_pred_file_name]
-        p = self.__handleExceptionAndCheckCall__(array_call)
+        p = self.__handleExceptionAndCheckCall(array_call)
+        return p
+
+    def gtfToGenePred(self, input_gtf_file_name, gene_pred_file_name):
+        """
+        Call gtfToGenePred and write the result into gene_pred_file_name
+        :param input_gtf_file_name:
+        :param gene_pred_file_name:
+        :return:
+        """
+        array_call = ['gtfToGenePred', input_gtf_file_name, gene_pred_file_name]
+        p = self.__handleExceptionAndCheckCall(array_call)
         return p
 
     def genePredToBed(self, gene_pred_file_name, unsorted_bed_file_name):
@@ -76,7 +87,7 @@ class SubTools(object):
         :return:
         """
         array_call = ['genePredToBed', gene_pred_file_name, unsorted_bed_file_name]
-        p = self.__handleExceptionAndCheckCall__(array_call)
+        p = self.__handleExceptionAndCheckCall(array_call)
         return p
 
     def sort(self, unsorted_bed_file_name, sorted_bed_file_name):
@@ -87,7 +98,7 @@ class SubTools(object):
         :return:
         """
         array_call = ['sort', '-k', '1,1', '-k', '2,2n', unsorted_bed_file_name, '-o', sorted_bed_file_name]
-        p = self.__handleExceptionAndCheckCall__(array_call)
+        p = self.__handleExceptionAndCheckCall(array_call)
         return p
 
     def sortChromSizes(self, two_bit_info_file_name, chrom_sizes_file_name):
@@ -98,7 +109,7 @@ class SubTools(object):
         :return:
         """
         array_call = ['sort', '-k2rn', two_bit_info_file_name, '-o', chrom_sizes_file_name]
-        p = self.__handleExceptionAndCheckCall__(array_call)
+        p = self.__handleExceptionAndCheckCall(array_call)
         return p
 
     def bedToBigBed(self, sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name, typeOption=None, autoSql=None):
@@ -115,5 +126,5 @@ class SubTools(object):
         if autoSql:
             array_call.append(autoSql)
 
-        p = self.__handleExceptionAndCheckCall__(array_call)
+        p = self.__handleExceptionAndCheckCall(array_call)
         return p

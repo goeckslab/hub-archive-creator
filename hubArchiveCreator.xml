@@ -37,6 +37,10 @@
                     -t $f.formatChoice.bedChoice.BED_simple_repeats
                 #end if
             #end if
+            #if $f.formatChoice.format_select == "gtf"
+                ## Add also GTF from Agustus? See https://github.com/ENCODE-DCC/kentUtils/issues/8
+                --gtf $f.formatChoice.GTF
+            #end if
         #end for
         -f $Fasta_File -d $__tool_directory__ -e $output.files_path -o $output;
     ]]></command>
@@ -52,6 +56,7 @@
             <conditional name="formatChoice">
                 <param name="format_select" type="select" label="Format">
                     <option value="gff3" selected="true">GFF3</option>
+                    <option value="gtf">GTF</option>
                     <option value="bed">BED</option>
                 </param>
 
@@ -60,7 +65,15 @@
                         format="gff3"
                         name="GFF3"
                         type="data"
-                        label="GFF3 track to display"
+                        label="GFF3 File"
+                    />
+                </when>
+                <when value="gtf">
+                    <param
+                        format="gtf"
+                        name="GTF"
+                        type="data"
+                        label="GTF File"
                     />
                 </when>
                 <when value="bed">

@@ -16,12 +16,12 @@ log = logging.getLogger(__name__)
 # Don't erase the existing content
 
 
-class HubAssembly( Html ):
+class UCSCTrackHub( Html ):
     """
     derived class for BioC data structures in Galaxy
     """
 
-    file_ext = 'huba'
+    file_ext = 'trackhub'
     composite_type = 'auto_primary_file'
 
     def __init__(self, **kwd):

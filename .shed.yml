@@ -12,4 +12,3 @@ exclude:
   - tool_test_output.json
   - todo.md
   - README.md
-

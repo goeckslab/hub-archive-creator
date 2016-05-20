@@ -18,6 +18,13 @@ sudo chmod +x /usr/local/bin/gff3ToGenePred
 
 echo "gff3ToGenePred installed"
 
+
+# Install gtfToGenePred
+sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred
+sudo chmod +x /usr/local/bin/gtfToGenePred
+
+echo "gtfToGenePred installed"
+
 # Install genePredToBed
 sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
 sudo chmod +x /usr/local/bin/genePredToBed

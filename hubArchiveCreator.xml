@@ -6,9 +6,13 @@
 
     <requirements>
         <requirement type="package" version="312">ucsc_tools</requirement>
-        <!-- Conda dependencies -->
         <requirement type="package" version="0.0.1">gff3ToGenePred</requirement>
+        <requirement type="package" version="0.0.1">gtfToGenePred</requirement>
         <requirement type="package" version="0.0.1">genePredToBed</requirement>
+        <!-- Conda dependencies -->
+        <requirement type="package" version="324">ucsc-gff3togenepred</requirement>
+        <requirement type="package" version="324">ucsc-gtftogenepred</requirement>
+        <requirement type="package" version="324">ucsc-genepredtobed</requirement>
     </requirements>
 
     <stdio>

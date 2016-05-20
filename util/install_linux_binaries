@@ -1,39 +1,24 @@
 #!/usr/bin/env bash
 
-# Install twoBitInfo
-sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/twoBitInfo
-sudo chmod +x /usr/local/bin/twoBitInfo
+localBinPath="/usr/local/bin/"
+hgDownloadURl="http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/"
 
-echo "twoBitInfo installed"
+# Binaries needed for HAC
+twoBitInfo="twoBitInfo"
+faToTwoBit="faToTwoBit"
+gff3ToGenePred="gff3ToGenePred"
+gtfToGenePred="gtfToGenePred"
+genePredToBed="genePredToBed"
+# sort="sort"
+bedToBigBed="bedToBigBed"
 
-# Install faToTwoBit
-sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faToTwoBit
-sudo chmod +x /usr/local/bin/faToTwoBit
+binariesArray=( ${twoBitInfo} ${faToTwoBit} ${gff3ToGenePred} ${gtfToGenePred} ${genePredToBed} ${bedToBigBed} )
 
-echo "faToTwoBit installed"
-
-# Install gff3ToGenePred
-sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/gff3ToGenePred
-sudo chmod +x /usr/local/bin/gff3ToGenePred
-
-echo "gff3ToGenePred installed"
-
-
-# Install gtfToGenePred
-sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred
-sudo chmod +x /usr/local/bin/gtfToGenePred
-
-echo "gtfToGenePred installed"
-
-# Install genePredToBed
-sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
-sudo chmod +x /usr/local/bin/genePredToBed
-
-echo "genePredToBed installed"
-
-# Install bedToBigBed
-sudo wget -P /usr/local/bin http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedToBigBed
-sudo chmod +x /usr/local/bin/bedToBigBed
-
-echo "bedToBigBed installed"
-
+# Download and install binaries
+for binaryName in "${binariesArray[@]}"
+do
+    binaryInstallationPath="${localBinPath}/${binaryName}"
+    sudo wget -P ${localBinPath} "${hgDownloadURl}/${binaryName}"
+    sudo chown ${USER} ${binaryInstallationPath}
+    sudo chmod +x ${binaryInstallationPath}
+done

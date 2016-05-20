@@ -11,9 +11,8 @@ Into a publicly accessible Galaxy (Linux for maximum tools compatibility), you w
 3. If installed without TS (by downloading on GitHub), you need to have all the binaries accessible within Galaxy.
    You can use the script [install_linux_binaries](util/install_linux_binaries) with a linux x86-64 (64bits)
 4. Install the UCSC Track Hub datatype:
-  1. Take the hubAssembly.py in the hubaDatatype folder, and add it into lib/galaxy/datatypes in your Galaxy instance
-  2. **Don't Use it this WIP because of changes for PR into Galaxy** ~~Use `python ./util/add_datatype.py --galaxy_root path/to/myGalaxy` to add huba datatype to the galaxy your tool is into~~
-  3. Look into [hubaDataType README](hubaDataType/README.md) for more informations / in case the script fails for some reasons
+  1. **Don't Use it this WIP because of changes for PR into Galaxy** ~~Use `python ./util/add_datatype.py --galaxy_root path/to/myGalaxy` to add huba datatype to the galaxy your tool is into~~
+  2. Look into [hubaDataType README](hubaDataType/README.md) for more informations / in case the script fails for some reasons
 
 ### Binaries used by HAC:
 - twoBitInfo

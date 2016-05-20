@@ -15,6 +15,7 @@ log = logging.getLogger(__name__)
 # !!! README !!! The content of this file should be added in tracks.py, but do it carefully!
 # Don't erase the existing content
 
+
 class HubAssembly( Html ):
     """
     derived class for BioC data structures in Galaxy

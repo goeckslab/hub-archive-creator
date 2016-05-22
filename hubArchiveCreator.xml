@@ -145,17 +145,17 @@
                 <assert_contents>
                     <has_text text="dbia3_trfBig.bb" />
                 </assert_contents>
-                <assert_contents>
-                    <has_text text="SAODOAii qwwqod92921" />
-                </assert_contents>
+                <!--<assert_contents>-->
+                    <!--<has_text text="SAODOAii qwwqod92921" />-->
+                <!--</assert_contents>-->
             </output>
         </test>
         <test>
-            <param name="Fasta_File" value="dbia3.fa" />
-            <param name="GFF3" value="augustusDbia3.gff3"/>
-            <output name="output" file="augustusOutput.html" lines_diff="2">
+            <param name="Fasta_File" value="augustus/hubaInputs/GFF3/dbia3.fa" />
+            <param name="GFF3" value="augustus/hubaInputs/GFF3/augustusDbia3.gff3"/>
+            <output name="output" file="augustus/output/augustusOutput.html" lines_diff="2">
                 <extra_files type="directory" value="myHub" />
-                <extra_files type="file" name="myHub/dbia3/tracks/augustusDbia3.bb" value="augustusDbia3.bb" />
+                <!--<extra_files type="file" name="myHub/dbia3/tracks/augustusDbia3.bb" value="augustusDbia3.bb" />-->
             </output>
         </test>
         <!-- Testing Generic BED input -->

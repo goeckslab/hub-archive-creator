@@ -82,6 +82,7 @@ def main(argv):
     input_bigWig_file_path = args.bigwig
 
     outputFile = args.output
+
     json_inputs_data = args.data_json
 
     inputs_data = json.loads(json_inputs_data)

@@ -6,8 +6,9 @@ Program test arguments:
 hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . -u ./tools -o output.html
 """
 
-import sys
 import argparse
+import json
+import sys
 
 # Internal dependencies
 from TrackHub import TrackHub
@@ -44,6 +45,8 @@ def main(argv):
     parser.add_argument('-e', '--extra_files_path', help='Name, in galaxy, of the output folder. Where you would want to build the Track Hub Archive')
     parser.add_argument('-o', '--output', help='Name of the HTML summarizing the content of the Track Hub Archive')
 
+    parser.add_argument('-j', '--metadata_json', help='Json containing the metadata of the inputs')
+
     ucsc_tools_path = ''
 
     toolDirectory = '.'
@@ -58,6 +61,10 @@ def main(argv):
     inputBedGeneric = args.bed
     inputGTFFile = args.gtf
     outputFile = args.output
+    json_inputs_metadata = args.metadata_json
+
+    print "json is %s" % inputGTFFile
+    print "json is %s" % json_inputs_metadata
 
     if args.directory:
         toolDirectory = args.directory

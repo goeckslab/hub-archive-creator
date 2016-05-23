@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf8 -*-
+
 """
 Class to handle Bam files to UCSC TrackHub
 """

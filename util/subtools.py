@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf8 -*-
 
 """
 This class handles the subprocess calls of the different tools used

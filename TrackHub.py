@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf8 -*-
 
 import os
 import zipfile
@@ -43,7 +44,8 @@ class TrackHub(object):
         self.outputZip.close()
 
     def addTrack(self, trackObject=None):
-        # Create the traDb.txt file in the specie folder
+        # Create the trackDb.txt file in the specie folder, if not exists
+        # Else append the new track
         trackDbTxtFilePath = os.path.join(self.mySpecieFolderPath, 'trackDb.txt')
 
         newTrack = TrackDb(
@@ -55,6 +57,7 @@ class TrackHub(object):
             visibility=trackObject.visibility,
         )
 
+        # Append to trackDbTxtFilePath the trackDbTemplate populate with the newTrack object
         with open(trackDbTxtFilePath, 'a+') as trackDbFile:
             trackDbs = [newTrack]
             htmlMakoRendered = self.trackDbTemplate.render(

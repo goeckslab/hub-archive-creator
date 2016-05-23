@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf8 -*-
 
 """
 This class handles the subprocess calls of the different tools used
@@ -130,5 +131,29 @@ def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name, 
     if autoSql:
         array_call.append(autoSql)
 
+    p = _handleExceptionAndCheckCall(array_call)
+    return p
+
+
+def sortBam(input_bam_file_name, output_sorted_bam_name):
+    """
+    Call samtools on input_bam_file_name and output the result in output_sorted_bam_name
+    :param input_bam_file_name:
+    :param output_sorted_bam_name:
+    :return:
+    """
+    array_call = ['samtools', 'sort', input_bam_file_name, '-o', output_sorted_bam_name]
+    p = _handleExceptionAndCheckCall(array_call)
+    return p
+
+
+def createBamIndex(input_sorted_bam_file_name, output_name_index_name):
+    """
+    Call `samtools index` on imput_sorted_bam_file_name and output the result in output_name_index_name
+    :param input_sorted_bam_file_name:
+    :param output_name_index_name:
+    :return:
+    """
+    array_call = ['samtools', 'index', input_sorted_bam_file_name, output_name_index_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p

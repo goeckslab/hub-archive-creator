@@ -25,3 +25,4 @@
 - [x] Add a script to install the huba datatype
 - [ ] Replace AugustusProcess by an abstract class GeneralFormat, with two sub-classes GFF3Format and GTFFormat
 - [ ] Use gffToBed for Gtf instead of GtfToGenePred
+- [ ] Clean the mess with the File handling (sometimes File, sometimes String, sometimes open File)

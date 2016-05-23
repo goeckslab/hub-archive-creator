@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# -*- coding: utf8 -*-
+
 """
 This Galaxy tool permits to prepare your files to be ready for
 Assembly Hub visualization.
@@ -16,6 +18,7 @@ from AugustusProcess import AugustusProcess
 from BedSimpleRepeats import BedSimpleRepeats
 from Bed import Bed
 from Gtf import Gtf
+from Bam import Bam
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -39,6 +42,9 @@ def main(argv):
     # Generic Bed (Blastx transformed to bed)
     parser.add_argument('-b', '--bed', help='Bed generic format')
 
+    # Bam Management
+    parser.add_argument('--bam', help='Bam format')
+
     # TODO: Check if the running directory can have issues if we run the tool outside
     parser.add_argument('-d', '--directory', help='Running tool directory, where to find the templates. Default is running directory')
     parser.add_argument('-u', '--ucsc_tools_path', help='Directory where to find the executables needed to run this tool')
@@ -60,6 +66,7 @@ def main(argv):
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
     inputBedGeneric = args.bed
     inputGTFFile = args.gtf
+    inputBamFile = args.bam
     outputFile = args.output
     json_inputs_metadata = args.metadata_json
 
@@ -97,6 +104,11 @@ def main(argv):
     if inputGTFFile:
         gtf = Gtf(inputGTFFile, inputFastaFile, extra_files_path)
         trackHub.addTrack(gtf.track)
+
+    # Process a Bam => Tophat
+    if inputBamFile:
+        bam = Bam( inputBamFile, inputFastaFile, extra_files_path )
+        trackHub.addTrack(bam.track)
 
     # We process all the modifications to create the zip file
     trackHub.createZip()

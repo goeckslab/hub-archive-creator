@@ -32,8 +32,8 @@
         #import json
 
         #for $i, $f in enumerate( $format )
-            #if $f.formatChoice.format_select == "gff3"
-                -g $f.formatChoice.GFF3
+            #if $f.formatChoice.format_select == "bam"
+                --bam $f.formatChoice.BAM
             #end if
             #if $f.formatChoice.format_select == "bed"
                 #if $f.formatChoice.bedChoice.bed_select == "bed"
@@ -42,6 +42,9 @@
                 #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
                     -t $f.formatChoice.bedChoice.BED_simple_repeats
                 #end if
+            #end if
+            #if $f.formatChoice.format_select == "gff3"
+                -g $f.formatChoice.GFF3
             #end if
             #if $f.formatChoice.format_select == "gtf"
                 ## Add also GTF from Agustus? See https://github.com/ENCODE-DCC/kentUtils/issues/8
@@ -63,11 +66,20 @@
         <repeat name="format" title="Formats">
             <conditional name="formatChoice">
                 <param name="format_select" type="select" label="Format">
-                    <option value="gff3" selected="true">GFF3</option>
-                    <option value="gtf">GTF</option>
+                    <option value="bam" selected="true">BAM</option>
                     <option value="bed">BED</option>
+                    <option value="gff3">GFF3</option>
+                    <option value="gtf">GTF</option>
                 </param>
 
+                <when value="bam">
+                    <param
+                        format="bam"
+                        name="BAM"
+                        type="data"
+                        label="BAM File"
+                    />
+                </when>
                 <when value="gff3">
                     <param
                         format="gff3"

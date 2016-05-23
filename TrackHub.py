@@ -43,7 +43,8 @@ class TrackHub(object):
         self.outputZip.close()
 
     def addTrack(self, trackObject=None):
-        # Create the traDb.txt file in the specie folder
+        # Create the trackDb.txt file in the specie folder, if not exists
+        # Else append the new track
         trackDbTxtFilePath = os.path.join(self.mySpecieFolderPath, 'trackDb.txt')
 
         newTrack = TrackDb(

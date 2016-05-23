@@ -45,7 +45,7 @@ class Bam( object ):
 
         # TODO: Redundant, should be refactored because they are all doing it...into hubArchiveCreator?
         # 2bit file creation from input fasta
-        self.twoBitFile = subtools.faToTwoBit(self.inputFastaFile.name, mySpecieFolderPath)
+        self.twoBitFile = subtools.faToTwoBit(self.inputFastaFile, mySpecieFolderPath)
 
         # First: Add the bam file
         # Second: Add the bam index file, in the same folder (https://genome.ucsc.edu/goldenpath/help/bam.html)
@@ -65,7 +65,7 @@ class Bam( object ):
             shortLabel='bam file',
             trackDataURL=dataURL,
             trackType='bam',
-            visibility='display_mode')
+            visibility='dense')
 
         # Create and add the bam index file to the same folder
         bamIndexFilePath = os.path.join(myTrackFolderPath, bamIndexFile)

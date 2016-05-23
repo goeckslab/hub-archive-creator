@@ -43,6 +43,10 @@ class Bam( object ):
         # if not os.path.exists(myTrackFolderPath):
         #     os.makedirs(myTrackFolderPath)
 
+        # TODO: Redundant, should be refactored because they are all doing it...into hubArchiveCreator?
+        # 2bit file creation from input fasta
+        self.twoBitFile = subtools.faToTwoBit(self.inputFastaFile.name, mySpecieFolderPath)
+
         # First: Add the bam file
         # Second: Add the bam index file, in the same folder (https://genome.ucsc.edu/goldenpath/help/bam.html)
 
@@ -69,4 +73,3 @@ class Bam( object ):
 
         print("- %s created in %s" % (sortedBam, mySortedBamFilePath))
         print("- %s created in %s" % (bamIndexFile, bamIndexFilePath))
-

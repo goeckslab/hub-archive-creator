@@ -56,6 +56,7 @@ class TrackHub(object):
             visibility=trackObject.visibility,
         )
 
+        # Append to trackDbTxtFilePath the trackDbTemplate populate with the newTrack object
         with open(trackDbTxtFilePath, 'a+') as trackDbFile:
             trackDbs = [newTrack]
             htmlMakoRendered = self.trackDbTemplate.render(

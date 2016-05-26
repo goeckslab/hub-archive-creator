@@ -28,7 +28,7 @@ class Bam( object ):
         # Created permanent files
         # Bam index file
         # TODO: Change the name depending on the inputs
-        bamIndexFile = "bai.bai"
+        bamIndexFile = sortedBam + ".bai"
 
         # Construction of the arborescence
         # TODO: Change the hard-coded path with a input based one
@@ -65,7 +65,7 @@ class Bam( object ):
             shortLabel='bam file',
             trackDataURL=dataURL,
             trackType='bam',
-            visibility='dense')
+            visibility='pack')
 
         # Create and add the bam index file to the same folder
         bamIndexFilePath = os.path.join(myTrackFolderPath, bamIndexFile)

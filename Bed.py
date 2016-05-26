@@ -68,7 +68,8 @@ class Bed(object):
             longLabel='From Bed',  # TODO: Change this because it can be called by others thing that .bed => .gtf/.gff3
             shortLabel='bed file',
             trackDataURL=dataURL,
-            trackType='bigBed',
-            visibility='dense')
+            trackType='bigBed 12',
+            visibility='dense',
+            thickDrawItem='on')
 
         print("- %s created in %s" % (trackName, myBigBedFilePath))

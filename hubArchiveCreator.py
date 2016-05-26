@@ -81,27 +81,27 @@ def main(argv):
     # Process Augustus
     if inputGFF3File:
         augustusObject = AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
-        trackHub.addTrack(augustusObject.track)
+        trackHub.addTrack(augustusObject.track.trackDb)
 
     # Process Bed simple repeats => From Tandem Repeats Finder / TrfBig
     if inputBedSimpleRepeatsFile:
         bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
-        trackHub.addTrack(bedRepeat.track)
+        trackHub.addTrack(bedRepeat.track.trackDb)
 
     # Process a Bed => tBlastN or TopHat
     if inputBedGeneric:
         bedGeneric = Bed(inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
-        trackHub.addTrack(bedGeneric.track)
+        trackHub.addTrack(bedGeneric.track.trackDb)
 
     # Process a GTF => Tophat
     if inputGTFFile:
         gtf = Gtf(inputGTFFile, inputFastaFile, extra_files_path)
-        trackHub.addTrack(gtf.track)
+        trackHub.addTrack(gtf.track.trackDb)
 
     # Process a Bam => Tophat
     if inputBamFile:
         bam = Bam( inputBamFile, inputFastaFile, extra_files_path )
-        trackHub.addTrack(bam.track)
+        trackHub.addTrack(bam.track.trackDb)
 
     # We process all the modifications to create the zip file
     trackHub.createZip()

@@ -3,6 +3,7 @@
 import tempfile
 import os
 
+from TrackDb import TrackDb
 from util import subtools
 from Track import Track
 
@@ -50,14 +51,19 @@ class BedSimpleRepeats(object):
 
         # Create the Track Object
         dataURL = "tracks/%s" % trackName
-        self.track = Track(
-            trackFile=myBigBedFilePath,
+
+        trackDb = TrackDb(
             trackName=trackName,
             longLabel='Tandem Repeats Big by TrfBig',
             shortLabel='Tandem Repeats',
             trackDataURL=dataURL,
             trackType='bigBed 4 +',
             visibility='dense'
+        )
+
+        self.track = Track(
+            trackFile=myBigBedFilePath,
+            trackDb=trackDb,
         )
 
         print("- %s created in %s" % (trackName, myBigBedFilePath))

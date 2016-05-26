@@ -8,6 +8,7 @@ Class to handle Bam files to UCSC TrackHub
 import os
 
 from Track import Track
+from TrackDb import TrackDb
 from util import subtools
 
 
@@ -57,15 +58,20 @@ class Bam( object ):
         # Create the Track Object
         dataURL = "tracks/%s" % sortedBam
 
-        # Return the BigBed Track Object
-        self.track = Track(
-            trackFile=mySortedBamFilePath,
+        trackDb = TrackDb(
             trackName=sortedBam,
             longLabel='From Bam',  # TODO: Change this because it can be called by others thing that .bed => .gtf/.gff3
             shortLabel='bam file',
             trackDataURL=dataURL,
             trackType='bam',
-            visibility='pack')
+            visibility='pack',
+        )
+
+        # Return the BigBed Track Object
+        self.track = Track(
+            trackFile=mySortedBamFilePath,
+            trackDb=trackDb,
+        )
 
         # Create and add the bam index file to the same folder
         bamIndexFilePath = os.path.join(myTrackFolderPath, bamIndexFile)

@@ -43,24 +43,14 @@ class TrackHub(object):
 
         self.outputZip.close()
 
-    def addTrack(self, trackObject=None):
+    def addTrack(self, trackDbObject=None):
         # Create the trackDb.txt file in the specie folder, if not exists
         # Else append the new track
         trackDbTxtFilePath = os.path.join(self.mySpecieFolderPath, 'trackDb.txt')
 
-        newTrack = TrackDb(
-            trackName=trackObject.trackName,
-            longLabel=trackObject.longLabel,
-            shortLabel=trackObject.shortLabel,
-            trackDataURL=trackObject.trackDataURL,
-            trackType=trackObject.trackType,
-            visibility=trackObject.visibility,
-            thickDrawItem=trackObject.thickDrawItem,
-        )
-
         # Append to trackDbTxtFilePath the trackDbTemplate populate with the newTrack object
         with open(trackDbTxtFilePath, 'a+') as trackDbFile:
-            trackDbs = [newTrack]
+            trackDbs = [trackDbObject]
             htmlMakoRendered = self.trackDbTemplate.render(
                 trackDbs=trackDbs
             )

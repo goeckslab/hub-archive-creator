@@ -26,3 +26,4 @@
 - [ ] Replace AugustusProcess by an abstract class GeneralFormat, with two sub-classes GFF3Format and GTFFormat
 - [ ] Use gffToBed for Gtf instead of GtfToGenePred
 - [ ] Clean the mess with the File handling (sometimes File, sometimes String, sometimes open File)
+- [ ] Find a way to avoid repetitions in TrackDb and Track (I repeat myself atm)

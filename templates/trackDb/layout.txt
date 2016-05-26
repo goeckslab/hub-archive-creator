@@ -6,5 +6,6 @@
     bigDataUrl ${trackDb.trackDataURL}
     type ${trackDb.trackType}
     visibility ${trackDb.visibility}
+    thickDrawItem ${trackDb.thickDrawItem}
     
 % endfor

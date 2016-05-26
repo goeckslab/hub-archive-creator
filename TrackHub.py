@@ -55,6 +55,7 @@ class TrackHub(object):
             trackDataURL=trackObject.trackDataURL,
             trackType=trackObject.trackType,
             visibility=trackObject.visibility,
+            thickDrawItem=trackObject.thickDrawItem,
         )
 
         # Append to trackDbTxtFilePath the trackDbTemplate populate with the newTrack object

@@ -55,6 +55,10 @@ class Bam( object ):
         with open(mySortedBamFilePath, 'w') as sortedBamPath:
             subtools.sortBam(self.inputBamFile, sortedBamPath.name)
 
+        # Create and add the bam index file to the same folder
+        bamIndexFilePath = os.path.join(myTrackFolderPath, bamIndexFile)
+        subtools.createBamIndex(mySortedBamFilePath, bamIndexFilePath)
+
         # Create the Track Object
         dataURL = "tracks/%s" % sortedBam
 
@@ -67,15 +71,11 @@ class Bam( object ):
             visibility='pack',
         )
 
-        # Return the BigBed Track Object
+        # Return the Bam Track Object
         self.track = Track(
             trackFile=mySortedBamFilePath,
             trackDb=trackDb,
         )
-
-        # Create and add the bam index file to the same folder
-        bamIndexFilePath = os.path.join(myTrackFolderPath, bamIndexFile)
-        subtools.createBamIndex(mySortedBamFilePath, bamIndexFilePath)
 
         print("- %s created in %s" % (sortedBam, mySortedBamFilePath))
         print("- %s created in %s" % (bamIndexFile, bamIndexFilePath))

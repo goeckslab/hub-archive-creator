@@ -33,6 +33,12 @@
 
         #import json
 
+        ## Json adding algo
+        ## - Create the json object
+        ## - For each $format, add a key named as the $input (path). And add a dict inside
+        ##      this, for each data to store (at least "name: $input.name")
+        ## - Pass this object into the --metadata_json option
+
         #for $i, $f in enumerate( $format )
             #if $f.formatChoice.format_select == "bam"
                 --bam $f.formatChoice.BAM

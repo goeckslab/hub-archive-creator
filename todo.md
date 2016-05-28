@@ -27,3 +27,5 @@
 - [ ] Use gffToBed for Gtf instead of GtfToGenePred
 - [ ] Clean the mess with the File handling (sometimes File, sometimes String, sometimes open File)
 - [ ] Find a way to avoid repetitions in TrackDb and Track (I repeat myself atm)
+- [ ] Refactor the creation of the structure to TrackHub: Access to paths via this Class, and creation of file through it
+- [ ] TrackHub should check if the 2bit already exists instead of recreating it (which is the case atm)

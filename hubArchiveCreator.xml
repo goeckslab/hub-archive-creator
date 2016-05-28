@@ -43,6 +43,9 @@
                     -t $f.formatChoice.bedChoice.BED_simple_repeats
                 #end if
             #end if
+            #if $f.formatChoice.format_select == "bigwig"
+                --bigwig $f.formatChoice.BIGWIG
+            #end if
             #if $f.formatChoice.format_select == "gff3"
                 -g $f.formatChoice.GFF3
             #end if
@@ -66,6 +69,7 @@
                 <param name="format_select" type="select" label="Format">
                     <option value="bam" selected="true">BAM</option>
                     <option value="bed">BED</option>
+                    <option value="bigwig">BIGWIG</option>
                     <option value="gff3">GFF3</option>
                     <option value="gtf">GTF</option>
                 </param>
@@ -76,6 +80,14 @@
                         name="BAM"
                         type="data"
                         label="BAM File"
+                    />
+                </when>
+                <when value="bigwig">
+                    <param
+                        format="bigwig"
+                        name="BIGWIG"
+                        type="data"
+                        label="BIGWIG File"
                     />
                 </when>
                 <when value="gff3">
@@ -101,7 +113,6 @@
                             <option value="bed_simple_repeats_option">BED simple repeats</option>
                         </param>
                         <when value="bed">
-                           <!-- TODO -->
                            <param
                                format="bed"
                                name="BED"

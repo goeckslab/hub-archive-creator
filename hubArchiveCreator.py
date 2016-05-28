@@ -14,10 +14,11 @@ import argparse
 # Internal dependencies
 from TrackHub import TrackHub
 from AugustusProcess import AugustusProcess
+from Bam import Bam
 from BedSimpleRepeats import BedSimpleRepeats
 from Bed import Bed
+from BigWig import BigWig
 from Gtf import Gtf
-from Bam import Bam
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -40,6 +41,9 @@ def main(argv):
 
     # Generic Bed (Blastx transformed to bed)
     parser.add_argument('-b', '--bed', help='Bed generic format')
+
+    # BigWig Management
+    parser.add_argument('--bigwig', help='BigWig format')
 
     # Bam Management
     parser.add_argument('--bam', help='Bam format')
@@ -64,6 +68,7 @@ def main(argv):
     inputBedGeneric = args.bed
     inputGTFFile = args.gtf
     inputBamFile = args.bam
+    input_bigWig_file_path = args.bigwig
     outputFile = args.output
 
     if args.directory:
@@ -102,6 +107,11 @@ def main(argv):
     if inputBamFile:
         bam = Bam( inputBamFile, inputFastaFile, extra_files_path )
         trackHub.addTrack(bam.track.trackDb)
+
+    # Process a BigWig => From Bam
+    if input_bigWig_file_path:
+        bigWig = BigWig( input_bigWig_file_path, inputFastaFile, extra_files_path )
+        trackHub.addTrack( bigWig.track )
 
     # We process all the modifications to create the zip file
     trackHub.createZip()

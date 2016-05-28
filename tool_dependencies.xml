@@ -9,9 +9,14 @@
         - gtfToGenePred
         - genePredToBed
         - faToTwoBit
+        - samtools
     -->
     <package name="ucsc_tools" version="312">
-      <repository name="package_ucsc_tools_312" owner="iuc" prior_installation_required="False" />
+        <repository name="package_ucsc_tools_312" owner="iuc" prior_installation_required="True" />
+    </package>
+
+    <package name="samtools" version="1.2">
+        <repository name="package_samtools_1_2" owner="iuc" prior_installation_required="True" />
     </package>
 
     <!-- TODO: Tools to install -->

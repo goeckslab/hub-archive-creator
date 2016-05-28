@@ -8,6 +8,7 @@ Class to handle Bam files to UCSC TrackHub
 import os
 
 from Track import Track
+from TrackDb import TrackDb
 from util import subtools
 
 
@@ -28,7 +29,7 @@ class Bam( object ):
         # Created permanent files
         # Bam index file
         # TODO: Change the name depending on the inputs
-        bamIndexFile = "bai.bai"
+        bamIndexFile = sortedBam + ".bai"
 
         # Construction of the arborescence
         # TODO: Change the hard-coded path with a input based one
@@ -54,22 +55,27 @@ class Bam( object ):
         with open(mySortedBamFilePath, 'w') as sortedBamPath:
             subtools.sortBam(self.inputBamFile, sortedBamPath.name)
 
+        # Create and add the bam index file to the same folder
+        bamIndexFilePath = os.path.join(myTrackFolderPath, bamIndexFile)
+        subtools.createBamIndex(mySortedBamFilePath, bamIndexFilePath)
+
         # Create the Track Object
         dataURL = "tracks/%s" % sortedBam
 
-        # Return the BigBed Track Object
-        self.track = Track(
-            trackFile=mySortedBamFilePath,
+        trackDb = TrackDb(
             trackName=sortedBam,
             longLabel='From Bam',  # TODO: Change this because it can be called by others thing that .bed => .gtf/.gff3
             shortLabel='bam file',
             trackDataURL=dataURL,
             trackType='bam',
-            visibility='dense')
+            visibility='pack',
+        )
 
-        # Create and add the bam index file to the same folder
-        bamIndexFilePath = os.path.join(myTrackFolderPath, bamIndexFile)
-        subtools.createBamIndex(mySortedBamFilePath, bamIndexFilePath)
+        # Return the Bam Track Object
+        self.track = Track(
+            trackFile=mySortedBamFilePath,
+            trackDb=trackDb,
+        )
 
         print("- %s created in %s" % (sortedBam, mySortedBamFilePath))
         print("- %s created in %s" % (bamIndexFile, bamIndexFilePath))

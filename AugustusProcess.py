@@ -5,6 +5,7 @@ import os
 
 # Internal dependencies
 from Track import Track
+from TrackDb import TrackDb
 from util import subtools
 
 
@@ -56,13 +57,19 @@ class AugustusProcess(object):
 
         # Create the Track Object
         dataURL = "tracks/%s" % trackName
-        self.track = Track(
-            trackFile=myBigBedFilePath,
+
+        trackDb = TrackDb(
             trackName=trackName,
             longLabel='From AugustusProcess',
             shortLabel='Augustus_dbia3',
             trackDataURL=dataURL,
             trackType='bigBed 12 +',
-            visibility='dense')
+            visibility='dense',
+        )
+
+        self.track = Track(
+            trackFile=myBigBedFilePath,
+            trackDb=trackDb,
+        )
 
         print("- %s created in %s" % (trackName, myBigBedFilePath))

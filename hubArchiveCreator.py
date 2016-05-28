@@ -15,10 +15,11 @@ import sys
 # Internal dependencies
 from TrackHub import TrackHub
 from AugustusProcess import AugustusProcess
+from Bam import Bam
 from BedSimpleRepeats import BedSimpleRepeats
 from Bed import Bed
+from BigWig import BigWig
 from Gtf import Gtf
-from Bam import Bam
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -41,6 +42,9 @@ def main(argv):
 
     # Generic Bed (Blastx transformed to bed)
     parser.add_argument('-b', '--bed', help='Bed generic format')
+
+    # BigWig Management
+    parser.add_argument('--bigwig', help='BigWig format')
 
     # Bam Management
     parser.add_argument('--bam', help='Bam format')
@@ -67,6 +71,7 @@ def main(argv):
     inputBedGeneric = args.bed
     inputGTFFile = args.gtf
     inputBamFile = args.bam
+    input_bigWig_file_path = args.bigwig
     outputFile = args.output
     json_inputs_metadata = args.metadata_json
 
@@ -88,27 +93,32 @@ def main(argv):
     # Process Augustus
     if inputGFF3File:
         augustusObject = AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
-        trackHub.addTrack(augustusObject.track)
+        trackHub.addTrack(augustusObject.track.trackDb)
 
     # Process Bed simple repeats => From Tandem Repeats Finder / TrfBig
     if inputBedSimpleRepeatsFile:
         bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
-        trackHub.addTrack(bedRepeat.track)
+        trackHub.addTrack(bedRepeat.track.trackDb)
 
     # Process a Bed => tBlastN or TopHat
     if inputBedGeneric:
         bedGeneric = Bed(inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
-        trackHub.addTrack(bedGeneric.track)
+        trackHub.addTrack(bedGeneric.track.trackDb)
 
     # Process a GTF => Tophat
     if inputGTFFile:
         gtf = Gtf(inputGTFFile, inputFastaFile, extra_files_path)
-        trackHub.addTrack(gtf.track)
+        trackHub.addTrack(gtf.track.trackDb)
 
     # Process a Bam => Tophat
     if inputBamFile:
         bam = Bam( inputBamFile, inputFastaFile, extra_files_path )
-        trackHub.addTrack(bam.track)
+        trackHub.addTrack(bam.track.trackDb)
+
+    # Process a BigWig => From Bam
+    if input_bigWig_file_path:
+        bigWig = BigWig( input_bigWig_file_path, inputFastaFile, extra_files_path )
+        trackHub.addTrack( bigWig.track )
 
     # We process all the modifications to create the zip file
     trackHub.createZip()

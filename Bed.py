@@ -5,6 +5,7 @@ import tempfile
 
 # Internal dependencies
 from Track import Track
+from TrackDb import TrackDb
 from util import subtools
 
 
@@ -61,14 +62,20 @@ class Bed(object):
         # Create the Track Object
         dataURL = "tracks/%s" % trackName
 
-        # Return the BigBed track
-        self.track = Track(
-            trackFile=myBigBedFilePath,
+        trackDb = TrackDb(
             trackName=trackName,
             longLabel='From Bed',  # TODO: Change this because it can be called by others thing that .bed => .gtf/.gff3
             shortLabel='bed file',
             trackDataURL=dataURL,
-            trackType='bigBed',
-            visibility='dense')
+            trackType='bigBed 12',
+            visibility='dense',
+            thickDrawItem='on',
+        )
+
+        # Return the BigBed track
+        self.track = Track(
+            trackFile=myBigBedFilePath,
+            trackDb=trackDb,
+        )
 
         print("- %s created in %s" % (trackName, myBigBedFilePath))

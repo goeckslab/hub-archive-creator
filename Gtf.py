@@ -8,6 +8,7 @@ from Track import Track
 from TrackDb import TrackDb
 from util import subtools
 
+
 class Gtf(object):
     def __init__(self, inputGtfFile, inputFastaFile, extra_files_path):
         super(Gtf, self).__init__()

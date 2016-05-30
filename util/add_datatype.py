@@ -10,10 +10,11 @@ Place yourself in the folder of the python script, and launch it
 """
 
 import argparse
+import os
 import shutil
 import sys
-import os
 import xml.etree.ElementTree as ET
+
 
 def main(argv):
     # Command Line parsing init
@@ -29,6 +30,7 @@ def main(argv):
     add_datatype_conf(galaxy_root_path)
     add_huba_xml(galaxy_root_path)
     add_hubAssembly(galaxy_root_path)
+
 
 def add_datatype_conf(galaxy_root_path):
     print "======= Add datatype ======="
@@ -51,6 +53,7 @@ def add_datatype_conf(galaxy_root_path):
     print "datatype added in %s" % datatype_conf_path
     return
 
+
 def add_huba_xml(galaxy_root_path):
     print "======= Add hub xml ======="
     displayApp_ucsc_path = os.path.join(galaxy_root_path, "display_applications/ucsc/")
@@ -58,12 +61,14 @@ def add_huba_xml(galaxy_root_path):
     print "Content of %s now: %s" % (displayApp_ucsc_path, os.listdir(displayApp_ucsc_path))
     return
 
+
 def add_hubAssembly(galaxy_root_path):
     print "======= Add hubAssembly ======="
     datatype_lib_path = os.path.join(galaxy_root_path, "lib/galaxy/datatypes/")
     shutil.copy("../hubaDataType/hubAssembly.py", datatype_lib_path)
     print "Content of %s now: %s" % (datatype_lib_path, os.listdir(datatype_lib_path))
     return
+
 
 if __name__ == "__main__":
     main(sys.argv)

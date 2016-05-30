@@ -2,7 +2,9 @@
 
 class TrackDb(object):
     """docstring for TrackDb"""
-    def __init__(self, trackName="", longLabel="", shortLabel="", trackDataURL="", trackType="", visibility="", thickDrawItem='off'):
+
+    def __init__(self, trackName="", longLabel="", shortLabel="", trackDataURL="", trackType="", visibility="",
+                 thickDrawItem='off'):
         super(TrackDb, self).__init__()
 
         self.trackName = trackName

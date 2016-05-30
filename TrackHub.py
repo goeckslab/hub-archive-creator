@@ -6,11 +6,10 @@ import zipfile
 
 from mako.lookup import TemplateLookup
 
-from TrackDb import TrackDb
-
 
 class TrackHub(object):
     """docstring for TrackHub"""
+
     def __init__(self, inputFastaFile, outputFile, extra_files_path, toolDirectory):
         super(TrackHub, self).__init__()
 
@@ -18,7 +17,8 @@ class TrackHub(object):
         self.mySpecieFolderPath = None
 
         # TODO: Modify according to the files passed in parameter
-        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/trackDb')], output_encoding='utf-8', encoding_errors='replace')
+        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/trackDb')],
+                                  output_encoding='utf-8', encoding_errors='replace')
         self.trackDbTemplate = mylookup.get_template("layout.txt")
 
         self.extra_files_path = extra_files_path
@@ -33,7 +33,8 @@ class TrackHub(object):
         suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
         self.twoBitName = suffixTwoBit + '.2bit'
 
-        self.rootAssemblyHub = self.__createAssemblyHub__(toolDirectory=toolDirectory, extra_files_path=extra_files_path)
+        self.rootAssemblyHub = self.__createAssemblyHub__(toolDirectory=toolDirectory,
+                                                          extra_files_path=extra_files_path)
 
     def createZip(self):
         for root, dirs, files in os.walk(self.rootAssemblyHub):
@@ -68,7 +69,8 @@ class TrackHub(object):
             for root, dirs, files in os.walk(self.extra_files_path):
                 for file in files:
                     relDir = os.path.relpath(root, self.extra_files_path)
-                    htmlOutput.write(str.format('<li><a href="{0}">{1}</a></li>', os.path.join(relDir, file), os.path.join(relDir, file)))
+                    htmlOutput.write(str.format('<li><a href="{0}">{1}</a></li>', os.path.join(relDir, file),
+                                                os.path.join(relDir, file)))
             htmlOutput.write('<ul>')
             htmlOutput.write('</body>')
             htmlOutput.write('</html>')
@@ -143,7 +145,8 @@ class TrackHub(object):
     def __fillHubTxt__(self, hubTxtFilePath, toolDirectory):
         # TODO: Think about the inputs and outputs
         # TODO: Manage the template of this file
-        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/hubTxt')], output_encoding='utf-8', encoding_errors='replace')
+        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/hubTxt')],
+                                  output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template('layout.txt')
         with open(hubTxtFilePath, 'w') as genomesTxtFile:
             # Write the content of the file genomes.txt
@@ -162,7 +165,8 @@ class TrackHub(object):
         # TODO: Manage the template of this file
         # renderer = pystache.Renderer(search_dirs="templates/hubDescription")
         # t = Template(templates.hubDescription.layout.html)
-        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/hubDescription')], output_encoding='utf-8', encoding_errors='replace')
+        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/hubDescription')],
+                                  output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template("layout.txt")
         with open(hubHtmlFilePath, 'w') as hubHtmlFile:
             # Write the content of the file genomes.txt
@@ -186,7 +190,8 @@ class TrackHub(object):
     def __fillDescriptionHtmlFile__(self, descriptionHtmlFilePath, toolDirectory):
         # TODO: Think about the inputs and outputs
         # TODO: Manage the template of this file
-        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/specieDescription')], output_encoding='utf-8', encoding_errors='replace')
+        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/specieDescription')],
+                                  output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template("layout.txt")
         with open(descriptionHtmlFilePath, 'w') as descriptionHtmlFile:
             # Write the content of the file genomes.txt
@@ -197,7 +202,8 @@ class TrackHub(object):
 
     def __fillGroupsTxtFile__(self, groupsTxtFilePath, toolDirectory):
         # TODO: Reenable this function at some point
-        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/groupsTxt')], output_encoding='utf-8', encoding_errors='replace')
+        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/groupsTxt')],
+                                  output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template("layout.txt")
         with open(groupsTxtFilePath, 'w') as groupsTxtFile:
             # Write the content of groups.txt

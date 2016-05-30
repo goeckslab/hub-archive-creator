@@ -3,7 +3,6 @@
 import os
 import shutil
 
-
 # Remove 'myHub.zip at root folder
 try:
     os.remove('myHub.zip')

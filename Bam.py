@@ -12,9 +12,9 @@ from TrackDb import TrackDb
 from util import subtools
 
 
-class Bam( object ):
-    def __init__( self, inputBamFile, inputFastaFile, extra_files_path ):
-        super( Bam, self).__init__()
+class Bam(object):
+    def __init__(self, inputBamFile, inputFastaFile, extra_files_path):
+        super(Bam, self).__init__()
 
         self.track = None
 

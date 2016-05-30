@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-import tempfile
 import os
+import tempfile
 
 # Internal dependencies
 from Track import Track
@@ -10,7 +10,8 @@ from util import subtools
 
 
 class AugustusProcess(object):
-    def __init__(self, inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub):
+    def __init__(self, inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path,
+                 trackHub):
         super(AugustusProcess, self).__init__()
 
         self.track = None

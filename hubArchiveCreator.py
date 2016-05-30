@@ -59,7 +59,7 @@ def main(argv):
                         help='Name, in galaxy, of the output folder. Where you would want to build the Track Hub Archive')
     parser.add_argument('-o', '--output', help='Name of the HTML summarizing the content of the Track Hub Archive')
 
-    parser.add_argument('-j', '--metadata_json', help='Json containing the metadata of the inputs')
+    parser.add_argument('-j', '--data_json', help='Json containing the metadata of the inputs')
 
     ucsc_tools_path = ''
 
@@ -77,10 +77,12 @@ def main(argv):
     inputBamFile = args.bam
     input_bigWig_file_path = args.bigwig
     outputFile = args.output
-    json_inputs_metadata = args.metadata_json
+    json_inputs_data = args.data_json
 
-    print "json is %s" % inputGTFFile
-    print "json is %s" % json_inputs_metadata
+    inputs_data = json.loads(json_inputs_data)
+
+    print "json is %s" %json_inputs_data
+    print "Loaded json is %s" % inputs_data
 
     if args.directory:
         toolDirectory = args.directory

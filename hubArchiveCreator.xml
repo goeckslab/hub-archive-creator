@@ -41,8 +41,8 @@
         ## - Pass this object into the --metadata_json option
 
         #set global data_parameter_dict = {}
-        #set data_parameter_array = [ $data_parameter_dict ]
 
+        ## Function to retrieve the data of the inputs
         #def prepare_json($input_to_prepare)
             #set false_path = str($input_to_prepare)
             #set name = $input_to_prepare.name
@@ -76,10 +76,10 @@
         #end for
 
         ## Dump the final json
-        #set all_data_json = json.dumps($data_parameter_array)
+        #set all_data_json = json.dumps($data_parameter_dict)
 
         -f $Fasta_File
-        --metadata_json '$all_data_json'
+        --data_json '$all_data_json'
         -d $__tool_directory__ -e $output.files_path -o $output;
     ]]></command>
 

@@ -6,8 +6,6 @@ import zipfile
 
 from mako.lookup import TemplateLookup
 
-from TrackDb import TrackDb
-
 
 class TrackHub(object):
     """docstring for TrackHub"""

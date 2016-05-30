@@ -10,7 +10,8 @@ from util import subtools
 
 
 class Bed(object):
-    def __init__(self, inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub):
+    def __init__(self, inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path,
+                 trackHub):
         super(Bed, self).__init__()
 
         self.track = None

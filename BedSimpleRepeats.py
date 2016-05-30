@@ -1,15 +1,16 @@
 #!/usr/bin/python
 
-import tempfile
 import os
+import tempfile
 
+from Track import Track
 from TrackDb import TrackDb
 from util import subtools
-from Track import Track
 
 
 class BedSimpleRepeats(object):
-    def __init__(self, inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub):
+    def __init__(self, inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path,
+                 ucsc_tools_path, trackHub):
         super(BedSimpleRepeats, self).__init__()
 
         inputBedSimpleRepeatsFile = open(inputBedSimpleRepeatsFile, 'r')

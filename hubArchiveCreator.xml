@@ -21,7 +21,7 @@
         <regex match="^pass1"
                source="stderr"
                level="log"
-               description="bedToBigBed" />
+               description="bedToBigBed"/>
         <!-- TODO: Add the case pass1 and 0 chroms -->
         <!-- TODO: Add the case pass2 and 0 records or 0 fields -->
     </stdio>
@@ -59,11 +59,11 @@
 
     <inputs>
         <param
-            format="fasta"
-            name="Fasta_File"
-            type="data"
-            label="Reference genome"
-            />
+                format="fasta"
+                name="Fasta_File"
+                type="data"
+                label="Reference genome"
+        />
         <repeat name="format" title="Formats">
             <conditional name="formatChoice">
                 <param name="format_select" type="select" label="Format">
@@ -76,34 +76,34 @@
 
                 <when value="bam">
                     <param
-                        format="bam"
-                        name="BAM"
-                        type="data"
-                        label="BAM File"
+                            format="bam"
+                            name="BAM"
+                            type="data"
+                            label="BAM File"
                     />
                 </when>
                 <when value="bigwig">
                     <param
-                        format="bigwig"
-                        name="BIGWIG"
-                        type="data"
-                        label="BIGWIG File"
+                            format="bigwig"
+                            name="BIGWIG"
+                            type="data"
+                            label="BIGWIG File"
                     />
                 </when>
                 <when value="gff3">
                     <param
-                        format="gff3"
-                        name="GFF3"
-                        type="data"
-                        label="GFF3 File"
+                            format="gff3"
+                            name="GFF3"
+                            type="data"
+                            label="GFF3 File"
                     />
                 </when>
                 <when value="gtf">
                     <param
-                        format="gtf"
-                        name="GTF"
-                        type="data"
-                        label="GTF File"
+                            format="gtf"
+                            name="GTF"
+                            type="data"
+                            label="GTF File"
                     />
                 </when>
                 <when value="bed">
@@ -113,19 +113,19 @@
                             <option value="bed_simple_repeats_option">BED simple repeats</option>
                         </param>
                         <when value="bed">
-                           <param
-                               format="bed"
-                               name="BED"
-                               type="data"
-                               label="Generic Bed File Choice"
+                            <param
+                                    format="bed"
+                                    name="BED"
+                                    type="data"
+                                    label="Generic Bed File Choice"
                             />
                         </when>
                         <when value="bed_simple_repeats_option">
                             <param
-                                format="bed"
-                                name="BED_simple_repeats"
-                                type="data"
-                                label="Bed Simple Repeats (Bed4+12) File"
+                                    format="bed"
+                                    name="BED_simple_repeats"
+                                    type="data"
+                                    label="Bed Simple Repeats (Bed4+12) File"
                             />
                         </when>
                     </conditional>
@@ -135,7 +135,7 @@
     </inputs>
 
     <outputs>
-        <data format="trackhub" name="output" />
+        <data format="trackhub" name="output"/>
     </outputs>
 
     <tests>
@@ -165,22 +165,22 @@
 
             <output name="output">
                 <assert_contents>
-                    <has_text text="myHub" />
+                    <has_text text="myHub"/>
                 </assert_contents>
                 <assert_contents>
-                    <has_text text="dbia3_trfBig.bb" />
+                    <has_text text="dbia3_trfBig.bb"/>
                 </assert_contents>
                 <assert_contents>
-                    <has_text text="SAODOAii qwwqod92921" />
+                    <has_text text="SAODOAii qwwqod92921"/>
                 </assert_contents>
             </output>
         </test>
         <test>
-            <param name="Fasta_File" value="dbia3.fa" />
+            <param name="Fasta_File" value="dbia3.fa"/>
             <param name="GFF3" value="augustusDbia3.gff3"/>
             <output name="output" file="augustusOutput.html" lines_diff="2">
-                <extra_files type="directory" value="myHub" />
-                <extra_files type="file" name="myHub/dbia3/tracks/augustusDbia3.bb" value="augustusDbia3.bb" />
+                <extra_files type="directory" value="myHub"/>
+                <extra_files type="file" name="myHub/dbia3/tracks/augustusDbia3.bb" value="augustusDbia3.bb"/>
             </output>
         </test>
         <!-- Testing Generic BED input -->

@@ -9,7 +9,7 @@ from util import subtools
 
 
 class BigWig(object):
-    def __init__( self, input_bigwig_path, input_fasta_path, extra_files_path ):
+    def __init__(self, input_bigwig_path, input_fasta_path, extra_files_path):
         super(BigWig, self).__init__()
 
         # Steps:

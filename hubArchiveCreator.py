@@ -8,8 +8,8 @@ Program test arguments:
 hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . -u ./tools -o output.html
 """
 
-import sys
 import argparse
+import sys
 
 # Internal dependencies
 from TrackHub import TrackHub
@@ -19,6 +19,7 @@ from BedSimpleRepeats import BedSimpleRepeats
 from Bed import Bed
 from BigWig import BigWig
 from Gtf import Gtf
+
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -49,9 +50,12 @@ def main(argv):
     parser.add_argument('--bam', help='Bam format')
 
     # TODO: Check if the running directory can have issues if we run the tool outside
-    parser.add_argument('-d', '--directory', help='Running tool directory, where to find the templates. Default is running directory')
-    parser.add_argument('-u', '--ucsc_tools_path', help='Directory where to find the executables needed to run this tool')
-    parser.add_argument('-e', '--extra_files_path', help='Name, in galaxy, of the output folder. Where you would want to build the Track Hub Archive')
+    parser.add_argument('-d', '--directory',
+                        help='Running tool directory, where to find the templates. Default is running directory')
+    parser.add_argument('-u', '--ucsc_tools_path',
+                        help='Directory where to find the executables needed to run this tool')
+    parser.add_argument('-e', '--extra_files_path',
+                        help='Name, in galaxy, of the output folder. Where you would want to build the Track Hub Archive')
     parser.add_argument('-o', '--output', help='Name of the HTML summarizing the content of the Track Hub Archive')
 
     ucsc_tools_path = ''
@@ -85,17 +89,20 @@ def main(argv):
 
     # Process Augustus
     if inputGFF3File:
-        augustusObject = AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+        augustusObject = AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path,
+                                         ucsc_tools_path, trackHub)
         trackHub.addTrack(augustusObject.track.trackDb)
 
     # Process Bed simple repeats => From Tandem Repeats Finder / TrfBig
     if inputBedSimpleRepeatsFile:
-        bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+        bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory,
+                                     extra_files_path, ucsc_tools_path, trackHub)
         trackHub.addTrack(bedRepeat.track.trackDb)
 
     # Process a Bed => tBlastN or TopHat
     if inputBedGeneric:
-        bedGeneric = Bed(inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path, trackHub)
+        bedGeneric = Bed(inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path,
+                         trackHub)
         trackHub.addTrack(bedGeneric.track.trackDb)
 
     # Process a GTF => Tophat
@@ -105,13 +112,13 @@ def main(argv):
 
     # Process a Bam => Tophat
     if inputBamFile:
-        bam = Bam( inputBamFile, inputFastaFile, extra_files_path )
+        bam = Bam(inputBamFile, inputFastaFile, extra_files_path)
         trackHub.addTrack(bam.track.trackDb)
 
     # Process a BigWig => From Bam
     if input_bigWig_file_path:
-        bigWig = BigWig( input_bigWig_file_path, inputFastaFile, extra_files_path )
-        trackHub.addTrack( bigWig.track )
+        bigWig = BigWig(input_bigWig_file_path, inputFastaFile, extra_files_path)
+        trackHub.addTrack(bigWig.track)
 
     # We process all the modifications to create the zip file
     trackHub.createZip()
@@ -120,6 +127,7 @@ def main(argv):
     trackHub.terminate()
 
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main(sys.argv)

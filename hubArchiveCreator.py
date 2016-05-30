@@ -42,7 +42,7 @@ def main(argv):
     parser.add_argument('-t', '--bedSimpleRepeats', help='Bed4+12 format, using simpleRepeats.as')
 
     # Generic Bed (Blastx transformed to bed)
-    parser.add_argument('-b', '--bed', help='Bed generic format')
+    parser.add_argument('-b', '--bed', action='append', help='Bed generic format')
 
     # BigWig Management
     parser.add_argument('--bigwig', help='BigWig format')
@@ -76,7 +76,8 @@ def main(argv):
 
     inputGFF3File = args.gff3
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
-    inputBedGeneric = args.bed
+    print "In args.bed: %s" % args.bed
+    array_inputs_bed_generic = args.bed
     inputGTFFile = args.gtf
     inputBamFile = args.bam
     input_bigWig_file_path = args.bigwig
@@ -91,7 +92,7 @@ def main(argv):
     for key in inputs_data:
         inputs_data[key] = inputs_data[key].replace(" ", "_")
 
-    print "json is %s" %json_inputs_data
+    print "json is %s" % json_inputs_data
     print "Loaded json is %s" % inputs_data
 
     if args.directory:
@@ -119,10 +120,11 @@ def main(argv):
         trackHub.addTrack(bedRepeat.track.trackDb)
 
     # Process a Bed => tBlastN or TopHat
-    if inputBedGeneric:
+    # TODO: Optimize this double loop
+    for bed_path in array_inputs_bed_generic:
         for key, value in inputs_data.items():
-            if key == inputBedGeneric:
-                bedGeneric = Bed(inputBedGeneric, value, inputFastaFile, extra_files_path)
+            if key == bed_path:
+                bedGeneric = Bed(bed_path, value, inputFastaFile, extra_files_path)
                 trackHub.addTrack(bedGeneric.track.trackDb)
 
     # Process a GTF => Tophat

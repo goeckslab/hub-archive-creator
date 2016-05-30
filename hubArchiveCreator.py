@@ -70,16 +70,26 @@ def main(argv):
     args = parser.parse_args()
 
     inputFastaFile = args.fasta
+
+    # TODO: Add array for each input because we can add multiple -b for example + filter the data associated
+
+
     inputGFF3File = args.gff3
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
     inputBedGeneric = args.bed
     inputGTFFile = args.gtf
     inputBamFile = args.bam
     input_bigWig_file_path = args.bigwig
+
     outputFile = args.output
     json_inputs_data = args.data_json
 
     inputs_data = json.loads(json_inputs_data)
+
+    # TODO: Remove all spaces from the name in the dict
+    # Sometimes output from Galaxy, or even just file name from user have spaces
+    for key in inputs_data:
+        inputs_data[key] = inputs_data[key].replace(" ", "_")
 
     print "json is %s" %json_inputs_data
     print "Loaded json is %s" % inputs_data
@@ -110,9 +120,10 @@ def main(argv):
 
     # Process a Bed => tBlastN or TopHat
     if inputBedGeneric:
-        bedGeneric = Bed(inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path,
-                         trackHub)
-        trackHub.addTrack(bedGeneric.track.trackDb)
+        for key, value in inputs_data.items():
+            if key == inputBedGeneric:
+                bedGeneric = Bed(inputBedGeneric, value, inputFastaFile, extra_files_path)
+                trackHub.addTrack(bedGeneric.track.trackDb)
 
     # Process a GTF => Tophat
     if inputGTFFile:

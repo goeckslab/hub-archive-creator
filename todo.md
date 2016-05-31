@@ -29,3 +29,5 @@
 - [ ] Find a way to avoid repetitions in TrackDb and Track (I repeat myself atm)
 - [ ] Refactor the creation of the structure to TrackHub: Access to paths via this Class, and creation of file through it
 - [ ] TrackHub should check if the 2bit already exists instead of recreating it (which is the case atm)
+- [ ] Remove the non-explicit parameters for the communication between Galaxy Wrapper and the entry point
+- [ ] Rename all occurences of `extension` which `datatype`

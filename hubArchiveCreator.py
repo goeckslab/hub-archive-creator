@@ -36,7 +36,7 @@ def main(argv):
     parser.add_argument('-g', '--gff3', help='GFF3 output of Augustus')
 
     # GTF Management
-    parser.add_argument('-z', '--gtf', help='GTF format')
+    parser.add_argument('--gtf', action='append', help='GTF format')
 
     # Bed4+12 (TrfBig)
     parser.add_argument('-t', '--bedSimpleRepeats', help='Bed4+12 format, using simpleRepeats.as')
@@ -77,7 +77,7 @@ def main(argv):
     inputGFF3File = args.gff3
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
     array_inputs_bed_generic = args.bed
-    inputGTFFile = args.gtf
+    array_inputs_gtf = args.gtf
     array_inputs_bam = args.bam
     input_bigWig_file_path = args.bigwig
 
@@ -118,9 +118,8 @@ def main(argv):
         add_track( Bed, array_inputs_bed_generic, inputs_data, input_fasta_file, extra_files_path, trackHub)
 
     # Process a GTF => Tophat
-    if inputGTFFile:
-        gtf = Gtf(inputGTFFile, input_fasta_file, extra_files_path)
-        trackHub.addTrack(gtf.track.trackDb)
+    if array_inputs_gtf:
+        add_track( Gtf, array_inputs_gtf, inputs_data, input_fasta_file, extra_files_path, trackHub )
 
     # Process a Bam => Tophat
     if array_inputs_bam:

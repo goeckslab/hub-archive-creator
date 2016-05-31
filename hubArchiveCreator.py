@@ -48,7 +48,7 @@ def main(argv):
     parser.add_argument('--bigwig', help='BigWig format')
 
     # Bam Management
-    parser.add_argument('--bam', help='Bam format')
+    parser.add_argument('--bam', action='append', help='Bam format')
 
     # TODO: Check if the running directory can have issues if we run the tool outside
     parser.add_argument('-d', '--directory',
@@ -69,7 +69,7 @@ def main(argv):
     # Get the args passed in parameter
     args = parser.parse_args()
 
-    inputFastaFile = args.fasta
+    input_fasta_file = args.fasta
 
     # TODO: Add array for each input because we can add multiple -b for example + filter the data associated
 
@@ -78,7 +78,7 @@ def main(argv):
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
     array_inputs_bed_generic = args.bed
     inputGTFFile = args.gtf
-    inputBamFile = args.bam
+    array_inputs_bam = args.bam
     input_bigWig_file_path = args.bigwig
 
     outputFile = args.output
@@ -99,42 +99,37 @@ def main(argv):
     # TODO: Check here all the binaries / tools we need. Exception is missing
 
     # Create the Track Hub folder
-    trackHub = TrackHub(inputFastaFile, outputFile, extra_files_path, toolDirectory)
+    trackHub = TrackHub(input_fasta_file, outputFile, extra_files_path, toolDirectory)
 
     # Process Augustus
     if inputGFF3File:
-        augustusObject = AugustusProcess(inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path,
+        augustusObject = AugustusProcess(inputGFF3File, input_fasta_file, outputFile, toolDirectory, extra_files_path,
                                          ucsc_tools_path, trackHub)
         trackHub.addTrack(augustusObject.track.trackDb)
 
     # Process Bed simple repeats => From Tandem Repeats Finder / TrfBig
     if inputBedSimpleRepeatsFile:
-        bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, inputFastaFile, outputFile, toolDirectory,
+        bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, input_fasta_file, outputFile, toolDirectory,
                                      extra_files_path, ucsc_tools_path, trackHub)
         trackHub.addTrack(bedRepeat.track.trackDb)
 
     # Process a Bed => tBlastN or TopHat
     # TODO: Optimize this double loop
     if array_inputs_bed_generic:
-        for bed_path in array_inputs_bed_generic:
-            for key, data_bed in inputs_data.items():
-                if key == bed_path:
-                    bedGeneric = Bed(bed_path, data_bed, inputFastaFile, extra_files_path)
-                    trackHub.addTrack(bedGeneric.track.trackDb)
+        add_track( Bed, array_inputs_bed_generic, inputs_data, input_fasta_file, extra_files_path, trackHub)
 
     # Process a GTF => Tophat
     if inputGTFFile:
-        gtf = Gtf(inputGTFFile, inputFastaFile, extra_files_path)
+        gtf = Gtf(inputGTFFile, input_fasta_file, extra_files_path)
         trackHub.addTrack(gtf.track.trackDb)
 
     # Process a Bam => Tophat
-    if inputBamFile:
-        bam = Bam(inputBamFile, inputFastaFile, extra_files_path)
-        trackHub.addTrack(bam.track.trackDb)
+    if array_inputs_bam:
+        add_track( Bam, array_inputs_bam, inputs_data, input_fasta_file, extra_files_path, trackHub )
 
     # Process a BigWig => From Bam
     if input_bigWig_file_path:
-        bigWig = BigWig(input_bigWig_file_path, inputFastaFile, extra_files_path)
+        bigWig = BigWig(input_bigWig_file_path, input_fasta_file, extra_files_path)
         trackHub.addTrack(bigWig.track)
 
     # We process all the modifications to create the zip file
@@ -154,6 +149,14 @@ def sanitize_name_inputs(inputs_data):
     """
     for key in inputs_data:
         inputs_data[key]["name"] = inputs_data[key]["name"].replace(" ", "_")
+
+
+def add_track( ExtensionClass, array_inputs, inputs_data, input_fasta_file, extra_files_path, trackHub ):
+    for input_false_path in array_inputs:
+        for key, data_value in inputs_data.items():
+            if key == input_false_path:
+                extensionObject = ExtensionClass(input_false_path, data_value, input_fasta_file, extra_files_path)
+                trackHub.addTrack(extensionObject.track.trackDb)
 
 
 if __name__ == "__main__":

@@ -151,6 +151,16 @@ def sanitize_name_inputs(inputs_data):
 
 
 def add_track( ExtensionClass, array_inputs, inputs_data, input_fasta_file, extra_files_path, trackHub ):
+    """
+    Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub
+    :param ExtensionClass: Datatype
+    :param array_inputs: T <= Datatype
+    :param inputs_data: list[string]
+    :param input_fasta_file: string
+    :param extra_files_path: string
+    :param trackHub: TrackHub
+    :return:
+    """
     for input_false_path in array_inputs:
         for key, data_value in inputs_data.items():
             if key == input_false_path:

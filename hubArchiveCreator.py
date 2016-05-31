@@ -85,11 +85,8 @@ def main(argv):
     json_inputs_data = args.data_json
 
     inputs_data = json.loads(json_inputs_data)
-
-    # TODO: Remove all spaces from the name in the dict
-    # Sometimes output from Galaxy, or even just file name from user have spaces
-    for key in inputs_data:
-        inputs_data[key]["name"] = inputs_data[key]["name"].replace(" ", "_")
+    # We remove the spaces in ["name"] of inputs_data
+    sanitize_name_inputs(inputs_data)
 
     if args.directory:
         toolDirectory = args.directory
@@ -146,6 +143,15 @@ def main(argv):
     trackHub.terminate()
 
     sys.exit(0)
+
+def sanitize_name_inputs(inputs_data):
+    """
+    Sometimes output from Galaxy, or even just file name from user have spaces
+    :param inputs_data: dict[string, dict[string, string]]
+    :return:
+    """
+    for key in inputs_data:
+        inputs_data[key]["name"] = inputs_data[key]["name"].replace(" ", "_")
 
 
 if __name__ == "__main__":

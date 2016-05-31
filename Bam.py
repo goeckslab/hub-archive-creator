@@ -14,19 +14,23 @@ from util import subtools
 
 
 class Bam( Datatype ):
-    def __init__(self, inputBamFile, inputFastaFile, extra_files_path):
+    def __init__(self, input_bam_false_path, data_bam , inputFastaFile, extra_files_path):
         super(Bam, self).__init__( input_fasta_file=inputFastaFile,
                                    extra_files_path=extra_files_path )
 
         self.track = None
 
-        print "Creating TrackHub BAM from (falsePath: %s)" % ( inputBamFile )
-        self.inputBamFile = inputBamFile
+        self.input_bam_false_path = input_bam_false_path
+
+        self.data_bam = data_bam
+        self.name_bam = self.data_bam["name"]
+
+        print "Creating TrackHub BAM from (falsePath: %s; name: %s)" % ( self.input_bam_false_path, self.name_bam)
 
         # Temporary Files
         # Sorted Bed
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
-        sortedBam = "myBam.sorted.bam"
+        sortedBam = "".join( ( self.name_bam, "sorted.bam" ) )
 
         # Created permanent files
         # Bam index file
@@ -38,7 +42,7 @@ class Bam( Datatype ):
 
         mySortedBamFilePath = os.path.join(self.myTrackFolderPath, sortedBam)
         with open(mySortedBamFilePath, 'w') as sortedBamPath:
-            subtools.sortBam(self.inputBamFile, sortedBamPath.name)
+            subtools.sortBam(self.input_bam_false_path, sortedBamPath.name)
 
         # Create and add the bam index file to the same folder
         bamIndexFilePath = os.path.join(self.myTrackFolderPath, bamIndexFile)

@@ -48,7 +48,7 @@ def main(argv):
     parser.add_argument('--bigwig', help='BigWig format')
 
     # Bam Management
-    parser.add_argument('--bam', help='Bam format')
+    parser.add_argument('--bam', action='append', help='Bam format')
 
     # TODO: Check if the running directory can have issues if we run the tool outside
     parser.add_argument('-d', '--directory',
@@ -78,7 +78,7 @@ def main(argv):
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
     array_inputs_bed_generic = args.bed
     inputGTFFile = args.gtf
-    inputBamFile = args.bam
+    array_inputs_bam = args.bam
     input_bigWig_file_path = args.bigwig
 
     outputFile = args.output
@@ -127,9 +127,12 @@ def main(argv):
         trackHub.addTrack(gtf.track.trackDb)
 
     # Process a Bam => Tophat
-    if inputBamFile:
-        bam = Bam(inputBamFile, inputFastaFile, extra_files_path)
-        trackHub.addTrack(bam.track.trackDb)
+    if array_inputs_bam:
+        for bam_path in array_inputs_bam:
+            for key, data_bam in inputs_data.items():
+                if key == bam_path:
+                    bam = Bam(bam_path, data_bam, inputFastaFile, extra_files_path)
+                    trackHub.addTrack(bam.track.trackDb)
 
     # Process a BigWig => From Bam
     if input_bigWig_file_path:

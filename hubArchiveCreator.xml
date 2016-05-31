@@ -45,6 +45,7 @@
         #for $i, $f in enumerate( $format )
             #if $f.formatChoice.format_select == "bam"
                 --bam $f.formatChoice.BAM
+                #silent $prepare_json($f.formatChoice.BAM)
             #end if
             #if $f.formatChoice.format_select == "bed"
                 #if $f.formatChoice.bedChoice.bed_select == "bed"

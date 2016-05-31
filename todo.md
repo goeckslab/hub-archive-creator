@@ -30,3 +30,5 @@
 - [ ] Refactor the creation of the structure to TrackHub: Access to paths via this Class, and creation of file through it
 - [ ] TrackHub should check if the 2bit already exists instead of recreating it (which is the case atm)
 - [ ] Manage the error when a user is selecting Generic Bed instead of Bed Simple Repeats. Two options: a. Output a better error message ("Check with the other Bed options") b. Identify internally this is not a regular BED but a specific one
+- [ ] Remove the non-explicit parameters for the communication between Galaxy Wrapper and the entry point
+- [ ] Rename all occurences of `extension` which `datatype`

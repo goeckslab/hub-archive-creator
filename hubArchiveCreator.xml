@@ -1,4 +1,4 @@
-<tool id="hubArchiveCreator" name="Hub Archive Creator" version="1.9.2">
+<tool id="hubArchiveCreator" name="Hub Archive Creator" version="2.0.0">
     <description>
         This Galaxy tool permits to prepare your files to be ready for
         Assembly Hub visualization.

@@ -13,20 +13,17 @@ class BedSimpleRepeats(object):
                  ucsc_tools_path, trackHub):
         super(BedSimpleRepeats, self).__init__()
 
-        inputBedSimpleRepeatsFile = open(inputBedSimpleRepeatsFile, 'r')
-        inputFastaFile = open(inputFastaFile, 'r')
-
         sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
         twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
         chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
 
         # Sort processing
-        subtools.sort(inputBedSimpleRepeatsFile.name, sortedBedFile.name)
+        subtools.sort(inputBedSimpleRepeatsFile, sortedBedFile.name)
 
         mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
 
         # 2bit file creation from input fasta
-        twoBitFile = subtools.faToTwoBit(inputFastaFile.name, mySpecieFolderPath)
+        twoBitFile = subtools.faToTwoBit(inputFastaFile, mySpecieFolderPath)
 
         # Generate the chrom.sizes
 

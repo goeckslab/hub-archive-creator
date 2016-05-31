@@ -90,7 +90,7 @@ def main(argv):
     # TODO: Remove all spaces from the name in the dict
     # Sometimes output from Galaxy, or even just file name from user have spaces
     for key in inputs_data:
-        inputs_data[key] = inputs_data[key].replace(" ", "_")
+        inputs_data[key]["name"] = inputs_data[key]["name"].replace(" ", "_")
 
     if args.directory:
         toolDirectory = args.directory
@@ -120,9 +120,9 @@ def main(argv):
     # TODO: Optimize this double loop
     if array_inputs_bed_generic:
         for bed_path in array_inputs_bed_generic:
-            for key, value in inputs_data.items():
+            for key, data_bed in inputs_data.items():
                 if key == bed_path:
-                    bedGeneric = Bed(bed_path, value, inputFastaFile, extra_files_path)
+                    bedGeneric = Bed(bed_path, data_bed, inputFastaFile, extra_files_path)
                     trackHub.addTrack(bedGeneric.track.trackDb)
 
     # Process a GTF => Tophat

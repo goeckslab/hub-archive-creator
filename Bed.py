@@ -17,7 +17,6 @@ class Bed(object):
 
         self.inputBedGeneric = inputBedGeneric
 
-
         self.inputFastaFile = inputFastaFile
 
         self.sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")

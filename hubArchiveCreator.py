@@ -76,7 +76,6 @@ def main(argv):
 
     inputGFF3File = args.gff3
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
-    print "In args.bed: %s" % args.bed
     array_inputs_bed_generic = args.bed
     inputGTFFile = args.gtf
     inputBamFile = args.bam
@@ -91,9 +90,6 @@ def main(argv):
     # Sometimes output from Galaxy, or even just file name from user have spaces
     for key in inputs_data:
         inputs_data[key] = inputs_data[key].replace(" ", "_")
-
-    print "json is %s" % json_inputs_data
-    print "Loaded json is %s" % inputs_data
 
     if args.directory:
         toolDirectory = args.directory
@@ -121,11 +117,12 @@ def main(argv):
 
     # Process a Bed => tBlastN or TopHat
     # TODO: Optimize this double loop
-    for bed_path in array_inputs_bed_generic:
-        for key, value in inputs_data.items():
-            if key == bed_path:
-                bedGeneric = Bed(bed_path, value, inputFastaFile, extra_files_path)
-                trackHub.addTrack(bedGeneric.track.trackDb)
+    if array_inputs_bed_generic:
+        for bed_path in array_inputs_bed_generic:
+            for key, value in inputs_data.items():
+                if key == bed_path:
+                    bedGeneric = Bed(bed_path, value, inputFastaFile, extra_files_path)
+                    trackHub.addTrack(bedGeneric.track.trackDb)
 
     # Process a GTF => Tophat
     if inputGTFFile:

@@ -144,6 +144,7 @@ def main(argv):
 
     sys.exit(0)
 
+
 def sanitize_name_inputs(inputs_data):
     """
     Sometimes output from Galaxy, or even just file name from user have spaces

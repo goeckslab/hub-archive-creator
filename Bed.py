@@ -61,7 +61,7 @@ class Bed(object):
             longLabel='From Bed',  # TODO: Change this because it can be called by others thing that .bed => .gtf/.gff3
             shortLabel='bed file',
             trackDataURL=dataURL,
-            trackType='bigBed 12',
+            trackType='bigBed',
             visibility='dense',
             thickDrawItem='on',
         )

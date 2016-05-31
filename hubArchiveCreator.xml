@@ -32,13 +32,6 @@
         python $__tool_directory__/hubArchiveCreator.py
 
         #import json
-        #import sys
-
-        ## Json adding algo
-        ## - Create the json object
-        ## - For each $format, add a key named as the $input (path). And add a dict inside
-        ##      this, for each data to store (at least "name: $input.name")
-        ## - Pass this object into the --metadata_json option
 
         #set global data_parameter_dict = {}
 
@@ -46,7 +39,7 @@
         #def prepare_json($input_to_prepare)
             #set false_path = str($input_to_prepare)
             #set name = $input_to_prepare.name
-            #silent $data_parameter_dict.update({$false_path: $name})
+            #silent $data_parameter_dict.update({$false_path: {"name": $name} })
         #end def
 
         #for $i, $f in enumerate( $format )
@@ -65,13 +58,16 @@
             #end if
             #if $f.formatChoice.format_select == "bigwig"
                 --bigwig $f.formatChoice.BIGWIG
+                #silent $prepare_json($f.formatChoice.BIGWIG)
             #end if
             #if $f.formatChoice.format_select == "gff3"
                 -g $f.formatChoice.GFF3
+                #silent $prepare_json($f.formatChoice.GFF3)
             #end if
             #if $f.formatChoice.format_select == "gtf"
                 ## Add also GTF from Agustus? See https://github.com/ENCODE-DCC/kentUtils/issues/8
                 --gtf $f.formatChoice.GTF
+                #silent $prepare_json($f.formatChoice.GTF)
             #end if
         #end for
 

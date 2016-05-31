@@ -25,6 +25,9 @@ class Bed(object):
 
         self.extra_files_path = extra_files_path
 
+        self.data_bed_generic = data_bed_generic
+        self.name_bed_generic = self.data_bed_generic["name"]
+
         # Sort processing
         subtools.sort(self.inputBedGeneric, self.sortedBedFile.name)
 
@@ -47,7 +50,7 @@ class Bed(object):
         # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
         myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
-        trackName = "".join( ( data_bed_generic, ".bb") )
+        trackName = "".join( ( self.name_bed_generic, ".bb") )
 
         myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as self.bigBedFile:

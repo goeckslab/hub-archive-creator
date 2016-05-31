@@ -30,7 +30,7 @@ class Bam( Datatype ):
         # Temporary Files
         # Sorted Bed
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
-        sortedBam = "".join( ( self.name_bam, "sorted.bam" ) )
+        sortedBam = "".join( ( self.name_bam, ".sorted.bam" ) )
 
         # Created permanent files
         # Bam index file

@@ -7,19 +7,21 @@ Class to handle Bam files to UCSC TrackHub
 
 import os
 
+from Datatype import Datatype
 from Track import Track
 from TrackDb import TrackDb
 from util import subtools
 
 
-class Bam(object):
+class Bam( Datatype ):
     def __init__(self, inputBamFile, inputFastaFile, extra_files_path):
-        super(Bam, self).__init__()
+        super(Bam, self).__init__( input_fasta_file=inputFastaFile,
+                                   extra_files_path=extra_files_path )
 
         self.track = None
 
+        print "Creating TrackHub BAM from (falsePath: %s)" % ( inputBamFile )
         self.inputBamFile = inputBamFile
-        self.inputFastaFile = inputFastaFile
 
         # Temporary Files
         # Sorted Bed
@@ -31,32 +33,16 @@ class Bam(object):
         # TODO: Change the name depending on the inputs
         bamIndexFile = sortedBam + ".bai"
 
-        # Construction of the arborescence
-        # TODO: Change the hard-coded path with a input based one
-        mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
-        # TODO: Care about Race Condition + Move this in an util function
-        # if not os.path.exists(mySpecieFolderPath):
-        #     os.makedirs(mySpecieFolderPath)
-
-        # TODO: Refactor the name of the folder "tracks" into one variable, and should be inside TrackHub object
-        myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
-        # TODO: Care about Race Condition + Move this in an util function
-        # if not os.path.exists(myTrackFolderPath):
-        #     os.makedirs(myTrackFolderPath)
-
-        # TODO: Redundant, should be refactored because they are all doing it...into hubArchiveCreator?
-        # 2bit file creation from input fasta
-        self.twoBitFile = subtools.faToTwoBit(self.inputFastaFile, mySpecieFolderPath)
-
         # First: Add the bam file
         # Second: Add the bam index file, in the same folder (https://genome.ucsc.edu/goldenpath/help/bam.html)
 
-        mySortedBamFilePath = os.path.join(myTrackFolderPath, sortedBam)
+        mySortedBamFilePath = os.path.join(self.myTrackFolderPath, sortedBam)
         with open(mySortedBamFilePath, 'w') as sortedBamPath:
             subtools.sortBam(self.inputBamFile, sortedBamPath.name)
 
         # Create and add the bam index file to the same folder
-        bamIndexFilePath = os.path.join(myTrackFolderPath, bamIndexFile)
+        bamIndexFilePath = os.path.join(self.myTrackFolderPath, bamIndexFile)
+        print "bamIndexFilePath: %s" % bamIndexFilePath
         subtools.createBamIndex(mySortedBamFilePath, bamIndexFilePath)
 
         # Create the Track Object

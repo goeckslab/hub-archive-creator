@@ -31,6 +31,24 @@
         mkdir -p $output.extra_files_path;
         python $__tool_directory__/hubArchiveCreator.py
 
+        #import json
+        #import sys
+
+        ## Json adding algo
+        ## - Create the json object
+        ## - For each $format, add a key named as the $input (path). And add a dict inside
+        ##      this, for each data to store (at least "name: $input.name")
+        ## - Pass this object into the --metadata_json option
+
+        #set global data_parameter_dict = {}
+
+        ## Function to retrieve the data of the inputs
+        #def prepare_json($input_to_prepare)
+            #set false_path = str($input_to_prepare)
+            #set name = $input_to_prepare.name
+            #silent $data_parameter_dict.update({$false_path: $name})
+        #end def
+
         #for $i, $f in enumerate( $format )
             #if $f.formatChoice.format_select == "bam"
                 --bam $f.formatChoice.BAM
@@ -38,9 +56,11 @@
             #if $f.formatChoice.format_select == "bed"
                 #if $f.formatChoice.bedChoice.bed_select == "bed"
                     -b $f.formatChoice.bedChoice.BED
+                    #silent $prepare_json($f.formatChoice.bedChoice.BED)
                 #end if
                 #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
                     -t $f.formatChoice.bedChoice.BED_simple_repeats
+                    #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats)
                 #end if
             #end if
             #if $f.formatChoice.format_select == "bigwig"
@@ -54,7 +74,13 @@
                 --gtf $f.formatChoice.GTF
             #end if
         #end for
-        -f $Fasta_File -d $__tool_directory__ -e $output.files_path -o $output;
+
+        ## Dump the final json
+        #set all_data_json = json.dumps($data_parameter_dict)
+
+        -f $Fasta_File
+        --data_json '$all_data_json'
+        -d $__tool_directory__ -e $output.files_path -o $output;
     ]]></command>
 
     <inputs>

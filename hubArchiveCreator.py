@@ -9,6 +9,7 @@ hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . 
 """
 
 import argparse
+import json
 import sys
 
 # Internal dependencies
@@ -41,7 +42,7 @@ def main(argv):
     parser.add_argument('-t', '--bedSimpleRepeats', help='Bed4+12 format, using simpleRepeats.as')
 
     # Generic Bed (Blastx transformed to bed)
-    parser.add_argument('-b', '--bed', help='Bed generic format')
+    parser.add_argument('-b', '--bed', action='append', help='Bed generic format')
 
     # BigWig Management
     parser.add_argument('--bigwig', help='BigWig format')
@@ -58,6 +59,8 @@ def main(argv):
                         help='Name, in galaxy, of the output folder. Where you would want to build the Track Hub Archive')
     parser.add_argument('-o', '--output', help='Name of the HTML summarizing the content of the Track Hub Archive')
 
+    parser.add_argument('-j', '--data_json', help='Json containing the metadata of the inputs')
+
     ucsc_tools_path = ''
 
     toolDirectory = '.'
@@ -67,13 +70,26 @@ def main(argv):
     args = parser.parse_args()
 
     inputFastaFile = args.fasta
+
+    # TODO: Add array for each input because we can add multiple -b for example + filter the data associated
+
+
     inputGFF3File = args.gff3
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
-    inputBedGeneric = args.bed
+    array_inputs_bed_generic = args.bed
     inputGTFFile = args.gtf
     inputBamFile = args.bam
     input_bigWig_file_path = args.bigwig
+
     outputFile = args.output
+    json_inputs_data = args.data_json
+
+    inputs_data = json.loads(json_inputs_data)
+
+    # TODO: Remove all spaces from the name in the dict
+    # Sometimes output from Galaxy, or even just file name from user have spaces
+    for key in inputs_data:
+        inputs_data[key] = inputs_data[key].replace(" ", "_")
 
     if args.directory:
         toolDirectory = args.directory
@@ -100,10 +116,13 @@ def main(argv):
         trackHub.addTrack(bedRepeat.track.trackDb)
 
     # Process a Bed => tBlastN or TopHat
-    if inputBedGeneric:
-        bedGeneric = Bed(inputBedGeneric, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path,
-                         trackHub)
-        trackHub.addTrack(bedGeneric.track.trackDb)
+    # TODO: Optimize this double loop
+    if array_inputs_bed_generic:
+        for bed_path in array_inputs_bed_generic:
+            for key, value in inputs_data.items():
+                if key == bed_path:
+                    bedGeneric = Bed(bed_path, value, inputFastaFile, extra_files_path)
+                    trackHub.addTrack(bedGeneric.track.trackDb)
 
     # Process a GTF => Tophat
     if inputGTFFile:

@@ -20,7 +20,7 @@ class Bam( Datatype ):
 
         self.track = None
 
-        print "InputBamFile: %s" % inputBamFile
+        print "Creating TrackHub BAM from (falsePath: %s)" % ( inputBamFile )
         self.inputBamFile = inputBamFile
 
         # Temporary Files
@@ -42,6 +42,7 @@ class Bam( Datatype ):
 
         # Create and add the bam index file to the same folder
         bamIndexFilePath = os.path.join(self.myTrackFolderPath, bamIndexFile)
+        print "bamIndexFilePath: %s" % bamIndexFilePath
         subtools.createBamIndex(mySortedBamFilePath, bamIndexFilePath)
 
         # Create the Track Object

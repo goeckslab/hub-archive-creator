@@ -4,39 +4,32 @@ import os
 import tempfile
 
 # Internal dependencies
+from Datatype import Datatype
 from Track import Track
 from TrackDb import TrackDb
 from util import subtools
 
 
-class Bed(object):
+class Bed( Datatype ):
     def __init__( self, inputBedGeneric, data_bed_generic,
                  inputFastaFile, extra_files_path, tool_directory ):
-        super(Bed, self).__init__()
+        super(Bed, self).__init__(
+            inputFastaFile, extra_files_path, tool_directory
+        )
 
         self.track = None
 
         self.inputBedGeneric = inputBedGeneric
 
-        self.inputFastaFile = inputFastaFile
-
         self.sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
         self.chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
         self.twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
-
-        self.extra_files_path = extra_files_path
 
         self.data_bed_generic = data_bed_generic
         self.name_bed_generic = self.data_bed_generic["name"]
 
         # Sort processing
         subtools.sort(self.inputBedGeneric, self.sortedBedFile.name)
-
-        # Before the bedToBigBed processing, we need to retrieve the chrom.sizes file from the reference genome
-        mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
-
-        # 2bit file creation from input fasta
-        self.twoBitFile = subtools.faToTwoBit(self.inputFastaFile, mySpecieFolderPath)
 
         # Generate the chrom.sizes
         # TODO: Isolate in a function
@@ -48,12 +41,10 @@ class Bed(object):
         subtools.sortChromSizes(self.twoBitInfoFile.name, self.chromSizesFile.name)
 
         # bedToBigBed processing
-        # bedToBigBed augustusDbia3.sortbed chrom.sizes augustusDbia3.bb
-        myTrackFolderPath = os.path.join(mySpecieFolderPath, "tracks")
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
         trackName = "".join( ( self.name_bed_generic, ".bb") )
 
-        myBigBedFilePath = os.path.join(myTrackFolderPath, trackName)
+        myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as self.bigBedFile:
             subtools.bedToBigBed(self.sortedBedFile.name, self.chromSizesFile.name, self.bigBedFile.name)
 

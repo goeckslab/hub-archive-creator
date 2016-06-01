@@ -45,7 +45,7 @@ def main(argv):
     parser.add_argument('-b', '--bed', action='append', help='Bed generic format')
 
     # BigWig Management
-    parser.add_argument('--bigwig', help='BigWig format')
+    parser.add_argument('--bigwig', action='append', help='BigWig format')
 
     # Bam Management
     parser.add_argument('--bam', action='append', help='Bam format')
@@ -79,7 +79,7 @@ def main(argv):
     array_inputs_bed_generic = args.bed
     array_inputs_gtf = args.gtf
     array_inputs_bam = args.bam
-    input_bigWig_file_path = args.bigwig
+    array_inputs_bigwig = args.bigwig
 
     outputFile = args.output
     json_inputs_data = args.data_json
@@ -115,7 +115,7 @@ def main(argv):
     # Process a Bed => tBlastN or TopHat
     # TODO: Optimize this double loop
     if array_inputs_bed_generic:
-        add_track( Bed, array_inputs_bed_generic, inputs_data, input_fasta_file, extra_files_path, trackHub)
+        add_track( Bed, array_inputs_bed_generic, inputs_data, input_fasta_file, extra_files_path, trackHub )
 
     # Process a GTF => Tophat
     if array_inputs_gtf:
@@ -126,9 +126,8 @@ def main(argv):
         add_track( Bam, array_inputs_bam, inputs_data, input_fasta_file, extra_files_path, trackHub )
 
     # Process a BigWig => From Bam
-    if input_bigWig_file_path:
-        bigWig = BigWig(input_bigWig_file_path, input_fasta_file, extra_files_path)
-        trackHub.addTrack(bigWig.track)
+    if array_inputs_bigwig:
+        add_track( BigWig, array_inputs_bigwig, inputs_data, input_fasta_file, extra_files_path, trackHub )
 
     # We process all the modifications to create the zip file
     trackHub.createZip()
@@ -152,9 +151,9 @@ def sanitize_name_inputs(inputs_data):
 def add_track( ExtensionClass, array_inputs, inputs_data, input_fasta_file, extra_files_path, trackHub ):
     """
     Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub
-    :param ExtensionClass: Datatype
-    :param array_inputs: T <= Datatype
-    :param inputs_data: list[string]
+    :param ExtensionClass: T <= Datatype
+    :param array_inputs: list[string]
+    :param inputs_data:
     :param input_fasta_file: string
     :param extra_files_path: string
     :param trackHub: TrackHub

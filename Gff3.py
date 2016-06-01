@@ -9,10 +9,10 @@ from TrackDb import TrackDb
 from util import subtools
 
 
-class AugustusProcess(object):
+class Gff3(object):
     def __init__(self, inputGFF3File, inputFastaFile, outputFile, toolDirectory, extra_files_path, ucsc_tools_path,
                  trackHub):
-        super(AugustusProcess, self).__init__()
+        super(Gff3, self).__init__()
 
         self.track = None
 
@@ -61,7 +61,7 @@ class AugustusProcess(object):
 
         trackDb = TrackDb(
             trackName=trackName,
-            longLabel='From AugustusProcess',
+            longLabel='From Gff3',
             shortLabel='Augustus_dbia3',
             trackDataURL=dataURL,
             trackType='bigBed 12 +',

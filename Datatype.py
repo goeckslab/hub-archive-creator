@@ -12,7 +12,6 @@ from util import subtools
 
 class Datatype(object):
     def __init__(self, input_fasta_file, extra_files_path):
-        super(Datatype, self).__init__()
 
         self.input_fasta_file = input_fasta_file
         self.extra_files_path = extra_files_path

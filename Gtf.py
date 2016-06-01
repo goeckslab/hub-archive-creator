@@ -33,7 +33,7 @@ class Gtf( Datatype ):
         # GtfToGenePred
         subtools.gtfToGenePred(self.input_gtf_false_path, genePredFile.name)
 
-        # TODO: From there, refactor because common use with AugustusProcess.py (will be renamed GFF.py)
+        # TODO: From there, refactor because common use with Gff3.py
         #  genePredToBed processing
         subtools.genePredToBed(genePredFile.name, unsortedBedFile.name)
 

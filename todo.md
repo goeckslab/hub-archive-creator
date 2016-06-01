@@ -32,3 +32,6 @@
 - [ ] Manage the error when a user is selecting Generic Bed instead of Bed Simple Repeats. Two options: a. Output a better error message ("Check with the other Bed options") b. Identify internally this is not a regular BED but a specific one
 - [ ] Remove the non-explicit parameters for the communication between Galaxy Wrapper and the entry point
 - [ ] Rename all occurences of `extension` which `datatype`
+- [ ] Follow https://google.github.io/styleguide/pyguide.html
+- [ ] Move to Python 3
+- [ ] Remove the repetition of the extension if it already exists

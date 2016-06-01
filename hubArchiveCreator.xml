@@ -62,7 +62,7 @@
                 #silent $prepare_json($f.formatChoice.BIGWIG)
             #end if
             #if $f.formatChoice.format_select == "gff3"
-                -g $f.formatChoice.GFF3
+                --gff3 $f.formatChoice.GFF3
                 #silent $prepare_json($f.formatChoice.GFF3)
             #end if
             #if $f.formatChoice.format_select == "gtf"

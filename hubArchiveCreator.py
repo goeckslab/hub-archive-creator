@@ -33,7 +33,7 @@ def main(argv):
     parser.add_argument('-f', '--fasta', help='Fasta file of the reference genome')
 
     # GFF3 Management
-    parser.add_argument('-g', '--gff3', help='GFF3 output of Augustus')
+    parser.add_argument('--gff3', action='append', help='GFF3 format')
 
     # GTF Management
     parser.add_argument('--gtf', action='append', help='GTF format')

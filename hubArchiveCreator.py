@@ -39,10 +39,10 @@ def main(argv):
     parser.add_argument('--gtf', action='append', help='GTF format')
 
     # Bed4+12 (TrfBig)
-    parser.add_argument('-t', '--bedSimpleRepeats', help='Bed4+12 format, using simpleRepeats.as')
+    parser.add_argument('--bedSimpleRepeats', action='append', help='Bed4+12 format, using simpleRepeats.as')
 
     # Generic Bed (Blastx transformed to bed)
-    parser.add_argument('-b', '--bed', action='append', help='Bed generic format')
+    parser.add_argument('--bed', action='append', help='Bed generic format')
 
     # BigWig Management
     parser.add_argument('--bigwig', action='append', help='BigWig format')
@@ -75,7 +75,7 @@ def main(argv):
 
 
     array_inputs_gff3 = args.gff3
-    inputBedSimpleRepeatsFile = args.bedSimpleRepeats
+    array_inputs_bed_simple_repeats = args.bedSimpleRepeats
     array_inputs_bed_generic = args.bed
     array_inputs_gtf = args.gtf
     array_inputs_bam = args.bam
@@ -103,30 +103,33 @@ def main(argv):
 
     # Process Augustus
     if array_inputs_gff3:
-        add_track( Gff3, array_inputs_gff3, inputs_data, input_fasta_file, extra_files_path, trackHub )
+        add_track(Gff3, array_inputs_gff3, inputs_data, input_fasta_file,
+                  extra_files_path, trackHub, toolDirectory)
 
     # Process Bed simple repeats => From Tandem Repeats Finder / TrfBig
-    if inputBedSimpleRepeatsFile:
-        bedRepeat = BedSimpleRepeats(inputBedSimpleRepeatsFile, input_fasta_file, outputFile, toolDirectory,
-                                     extra_files_path, ucsc_tools_path, trackHub)
-        trackHub.addTrack(bedRepeat.track.trackDb)
+    if array_inputs_bed_simple_repeats:
+        add_track(BedSimpleRepeats, array_inputs_bed_simple_repeats, inputs_data, input_fasta_file,
+                  extra_files_path, trackHub, toolDirectory)
 
     # Process a Bed => tBlastN or TopHat
-    # TODO: Optimize this double loop
     if array_inputs_bed_generic:
-        add_track( Bed, array_inputs_bed_generic, inputs_data, input_fasta_file, extra_files_path, trackHub )
+        add_track(Bed, array_inputs_bed_generic, inputs_data, input_fasta_file,
+                  extra_files_path, trackHub, toolDirectory)
 
     # Process a GTF => Tophat
     if array_inputs_gtf:
-        add_track( Gtf, array_inputs_gtf, inputs_data, input_fasta_file, extra_files_path, trackHub )
+        add_track(Gtf, array_inputs_gtf, inputs_data, input_fasta_file,
+                  extra_files_path, trackHub, toolDirectory)
 
     # Process a Bam => Tophat
     if array_inputs_bam:
-        add_track( Bam, array_inputs_bam, inputs_data, input_fasta_file, extra_files_path, trackHub )
+        add_track(Bam, array_inputs_bam, inputs_data, input_fasta_file,
+                  extra_files_path, trackHub, toolDirectory)
 
     # Process a BigWig => From Bam
     if array_inputs_bigwig:
-        add_track( BigWig, array_inputs_bigwig, inputs_data, input_fasta_file, extra_files_path, trackHub )
+        add_track(BigWig, array_inputs_bigwig, inputs_data, input_fasta_file,
+                  extra_files_path, trackHub, toolDirectory)
 
     # We process all the modifications to create the zip file
     trackHub.createZip()
@@ -147,21 +150,26 @@ def sanitize_name_inputs(inputs_data):
         inputs_data[key]["name"] = inputs_data[key]["name"].replace(" ", "_")
 
 
-def add_track( ExtensionClass, array_inputs, inputs_data, input_fasta_file, extra_files_path, trackHub ):
+def add_track(ExtensionClass, array_inputs, inputs_data, input_fasta_file,
+              extra_files_path, trackHub, tool_directory ):
     """
     Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub
+    :param tool_directory:
     :param ExtensionClass: T <= Datatype
     :param array_inputs: list[string]
     :param inputs_data:
     :param input_fasta_file: string
     :param extra_files_path: string
     :param trackHub: TrackHub
+    :param tool_directory; string
     :return:
     """
+    # TODO: Optimize this double loop
     for input_false_path in array_inputs:
         for key, data_value in inputs_data.items():
             if key == input_false_path:
-                extensionObject = ExtensionClass(input_false_path, data_value, input_fasta_file, extra_files_path)
+                extensionObject = ExtensionClass(input_false_path, data_value,
+                                                 input_fasta_file, extra_files_path, tool_directory)
                 trackHub.addTrack(extensionObject.track.trackDb)
 
 

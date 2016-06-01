@@ -31,3 +31,6 @@
 - [ ] TrackHub should check if the 2bit already exists instead of recreating it (which is the case atm)
 - [ ] Remove the non-explicit parameters for the communication between Galaxy Wrapper and the entry point
 - [ ] Rename all occurences of `extension` which `datatype`
+- [ ] Follow https://google.github.io/styleguide/pyguide.html
+- [ ] Move to Python 3
+- [ ] Remove the repetition of the extension if it already exists

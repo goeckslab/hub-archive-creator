@@ -14,7 +14,7 @@ import sys
 
 # Internal dependencies
 from TrackHub import TrackHub
-from AugustusProcess import AugustusProcess
+from Gff3 import Gff3
 from Bam import Bam
 from BedSimpleRepeats import BedSimpleRepeats
 from Bed import Bed
@@ -74,7 +74,7 @@ def main(argv):
     # TODO: Add array for each input because we can add multiple -b for example + filter the data associated
 
 
-    inputGFF3File = args.gff3
+    array_inputs_gff3 = args.gff3
     inputBedSimpleRepeatsFile = args.bedSimpleRepeats
     array_inputs_bed_generic = args.bed
     array_inputs_gtf = args.gtf
@@ -101,10 +101,8 @@ def main(argv):
     trackHub = TrackHub(input_fasta_file, outputFile, extra_files_path, toolDirectory)
 
     # Process Augustus
-    if inputGFF3File:
-        augustusObject = AugustusProcess(inputGFF3File, input_fasta_file, outputFile, toolDirectory, extra_files_path,
-                                         ucsc_tools_path, trackHub)
-        trackHub.addTrack(augustusObject.track.trackDb)
+    if array_inputs_gff3:
+        add_track( Gff3, array_inputs_gff3, inputs_data, input_fasta_file, extra_files_path, trackHub )
 
     # Process Bed simple repeats => From Tandem Repeats Finder / TrfBig
     if inputBedSimpleRepeatsFile:

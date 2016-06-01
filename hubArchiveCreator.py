@@ -82,6 +82,11 @@ def main(argv):
     array_inputs_bigwig = args.bigwig
 
     outputFile = args.output
+    json_inputs_data = args.data_json
+
+    inputs_data = json.loads(json_inputs_data)
+    # We remove the spaces in ["name"] of inputs_data
+    sanitize_name_inputs(inputs_data)
 
     json_inputs_data = args.data_json
 

@@ -10,14 +10,15 @@ from mako.lookup import TemplateLookup
 class TrackHub(object):
     """docstring for TrackHub"""
 
-    def __init__(self, inputFastaFile, outputFile, extra_files_path, toolDirectory):
+    def __init__(self, inputFastaFile, outputFile, extra_files_path, tool_directory):
         super(TrackHub, self).__init__()
 
         self.rootAssemblyHub = None
         self.mySpecieFolderPath = None
+        self.tool_directory = tool_directory
 
         # TODO: Modify according to the files passed in parameter
-        mylookup = TemplateLookup(directories=[os.path.join(toolDirectory, 'templates/trackDb')],
+        mylookup = TemplateLookup(directories=[os.path.join(tool_directory, 'templates/trackDb')],
                                   output_encoding='utf-8', encoding_errors='replace')
         self.trackDbTemplate = mylookup.get_template("layout.txt")
 
@@ -33,7 +34,7 @@ class TrackHub(object):
         suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
         self.twoBitName = suffixTwoBit + '.2bit'
 
-        self.rootAssemblyHub = self.__createAssemblyHub__(toolDirectory=toolDirectory,
+        self.rootAssemblyHub = self.__createAssemblyHub__(toolDirectory=tool_directory,
                                                           extra_files_path=extra_files_path)
 
     def createZip(self):

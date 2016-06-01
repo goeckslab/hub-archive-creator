@@ -14,9 +14,11 @@ from util import subtools
 
 
 class Bam( Datatype ):
-    def __init__(self, input_bam_false_path, data_bam , inputFastaFile, extra_files_path):
+    def __init__( self, input_bam_false_path, data_bam ,
+                 inputFastaFile, extra_files_path, tool_directory ):
         super(Bam, self).__init__( input_fasta_file=inputFastaFile,
-                                   extra_files_path=extra_files_path )
+                                   extra_files_path=extra_files_path,
+                                   tool_directory=tool_directory)
 
         self.track = None
 

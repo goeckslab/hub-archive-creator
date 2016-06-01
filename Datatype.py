@@ -11,10 +11,11 @@ from util import subtools
 
 
 class Datatype(object):
-    def __init__(self, input_fasta_file, extra_files_path):
+    def __init__( self, input_fasta_file, extra_files_path, tool_directory ):
 
         self.input_fasta_file = input_fasta_file
         self.extra_files_path = extra_files_path
+        self.tool_directory = tool_directory
 
         # Construction of the arborescence
         # TODO: Change the hard-coded path with a input based one

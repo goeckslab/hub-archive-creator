@@ -49,11 +49,11 @@
             #end if
             #if $f.formatChoice.format_select == "bed"
                 #if $f.formatChoice.bedChoice.bed_select == "bed"
-                    -b $f.formatChoice.bedChoice.BED
+                    --bed $f.formatChoice.bedChoice.BED
                     #silent $prepare_json($f.formatChoice.bedChoice.BED)
                 #end if
                 #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
-                    -t $f.formatChoice.bedChoice.BED_simple_repeats
+                    --bedSimpleRepeats $f.formatChoice.bedChoice.BED_simple_repeats
                     #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats)
                 #end if
             #end if

@@ -11,9 +11,11 @@ from util import subtools
 
 
 class Gtf( Datatype ):
-    def __init__(self, input_gtf_false_path, data_gtf, input_fasta_file, extra_files_path):
+    def __init__( self, input_gtf_false_path, data_gtf,
+                 input_fasta_file, extra_files_path, tool_directory ):
         super(Gtf, self).__init__( input_fasta_file=input_fasta_file,
-                                   extra_files_path=extra_files_path )
+                                   extra_files_path=extra_files_path,
+                                   tool_directory=tool_directory )
 
         self.track = None
 

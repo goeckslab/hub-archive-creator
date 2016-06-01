@@ -11,8 +11,11 @@ from util import subtools
 
 
 class Gff3( Datatype ):
-    def __init__( self, input_Gff3_false_path, data_gff3, input_fasta_false_path, extra_files_path ):
-        super( Gff3, self ).__init__( input_fasta_false_path, extra_files_path )
+    def __init__( self, input_Gff3_false_path, data_gff3,
+                  input_fasta_false_path, extra_files_path, tool_directory ):
+        super( Gff3, self ).__init__(
+                input_fasta_false_path, extra_files_path, tool_directory
+        )
 
         self.track = None
 

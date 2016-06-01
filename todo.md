@@ -34,3 +34,4 @@
 - [ ] Follow https://google.github.io/styleguide/pyguide.html
 - [ ] Move to Python 3
 - [ ] Remove the repetition of the extension if it already exists
+- [ ] Better thinking about the tool_directory management

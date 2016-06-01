@@ -154,7 +154,6 @@ def add_track(ExtensionClass, array_inputs, inputs_data, input_fasta_file,
               extra_files_path, trackHub, tool_directory ):
     """
     Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub
-    :param tool_directory:
     :param ExtensionClass: T <= Datatype
     :param array_inputs: list[string]
     :param inputs_data:

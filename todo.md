@@ -36,3 +36,4 @@
 - [ ] Move to Python 3
 - [ ] Remove the repetition of the extension if it already exists
 - [ ] Better thinking about the tool_directory management
+- [ ] Add a debug mode to have more outputs

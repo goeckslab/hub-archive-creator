@@ -154,6 +154,6 @@ def createBamIndex(input_sorted_bam_file_name, output_name_index_name):
     :param output_name_index_name:
     :return:
     """
-    array_call = ['samtools', 'index', input_sorted_bam_file_name]
+    array_call = ['samtools', 'index', input_sorted_bam_file_name, output_name_index_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p

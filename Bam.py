@@ -6,6 +6,7 @@ Class to handle Bam files to UCSC TrackHub
 """
 
 import os
+import shutil
 
 from Datatype import Datatype
 from Track import Track
@@ -25,37 +26,28 @@ class Bam( Datatype ):
         self.input_bam_false_path = input_bam_false_path
 
         self.data_bam = data_bam
-        self.name_bam = self.data_bam["name"]
+        # TODO: Check if it already contains the .bam extension / Do a function in Datatype which check the extension
+        self.name_bam = self.data_bam["name"] + ".bam"
+        self.index_bam = self.data_bam["index"]
 
         print "Creating TrackHub BAM from (falsePath: %s; name: %s)" % ( self.input_bam_false_path, self.name_bam)
-
-        # Temporary Files
-        # Sorted Bed
-        # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
-        sortedBam = "".join( ( self.name_bam, ".sorted.bam" ) )
-
-        # Created permanent files
-        # Bam index file
-        # TODO: Change the name depending on the inputs
-        bamIndexFile = sortedBam + ".bai"
 
         # First: Add the bam file
         # Second: Add the bam index file, in the same folder (https://genome.ucsc.edu/goldenpath/help/bam.html)
 
-        mySortedBamFilePath = os.path.join(self.myTrackFolderPath, sortedBam)
-        with open(mySortedBamFilePath, 'w') as sortedBamPath:
-            subtools.sortBam(self.input_bam_false_path, sortedBamPath.name)
+        bam_file_path = os.path.join(self.myTrackFolderPath, self.name_bam)
+        shutil.copyfile(self.input_bam_false_path, bam_file_path)
 
         # Create and add the bam index file to the same folder
-        bamIndexFilePath = os.path.join(self.myTrackFolderPath, bamIndexFile)
-        print "bamIndexFilePath: %s" % bamIndexFilePath
-        subtools.createBamIndex(mySortedBamFilePath, bamIndexFilePath)
+        name_index_bam = self.name_bam + ".bai"
+        bam_index_file_path = os.path.join(self.myTrackFolderPath, name_index_bam)
+        shutil.copyfile(self.index_bam, bam_index_file_path)
 
         # Create the Track Object
-        dataURL = "tracks/%s" % sortedBam
+        dataURL = "tracks/%s" % self.name_bam
 
         trackDb = TrackDb(
-            trackName=sortedBam,
+            trackName=self.name_bam,
             longLabel='From Bam',  # TODO: Change this because it can be called by others thing that .bed => .gtf/.gff3
             shortLabel='bam file',
             trackDataURL=dataURL,
@@ -65,9 +57,9 @@ class Bam( Datatype ):
 
         # Return the Bam Track Object
         self.track = Track(
-            trackFile=mySortedBamFilePath,
+            trackFile=bam_index_file_path,
             trackDb=trackDb,
         )
 
-        print("- %s created in %s" % (sortedBam, mySortedBamFilePath))
-        print("- %s created in %s" % (bamIndexFile, bamIndexFilePath))
+        print("- %s created in %s" % (self.name_bam, bam_file_path))
+        print("- %s created in %s" % (self.index_bam, bam_index_file_path))

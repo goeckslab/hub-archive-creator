@@ -1,4 +1,4 @@
-<tool id="hubArchiveCreator" name="Hub Archive Creator" version="2.0.0">
+<tool id="hubArchiveCreator" name="Hub Archive Creator" version="2.0.1">
     <description>
         This Galaxy tool permits to prepare your files to be ready for
         Assembly Hub visualization.
@@ -36,16 +36,21 @@
         #set global data_parameter_dict = {}
 
         ## Function to retrieve the data of the inputs
-        #def prepare_json($input_to_prepare)
+        #def prepare_json($input_to_prepare, $extra_data_dict={})
             #set false_path = str($input_to_prepare)
             #set name = $input_to_prepare.name
-            #silent $data_parameter_dict.update({$false_path: {"name": $name} })
+
+            #set data_dict = {"name": $name}
+            #silent data_dict.update($extra_data_dict)
+
+            #silent $data_parameter_dict.update({$false_path: $data_dict})
         #end def
 
         #for $i, $f in enumerate( $format )
             #if $f.formatChoice.format_select == "bam"
                 --bam $f.formatChoice.BAM
-                #silent $prepare_json($f.formatChoice.BAM)
+                #set bam_index = $f.formatChoice.BAM.metadata.bam_index
+                #silent $prepare_json($f.formatChoice.BAM, {"index": $bam_index})
             #end if
             #if $f.formatChoice.format_select == "bed"
                 #if $f.formatChoice.bedChoice.bed_select == "bed"

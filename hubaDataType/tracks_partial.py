@@ -3,22 +3,15 @@ HubAssembly datatype
 """
 import logging
 
-import galaxy.version as version
+from galaxy.datatypes.text import Html
 
-# Support for Galaxy <= 16.01
-if version.VERSION_MAJOR <= "16.01":
-    from galaxy.datatypes.images import Html
-else:
-    from galaxy.datatypes.text import Html
-
-log = logging.getLogger(__name__)
-
+log = logging.getLogger( __name__ )
 
 # !!! README !!! The content of this file should be added in tracks.py, but do it carefully!
 # Don't erase the existing content
 
 
-class UCSCTrackHub(Html):
+class UCSCTrackHub( Html ):
     """
     derived class for BioC data structures in Galaxy
     """
@@ -26,10 +19,10 @@ class UCSCTrackHub(Html):
     file_ext = 'trackhub'
     composite_type = 'auto_primary_file'
 
-    def __init__(self, **kwd):
-        Html.__init__(self, **kwd)
+    def __init__( self, **kwd ):
+        Html.__init__( self, **kwd )
 
-    def generate_primary_file(self, dataset=None):
+    def generate_primary_file( self, dataset=None ):
         """
         This is called only at upload to write the html file
         cannot rename the datasets here - they come with the default unfortunately
@@ -46,18 +39,18 @@ class UCSCTrackHub(Html):
         rval.append('</ul></html>')
         return "\n".join(rval)
 
-    def set_peek(self, dataset, is_multi_byte=False):
+    def set_peek( self, dataset, is_multi_byte=False ):
         if not dataset.dataset.purged:
             dataset.peek = "Track Hub structure: Visualization in UCSC Track Hub"
         else:
             dataset.peek = 'file does not exist'
             dataset.blurb = 'file purged from disk'
 
-    def display_peek(self, dataset):
+    def display_peek( self, dataset ):
         try:
             return dataset.peek
         except:
             return "Track Hub structure: Visualization in UCSC Track Hub"
 
-    def sniff(self, filename):
+    def sniff( self, filename ):
         return False

@@ -34,8 +34,8 @@ class BigWig( Datatype ):
         # Return the BigBed track
         trackDb = TrackDb(
             trackName=trackName,
-            longLabel='From BigWig',
-            shortLabel='BigWig file',
+            longLabel=self.name_bigwig,
+            shortLabel=self.getShortName( self.name_bigwig ),
             trackDataURL=dataURL,
             trackType='bigWig',
             visibility='full')

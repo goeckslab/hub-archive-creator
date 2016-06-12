@@ -17,6 +17,7 @@ class Datatype(object):
         self.extra_files_path = extra_files_path
         self.tool_directory = tool_directory
 
+
         # Construction of the arborescence
         # TODO: Change the hard-coded path with a input based one
         self.mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
@@ -27,3 +28,9 @@ class Datatype(object):
         # TODO: Redundant, should be refactored because they are all doing it...into hubArchiveCreator?
         # 2bit file creation from input fasta
         self.twoBitFile = subtools.faToTwoBit(self.input_fasta_file, self.mySpecieFolderPath)
+
+    def getShortName( self, name_to_shortify ):
+        # Slice to get from Long label the short label
+        short_label_slice = slice(0, 15)
+
+        return name_to_shortify[short_label_slice]

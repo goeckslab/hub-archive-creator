@@ -60,8 +60,8 @@ class Gff3( Datatype ):
 
         trackDb = TrackDb(
             trackName=trackName,
-            longLabel='From Gff3',
-            shortLabel='GFF3 File',
+            longLabel=self.name_gff3,
+            shortLabel=self.getShortName( self.name_gff3 ),
             trackDataURL=dataURL,
             trackType='bigBed 12 +',
             visibility='dense',

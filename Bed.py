@@ -53,8 +53,8 @@ class Bed( Datatype ):
 
         trackDb = TrackDb(
             trackName=trackName,
-            longLabel='From Bed',  # TODO: Change this because it can be called by others thing that .bed => .gtf/.gff3
-            shortLabel='bed file',
+            longLabel=self.name_bed_generic,
+            shortLabel=self.getShortName(self.name_bed_generic),
             trackDataURL=dataURL,
             trackType='bigBed',
             visibility='dense',

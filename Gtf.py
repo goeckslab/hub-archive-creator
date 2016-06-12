@@ -62,8 +62,8 @@ class Gtf( Datatype ):
 
         trackDb = TrackDb(
             trackName=trackName,
-            longLabel='From Gtf',
-            shortLabel='GTF',
+            longLabel=self.name_gtf,
+            shortLabel=self.getShortName( self.name_gtf ),
             trackDataURL=dataURL,
             trackType='bigBed 12 +',
             visibility='dense',

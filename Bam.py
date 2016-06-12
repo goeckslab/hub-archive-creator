@@ -48,8 +48,8 @@ class Bam( Datatype ):
 
         trackDb = TrackDb(
             trackName=self.name_bam,
-            longLabel='From Bam',  # TODO: Change this because it can be called by others thing that .bed => .gtf/.gff3
-            shortLabel='bam file',
+            longLabel=self.name_bam,
+            shortLabel=self.getShortName( self.name_bam ),
             trackDataURL=dataURL,
             trackType='bam',
             visibility='pack',

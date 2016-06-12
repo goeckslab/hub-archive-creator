@@ -51,8 +51,8 @@ class BedSimpleRepeats( Datatype ):
 
         trackDb = TrackDb(
             trackName=trackName,
-            longLabel='Tandem Repeats Big by TrfBig',
-            shortLabel='Tandem Repeats',
+            longLabel=self.name_bed_simple_repeats,
+            shortLabel=self.getShortName( self.name_bed_simple_repeats ),
             trackDataURL=dataURL,
             trackType='bigBed 4 +',
             visibility='dense'

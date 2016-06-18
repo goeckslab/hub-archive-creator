@@ -141,9 +141,7 @@ def main(argv):
                                         extra_files_path, all_datatype_dictionary, toolDirectory)
 
     # Create Ordered Dictionary to add the tracks in the tool form order
-    print all_datatype_dictionary
     all_datatype_ordered_dictionary = collections.OrderedDict(all_datatype_dictionary)
-    print all_datatype_ordered_dictionary
 
     for index, datatypeObject in all_datatype_ordered_dictionary.iteritems():
         trackHub.addTrack(datatypeObject.track.trackDb)

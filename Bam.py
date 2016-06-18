@@ -19,7 +19,8 @@ class Bam( Datatype ):
                  inputFastaFile, extra_files_path, tool_directory ):
         super(Bam, self).__init__( input_fasta_file=inputFastaFile,
                                    extra_files_path=extra_files_path,
-                                   tool_directory=tool_directory)
+                                   tool_directory=tool_directory,
+                                   )
 
         self.track = None
 
@@ -28,6 +29,7 @@ class Bam( Datatype ):
         self.data_bam = data_bam
         # TODO: Check if it already contains the .bam extension / Do a function in Datatype which check the extension
         self.name_bam = self.data_bam["name"] + ".bam"
+        self.priority = self.data_bam["order_index"]
         self.index_bam = self.data_bam["index"]
 
         print "Creating TrackHub BAM from (falsePath: %s; name: %s)" % ( self.input_bam_false_path, self.name_bam)
@@ -53,6 +55,7 @@ class Bam( Datatype ):
             trackDataURL=dataURL,
             trackType='bam',
             visibility='pack',
+            priority=self.priority,
         )
 
         # Return the Bam Track Object

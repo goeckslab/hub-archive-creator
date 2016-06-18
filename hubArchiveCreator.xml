@@ -44,7 +44,7 @@
             #silent data_dict.update($extra_data_dict)
 
             ## Add the ordering by taking the tool form indexes
-            #silent $data_dict.update({"order_index": $order_index})
+            #silent $data_dict.update({"order_index": $order_index + 1})
 
             #silent $data_parameter_dict.update({$false_path: $data_dict})
 

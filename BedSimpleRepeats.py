@@ -19,6 +19,7 @@ class BedSimpleRepeats( Datatype ):
 
         self.input_bed_simple_repeats_false_path = input_bed_simple_repeats_false_path
         self.name_bed_simple_repeats = data_bed_simple_repeats["name"]
+        self.priority = data_bed_simple_repeats["order_index"]
 
         sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
         twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
@@ -55,7 +56,8 @@ class BedSimpleRepeats( Datatype ):
             shortLabel=self.getShortName( self.name_bed_simple_repeats ),
             trackDataURL=dataURL,
             trackType='bigBed 4 +',
-            visibility='dense'
+            visibility='dense',
+            priority=self.priority,
         )
 
         self.track = Track(

@@ -7,5 +7,6 @@
     type ${trackDb.trackType}
     visibility ${trackDb.visibility}
     thickDrawItem ${trackDb.thickDrawItem}
-    
+    priority ${trackDb.priority}
+
 % endfor

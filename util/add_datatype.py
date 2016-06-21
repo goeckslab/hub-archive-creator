@@ -46,7 +46,7 @@ def add_datatype_conf(galaxy_root_path):
     registration = root[0]
     print registration.attrib
 
-    huba_datatype = ET.parse('../hubaDataType/datatypes_conf.xml').getroot()
+    huba_datatype = ET.parse('../trackHub/datatypes_conf.xml').getroot()
     # TODO: Verify the datatype is not already existing, else do not add / write. And in another version, check it
     registration.append(huba_datatype)
     tree.write(datatype_conf_path)
@@ -57,7 +57,7 @@ def add_datatype_conf(galaxy_root_path):
 def add_huba_xml(galaxy_root_path):
     print "======= Add hub xml ======="
     displayApp_ucsc_path = os.path.join(galaxy_root_path, "display_applications/ucsc/")
-    shutil.copy("../hubaDataType/huba.xml", displayApp_ucsc_path)
+    shutil.copy("../trackHub/huba.xml", displayApp_ucsc_path)
     print "Content of %s now: %s" % (displayApp_ucsc_path, os.listdir(displayApp_ucsc_path))
     return
 
@@ -65,7 +65,7 @@ def add_huba_xml(galaxy_root_path):
 def add_hubAssembly(galaxy_root_path):
     print "======= Add hubAssembly ======="
     datatype_lib_path = os.path.join(galaxy_root_path, "lib/galaxy/datatypes/")
-    shutil.copy("../hubaDataType/hubAssembly.py", datatype_lib_path)
+    shutil.copy("../trackHub/hubAssembly.py", datatype_lib_path)
     print "Content of %s now: %s" % (datatype_lib_path, os.listdir(datatype_lib_path))
     return
 

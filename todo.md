@@ -20,6 +20,7 @@
 - [ ] Remove the repetition of the extension if it already exists
 - [ ] Better thinking about the tool_directory management / Classes path refactoring
 - [ ] Add a debug mode to have more outputs
+- [ ] Improve the standard output of HAC
 
 ### DONE
 

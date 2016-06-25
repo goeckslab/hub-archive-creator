@@ -3,7 +3,7 @@
 """
 This script copy the huba datatype into your galaxy:
     - Add under <registration>, the datatype_conf
-    - Add huba.xml under display_application/ucsc/
+    - Add trackhub.xml under display_application/ucsc/
     - Add hubAssembly.py inside lib/galaxy/datatypes
 Place yourself in the folder of the python script, and launch it
 - Based on the fact datatypes_conf
@@ -18,7 +18,7 @@ import xml.etree.ElementTree as ET
 
 def main(argv):
     # Command Line parsing init
-    parser = argparse.ArgumentParser(description='Create a foo.txt inside the given folder.')
+    parser = argparse.ArgumentParser(description='Add the TrackHub datatype inside the Galaxy passed in parameter.')
 
     parser.add_argument('-g', '--galaxy_root', help='Galaxy root folder', required=True)
 
@@ -57,7 +57,7 @@ def add_datatype_conf(galaxy_root_path):
 def add_huba_xml(galaxy_root_path):
     print "======= Add hub xml ======="
     displayApp_ucsc_path = os.path.join(galaxy_root_path, "display_applications/ucsc/")
-    shutil.copy("../trackHub/huba.xml", displayApp_ucsc_path)
+    shutil.copy("../trackHub/trackhub.xml", displayApp_ucsc_path)
     print "Content of %s now: %s" % (displayApp_ucsc_path, os.listdir(displayApp_ucsc_path))
     return
 
@@ -66,6 +66,14 @@ def add_hubAssembly(galaxy_root_path):
     print "======= Add hubAssembly ======="
     datatype_lib_path = os.path.join(galaxy_root_path, "lib/galaxy/datatypes/")
     shutil.copy("../trackHub/hubAssembly.py", datatype_lib_path)
+    ## TODO: Much harder now I moved hubAssembly into tracks_partial.py
+    ## - Need to copy all the imports after the imports in tracks.py
+    ## - Need to then copy the UCSCTrackHub class at the end of tracks_partial.py
+    while text.begins("import") or text.begins("from"):
+        tracks_text.after(last_import).add(text)
+    # Then we move the cursor by the last tracks.py line
+    # And we copy from the beginning of UCSCTrackHub Class until the end
+    
     print "Content of %s now: %s" % (datatype_lib_path, os.listdir(datatype_lib_path))
     return
 

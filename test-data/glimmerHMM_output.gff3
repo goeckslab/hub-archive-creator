@@ -1,0 +1,22 @@
+##gff-version 3
+##sequence-region contig1 1 45179
+contig1	GlimmerHMM	mRNA	641	20329	.	-	.	ID=contig1.path1.gene1;Name=contig1.path1.gene1
+contig1	GlimmerHMM	CDS	641	5409	.	-	2	ID=contig1.cds1.1;Parent=contig1.path1.gene1;Name=contig1.path1.gene1;Note=final-exon
+contig1	GlimmerHMM	CDS	12541	12968	.	-	1	ID=contig1.cds1.2;Parent=contig1.path1.gene1;Name=contig1.path1.gene1;Note=internal-exon
+contig1	GlimmerHMM	CDS	14821	14944	.	-	2	ID=contig1.cds1.3;Parent=contig1.path1.gene1;Name=contig1.path1.gene1;Note=internal-exon
+contig1	GlimmerHMM	CDS	15123	15424	.	-	1	ID=contig1.cds1.4;Parent=contig1.path1.gene1;Name=contig1.path1.gene1;Note=internal-exon
+contig1	GlimmerHMM	CDS	17402	17543	.	-	2	ID=contig1.cds1.5;Parent=contig1.path1.gene1;Name=contig1.path1.gene1;Note=internal-exon
+contig1	GlimmerHMM	CDS	17886	17986	.	-	1	ID=contig1.cds1.6;Parent=contig1.path1.gene1;Name=contig1.path1.gene1;Note=internal-exon
+contig1	GlimmerHMM	CDS	20226	20329	.	-	0	ID=contig1.cds1.7;Parent=contig1.path1.gene1;Name=contig1.path1.gene1;Note=initial-exon
+contig1	GlimmerHMM	mRNA	22912	26939	.	-	.	ID=contig1.path1.gene2;Name=contig1.path1.gene2
+contig1	GlimmerHMM	CDS	22912	23136	.	-	0	ID=contig1.cds2.1;Parent=contig1.path1.gene2;Name=contig1.path1.gene2;Note=final-exon
+contig1	GlimmerHMM	CDS	23431	23705	.	-	2	ID=contig1.cds2.2;Parent=contig1.path1.gene2;Name=contig1.path1.gene2;Note=internal-exon
+contig1	GlimmerHMM	CDS	26810	26939	.	-	0	ID=contig1.cds2.3;Parent=contig1.path1.gene2;Name=contig1.path1.gene2;Note=initial-exon
+contig1	GlimmerHMM	mRNA	29101	41509	.	-	.	ID=contig1.path1.gene3;Name=contig1.path1.gene3
+contig1	GlimmerHMM	CDS	29101	29152	.	-	1	ID=contig1.cds3.1;Parent=contig1.path1.gene3;Name=contig1.path1.gene3;Note=final-exon
+contig1	GlimmerHMM	CDS	31365	33826	.	-	0	ID=contig1.cds3.2;Parent=contig1.path1.gene3;Name=contig1.path1.gene3;Note=internal-exon
+contig1	GlimmerHMM	CDS	33880	34044	.	-	0	ID=contig1.cds3.3;Parent=contig1.path1.gene3;Name=contig1.path1.gene3;Note=internal-exon
+contig1	GlimmerHMM	CDS	34107	34619	.	-	0	ID=contig1.cds3.4;Parent=contig1.path1.gene3;Name=contig1.path1.gene3;Note=internal-exon
+contig1	GlimmerHMM	CDS	34674	35311	.	-	2	ID=contig1.cds3.5;Parent=contig1.path1.gene3;Name=contig1.path1.gene3;Note=internal-exon
+contig1	GlimmerHMM	CDS	35384	35766	.	-	1	ID=contig1.cds3.6;Parent=contig1.path1.gene3;Name=contig1.path1.gene3;Note=internal-exon
+contig1	GlimmerHMM	CDS	41472	41509	.	-	0	ID=contig1.cds3.7;Parent=contig1.path1.gene3;Name=contig1.path1.gene3;Note=initial-exon

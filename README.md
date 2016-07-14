@@ -13,7 +13,7 @@ At the moment, Supported datatypes are:
 ## Requirements:
 1. You need to add this tool into your Galaxy.
   1. **Local Installation**: See https://wiki.galaxyproject.org/Admin/Tools/AddToolTutorial
-  2. OR **ToolShed Installation**: Tool is in toolshed now
+  2. OR **ToolShed Installation**: Tool is in [toolshed](https://toolshed.g2.bx.psu.edu/view/rmarenco/hubarchivecreator/fb5e60d4d18a) now
 2. The tool can be used with or without Conda (activate it in your galaxy.ini)
 3. If installed without TS (by downloading on GitHub), you need to have all the binaries accessible within Galaxy.
    You can use the script [install_linux_binaries](util/install_linux_binaries) with a linux x86-64 (64bits)

@@ -21,6 +21,7 @@
 - [ ] Better thinking about the tool_directory management / Classes path refactoring
 - [ ] Add a debug mode to have more outputs
 - [ ] Improve the standard output of HAC
+- [ ] Find why a $ (newline) is added when installing dependencies from tool_dependencies.xml
 
 ### DONE
 

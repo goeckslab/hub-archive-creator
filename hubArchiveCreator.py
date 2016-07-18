@@ -85,11 +85,6 @@ def main(argv):
     outputFile = args.output
     json_inputs_data = args.data_json
 
-    inputs_data = json.loads(json_inputs_data)
-
-    # We remove the spaces in ["name"] of inputs_data
-    sanitize_name_inputs(inputs_data)
-
     json_inputs_data = args.data_json
 
     inputs_data = json.loads(json_inputs_data)
@@ -100,8 +95,6 @@ def main(argv):
         toolDirectory = args.directory
     if args.extra_files_path:
         extra_files_path = args.extra_files_path
-    if args.ucsc_tools_path:
-        ucsc_tools_path = args.ucsc_tools_path
 
     # TODO: Check here all the binaries / tools we need. Exception is missing
 
@@ -158,11 +151,14 @@ def main(argv):
 def sanitize_name_inputs(inputs_data):
     """
     Sometimes output from Galaxy, or even just file name from user have spaces
+    Also, it can contain '/' character and could break the use of os.path function
     :param inputs_data: dict[string, dict[string, string]]
     :return:
     """
     for key in inputs_data:
-        inputs_data[key]["name"] = inputs_data[key]["name"].replace(" ", "_")
+        inputs_data[key]["name"] = inputs_data[key]["name"]\
+            .replace("/", "_")\
+            .replace(" ", "_")
 
 
 def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data, input_fasta_file,

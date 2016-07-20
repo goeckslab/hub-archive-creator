@@ -26,7 +26,7 @@ class TrackHub(object):
         self.outputFile = outputFile
 
         inputFastaFile = open(inputFastaFile, 'r')
-        self.outputZip = zipfile.ZipFile(os.path.join(extra_files_path, 'myHub.zip'), 'w')
+        self.outputZip = zipfile.ZipFile(os.path.join(extra_files_path, 'myHub.zip'), 'w', allowZip64=True)
 
         # Create the structure of the Assembly Hub
         # TODO: Merge the following processing into a function as it is also used in twoBitCreator

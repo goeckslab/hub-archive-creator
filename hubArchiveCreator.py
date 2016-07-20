@@ -140,7 +140,7 @@ def main(argv):
         trackHub.addTrack(datatypeObject.track.trackDb)
 
     # We process all the modifications to create the zip file
-    trackHub.createZip()
+    #trackHub.createZip()
 
     # We terminate le process and so create a HTML file summarizing all the files
     trackHub.terminate()

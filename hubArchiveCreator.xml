@@ -87,6 +87,9 @@
         -f $Fasta_File
         --data_json '$all_data_json'
 
+        ## Retrieve the user email
+        --user_email $__user_email__
+
         -d $__tool_directory__ -e $output.files_path -o $output;
     ]]></command>
 

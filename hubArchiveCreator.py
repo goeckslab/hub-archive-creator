@@ -62,6 +62,8 @@ def main(argv):
 
     parser.add_argument('-j', '--data_json', help='Json containing the metadata of the inputs')
 
+    parser.add_argument('--user_email', help='Email of the user who launched the Hub Archive Creation')
+
     ucsc_tools_path = ''
 
     toolDirectory = '.'
@@ -72,8 +74,9 @@ def main(argv):
 
     input_fasta_file = args.fasta
 
-    # TODO: Add array for each input because we can add multiple -b for example + filter the data associated
+    user_email = args.user_email
 
+    # TODO: Add array for each input because we can add multiple -b for example + filter the data associated
 
     array_inputs_gff3 = args.gff3
     array_inputs_bed_simple_repeats = args.bedSimpleRepeats

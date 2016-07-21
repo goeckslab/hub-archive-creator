@@ -204,11 +204,11 @@ class TrackHub(object):
         with open(hubTxtFilePath, 'w') as genomesTxtFile:
             # Write the content of the file genomes.txt
             htmlMakoRendered = mytemplate.render(
-                hubName='dbiaOnly',
-                shortLabel='dbia',
-                longLabel='This hub only contains dbia with the gene predictions',
+                hubName=('gonramp'.join(self.genome_name.title())),
+                shortLabel=self.genome_name,
+                longLabel=self.genome_name,
                 genomesFile='genomes.txt',
-                email='rmarenco@gwu.edu',
+                email=self.user_email,
                 descriptionUrl='dbia.html'
             )
             genomesTxtFile.write(htmlMakoRendered)

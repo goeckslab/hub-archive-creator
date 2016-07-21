@@ -72,11 +72,12 @@ def main(argv):
     args = parser.parse_args()
 
     array_inputs_reference_genome = json.loads(args.fasta)
-    reference_genome = Fasta(array_inputs_reference_genome["false_path"], array_inputs_reference_genome["name"])
 
     # TODO: Replace these with the object Fasta
     input_fasta_file = array_inputs_reference_genome["false_path"]
-    input_fasta_file_name = array_inputs_reference_genome["name"]
+    input_fasta_file_name = sanitize_name_input(array_inputs_reference_genome["name"])
+
+    reference_genome = Fasta(array_inputs_reference_genome["false_path"], input_fasta_file_name)
 
     # TODO: Add array for each input because we can add multiple -b for example + filter the data associated
 
@@ -105,39 +106,35 @@ def main(argv):
     # TODO: Check here all the binaries / tools we need. Exception if missing
 
     # Create the Track Hub folder
-    trackHub = TrackHub(input_fasta_file, outputFile, extra_files_path, toolDirectory)
+    trackHub = TrackHub(reference_genome, outputFile, extra_files_path, toolDirectory)
 
     all_datatype_dictionary = {}
 
+    datatype_parameters = (inputs_data, all_datatype_dictionary)
+
     # Process Augustus
     if array_inputs_gff3:
-        create_ordered_datatype_objects(Gff3, array_inputs_gff3, inputs_data, input_fasta_file,
-                                        extra_files_path, all_datatype_dictionary, toolDirectory)
+        create_ordered_datatype_objects(Gff3, array_inputs_gff3, *datatype_parameters)
 
-    # Process Bed simple repeats => From Tandem Repeats Finder / TrfBig
+    # Process Bed simple repeats
     if array_inputs_bed_simple_repeats:
-        create_ordered_datatype_objects(BedSimpleRepeats, array_inputs_bed_simple_repeats, inputs_data, input_fasta_file,
-                                        extra_files_path, all_datatype_dictionary, toolDirectory)
+        create_ordered_datatype_objects(BedSimpleRepeats, array_inputs_bed_simple_repeats, *datatype_parameters)
 
-    # Process a Bed => tBlastN or TopHat
+    # Process Bed
     if array_inputs_bed_generic:
-        create_ordered_datatype_objects(Bed, array_inputs_bed_generic, inputs_data, input_fasta_file,
-                                        extra_files_path, all_datatype_dictionary, toolDirectory)
+        create_ordered_datatype_objects(Bed, array_inputs_bed_generic, *datatype_parameters)
 
-    # Process a GTF => Tophat
+    # Process GTF
     if array_inputs_gtf:
-        create_ordered_datatype_objects(Gtf, array_inputs_gtf, inputs_data, input_fasta_file,
-                                        extra_files_path, all_datatype_dictionary, toolDirectory)
+        create_ordered_datatype_objects(Gtf, array_inputs_gtf, *datatype_parameters)
 
-    # Process a Bam => Tophat
+    # Process Bam
     if array_inputs_bam:
-        create_ordered_datatype_objects(Bam, array_inputs_bam, inputs_data, input_fasta_file,
-                                        extra_files_path, all_datatype_dictionary, toolDirectory)
+        create_ordered_datatype_objects(Bam, array_inputs_bam, *datatype_parameters)
 
-    # Process a BigWig => From Bam
+    # Process BigWig
     if array_inputs_bigwig:
-        create_ordered_datatype_objects(BigWig, array_inputs_bigwig, inputs_data, input_fasta_file,
-                                        extra_files_path, all_datatype_dictionary, toolDirectory)
+        create_ordered_datatype_objects(BigWig, array_inputs_bigwig, *datatype_parameters)
 
     # Create Ordered Dictionary to add the tracks in the tool form order
     all_datatype_ordered_dictionary = collections.OrderedDict(all_datatype_dictionary)
@@ -153,6 +150,10 @@ def main(argv):
 
     sys.exit(0)
 
+def sanitize_name_input(string_to_sanitize):
+        return string_to_sanitize \
+            .replace("/", "_") \
+            .replace(" ", "_")
 
 def sanitize_name_inputs(inputs_data):
     """
@@ -162,22 +163,16 @@ def sanitize_name_inputs(inputs_data):
     :return:
     """
     for key in inputs_data:
-        inputs_data[key]["name"] = inputs_data[key]["name"]\
-            .replace("/", "_")\
-            .replace(" ", "_")
+        inputs_data[key]["name"] = sanitize_name_input(inputs_data[key]["name"])
 
 
-def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data, input_fasta_file,
-                                    extra_files_path, all_datatype_dictionary, tool_directory):
+def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data, all_datatype_dictionary):
     """
     Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub
     and update the dictionary of datatype
     :param ExtensionClass: T <= Datatype
     :param array_inputs: list[string]
     :param inputs_data:
-    :param input_fasta_file: string
-    :param extra_files_path: string
-    :param tool_directory; string
     """
 
     datatype_dictionary = {}
@@ -186,8 +181,8 @@ def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data, i
     for input_false_path in array_inputs:
         for key, data_value in inputs_data.items():
             if key == input_false_path:
-                extensionObject = ExtensionClass(input_false_path, data_value,
-                                                 input_fasta_file, extra_files_path, tool_directory)
+                extensionObject = ExtensionClass(input_false_path, data_value)
+
                 datatype_dictionary.update({data_value["order_index"]: extensionObject})
     all_datatype_dictionary.update(datatype_dictionary)
 

@@ -39,20 +39,16 @@ def twoBitInfo(two_bit_file_name, two_bit_info_file):
     return p
 
 
-def faToTwoBit(fasta_file_name, mySpecieFolder):
+def faToTwoBit(fasta_file_name, twoBitFile):
     """
     This function call faToTwoBit UCSC tool, and return the twoBitFile
     :param fasta_file_name:
     :param mySpecieFolder:
     :return:
     """
-    baseNameFasta = os.path.basename(fasta_file_name)
-    suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
-    nameTwoBit = suffixTwoBit + '.2bit'
 
-    with open(os.path.join(mySpecieFolder, nameTwoBit), 'w') as twoBitFile:
-        array_call = ['faToTwoBit', fasta_file_name, twoBitFile.name]
-        _handleExceptionAndCheckCall(array_call)
+    array_call = ['faToTwoBit', fasta_file_name, twoBitFile]
+    _handleExceptionAndCheckCall(array_call)
 
     return twoBitFile
 

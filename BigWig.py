@@ -10,11 +10,8 @@ from TrackDb import TrackDb
 
 
 class BigWig( Datatype ):
-    def __init__(self, input_bigwig_path, data_bigwig,
-                 input_fasta_path, extra_files_path, tool_directory):
-        super(BigWig, self).__init__(
-                input_fasta_path, extra_files_path, tool_directory
-        )
+    def __init__(self, input_bigwig_path, data_bigwig):
+        super(BigWig, self).__init__()
 
         self.track = None
 

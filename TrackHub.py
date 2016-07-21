@@ -2,7 +2,13 @@
 # -*- coding: utf8 -*-
 
 import os
+import tempfile
+import shutil
 import zipfile
+
+# Internal dependencies
+from Datatype import Datatype
+from util import subtools
 
 from mako.lookup import TemplateLookup
 
@@ -14,8 +20,15 @@ class TrackHub(object):
         super(TrackHub, self).__init__()
 
         self.rootAssemblyHub = None
+
         self.mySpecieFolderPath = None
+        self.myTracksFolderPath = None
         self.tool_directory = tool_directory
+
+        self.reference_genome = inputFastaFile
+        # TODO: Add the specie name
+        self.specie_name = None
+        self.default_pos = None
 
         # TODO: Modify according to the files passed in parameter
         mylookup = TemplateLookup(directories=[os.path.join(tool_directory, 'templates/trackDb')],
@@ -25,15 +38,21 @@ class TrackHub(object):
         self.extra_files_path = extra_files_path
         self.outputFile = outputFile
 
-        inputFastaFile = open(inputFastaFile, 'r')
-
         # Create the structure of the Assembly Hub
         # TODO: Merge the following processing into a function as it is also used in twoBitCreator
-        baseNameFasta = os.path.basename(inputFastaFile.name)
-        suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
-        self.twoBitName = suffixTwoBit + '.2bit'
+        self.twoBitName = None
+        self.two_bit_final_path = None
+        self.chromSizesFile = None
 
+        self.default_pos = None
+
+        # Set all the missing variables of this class, and create physically the folders/files
         self.rootAssemblyHub = self.__createAssemblyHub__(extra_files_path=extra_files_path)
+
+        # Init the Datatype
+        Datatype.pre_init(self.reference_genome, self.two_bit_final_path, self.chromSizesFile,
+                          self.extra_files_path, self.tool_directory,
+                          self.mySpecieFolderPath, self.myTracksFolderPath)
 
     def createZip(self):
         for root, dirs, files in os.walk(self.rootAssemblyHub):
@@ -79,12 +98,46 @@ class TrackHub(object):
             htmlOutput.write(htmlMakoRendered)
 
     def __createAssemblyHub__(self, extra_files_path):
+        # Get all necessaries infos first
+        # 2bit file creation from input fasta
+
+        # baseNameFasta = os.path.basename(fasta_file_name)
+        # suffixTwoBit, extensionTwoBit = os.path.splitext(baseNameFasta)
+        # nameTwoBit = suffixTwoBit + '.2bit'
+        twoBitFile = tempfile.NamedTemporaryFile(bufsize=0)
+        subtools.faToTwoBit(self.reference_genome.false_path, twoBitFile.name)
+
+        # Generate the twoBitInfo
+        twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
+        subtools.twoBitInfo(twoBitFile.name, twoBitInfoFile.name)
+
+        # Then we get the output to generate the chromSizes
+        self.chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
+        subtools.sortChromSizes(twoBitInfoFile.name, self.chromSizesFile.name)
+
+        # We can get the biggest scaffold here, with chromSizesFile
+        with open(self.chromSizesFile.name, 'r') as chrom_sizes:
+            # TODO: Check if exists
+            self.default_pos = chrom_sizes.readline().split()[0]
+
         # TODO: Manage to put every fill Function in a file dedicated for reading reasons
         # Create the root directory
         myHubPath = os.path.join(extra_files_path, "myHub")
         if not os.path.exists(myHubPath):
             os.makedirs(myHubPath)
 
+        # Create the specie folder
+        # TODO: Generate the name depending on the specie
+        mySpecieFolderPath = os.path.join(myHubPath, "dbia3")
+        if not os.path.exists(mySpecieFolderPath):
+            os.makedirs(mySpecieFolderPath)
+        self.mySpecieFolderPath = mySpecieFolderPath
+
+        # We create the 2bit file while we just created the specie folder
+        self.specie_name = "dbia3"
+        self.twoBitName = self.specie_name + ".2bit"
+        self.two_bit_final_path = os.path.join(self.mySpecieFolderPath, self.twoBitName)
+        shutil.copyfile(twoBitFile.name, self.two_bit_final_path)
         # Add the genomes.txt file
         genomesTxtFilePath = os.path.join(myHubPath, 'genomes.txt')
         self.__fillGenomesTxt__(genomesTxtFilePath)
@@ -98,12 +151,6 @@ class TrackHub(object):
         hubHtmlFilePath = os.path.join(myHubPath, 'dbia.html')
         self.__fillHubHtmlFile__(hubHtmlFilePath)
 
-        # Create the specie folder
-        # TODO: Generate the name depending on the specie
-        mySpecieFolderPath = os.path.join(myHubPath, "dbia3")
-        if not os.path.exists(mySpecieFolderPath):
-            os.makedirs(mySpecieFolderPath)
-        self.mySpecieFolderPath = mySpecieFolderPath
 
         # Create the description html file in the specie folder
         descriptionHtmlFilePath = os.path.join(mySpecieFolderPath, 'description.html')
@@ -118,6 +165,7 @@ class TrackHub(object):
         tracksFolderPath = os.path.join(mySpecieFolderPath, "tracks")
         if not os.path.exists(tracksFolderPath):
             os.makedirs(tracksFolderPath)
+        self.myTracksFolderPath = tracksFolderPath
 
         return myHubPath
 

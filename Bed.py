@@ -11,19 +11,14 @@ from util import subtools
 
 
 class Bed( Datatype ):
-    def __init__( self, inputBedGeneric, data_bed_generic,
-                 inputFastaFile, extra_files_path, tool_directory ):
-        super(Bed, self).__init__(
-            inputFastaFile, extra_files_path, tool_directory
-        )
+    def __init__( self, inputBedGeneric, data_bed_generic):
+        super(Bed, self).__init__()
 
         self.track = None
 
         self.inputBedGeneric = inputBedGeneric
 
         self.sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
-        self.chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
-        self.twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
 
         self.data_bed_generic = data_bed_generic
         self.name_bed_generic = self.data_bed_generic["name"]
@@ -31,15 +26,6 @@ class Bed( Datatype ):
 
         # Sort processing
         subtools.sort(self.inputBedGeneric, self.sortedBedFile.name)
-
-        # Generate the chrom.sizes
-        # TODO: Isolate in a function
-        # We first get the twoBit Infos
-        subtools.twoBitInfo(self.twoBitFile.name, self.twoBitInfoFile.name)
-
-        # Then we get the output to inject into the sort
-        # TODO: Check if no errors
-        subtools.sortChromSizes(self.twoBitInfoFile.name, self.chromSizesFile.name)
 
         # bedToBigBed processing
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb

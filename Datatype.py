@@ -6,6 +6,7 @@ Super Class of the managed datatype
 """
 
 import os
+import tempfile
 
 from util import subtools
 
@@ -14,34 +15,52 @@ class Datatype(object):
 
     twoBitFile = None
 
-    def __init__( self, input_fasta_file, extra_files_path, tool_directory ):
+    input_fasta_file = None
+    extra_files_path = None
+    tool_directory = None
 
-        self.input_fasta_file = input_fasta_file
-        self.extra_files_path = extra_files_path
-        self.tool_directory = tool_directory
+    mySpecieFolderPath = None
+    myTrackFolderPath = None
 
-        self.twoBitFile = None
+    twoBitFile = None
+    chromSizesFile = None
 
-        # Construction of the arborescence
-        # TODO: Change the hard-coded path with a input based one
-        self.mySpecieFolderPath = os.path.join(extra_files_path, "myHub", "dbia3")
+    def __init__(self):
 
-        # TODO: Refactor the name of the folder "tracks" into one variable, and should be inside TrackHub object
-        self.myTrackFolderPath = os.path.join(self.mySpecieFolderPath, "tracks")
+        not_init_message = "The {0} is not initialized." \
+                           "Did you use pre_init static method first?"
+        if Datatype.input_fasta_file is None:
+            raise TypeError(not_init_message.format('reference genome'))
+        if Datatype.extra_files_path is None:
+            raise TypeError(not_init_message.format('track Hub path'))
+        if Datatype.tool_directory is None:
+            raise TypeError(not_init_message.format('tool directory'))
 
-        # TODO: Redundant, should be refactored because they are all doing it...into hubArchiveCreator?
-        # 2bit file creation from input fasta
-        if not Datatype.twoBitFile:
-            print "We create the self.twoBit in " + self.__class__.__name__
-            Datatype.twoBitFile = subtools.faToTwoBit(self.input_fasta_file, self.mySpecieFolderPath)
-
-        # TODO: Remove this by saying to all children classes to use "Datatype.twoBitFile" instead
-        self.twoBitFile = Datatype.twoBitFile
 
     @staticmethod
-    def pre_init(extra_files_path, reference_genome):
-        print "Hello!"
+    def pre_init(reference_genome, two_bit_path, chrom_sizes_file,
+                 extra_files_path, tool_directory, specie_folder, tracks_folder):
+        Datatype.extra_files_path = extra_files_path
+        Datatype.tool_directory = tool_directory
 
+        # TODO: All this should be in TrackHub and not in Datatype
+        Datatype.mySpecieFolderPath = specie_folder
+        Datatype.myTrackFolderPath = tracks_folder
+
+        Datatype.input_fasta_file = reference_genome
+
+        # 2bit file creation from input fasta
+        Datatype.twoBitFile = two_bit_path
+        Datatype.chromSizesFile = chrom_sizes_file
+
+    @staticmethod
+    def get_largest_scaffold_name(self):
+        # We can get the biggest scaffold here, with chromSizesFile
+        with open(Datatype.chromSizesFile.name, 'r') as chrom_sizes:
+            # TODO: Check if exists
+            return chrom_sizes.readline().split()[0]
+
+    # TODO: Rename for PEP8
     def getShortName( self, name_to_shortify ):
         # Slice to get from Long label the short label
         short_label_slice = slice(0, 15)

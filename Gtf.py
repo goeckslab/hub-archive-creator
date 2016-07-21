@@ -11,11 +11,9 @@ from util import subtools
 
 
 class Gtf( Datatype ):
-    def __init__( self, input_gtf_false_path, data_gtf,
-                 input_fasta_file, extra_files_path, tool_directory ):
-        super(Gtf, self).__init__( input_fasta_file=input_fasta_file,
-                                   extra_files_path=extra_files_path,
-                                   tool_directory=tool_directory )
+    def __init__( self, input_gtf_false_path, data_gtf):
+
+        super(Gtf, self).__init__()
 
         self.track = None
 
@@ -30,9 +28,6 @@ class Gtf( Datatype ):
         unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
         sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
 
-        twoBitInfoFile = tempfile.NamedTemporaryFile(bufsize=0)
-        chromSizesFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".chrom.sizes")
-
         # GtfToGenePred
         subtools.gtfToGenePred(self.input_gtf_false_path, genePredFile.name)
 
@@ -43,20 +38,12 @@ class Gtf( Datatype ):
         # Sort processing
         subtools.sort(unsortedBedFile.name, sortedBedFile.name)
 
-        # TODO: Chehck if the twoBitInfo / ChromSizes is redundant and make an intermediate class
-        # Generate the twoBitInfo
-        subtools.twoBitInfo(self.twoBitFile.name, twoBitInfoFile.name)
-
-        # Then we get the output to generate the chromSizes
-        # TODO: Check if no errors
-        subtools.sortChromSizes(twoBitInfoFile.name, chromSizesFile.name)
-
         # bedToBigBed processing
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
         trackName = "".join( ( self.name_gtf, ".bb") )
         myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as bigBedFile:
-            subtools.bedToBigBed(sortedBedFile.name, chromSizesFile.name, bigBedFile.name)
+            subtools.bedToBigBed(sortedBedFile.name, self.chromSizesFile.name, bigBedFile.name)
 
         # Create the Track Object
         dataURL = "tracks/%s" % trackName

@@ -81,10 +81,13 @@
             #end if
         #end for
 
+        ## We combine the fasta file dataset name with his false path in a JSON object
+        #set fasta_json = json.dumps({"false_path": str($fasta_file), "name": $fasta_file.name})
+        -f '$fasta_json'
+
         ## Dump the final json
         #set all_data_json = json.dumps($data_parameter_dict)
 
-        -f $Fasta_File
         --data_json '$all_data_json'
 
         -d $__tool_directory__ -e $output.files_path -o $output;
@@ -93,7 +96,7 @@
     <inputs>
         <param
                 format="fasta"
-                name="Fasta_File"
+                name="fasta_file"
                 type="data"
                 label="Reference genome"
         />
@@ -175,7 +178,7 @@
         <!-- Can also use assert_command to test command -->
         <!-- Testing GFF3 input -->
         <test>
-            <param name="Fasta_File" value="dbia3.fa"/>
+            <param name="fasta_file" value="dbia3.fa"/>
             <repeat name="format">
                 <conditional name="formatChoice">
                     <param name="format_select" value="gff3"/>
@@ -209,7 +212,7 @@
             </output>
         </test>
         <test>
-            <param name="Fasta_File" value="dbia3.fa"/>
+            <param name="fasta_file" value="dbia3.fa"/>
             <param name="GFF3" value="augustusDbia3.gff3"/>
             <output name="output" file="augustusOutput.html" lines_diff="2">
                 <extra_files type="directory" value="myHub"/>

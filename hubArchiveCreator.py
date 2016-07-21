@@ -70,7 +70,9 @@ def main(argv):
     # Get the args passed in parameter
     args = parser.parse_args()
 
-    input_fasta_file = args.fasta
+    array_inputs_reference_genome = json.loads(args.fasta)
+    input_fasta_file = array_inputs_reference_genome["false_path"]
+    input_fasta_file_name = array_inputs_reference_genome["name"]
 
     # TODO: Add array for each input because we can add multiple -b for example + filter the data associated
 

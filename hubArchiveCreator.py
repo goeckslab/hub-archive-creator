@@ -106,7 +106,7 @@ def main(argv):
     # TODO: Check here all the binaries / tools we need. Exception if missing
 
     # Create the Track Hub folder
-    trackHub = TrackHub(reference_genome, outputFile, extra_files_path, toolDirectory)
+    trackHub = TrackHub(reference_genome, user_email, outputFile, extra_files_path, toolDirectory)
 
     all_datatype_dictionary = {}
 

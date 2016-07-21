@@ -16,7 +16,7 @@ from mako.lookup import TemplateLookup
 class TrackHub(object):
     """docstring for TrackHub"""
 
-    def __init__(self, inputFastaFile, outputFile, extra_files_path, tool_directory):
+    def __init__(self, inputFastaFile, user_email, outputFile, extra_files_path, tool_directory):
         super(TrackHub, self).__init__()
 
         self.rootAssemblyHub = None
@@ -27,8 +27,9 @@ class TrackHub(object):
 
         self.reference_genome = inputFastaFile
         # TODO: Add the specie name
-        self.specie_name = None
+        self.genome_name = None
         self.default_pos = None
+        self.user_email = user_email
 
         # TODO: Modify according to the files passed in parameter
         mylookup = TemplateLookup(directories=[os.path.join(tool_directory, 'templates/trackDb')],
@@ -134,10 +135,11 @@ class TrackHub(object):
         self.mySpecieFolderPath = mySpecieFolderPath
 
         # We create the 2bit file while we just created the specie folder
-        self.specie_name = "dbia3"
-        self.twoBitName = self.specie_name + ".2bit"
+        self.genome_name = "dbia3"
+        self.twoBitName = self.genome_name + ".2bit"
         self.two_bit_final_path = os.path.join(self.mySpecieFolderPath, self.twoBitName)
         shutil.copyfile(twoBitFile.name, self.two_bit_final_path)
+
         # Add the genomes.txt file
         genomesTxtFilePath = os.path.join(myHubPath, 'genomes.txt')
         self.__fillGenomesTxt__(genomesTxtFilePath)
@@ -178,18 +180,18 @@ class TrackHub(object):
         mytemplate = mylookup.get_template("layout.txt")
         with open(genomesTxtFilePath, 'w') as genomesTxtFile:
             # Write the content of the file genomes.txt
-            twoBitPath = os.path.join('dbia3/', self.twoBitName)
+            twoBitPath = os.path.join(self.genome_name, self.twoBitName)
             htmlMakoRendered = mytemplate.render(
-                genomeName="dbia3",
-                trackDbPath="dbia3/trackDb.txt",
-                groupsPath="dbia3/groups.txt",
+                genomeName=self.genome_name,
+                trackDbPath=os.path.join(self.genome_name, "trackDb.txt"),
+                groupsPath=os.path.join(self.genome_name, "groups.txt"),
                 genomeDescription="March 2013 Drosophilia biarmipes unplaced genomic scaffold",
                 twoBitPath=twoBitPath,
-                organismName="Drosophilia biarmipes",
-                defaultPosition="contig1",
+                organismName=self.genome_name,
+                defaultPosition=self.default_pos,
                 orderKey="4500",
-                scientificName="Drosophilia biarmipes",
-                pathAssemblyHtmlDescription="dbia3/description.html"
+                scientificName=self.genome_name,
+                pathAssemblyHtmlDescription=os.path.join(self.genome_name, "description.html")
             )
             genomesTxtFile.write(htmlMakoRendered)
 

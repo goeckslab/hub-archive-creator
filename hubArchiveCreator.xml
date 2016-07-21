@@ -31,6 +31,9 @@
         mkdir -p $output.extra_files_path;
         python $__tool_directory__/hubArchiveCreator.py
 
+        ## Ask the user to enter the genome name
+        --genome_name '$genome_name'
+
         #import json
 
         #set global data_parameter_dict = {}
@@ -97,6 +100,13 @@
     ]]></command>
 
     <inputs>
+        <param
+                name="genome_name"
+                type="text"
+                size="30"
+                value="unknown"
+                label="UCSC Genome Browser assembly ID"
+        />
         <param
                 format="fasta"
                 name="fasta_file"

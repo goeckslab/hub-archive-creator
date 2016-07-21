@@ -27,7 +27,7 @@ class TrackHub(object):
 
         self.reference_genome = inputFastaFile
         # TODO: Add the specie name
-        self.genome_name = None
+        self.genome_name = inputFastaFile.assembly_id
         self.default_pos = None
         self.user_email = user_email
 
@@ -129,13 +129,12 @@ class TrackHub(object):
 
         # Create the specie folder
         # TODO: Generate the name depending on the specie
-        mySpecieFolderPath = os.path.join(myHubPath, "dbia3")
+        mySpecieFolderPath = os.path.join(myHubPath, self.genome_name)
         if not os.path.exists(mySpecieFolderPath):
             os.makedirs(mySpecieFolderPath)
         self.mySpecieFolderPath = mySpecieFolderPath
 
         # We create the 2bit file while we just created the specie folder
-        self.genome_name = "dbia3"
         self.twoBitName = self.genome_name + ".2bit"
         self.two_bit_final_path = os.path.join(self.mySpecieFolderPath, self.twoBitName)
         shutil.copyfile(twoBitFile.name, self.two_bit_final_path)
@@ -204,7 +203,7 @@ class TrackHub(object):
         with open(hubTxtFilePath, 'w') as genomesTxtFile:
             # Write the content of the file genomes.txt
             htmlMakoRendered = mytemplate.render(
-                hubName=('gonramp'.join(self.genome_name.title())),
+                hubName=(''.join(['gonramp', self.genome_name.title()])),
                 shortLabel=self.genome_name,
                 longLabel=self.genome_name,
                 genomesFile='genomes.txt',
@@ -229,7 +228,7 @@ class TrackHub(object):
                 genomeID='3499',
                 specieFullName='Drosophila biarmipes'
             )
-            hubHtmlFile.write(htmlMakoRendered)
+            #hubHtmlFile.write(htmlMakoRendered)
 
     def __fillDescriptionHtmlFile__(self, descriptionHtmlFilePath):
         # TODO: Think about the inputs and outputs
@@ -242,7 +241,7 @@ class TrackHub(object):
             htmlMakoRendered = mytemplate.render(
                 specieDescription='This is the description of the dbia',
             )
-            descriptionHtmlFile.write(htmlMakoRendered)
+            #descriptionHtmlFile.write(htmlMakoRendered)
 
     def __fillGroupsTxtFile__(self, groupsTxtFilePath):
         # TODO: Reenable this function at some point

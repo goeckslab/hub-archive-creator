@@ -65,6 +65,8 @@ def main(argv):
 
     parser.add_argument('--user_email', help='Email of the user who launched the Hub Archive Creation')
 
+    parser.add_argument('--genome_name', help='UCSC Genome Browser assembly ID')
+
     ucsc_tools_path = ''
 
     toolDirectory = '.'
@@ -78,8 +80,10 @@ def main(argv):
     # TODO: Replace these with the object Fasta
     input_fasta_file = array_inputs_reference_genome["false_path"]
     input_fasta_file_name = sanitize_name_input(array_inputs_reference_genome["name"])
+    genome_name = sanitize_name_input(args.genome_name)
 
-    reference_genome = Fasta(array_inputs_reference_genome["false_path"], input_fasta_file_name)
+    reference_genome = Fasta(array_inputs_reference_genome["false_path"],
+                             input_fasta_file_name, genome_name)
 
     user_email = args.user_email
 

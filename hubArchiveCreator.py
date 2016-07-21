@@ -117,31 +117,14 @@ def main(argv):
 
     all_datatype_dictionary = {}
 
-    datatype_parameters = (inputs_data, all_datatype_dictionary)
-
-    # Process Augustus
-    if array_inputs_gff3:
-        create_ordered_datatype_objects(Gff3, array_inputs_gff3, *datatype_parameters)
-
-    # Process Bed simple repeats
-    if array_inputs_bed_simple_repeats:
-        create_ordered_datatype_objects(BedSimpleRepeats, array_inputs_bed_simple_repeats, *datatype_parameters)
-
-    # Process Bed
-    if array_inputs_bed_generic:
-        create_ordered_datatype_objects(Bed, array_inputs_bed_generic, *datatype_parameters)
-
-    # Process GTF
-    if array_inputs_gtf:
-        create_ordered_datatype_objects(Gtf, array_inputs_gtf, *datatype_parameters)
-
-    # Process Bam
-    if array_inputs_bam:
-        create_ordered_datatype_objects(Bam, array_inputs_bam, *datatype_parameters)
-
-    # Process BigWig
-    if array_inputs_bigwig:
-        create_ordered_datatype_objects(BigWig, array_inputs_bigwig, *datatype_parameters)
+    for (inpts, cls) in [(array_inputs_gff3, Gff3),
+                         (array_inputs_bed_simple_repeats, BedSimpleRepeats),
+                         (array_inputs_bed_generic, Bed),
+                         (array_inputs_gtf, Gtf),
+                         (array_inputs_bam, Bam),
+                         (array_inputs_bigwig, BigWig)]:
+        if inpts:
+            all_datatype_dictionary.update(create_ordered_datatype_objects(cls, inpts, inputs_data))
 
     # Create Ordered Dictionary to add the tracks in the tool form order
     all_datatype_ordered_dictionary = collections.OrderedDict(all_datatype_dictionary)
@@ -157,10 +140,12 @@ def main(argv):
 
     sys.exit(0)
 
+
 def sanitize_name_input(string_to_sanitize):
         return string_to_sanitize \
             .replace("/", "_") \
             .replace(" ", "_")
+
 
 def sanitize_name_inputs(inputs_data):
     """
@@ -173,7 +158,7 @@ def sanitize_name_inputs(inputs_data):
         inputs_data[key]["name"] = sanitize_name_input(inputs_data[key]["name"])
 
 
-def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data, all_datatype_dictionary):
+def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data):
     """
     Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub
     and update the dictionary of datatype
@@ -189,9 +174,8 @@ def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data, a
         for key, data_value in inputs_data.items():
             if key == input_false_path:
                 extensionObject = ExtensionClass(input_false_path, data_value)
-
                 datatype_dictionary.update({data_value["order_index"]: extensionObject})
-    all_datatype_dictionary.update(datatype_dictionary)
+    return datatype_dictionary
 
 if __name__ == "__main__":
     main(sys.argv)

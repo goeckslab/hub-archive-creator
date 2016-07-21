@@ -118,11 +118,11 @@ def main(argv):
     all_datatype_dictionary = {}
 
     for (inpts, cls) in [(array_inputs_gff3, Gff3),
-                      (array_inputs_bed_simple_repeats, BedSimpleRepeats),
-                      (array_inputs_bed_generic, Bed),
-                      (array_inputs_gtf, Gtf),
-                      (array_inputs_bam, Bam),
-                      (array_inputs_bigwig, BigWig)]:
+                         (array_inputs_bed_simple_repeats, BedSimpleRepeats),
+                         (array_inputs_bed_generic, Bed),
+                         (array_inputs_gtf, Gtf),
+                         (array_inputs_bam, Bam),
+                         (array_inputs_bigwig, BigWig)]:
         if inpts:
             all_datatype_dictionary.update(create_ordered_datatype_objects(cls, inpts, inputs_data))
 

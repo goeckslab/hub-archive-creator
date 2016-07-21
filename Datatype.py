@@ -38,6 +38,10 @@ class Datatype(object):
         # TODO: Remove this by saying to all children classes to use "Datatype.twoBitFile" instead
         self.twoBitFile = Datatype.twoBitFile
 
+    @staticmethod
+    def pre_init(extra_files_path, reference_genome):
+        print "Hello!"
+
     def getShortName( self, name_to_shortify ):
         # Slice to get from Long label the short label
         short_label_slice = slice(0, 15)

@@ -14,13 +14,14 @@ import json
 import sys
 
 # Internal dependencies
-from TrackHub import TrackHub
-from Gff3 import Gff3
 from Bam import Bam
 from BedSimpleRepeats import BedSimpleRepeats
 from Bed import Bed
 from BigWig import BigWig
+from util.Fasta import Fasta
+from Gff3 import Gff3
 from Gtf import Gtf
+from TrackHub import TrackHub
 
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
@@ -71,6 +72,9 @@ def main(argv):
     args = parser.parse_args()
 
     array_inputs_reference_genome = json.loads(args.fasta)
+    reference_genome = Fasta(array_inputs_reference_genome["false_path"], array_inputs_reference_genome["name"])
+
+    # TODO: Replace these with the object Fasta
     input_fasta_file = array_inputs_reference_genome["false_path"]
     input_fasta_file_name = array_inputs_reference_genome["name"]
 
@@ -98,7 +102,7 @@ def main(argv):
     if args.extra_files_path:
         extra_files_path = args.extra_files_path
 
-    # TODO: Check here all the binaries / tools we need. Exception is missing
+    # TODO: Check here all the binaries / tools we need. Exception if missing
 
     # Create the Track Hub folder
     trackHub = TrackHub(input_fasta_file, outputFile, extra_files_path, toolDirectory)

@@ -185,7 +185,7 @@ class TrackHub(object):
                 genomeName=self.genome_name,
                 trackDbPath=os.path.join(self.genome_name, "trackDb.txt"),
                 groupsPath=os.path.join(self.genome_name, "groups.txt"),
-                genomeDescription="March 2013 Drosophilia biarmipes unplaced genomic scaffold",
+                genomeDescription=self.genome_name,
                 twoBitPath=twoBitPath,
                 organismName=self.genome_name,
                 defaultPosition=self.default_pos,

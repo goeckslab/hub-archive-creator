@@ -82,7 +82,7 @@ def main(argv):
     input_fasta_file_name = sanitize_name_input(array_inputs_reference_genome["name"])
     genome_name = sanitize_name_input(args.genome_name)
 
-    reference_genome = Fasta(array_inputs_reference_genome["false_path"],
+    reference_genome = Fasta(input_fasta_file,
                              input_fasta_file_name, genome_name)
 
     user_email = args.user_email
@@ -120,14 +120,14 @@ def main(argv):
 
     all_datatype_dictionary = {}
 
-    for (inpts, cls) in [(array_inputs_gff3, Gff3),
+    for (inputs, datatype_class) in [(array_inputs_gff3, Gff3),
                          (array_inputs_bed_simple_repeats, BedSimpleRepeats),
                          (array_inputs_bed_generic, Bed),
                          (array_inputs_gtf, Gtf),
                          (array_inputs_bam, Bam),
                          (array_inputs_bigwig, BigWig)]:
-        if inpts:
-            all_datatype_dictionary.update(create_ordered_datatype_objects(cls, inpts, inputs_data))
+        if inputs:
+            all_datatype_dictionary.update(create_ordered_datatype_objects(datatype_class, inputs, inputs_data))
 
     # Create Ordered Dictionary to add the tracks in the tool form order
     all_datatype_ordered_dictionary = collections.OrderedDict(all_datatype_dictionary)

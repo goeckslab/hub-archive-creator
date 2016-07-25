@@ -87,8 +87,11 @@ def main(argv):
 
     user_email = args.user_email
 
-    # TODO: Add array for each input because we can add multiple -b for example + filter the data associated
 
+    # TODO: Use a class to have a better management of the structure of these inputs
+    # These inputs are populated in the Galaxy Wrapper xml and are in this format:
+    # ARRAY[DICT{FILE_PATH: DICT{NAME: NAME_VALUE, EXTRA_DATA: EXTRA_DATA_VALUE}}]
+    # EXTRA_DATA could be anything, for example the index of a BAM => {"index", FILE_PATH}
     array_inputs_gff3 = args.gff3
     array_inputs_bed_simple_repeats = args.bedSimpleRepeats
     array_inputs_bed_generic = args.bed

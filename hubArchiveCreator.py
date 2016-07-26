@@ -201,34 +201,18 @@ def configure_logger(extra_files_path=None, debug=False):
     logging.basicConfig(filename=logging_file_path, level=logging.DEBUG)
 
     log_stdout = logging.StreamHandler(sys.stdout)
-    log_stderr = logging.StreamHandler(sys.stderr)
     if not debug:
-        configure_logger_user(log_stdout, log_stderr)
+        configure_logger_user(log_stdout)
     else:
-        configure_logger_dev(log_stdout, log_stderr)
+        configure_logger_dev(log_stdout)
 
-    # TODO: Restrict to only info and warn
+    # stderr configuration
+    configure_logger_stderr()
 
-    formatter = logging.Formatter(log_format)
-
-    log_stdout.setFormatter(formatter)
-
-    logging.getLogger().addHandler(log_stdout)
-
-    # stderr
-    log_error = logging.StreamHandler(sys.stderr)
-    log_error.setLevel(logging.ERROR)
-    log_error_format = '%(message)s'
-
-    formatter_error = logging.Formatter(log_error_format)
-
-    log_error.setFormatter(formatter_error)
-
-    logging.getLogger().addHandler(log_error)
 
     logging.debug('#### Welcome in HubArchiveCreator Debug Mode ####\n')
 
-def configure_logger_user(log_stdout=None, log_stderr=None):
+def configure_logger_user(log_stdout=None):
     """
     User Logger is defined as following:
         - User needs to have WARN, ERROR and CRITICAL but well formatted / without traceback
@@ -239,16 +223,23 @@ def configure_logger_user(log_stdout=None, log_stderr=None):
             in .log
     :return:
     """
-    if not log_stdout or not log_stderr:
-        raise Exception("No log_stdout or log_stderr given. Stopping the application")
+    if not log_stdout:
+        raise Exception("No log_stdout given. Stopping the application")
     log_format = '%(message)s'
 
     # stdout for INFO / WARN / ERROR / CRITICAL
     log_stdout.setLevel(logging.INFO)
 
+    formatter = logging.Formatter(log_format)
+
+    log_stdout.setFormatter(formatter)
+
+    logging.getLogger().addHandler(log_stdout)
+
+
     # stderr
 
-def configure_logger_dev(log_stdout=None, log_stderr=None):
+def configure_logger_dev(log_stdout=None):
     """
     Dev Logger is defined as following:
         - Dev needs to have WARN, ERROR and CRITICAL but well formatted / without traceback, in stdout
@@ -257,11 +248,28 @@ def configure_logger_dev(log_stdout=None, log_stderr=None):
     :return:
     """
     if not log_stdout:
-        raise Exception("No log_stdout or log_stderr given. Stopping the application")
+        raise Exception("No log_stdout given. Stopping the application")
     log_format = '%(message)s'
 
     # stdout and stderr and both identical for INFO / WARN / ERROR / CRITICAL
     log_stdout.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter(log_format)
+
+    log_stdout.setFormatter(formatter)
+
+    logging.getLogger().addHandler(log_stdout)
+
+def configure_logger_stderr():
+    log_error = logging.StreamHandler(sys.stderr)
+    log_error.setLevel(logging.ERROR)
+    log_error_format = '%(message)s'
+
+    formatter_error = logging.Formatter(log_error_format)
+
+    log_error.setFormatter(formatter_error)
+
+    logging.getLogger().addHandler(log_error)
 
 def exceptionHandler(excetion_type, exception, traceback):
     #logging.

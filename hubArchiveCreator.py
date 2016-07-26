@@ -236,9 +236,6 @@ def configure_logger_user(log_stdout=None):
 
     logging.getLogger().addHandler(log_stdout)
 
-
-    # stderr
-
 def configure_logger_dev(log_stdout=None):
     """
     Dev Logger is defined as following:

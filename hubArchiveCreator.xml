@@ -198,7 +198,7 @@
             <when value="on">
                 <param name="debug_mode" type="boolean"
                        label="Activate debug mode" checked="false"
-                       truevalue="--debug_mode">
+                       truevalue="--debug_mode" falsevalue="">
                     <help>
                         Use this option if you are a G-OnRamp developer
                     </help>

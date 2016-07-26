@@ -6,9 +6,10 @@ This class handles the subprocess calls of the different tools used
 in HubArchiveCreator
 """
 
+import logging
 import os
 import subprocess
-
+import sys
 
 def _handleExceptionAndCheckCall(array_call, **kwargs):
     """
@@ -20,10 +21,49 @@ def _handleExceptionAndCheckCall(array_call, **kwargs):
     stdout = kwargs.get('stdout')
     stderr = kwargs.get('stderr')
     shell = kwargs.get('shell')
+
+    cmd = array_call[0]
+
+    output = None
+    error = None
+
+    # TODO: Check the value of array_call and <=[0]
+    logging.debug("Calling {0}:".format(cmd))
+
+    #minus_to_add = ''.join('-' for x in range(len(cmd)))
+    #logging.info("--------{0}".format(minus_to_add))
+    logging.debug("---------")
+
+    # TODO: Use universal_newlines option from Popen?
     try:
-        p = subprocess.check_call(array_call, stdin=stdin, stdout=stdout, stderr=stderr, shell=shell)
-    except subprocess.CalledProcessError:
-        raise
+        p = subprocess.Popen(array_call, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
+        output, error = p.communicate()
+
+        logging.debug("\t{0}".format(output))
+        # If we detect an error from the subprocess, then we raise an exception
+        # TODO: Manage if we raise an exception for everything, or use CRITICAL etc... but not stop process
+        if p.returncode:
+            #raise Exception(error)
+            message = "The subprocess {0} has returned the error: {1}.".format(cmd, p.returncode)
+            message = ''.join((message, " Its error message is: {0}".format(error)))
+            logging.error(message)
+
+            sys.exit(p.returncode)
+    except OSError as e:
+        message = "The subprocess {0} has encountered an OSError: {1}".format(cmd, e.strerror)
+        if e.filename:
+            message = ''.join((message, ", with this file: {0}".format(e.filename)))
+        logging.error(message)
+        sys.exit(-1)
+    except Exception as e:
+        message = "The subprocess {0} has encountered an error: {1}".format(cmd, e)
+        logging.error(e)
+
+        # TODO: More details for dev
+        #raise Exception(message)
+        logging.debug(e)
+
+        sys.exit(-1)
     return p
 
 
@@ -121,6 +161,12 @@ def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name, 
     :param big_bed_file_name:
     :return:
     """
+    logging.debug("sorted_bed_file_name: {0}".format(sorted_bed_file_name))
+    logging.debug("chrom_sizes_file_name: {0}".format(chrom_sizes_file_name))
+    logging.debug("big_bed_file_name: {0}".format(big_bed_file_name))
+    logging.debug("typeOption: {0}".format(typeOption))
+    logging.debug("autoSql: {0}".format(autoSql))
+
     array_call = ['bedToBigBed', sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name]
     if typeOption:
         array_call.append(typeOption)

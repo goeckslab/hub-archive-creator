@@ -1,10 +1,44 @@
+### TEMP St Louis ###
+- How to manage messages to user and debugging:
+    - User should receive INFO / WARN / ERROR / CRITICAL:
+        - User summary informations in stdout
+        - Full error in stderr
+    - Developer should receive all Logging stack:
+        - Not the user summary in stdout
+        - Full stack in stdout and stderr directly
+
+    - HOWTO:
+        - Manage (at least) two type of Logging types:
+            - The user one => When Debug mode is not set or disabled
+            - The dev one => When Debug mode is enabled
+        - User:
+            - Two Handlers: stdout and stderr
+            - STDOUT:
+                - Filter stdout:
+                    - NO ERROR and CRITICAL here
+                    - (Warn)
+                - Formatter:
+                    - Only show %(message) for clarity
+            - STDERR:
+                - Filter stderr => WARN / ERRROR / CRITICAL
+                - Formatter:
+                    - Show message
+                    - Show traceback
+        - Dev:
+            - One Handler:
+                - To both stdout and stderr
+            - Filter:
+                - Nope?
+            - Formatter:
+                - Show traceback in both
+
 # HubArchiveCreator's TODO
 
 *TODO file inspired from: http://lifehacker.com/why-a-github-gist-is-my-favorite-to-do-list-1493063613*
 
 ### TO COMPLETE
 
- 
+
 - [ ] Don't let the Tool Classes manage the archive (add or remove files / folders) => Everything should pass through TrackHub or another class dedicated to that
 - [ ] Move the class and others program related files, into separated folders
 - [ ] Take into account the name of the reference genome / the change:

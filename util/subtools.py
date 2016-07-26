@@ -57,7 +57,7 @@ def _handleExceptionAndCheckCall(array_call, **kwargs):
         sys.exit(-1)
     except Exception as e:
         message = "The subprocess {0} has encountered an error: {1}".format(cmd, e)
-        logging.error(e)
+        logging.error(message)
 
         # TODO: More details for dev
         #raise Exception(message)

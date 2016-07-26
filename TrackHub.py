@@ -28,6 +28,7 @@ class TrackHub(object):
         self.reference_genome = inputFastaFile
         # TODO: Add the specie name
         self.genome_name = inputFastaFile.assembly_id
+        self.specie_html = self.genome_name + '.html'
         self.default_pos = None
         self.user_email = user_email
 
@@ -148,8 +149,7 @@ class TrackHub(object):
         self.__fillHubTxt__(hubTxtFilePath)
 
         # Add the hub.html file
-        # TODO: Change the name and get it depending on the specie
-        hubHtmlFilePath = os.path.join(myHubPath, 'dbia.html')
+        hubHtmlFilePath = os.path.join(myHubPath, self.specie_html)
         self.__fillHubHtmlFile__(hubHtmlFilePath)
 
 
@@ -208,7 +208,7 @@ class TrackHub(object):
                 longLabel=self.genome_name,
                 genomesFile='genomes.txt',
                 email=self.user_email,
-                descriptionUrl='dbia.html'
+                descriptionUrl=self.specie_html
             )
             genomesTxtFile.write(htmlMakoRendered)
 

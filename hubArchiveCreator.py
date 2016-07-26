@@ -82,35 +82,10 @@ def main(argv):
     toolDirectory = args.directory
 
     #### Logging management ####
-    logging_level = logging.INFO
-    log_format = '%(message)s'
-
-    # .log configuration
-    logging_file_path = os.path.join(extra_files_path, 'hac.log')
-
-    # In any case, dump debug in the log
-    logging.basicConfig(filename=logging_file_path, level=logging.DEBUG)
-
     # If we are in Debug mode, also print in stdout the debug dump
-    if args.debug_mode is True:
-        logging_level = logging.DEBUG
 
-        # TODO: Give more info with this because we are debug?
-        #log_format = '%(message)s'
+    configure_logger(extra_files_path=extra_files_path, debug=args.debug_mode)
 
-    # stdout for logging to user configuration
-    log_user = logging.StreamHandler(sys.stdout)
-    log_user.setLevel(logging_level)
-
-    formatter = logging.Formatter(log_format)
-
-    log_user.setFormatter(formatter)
-
-    logging.getLogger().addHandler(log_user)
-
-    # stderr
-
-    logging.debug('#### Welcome in HubArchiveCreator Debug Mode ####\n')
     #### END Logging management ####
 
     array_inputs_reference_genome = json.loads(args.fasta)
@@ -215,5 +190,84 @@ def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data):
                 datatype_dictionary.update({data_value["order_index"]: extensionObject})
     return datatype_dictionary
 
+def configure_logger(extra_files_path=None, debug=False):
+    if not extra_files_path:
+        raise Exception("Extra files path is not set. Stopping the application")
+
+
+    # All case log: log everything in a .log file
+    logger_file_name = ''.join([__name__, '.log'])
+    logging_file_path = os.path.join(extra_files_path, logger_file_name)
+
+    logging.basicConfig(filename=logging_file_path, level=logging.DEBUG)
+
+    log_stdout = logging.StreamHandler(sys.stdout)
+    log_stderr = logging.StreamHandler(sys.stderr)
+    if not debug:
+        configure_logger_user(log_stdout, log_stderr)
+    else:
+        configure_logger_dev(log_stdout, log_stderr)
+
+    # TODO: Restrict to only info and warn
+
+    formatter = logging.Formatter(log_format)
+
+    log_stdout.setFormatter(formatter)
+
+    logging.getLogger().addHandler(log_stdout)
+
+    # stderr
+    log_error = logging.StreamHandler(sys.stderr)
+    log_error.setLevel(logging.ERROR)
+    log_error_format = '%(message)s'
+
+    formatter_error = logging.Formatter(log_error_format)
+
+    log_error.setFormatter(formatter_error)
+
+    logging.getLogger().addHandler(log_error)
+
+    logging.debug('#### Welcome in HubArchiveCreator Debug Mode ####\n')
+
+def configure_logger_user(log_stdout=None, log_stderr=None):
+    """
+    User Logger is defined as following:
+        - User needs to have WARN, ERROR and CRITICAL but well formatted / without traceback
+            in STDOUT
+        - Still access to full, brute and traceback for errors
+            in STDERR
+        - And further access to debug if needed
+            in .log
+    :return:
+    """
+    if not log_stdout or not log_stderr:
+        raise Exception("No log_stdout or log_stderr given. Stopping the application")
+    log_format = '%(message)s'
+
+    # stdout for INFO / WARN / ERROR / CRITICAL
+    log_stdout.setLevel(logging.INFO)
+
+    # stderr
+
+def configure_logger_dev(log_stdout=None, log_stderr=None):
+    """
+    Dev Logger is defined as following:
+        - Dev needs to have WARN, ERROR and CRITICAL but well formatted / without traceback, in stdout
+        - Still access to full, brute and traceback in stderr for errors
+        - And further access to debug if needed
+    :return:
+    """
+    if not log_stdout:
+        raise Exception("No log_stdout or log_stderr given. Stopping the application")
+    log_format = '%(message)s'
+
+    # stdout and stderr and both identical for INFO / WARN / ERROR / CRITICAL
+    log_stdout.setLevel(logging.DEBUG)
+
+def exceptionHandler(excetion_type, exception, traceback):
+    #logging.
+    print "TO DEFINE"
+
 if __name__ == "__main__":
+    logging.getLogger(__name__)
     main(sys.argv)

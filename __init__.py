@@ -9,4 +9,4 @@ except ImportError:
         def emit(self, record):
             pass
 
-logging.getLogger().addHandler(NullHandler())
+logging.getLogger(__name__).addHandler(NullHandler())

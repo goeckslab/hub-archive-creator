@@ -24,7 +24,11 @@ class Bam( Datatype ):
 
         self.data_bam = data_bam
         # TODO: Check if it already contains the .bam extension / Do a function in Datatype which check the extension
-        self.name_bam = self.data_bam["name"] + ".bam"
+        if ".bam" not in self.data_bam["name"]:
+            self.name_bam = self.data_bam["name"] + ".bam"
+        else:
+            self.name_bam = self.data_bam["name"]
+
         self.priority = self.data_bam["order_index"]
         self.index_bam = self.data_bam["index"]
 

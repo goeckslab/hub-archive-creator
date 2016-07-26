@@ -11,6 +11,8 @@ hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . 
 import argparse
 import collections
 import json
+import logging
+import os
 import sys
 
 # Internal dependencies
@@ -22,7 +24,6 @@ from util.Fasta import Fasta
 from Gff3 import Gff3
 from Gtf import Gtf
 from TrackHub import TrackHub
-
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -67,13 +68,50 @@ def main(argv):
 
     parser.add_argument('--genome_name', help='UCSC Genome Browser assembly ID')
 
-    ucsc_tools_path = ''
+    parser.add_argument('--debug_mode', action='store_true', help='Allow more details about the errors')
+
+    # Begin init variables
 
     toolDirectory = '.'
     extra_files_path = '.'
 
     # Get the args passed in parameter
     args = parser.parse_args()
+
+    extra_files_path = args.extra_files_path
+    toolDirectory = args.directory
+
+    #### Logging management ####
+    logging_level = logging.INFO
+    log_format = '%(message)s'
+
+    # .log configuration
+    logging_file_path = os.path.join(extra_files_path, 'hac.log')
+
+    # In any case, dump debug in the log
+    logging.basicConfig(filename=logging_file_path, level=logging.DEBUG)
+
+    # If we are in Debug mode, also print in stdout the debug dump
+    if args.debug_mode is True:
+        logging_level = logging.DEBUG
+
+        # TODO: Give more info with this because we are debug?
+        #log_format = '%(message)s'
+
+    # stdout for logging to user configuration
+    log_user = logging.StreamHandler(sys.stdout)
+    log_user.setLevel(logging_level)
+
+    formatter = logging.Formatter(log_format)
+
+    log_user.setFormatter(formatter)
+
+    logging.getLogger().addHandler(log_user)
+
+    # stderr
+
+    logging.debug('#### Welcome in HubArchiveCreator Debug Mode ####\n')
+    #### END Logging management ####
 
     array_inputs_reference_genome = json.loads(args.fasta)
 
@@ -100,7 +138,6 @@ def main(argv):
     array_inputs_bigwig = args.bigwig
 
     outputFile = args.output
-    json_inputs_data = args.data_json
 
     json_inputs_data = args.data_json
 
@@ -108,10 +145,6 @@ def main(argv):
     # We remove the spaces in ["name"] of inputs_data
     sanitize_name_inputs(inputs_data)
 
-    if args.directory:
-        toolDirectory = args.directory
-    if args.extra_files_path:
-        extra_files_path = args.extra_files_path
 
     # TODO: Check here all the binaries / tools we need. Exception if missing
 
@@ -141,6 +174,7 @@ def main(argv):
     # We terminate le process and so create a HTML file summarizing all the files
     trackHub.terminate()
 
+    logging.debug('#### End of HubArchiveCreator Debug Mode: Bye! ####')
     sys.exit(0)
 
 

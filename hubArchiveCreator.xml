@@ -161,8 +161,8 @@
                 <when value="bed">
                     <conditional name="bedChoice">
                         <param name="bed_select" type="select" label="Bed Choice">
-                            <option value="bed" selected="true">Generic BED</option>
-                            <option value="bed_simple_repeats_option">BED simple repeats</option>
+                            <option value="bed" selected="true">BED Generic (bed3+)</option>
+                            <option value="bed_simple_repeats_option">BED Simple repeat (bed4+12 / simpleRepeat.as)</option>
                         </param>
                         <when value="bed">
                             <param

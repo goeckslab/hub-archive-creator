@@ -27,22 +27,29 @@ class BigWig( Datatype ):
         shutil.copy(self.input_bigwig_path, myBigWigFilePath)
 
         # Create the Track Object
-        dataURL = "tracks/%s" % trackName
+        self.createTrack(file_path=trackName,
+                         track_name=trackName,
+                         long_label=self.name_bigwig, track_type='bigwig', visibility='full',
+                         priority=self.priority,
+                         track_file=myBigWigFilePath)
 
-        # Return the BigBed track
-        trackDb = TrackDb(
-            trackName=trackName,
-            longLabel=self.name_bigwig,
-            shortLabel=self.getShortName( self.name_bigwig ),
-            trackDataURL=dataURL,
-            trackType='bigWig',
-            visibility='full',
-            priority=self.priority,
-        )
-
-        self.track = Track(
-            trackFile=myBigWigFilePath,
-            trackDb=trackDb,
-        )
+        # dataURL = "tracks/%s" % trackName
+        #
+        # # Return the BigBed track
+        #
+        # trackDb = TrackDb(
+        #     trackName=trackName,
+        #     longLabel=self.name_bigwig,
+        #     shortLabel=self.getShortName( self.name_bigwig ),
+        #     trackDataURL=dataURL,
+        #     trackType='bigWig',
+        #     visibility='full',
+        #     priority=self.priority,
+        # )
+        #
+        # self.track = Track(
+        #     trackFile=myBigWigFilePath,
+        #     trackDb=trackDb,
+        # )
 
         #print("- %s created in %s" % (trackName, myBigWigFilePath))

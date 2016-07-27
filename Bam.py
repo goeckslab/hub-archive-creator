@@ -46,7 +46,8 @@ class Bam( Datatype ):
         shutil.copyfile(self.index_bam, bam_index_file_path)
 
         # Create the Track Object
-        self.createTrack(track_name=self.name_bam,
+        self.createTrack(file_path=self.name_bam,
+                         track_name=self.name_bam,
                          long_label=self.name_bam, track_type='bam', visibility='pack', priority=self.priority,
                          track_file=bam_index_file_path)
         #

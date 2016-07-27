@@ -46,20 +46,25 @@ class Gtf( Datatype ):
             subtools.bedToBigBed(sortedBedFile.name, self.chromSizesFile.name, bigBedFile.name)
 
         # Create the Track Object
-        dataURL = "tracks/%s" % trackName
-
-        trackDb = TrackDb(
-            trackName=trackName,
-            longLabel=self.name_gtf,
-            shortLabel=self.getShortName( self.name_gtf ),
-            trackDataURL=dataURL,
-            trackType='bigBed 12 +',
-            visibility='dense',
-            priority=self.priority,
-        )
-        self.track = Track(
-            trackFile=myBigBedFilePath,
-            trackDb=trackDb,
-        )
+        self.createTrack(file_path=trackName,
+                         track_name=trackName,
+                         long_label=self.name_gtf, track_type='bigBed 12 +', visibility='dense', priority=self.priority,
+                         track_file=myBigBedFilePath)
+        #
+        # dataURL = "tracks/%s" % trackName
+        #
+        # trackDb = TrackDb(
+        #     trackName=trackName,
+        #     longLabel=self.name_gtf,
+        #     shortLabel=self.getShortName( self.name_gtf ),
+        #     trackDataURL=dataURL,
+        #     trackType='bigBed 12 +',
+        #     visibility='dense',
+        #     priority=self.priority,
+        # )
+        # self.track = Track(
+        #     trackFile=myBigBedFilePath,
+        #     trackDb=trackDb,
+        # )
 
         #print("- %s created in %s" % (trackName, myBigBedFilePath))

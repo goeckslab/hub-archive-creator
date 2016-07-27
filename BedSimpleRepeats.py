@@ -34,21 +34,27 @@ class BedSimpleRepeats( Datatype ):
                                  autoSql=auto_sql_option)
 
         # Create the Track Object
-        dataURL = "tracks/%s" % trackName
+        self.createTrack(file_path=trackName,
+                         track_name=trackName,
+                         long_label=self.name_bed_simple_repeats, track_type='bigBed 4 +', visibility='dense',
+                         priority=self.priority,
+                         track_file=myBigBedFilePath)
 
-        trackDb = TrackDb(
-            trackName=trackName,
-            longLabel=self.name_bed_simple_repeats,
-            shortLabel=self.getShortName( self.name_bed_simple_repeats ),
-            trackDataURL=dataURL,
-            trackType='bigBed 4 +',
-            visibility='dense',
-            priority=self.priority,
-        )
-
-        self.track = Track(
-            trackFile=myBigBedFilePath,
-            trackDb=trackDb,
-        )
+        # dataURL = "tracks/%s" % trackName
+        #
+        # trackDb = TrackDb(
+        #     trackName=trackName,
+        #     longLabel=self.name_bed_simple_repeats,
+        #     shortLabel=self.getShortName( self.name_bed_simple_repeats ),
+        #     trackDataURL=dataURL,
+        #     trackType='bigBed 4 +',
+        #     visibility='dense',
+        #     priority=self.priority,
+        # )
+        #
+        # self.track = Track(
+        #     trackFile=myBigBedFilePath,
+        #     trackDb=trackDb,
+        # )
 
         #print("- %s created in %s" % (trackName, myBigBedFilePath))

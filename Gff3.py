@@ -47,21 +47,26 @@ class Gff3( Datatype ):
             subtools.bedToBigBed(sortedBedFile.name, self.chromSizesFile.name, bigBedFile.name)
 
         # Create the Track Object
-        dataURL = "tracks/%s" % trackName
+        self.createTrack(file_path=trackName,
+                         track_name=trackName,
+                         long_label=self.name_gff3, track_type='bigBed 12 +', visibility='dense', priority=self.priority,
+                         track_file=myBigBedFilePath)
 
-        trackDb = TrackDb(
-            trackName=trackName,
-            longLabel=self.name_gff3,
-            shortLabel=self.getShortName( self.name_gff3 ),
-            trackDataURL=dataURL,
-            trackType='bigBed 12 +',
-            visibility='dense',
-            priority=self.priority,
-        )
-
-        self.track = Track(
-            trackFile=myBigBedFilePath,
-            trackDb=trackDb,
-        )
+        # dataURL = "tracks/%s" % trackName
+        #
+        # trackDb = TrackDb(
+        #     trackName=trackName,
+        #     longLabel=self.name_gff3,
+        #     shortLabel=self.getShortName( self.name_gff3 ),
+        #     trackDataURL=dataURL,
+        #     trackType='bigBed 12 +',
+        #     visibility='dense',
+        #     priority=self.priority,
+        # )
+        #
+        # self.track = Track(
+        #     trackFile=myBigBedFilePath,
+        #     trackDb=trackDb,
+        # )
 
         #print("- %s created in %s" % (trackName, myBigBedFilePath))

@@ -9,6 +9,8 @@ import os
 import tempfile
 
 from util import subtools
+from Track import Track
+from TrackDb import TrackDb
 
 
 class Datatype(object):
@@ -25,6 +27,8 @@ class Datatype(object):
     twoBitFile = None
     chromSizesFile = None
 
+    track = None
+
     def __init__(self):
 
         not_init_message = "The {0} is not initialized." \
@@ -35,6 +39,7 @@ class Datatype(object):
             raise TypeError(not_init_message.format('track Hub path'))
         if Datatype.tool_directory is None:
             raise TypeError(not_init_message.format('tool directory'))
+
 
 
     @staticmethod
@@ -66,3 +71,39 @@ class Datatype(object):
         short_label_slice = slice(0, 15)
 
         return name_to_shortify[short_label_slice]
+
+    # TODO: Better handle parameters, use heritance mecanism
+    # TODO: Use default parameters for some, like visibility
+    def createTrack(self,
+                    file_path=None,
+                    track_name=None, long_label=None, thick_draw_item='off',
+                    short_label=None, track_type=None, visibility=None, priority=None,
+                    track_file=None):
+
+        # TODO: Remove the hardcoded "tracks" by the value used as variable from myTrackFolderPath
+        data_url = "tracks/%s" % file_path
+
+        if not short_label:
+            short_label = self.getShortName(long_label)
+
+        # Replace '_' by ' ', to invert the sanitization mecanism
+        # TODO: Find a better way to manage the sanitization of file path
+        long_label = long_label.replace("_", " ")
+        short_label = short_label.replace("_", " ")
+
+        track_db = TrackDb(
+                trackName=track_name,
+                longLabel=long_label,
+                shortLabel=short_label,
+                trackDataURL=data_url,
+                trackType=track_type,
+                visibility=visibility,
+                thickDrawItem=thick_draw_item,
+                priority=priority,
+        )
+
+        # Return the Bam Track Object
+        self.track = Track(
+                trackFile=track_file,
+                trackDb=track_db,
+        )

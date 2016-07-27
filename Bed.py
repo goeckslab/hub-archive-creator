@@ -61,4 +61,5 @@ class Bed( Datatype ):
         #     trackDb=trackDb,
         # )
 
+        print("- Bed %s created" % self.name_bed_generic)
         #print("- %s created in %s" % (trackName, myBigBedFilePath))

@@ -52,4 +52,5 @@ class BigWig( Datatype ):
         #     trackDb=trackDb,
         # )
 
+        print("- BigWig %s created" % self.name_bigwig)
         #print("- %s created in %s" % (trackName, myBigWigFilePath))

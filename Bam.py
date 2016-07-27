@@ -69,5 +69,6 @@ class Bam( Datatype ):
         #     trackDb=trackDb,
         # )
 
+        print("- Bam %s created" % self.name_bam)
         #print("- %s created in %s" % (self.name_bam, bam_file_path))
         #print("- %s created in %s" % (self.index_bam, bam_index_file_path))

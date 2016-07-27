@@ -69,4 +69,5 @@ class Gff3( Datatype ):
         #     trackDb=trackDb,
         # )
 
+        print("- Gff3 %s created" % self.name_gff3)
         #print("- %s created in %s" % (trackName, myBigBedFilePath))

@@ -57,4 +57,5 @@ class BedSimpleRepeats( Datatype ):
         #     trackDb=trackDb,
         # )
 
+        print("- Bed simple repeats %s created" % self.name_bed_simple_repeats)
         #print("- %s created in %s" % (trackName, myBigBedFilePath))

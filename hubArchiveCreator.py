@@ -141,6 +141,10 @@ def main(argv):
     # We terminate le process and so create a HTML file summarizing all the files
     trackHub.terminate()
 
+    print "\t"
+    print "--------------"
+    print "Well done guys! Your data are ready to be displayed in UCSC Track Hub."
+
     sys.exit(0)
 
 

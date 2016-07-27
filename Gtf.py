@@ -67,4 +67,5 @@ class Gtf( Datatype ):
         #     trackDb=trackDb,
         # )
 
+        print("- Gtf %s created" % self.name_gtf)
         #print("- %s created in %s" % (trackName, myBigBedFilePath))

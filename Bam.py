@@ -46,23 +46,27 @@ class Bam( Datatype ):
         shutil.copyfile(self.index_bam, bam_index_file_path)
 
         # Create the Track Object
-        dataURL = "tracks/%s" % self.name_bam
-
-        trackDb = TrackDb(
-            trackName=self.name_bam,
-            longLabel=self.name_bam,
-            shortLabel=self.getShortName( self.name_bam ),
-            trackDataURL=dataURL,
-            trackType='bam',
-            visibility='pack',
-            priority=self.priority,
-        )
-
-        # Return the Bam Track Object
-        self.track = Track(
-            trackFile=bam_index_file_path,
-            trackDb=trackDb,
-        )
+        self.createTrack(track_name=self.name_bam,
+                         long_label=self.name_bam, track_type='bam', visibility='pack', priority=self.priority,
+                         track_file=bam_index_file_path)
+        #
+        # dataURL = "tracks/%s" % self.name_bam
+        #
+        # trackDb = TrackDb(
+        #     trackName=self.name_bam,
+        #     longLabel=self.name_bam,
+        #     shortLabel=self.getShortName( self.name_bam ),
+        #     trackDataURL=dataURL,
+        #     trackType='bam',
+        #     visibility='pack',
+        #     priority=self.priority,
+        # )
+        #
+        # # Return the Bam Track Object
+        # self.track = Track(
+        #     trackFile=bam_index_file_path,
+        #     trackDb=trackDb,
+        # )
 
         #print("- %s created in %s" % (self.name_bam, bam_file_path))
         #print("- %s created in %s" % (self.index_bam, bam_index_file_path))

@@ -36,23 +36,29 @@ class Bed( Datatype ):
             subtools.bedToBigBed(self.sortedBedFile.name, self.chromSizesFile.name, self.bigBedFile.name)
 
         # Create the Track Object
-        dataURL = "tracks/%s" % trackName
+        self.createTrack(file_path=trackName,
+                         track_name=trackName,
+                         long_label=self.name_bed_generic, track_type='bigBed', visibility='dense',
+                         priority=self.priority,
+                         track_file=myBigBedFilePath)
 
-        trackDb = TrackDb(
-            trackName=trackName,
-            longLabel=self.name_bed_generic,
-            shortLabel=self.getShortName(self.name_bed_generic),
-            trackDataURL=dataURL,
-            trackType='bigBed',
-            visibility='dense',
-            thickDrawItem='on',
-            priority=self.priority,
-        )
-
-        # Return the BigBed track
-        self.track = Track(
-            trackFile=myBigBedFilePath,
-            trackDb=trackDb,
-        )
+        # dataURL = "tracks/%s" % trackName
+        #
+        # trackDb = TrackDb(
+        #     trackName=trackName,
+        #     longLabel=self.name_bed_generic,
+        #     shortLabel=self.getShortName(self.name_bed_generic),
+        #     trackDataURL=dataURL,
+        #     trackType='bigBed',
+        #     visibility='dense',
+        #     thickDrawItem='on',
+        #     priority=self.priority,
+        # )
+        #
+        # # Return the BigBed track
+        # self.track = Track(
+        #     trackFile=myBigBedFilePath,
+        #     trackDb=trackDb,
+        # )
 
         #print("- %s created in %s" % (trackName, myBigBedFilePath))

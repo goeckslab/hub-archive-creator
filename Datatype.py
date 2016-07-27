@@ -76,7 +76,7 @@ class Datatype(object):
     # TODO: Use default parameters for some, like visibility
     def createTrack(self,
                     file_path=None,
-                    track_name=None, long_label=None,
+                    track_name=None, long_label=None, thick_draw_item='off',
                     short_label=None, track_type=None, visibility=None, priority=None,
                     track_file=None):
 
@@ -98,6 +98,7 @@ class Datatype(object):
                 trackDataURL=data_url,
                 trackType=track_type,
                 visibility=visibility,
+                thickDrawItem=thick_draw_item,
                 priority=priority,
         )
 

@@ -19,7 +19,7 @@ class BigWig( Datatype ):
         self.name_bigwig = data_bigwig["name"]
         self.priority = data_bigwig["order_index"]
 
-        print "Creating TrackHub BigWig from (falsePath: %s; name: %s)" % ( self.input_bigwig_path, self.name_bigwig )
+        #print "Creating TrackHub BigWig from (falsePath: %s; name: %s)" % ( self.input_bigwig_path, self.name_bigwig )
 
         trackName = "".join( ( self.name_bigwig, ".bigwig" ) )
 
@@ -45,4 +45,4 @@ class BigWig( Datatype ):
             trackDb=trackDb,
         )
 
-        print("- %s created in %s" % (trackName, myBigWigFilePath))
+        #print("- %s created in %s" % (trackName, myBigWigFilePath))

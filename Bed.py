@@ -55,4 +55,4 @@ class Bed( Datatype ):
             trackDb=trackDb,
         )
 
-        print("- %s created in %s" % (trackName, myBigBedFilePath))
+        #print("- %s created in %s" % (trackName, myBigBedFilePath))

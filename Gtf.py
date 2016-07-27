@@ -21,7 +21,7 @@ class Gtf( Datatype ):
         self.name_gtf = data_gtf["name"]
         self.priority = data_gtf["order_index"]
 
-        print "Creating TrackHub GTF from (falsePath: %s; name: %s)" % ( self.input_gtf_false_path, self.name_gtf)
+        #print "Creating TrackHub GTF from (falsePath: %s; name: %s)" % ( self.input_gtf_false_path, self.name_gtf)
 
         # TODO: See if we need these temporary files as part of the generated files
         genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
@@ -62,4 +62,4 @@ class Gtf( Datatype ):
             trackDb=trackDb,
         )
 
-        print("- %s created in %s" % (trackName, myBigBedFilePath))
+        #print("- %s created in %s" % (trackName, myBigBedFilePath))

@@ -32,7 +32,7 @@ class Bam( Datatype ):
         self.priority = self.data_bam["order_index"]
         self.index_bam = self.data_bam["index"]
 
-        print "Creating TrackHub BAM from (falsePath: %s; name: %s)" % ( self.input_bam_false_path, self.name_bam)
+        #print "Creating TrackHub BAM from (falsePath: %s; name: %s)" % ( self.input_bam_false_path, self.name_bam)
 
         # First: Add the bam file
         # Second: Add the bam index file, in the same folder (https://genome.ucsc.edu/goldenpath/help/bam.html)
@@ -64,5 +64,5 @@ class Bam( Datatype ):
             trackDb=trackDb,
         )
 
-        print("- %s created in %s" % (self.name_bam, bam_file_path))
-        print("- %s created in %s" % (self.index_bam, bam_index_file_path))
+        #print("- %s created in %s" % (self.name_bam, bam_file_path))
+        #print("- %s created in %s" % (self.index_bam, bam_index_file_path))

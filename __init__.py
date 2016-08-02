@@ -10,3 +10,10 @@ except ImportError:
             pass
 
 logging.getLogger(__name__).addHandler(NullHandler())
+
+log_stdout = None
+log_stderr = None
+
+
+# TODO: Handle the Exception by dispatching the error depending on the (debug) mode
+#class Exception(Exception):

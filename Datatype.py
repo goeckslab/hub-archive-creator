@@ -36,7 +36,6 @@ class Datatype(object):
         if Datatype.tool_directory is None:
             raise TypeError(not_init_message.format('tool directory'))
 
-
     @staticmethod
     def pre_init(reference_genome, two_bit_path, chrom_sizes_file,
                  extra_files_path, tool_directory, specie_folder, tracks_folder):

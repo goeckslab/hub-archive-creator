@@ -11,6 +11,17 @@ import os
 import subprocess
 import sys
 
+class PopenError(Exception):
+    def __init__(self, cmd, error, return_code):
+        self.cmd = cmd
+        self.error = error
+        self.return_code = return_code
+
+    def __str__(self):
+        message = "The subprocess {0} has returned the error: {1}.".format(self.cmd, self.return_code)
+        message = ','.join((message, "Its error message is: {0}".format(self.error)))
+        return repr(message)
+
 def _handleExceptionAndCheckCall(array_call, **kwargs):
     """
     This class handle exceptions and call the tool.
@@ -30,8 +41,6 @@ def _handleExceptionAndCheckCall(array_call, **kwargs):
     # TODO: Check the value of array_call and <=[0]
     logging.debug("Calling {0}:".format(cmd))
 
-    #minus_to_add = ''.join('-' for x in range(len(cmd)))
-    #logging.info("--------{0}".format(minus_to_add))
     logging.debug("---------")
 
     # TODO: Use universal_newlines option from Popen?
@@ -42,26 +51,26 @@ def _handleExceptionAndCheckCall(array_call, **kwargs):
         logging.debug("\t{0}".format(output))
         # If we detect an error from the subprocess, then we raise an exception
         # TODO: Manage if we raise an exception for everything, or use CRITICAL etc... but not stop process
+        # TODO: The responsability of returning a sys.exit() should not be there, but up in the app.
         if p.returncode:
-            #raise Exception(error)
-            message = "The subprocess {0} has returned the error: {1}.".format(cmd, p.returncode)
-            message = ''.join((message, " Its error message is: {0}".format(error)))
-            logging.error(message)
+            raise PopenError(cmd, error, p.returncode)
 
-            sys.exit(p.returncode)
     except OSError as e:
         message = "The subprocess {0} has encountered an OSError: {1}".format(cmd, e.strerror)
         if e.filename:
-            message = ''.join((message, ", with this file: {0}".format(e.filename)))
+            message = '\n'.join((message, ", against this file: {0}".format(e.filename)))
         logging.error(message)
         sys.exit(-1)
-    except Exception as e:
-        message = "The subprocess {0} has encountered an error: {1}".format(cmd, e)
-        logging.error(message)
+    except PopenError as p:
+        message = "The subprocess {0} has returned the error: {1}.".format(p.cmd, p.return_code)
+        message = '\n'.join((message, "Its error message is: {0}".format(p.error)))
 
-        # TODO: More details for dev
-        #raise Exception(message)
-        logging.debug(e)
+        logging.exception(message)
+
+        sys.exit(p.return_code)
+    except Exception as e:
+        message = "The subprocess {0} has encountered an unknown error: {1}".format(cmd, e)
+        logging.exception(message)
 
         sys.exit(-1)
     return p

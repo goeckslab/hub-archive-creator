@@ -21,6 +21,7 @@ from BedSimpleRepeats import BedSimpleRepeats
 from Bed import Bed
 from BigWig import BigWig
 from util.Fasta import Fasta
+from util.Filters import TraceBackFormatter
 from Gff3 import Gff3
 from Gtf import Gtf
 from TrackHub import TrackHub
@@ -210,7 +211,6 @@ def configure_logger(extra_files_path=None, debug=False):
     # stderr configuration
     configure_logger_stderr()
 
-
     logging.debug('#### Welcome in HubArchiveCreator Debug Mode ####\n')
 
 def configure_logger_user(log_stdout=None):
@@ -226,12 +226,11 @@ def configure_logger_user(log_stdout=None):
     """
     if not log_stdout:
         raise Exception("No log_stdout given. Stopping the application")
-    log_format = '%(message)s'
 
     # stdout for INFO / WARN / ERROR / CRITICAL
     log_stdout.setLevel(logging.INFO)
 
-    formatter = logging.Formatter(log_format)
+    formatter = TraceBackFormatter('%(message)s')
 
     log_stdout.setFormatter(formatter)
 
@@ -259,6 +258,10 @@ def configure_logger_dev(log_stdout=None):
     logging.getLogger().addHandler(log_stdout)
 
 def configure_logger_stderr():
+    """
+    Configure what should be logged in stderr
+    :return:
+    """
     log_error = logging.StreamHandler(sys.stderr)
     log_error.setLevel(logging.ERROR)
     log_error_format = '%(message)s'
@@ -268,10 +271,6 @@ def configure_logger_stderr():
     log_error.setFormatter(formatter_error)
 
     logging.getLogger().addHandler(log_error)
-
-def exceptionHandler(excetion_type, exception, traceback):
-    #logging.
-    print "TO DEFINE"
 
 if __name__ == "__main__":
     logging.getLogger(__name__)

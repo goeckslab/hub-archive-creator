@@ -195,6 +195,7 @@
                 <option value="off" selected="true">Hide advanced options</option>
                 <option value="on">Display advanced options</option>
             </param>
+            <!-- TODO: Avoid redundancy here -->
             <when value="on">
                 <param name="debug_mode" type="boolean"
                        label="Activate debug mode" checked="false"
@@ -203,9 +204,12 @@
                         Use this option if you are a G-OnRamp developer
                     </help>
                 </param>
-        </when>
-
-        <when value="off"/>
+            </when>
+            <when value="off">
+                <param name="debug_mode" type="hidden"
+                       value="">
+                </param>
+            </when>
     </conditional>
 </inputs>
 

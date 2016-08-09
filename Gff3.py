@@ -21,53 +21,44 @@ class Gff3( Datatype ):
         self.priority = data_gff3["order_index"]
 
         # TODO: See if we need these temporary files as part of the generated files
-        genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
-        unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
-        sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
+        unsorted_genePred_file = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
+        unsorted_bigGenePred_file = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsorted.bigGenePred")
+        sorted_biGenePred_file = tempfile.NamedTemporaryFile(suffix=".sorted.bigGenePred")
 
         # TODO: Refactor into another Class to manage the twoBitInfo and ChromSizes (same process as in Gtf.py)
 
         # gff3ToGenePred processing
-        subtools.gff3ToGenePred(self.input_Gff3_false_path, genePredFile.name)
+        subtools.gff3ToGenePred(self.input_Gff3_false_path, unsorted_genePred_file.name)
 
-        # TODO: From there, refactor because common use with Gtf.py
-        # genePredToBed processing
-        subtools.genePredToBed(genePredFile.name, unsortedBedFile.name)
+        # genePredToBigGenePred
+        subtools.genePredToBigGenePred(unsorted_genePred_file.name, unsorted_bigGenePred_file.name)
 
         # Sort processing
-        subtools.sort(unsortedBedFile.name, sortedBedFile.name)
+        # TODO: SORT ON THE BIGENEPRED NOW
+        subtools.sort(unsorted_bigGenePred_file.name, sorted_biGenePred_file.name)
 
         # TODO: Check if no errors
 
         # bedToBigBed processing
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
         trackName = "".join( (self.name_gff3, ".bb" ) )
+
+        auto_sql_option = "%s%s" % ('-as=', os.path.join(self.tool_directory, 'bigGenePred.as'))
+
         myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
+
         with open(myBigBedFilePath, 'w') as bigBedFile:
-            subtools.bedToBigBed(sortedBedFile.name, self.chromSizesFile.name, bigBedFile.name)
+            subtools.bedToBigBed(sorted_biGenePred_file.name,
+                                 self.chromSizesFile.name,
+                                 bigBedFile.name,
+                                 autoSql=auto_sql_option,
+                                 typeOption='-type=bed12+8',
+                                 tab=True)
 
         # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_gff3, track_type='bigBed 12 +', visibility='dense', priority=self.priority,
+                         long_label=self.name_gff3, track_type='bigGenePred', visibility='dense', priority=self.priority,
                          track_file=myBigBedFilePath)
 
-        # dataURL = "tracks/%s" % trackName
-        #
-        # trackDb = TrackDb(
-        #     trackName=trackName,
-        #     longLabel=self.name_gff3,
-        #     shortLabel=self.getShortName( self.name_gff3 ),
-        #     trackDataURL=dataURL,
-        #     trackType='bigBed 12 +',
-        #     visibility='dense',
-        #     priority=self.priority,
-        # )
-        #
-        # self.track = Track(
-        #     trackFile=myBigBedFilePath,
-        #     trackDb=trackDb,
-        # )
-
         print("- Gff3 %s created" % self.name_gff3)
-        #print("- %s created in %s" % (trackName, myBigBedFilePath))

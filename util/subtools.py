@@ -125,6 +125,18 @@ def gff3ToGenePred(input_gff3_file_name, gene_pred_file_name):
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
+def genePredToBigGenePred(gene_pred_file_name, unsorted_bigGenePred_file_name):
+    """
+    Call genePredToBigGenePred and write the result into unsorted_bigGenePred_file_name
+    :param gene_pred_file_name:
+    :param unsorted_bigGenePred_file_name:
+    :return:
+    """
+    array_call = ['genePredToBigGenePred',
+                  gene_pred_file_name,
+                  unsorted_bigGenePred_file_name]
+    p = _handleExceptionAndCheckCall(array_call)
+    return p
 
 def genePredToBed(gene_pred_file_name, unsorted_bed_file_name):
     """
@@ -162,7 +174,8 @@ def sortChromSizes(two_bit_info_file_name, chrom_sizes_file_name):
     return p
 
 
-def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name, typeOption=None, autoSql=None):
+def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name,
+                typeOption=None, autoSql=None, tab=False):
     """
     Call bedToBigBed on sorted_bed_file_name, using chrom_sizes_file_name and write the result into big_bed_file_name
     :param sorted_bed_file_name:
@@ -170,17 +183,23 @@ def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name, 
     :param big_bed_file_name:
     :return:
     """
+
+    # TODO: Move this into the _handleExceptionAndCheckCall function
+    # Parse the array
     logging.debug("sorted_bed_file_name: {0}".format(sorted_bed_file_name))
     logging.debug("chrom_sizes_file_name: {0}".format(chrom_sizes_file_name))
     logging.debug("big_bed_file_name: {0}".format(big_bed_file_name))
     logging.debug("typeOption: {0}".format(typeOption))
     logging.debug("autoSql: {0}".format(autoSql))
+    logging.debug("tab option: {0}".format(tab))
 
     array_call = ['bedToBigBed', sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name]
     if typeOption:
         array_call.append(typeOption)
     if autoSql:
         array_call.append(autoSql)
+    if tab:
+        array_call.append('-tab')
 
     p = _handleExceptionAndCheckCall(array_call)
     return p

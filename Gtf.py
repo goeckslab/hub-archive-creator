@@ -25,47 +25,30 @@ class Gtf( Datatype ):
 
         # TODO: See if we need these temporary files as part of the generated files
         genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
-        unsortedBedFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
-        sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
+        unsorted_genePred_file = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsortedBed")
+        sorted_genePred_file = tempfile.NamedTemporaryFile(suffix=".sortedBed")
 
         # GtfToGenePred
         subtools.gtfToGenePred(self.input_gtf_false_path, genePredFile.name)
 
         # TODO: From there, refactor because common use with Gff3.py
         #  genePredToBed processing
-        subtools.genePredToBed(genePredFile.name, unsortedBedFile.name)
+        # subtools.genePredToBed(genePredFile.name, unsortedBedFile.name)
 
         # Sort processing
-        subtools.sort(unsortedBedFile.name, sortedBedFile.name)
+        subtools.sort(unsorted_genePred_file.name, sorted_genePred_file.name)
 
         # bedToBigBed processing
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
         trackName = "".join( ( self.name_gtf, ".bb") )
         myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as bigBedFile:
-            subtools.bedToBigBed(sortedBedFile.name, self.chromSizesFile.name, bigBedFile.name)
+            subtools.bedToBigBed(sorted_genePred_file.name, self.chromSizesFile.name, bigBedFile.name)
 
         # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
                          long_label=self.name_gtf, track_type='bigBed 12 +', visibility='dense', priority=self.priority,
                          track_file=myBigBedFilePath)
-        #
-        # dataURL = "tracks/%s" % trackName
-        #
-        # trackDb = TrackDb(
-        #     trackName=trackName,
-        #     longLabel=self.name_gtf,
-        #     shortLabel=self.getShortName( self.name_gtf ),
-        #     trackDataURL=dataURL,
-        #     trackType='bigBed 12 +',
-        #     visibility='dense',
-        #     priority=self.priority,
-        # )
-        # self.track = Track(
-        #     trackFile=myBigBedFilePath,
-        #     trackDb=trackDb,
-        # )
 
         print("- Gtf %s created" % self.name_gtf)
-        #print("- %s created in %s" % (trackName, myBigBedFilePath))

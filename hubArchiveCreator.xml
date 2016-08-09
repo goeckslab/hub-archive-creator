@@ -14,6 +14,7 @@
         <requirement type="package" version="332">ucsc-bedtobigbed</requirement>
         <requirement type="package" version="332">ucsc-fatotwobit</requirement>
         <requirement type="package" version="324">ucsc-genepredtobed</requirement>
+        <requirement type="package" version="332">ucsc-genepredtobiggenepred</requirement>
         <requirement type="package" version="324">ucsc-gff3togenepred</requirement>
         <requirement type="package" version="324">ucsc-gtftogenepred</requirement>
         <requirement type="package" version="324">ucsc-twobitinfo</requirement>

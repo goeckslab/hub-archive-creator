@@ -29,7 +29,8 @@ class BigWig( Datatype ):
         # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_bigwig, track_type='bigWig', visibility='full',
+                         long_label=self.name_bigwig,
+                         track_type='bigWig', visibility='full',
                          priority=self.priority,
                          track_file=myBigWigFilePath)
 

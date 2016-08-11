@@ -195,8 +195,10 @@ def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name,
 
     array_call = ['bedToBigBed', sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name]
     if typeOption:
+        typeOption = ''.join(['-type=', typeOption])
         array_call.append(typeOption)
     if autoSql:
+        autoSql = ''.join(['-as=', autoSql])
         array_call.append(autoSql)
     if tab:
         array_call.append('-tab')

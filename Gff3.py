@@ -25,8 +25,6 @@ class Gff3( Datatype ):
         unsorted_bigGenePred_file = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsorted.bigGenePred")
         sorted_biGenePred_file = tempfile.NamedTemporaryFile(suffix=".sorted.bigGenePred")
 
-        # TODO: Refactor into another Class to manage the twoBitInfo and ChromSizes (same process as in Gtf.py)
-
         # gff3ToGenePred processing
         subtools.gff3ToGenePred(self.input_Gff3_false_path, unsorted_genePred_file.name)
 
@@ -34,16 +32,14 @@ class Gff3( Datatype ):
         subtools.genePredToBigGenePred(unsorted_genePred_file.name, unsorted_bigGenePred_file.name)
 
         # Sort processing
-        # TODO: SORT ON THE BIGENEPRED NOW
         subtools.sort(unsorted_bigGenePred_file.name, sorted_biGenePred_file.name)
 
         # TODO: Check if no errors
 
         # bedToBigBed processing
-        # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
         trackName = "".join( (self.name_gff3, ".bb" ) )
 
-        auto_sql_option = "%s%s" % ('-as=', os.path.join(self.tool_directory, 'bigGenePred.as'))
+        auto_sql_option = os.path.join(self.tool_directory, 'bigGenePred.as')
 
         myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
 
@@ -52,13 +48,15 @@ class Gff3( Datatype ):
                                  self.chromSizesFile.name,
                                  bigBedFile.name,
                                  autoSql=auto_sql_option,
-                                 typeOption='-type=bed12+8',
+                                 typeOption='bed12+8',
                                  tab=True)
 
         # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_gff3, track_type='bigGenePred', visibility='dense', priority=self.priority,
+                         long_label=self.name_gff3,
+                         track_type='bigGenePred', visibility='dense',
+                         priority=self.priority,
                          track_file=myBigBedFilePath)
 
         print("- Gff3 %s created" % self.name_gff3)

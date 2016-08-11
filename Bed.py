@@ -33,7 +33,9 @@ class Bed( Datatype ):
 
         myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
         with open(myBigBedFilePath, 'w') as self.bigBedFile:
-            subtools.bedToBigBed(self.sortedBedFile.name, self.chromSizesFile.name, self.bigBedFile.name)
+            subtools.bedToBigBed(self.sortedBedFile.name,
+                                 self.chromSizesFile.name,
+                                 self.bigBedFile.name)
 
         # Create the Track Object
         self.createTrack(file_path=trackName,

@@ -27,10 +27,14 @@ class BedSimpleRepeats( Datatype ):
         # TODO: Change the name of the bb, to tool + genome + .bb
         trackName = "".join( ( self.name_bed_simple_repeats, '.bb' ) )
         myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
-        auto_sql_option = "%s%s" % ('-as=', os.path.join(self.tool_directory, 'trf_simpleRepeat.as'))
+
+        auto_sql_option = os.path.join(self.tool_directory, 'trf_simpleRepeat.as')
+
         with open(myBigBedFilePath, 'w') as bigBedFile:
-            subtools.bedToBigBed(sortedBedFile.name, self.chromSizesFile.name, bigBedFile.name,
-                                 typeOption='-type=bed4+12',
+            subtools.bedToBigBed(sortedBedFile.name,
+                                 self.chromSizesFile.name,
+                                 bigBedFile.name,
+                                 typeOption='bed4+12',
                                  autoSql=auto_sql_option)
 
         # Create the Track Object

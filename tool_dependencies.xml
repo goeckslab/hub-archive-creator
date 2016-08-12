@@ -8,6 +8,7 @@
         - gff3ToGenePred
         - gtfToGenePred
         - genePredToBed
+        - genePredToBigGenePred
         - faToTwoBit
         - samtools
     -->
@@ -71,6 +72,31 @@
                 </action>
                 <action type="chmod">
                     <file mode="750">$INSTALL_DIR/bin/genePredToBed</file>
+                </action>
+                <action type="set_environment">
+                    <environment_variable name="PATH" action="prepend_to">$INSTALL_DIR/bin</environment_variable>
+                </action>
+            </actions>
+        </install>
+        <readme>The tools downloaded by this dependency definition are free for academic use.</readme>
+    </package>
+
+    http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/genePredToBigGenePred
+
+    <!-- Package genePredToBigGenePred -->
+    <package name="genePredToBigGenePred" version="0.0.1">
+        <install version="1.0">
+            <actions>
+                <action type="download_binary" target_directory="bin">
+                    <url_template os="darwin">
+                        http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.${architecture}/genePredToBigGenePred
+                    </url_template>
+                    <url_template os="linux">
+                        http://hgdownload.cse.ucsc.edu/admin/exe/linux.${architecture}/genePredToBigGenePred
+                    </url_template>
+                </action>
+                <action type="chmod">
+                    <file mode="750">$INSTALL_DIR/bin/genePredToBigGenePred</file>
                 </action>
                 <action type="set_environment">
                     <environment_variable name="PATH" action="prepend_to">$INSTALL_DIR/bin</environment_variable>

@@ -9,6 +9,7 @@
         <requirement type="package" version="0.0.1">gff3ToGenePred</requirement>
         <requirement type="package" version="0.0.1">gtfToGenePred</requirement>
         <requirement type="package" version="0.0.1">genePredToBed</requirement>
+        <requirement type="package" version="0.0.1">genePredToBigGenePred</requirement>
         <requirement type="package" version="1.2">samtools</requirement>
         <!-- Conda dependencies -->
         <requirement type="package" version="332">ucsc-bedtobigbed</requirement>

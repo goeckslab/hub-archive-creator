@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
 
+import logging
 import os
 import tempfile
 import shutil
@@ -88,14 +89,36 @@ class TrackHub(object):
             # TODO: We are basically looping two times: One time with os.walk, Second time
             # with the template. We could improve that if the number of files begins to be really important
             list_relative_file_path = [ ]
+
+            # TODO: Create classes Tree to manage this => Better readibility and maintenability
+            def create_tree(array_path, tree, relative_array_file_path, level=0):
+                cur_relative_file_path = '/'.join(relative_array_file_path[:level+1])
+                if array_path[0] in tree.keys():
+                    create_tree(array_path[1:], tree[array_path[0]][0],
+                                relative_array_file_path, level+1)
+                else:
+                    tree[array_path[0]] = ({}, cur_relative_file_path)
+                    # TODO: Manage also the links of the directories => No link?
+                    # => Managed in display.txt, but could also be managed there
+                    # If we are don't have any sub-vertices
+                    if len(array_path) == 1:
+                        # We create the path to it
+                        return
+                    else:
+                        create_tree(array_path[1:], tree[array_path[0]][0],
+                                    relative_array_file_path, level + 1)
+
+            walkable_tree = {}
             for root, dirs, files in os.walk(self.extra_files_path):
+                # Prepare the tree from to perform a Depth First Search
                 for file in files:
                     relative_directory = os.path.relpath(root, self.extra_files_path)
                     relative_file_path = os.path.join(relative_directory, file)
-                    list_relative_file_path.append(relative_file_path)
+                    array_path = relative_file_path.split('/')
+                    create_tree(array_path, walkable_tree, array_path, 0)
 
             htmlMakoRendered = mytemplate.render(
-                list_relative_file_path=list_relative_file_path
+                walkable_tree=walkable_tree
             )
             htmlOutput.write(htmlMakoRendered)
 

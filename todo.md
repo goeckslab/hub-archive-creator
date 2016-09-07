@@ -56,6 +56,7 @@
 - [ ] Add a debug mode to have more outputs
 - [ ] Improve the standard output of HAC
 - [ ] Find why a $ (newline) is added when installing dependencies from tool_dependencies.xml
+- [ ] Sort the order of the HTML directories/files
 
 ### DONE
 

@@ -12,6 +12,7 @@
         <requirement type="package" version="332">ucsc-genepredtobiggenepred</requirement>
         <requirement type="package" version="332">ucsc-gff3togenepred</requirement>
         <requirement type="package" version="332">ucsc-gtftogenepred</requirement>
+        <requirement type="package" version="332">ucsc-psltobigpsl</requirement>
         <requirement type="package" version="332">ucsc-twobitinfo</requirement>
         <requirement type="package" version="1.3">samtools</requirement>
         <!-- ToolShed dependencies -->

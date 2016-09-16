@@ -76,6 +76,9 @@
                     #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats, $i)
                 #end if
             #end if
+            #if $f.formatChoice.format_select == "psl"
+                --psl $f.formatChoice.PSL
+                #silent $prepare_json($f.formatChoice.BIGWIG, $i)
             #if $f.formatChoice.format_select == "bigwig"
                 --bigwig $f.formatChoice.BIGWIG
                 #silent $prepare_json($f.formatChoice.BIGWIG, $i)

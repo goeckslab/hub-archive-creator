@@ -131,6 +131,7 @@
                 <param name="format_select" type="select" label="Format">
                     <option value="bam" selected="true">BAM</option>
                     <option value="bed">BED</option>
+                    <option value="psl">PSL</option>
                     <option value="bigwig">BIGWIG</option>
                     <option value="gff3">GFF3</option>
                     <option value="gtf">GTF</option>
@@ -142,30 +143,6 @@
                             name="BAM"
                             type="data"
                             label="BAM File"
-                    />
-                </when>
-                <when value="bigwig">
-                    <param
-                            format="bigwig"
-                            name="BIGWIG"
-                            type="data"
-                            label="BIGWIG File"
-                    />
-                </when>
-                <when value="gff3">
-                    <param
-                            format="gff3"
-                            name="GFF3"
-                            type="data"
-                            label="GFF3 File"
-                    />
-                </when>
-                <when value="gtf">
-                    <param
-                            format="gtf"
-                            name="GTF"
-                            type="data"
-                            label="GTF File"
                     />
                 </when>
                 <when value="bed">
@@ -191,6 +168,38 @@
                             />
                         </when>
                     </conditional>
+                </when>
+                <when value="psl">
+                    <param
+                            format="psl"
+                            name="PSL"
+                            type="data"
+                            label="PSL File"
+                    />
+                </when>
+                <when value="bigwig">
+                    <param
+                            format="bigwig"
+                            name="BIGWIG"
+                            type="data"
+                            label="BIGWIG File"
+                    />
+                </when>
+                <when value="gff3">
+                    <param
+                            format="gff3"
+                            name="GFF3"
+                            type="data"
+                            label="GFF3 File"
+                    />
+                </when>
+                <when value="gtf">
+                    <param
+                            format="gtf"
+                            name="GTF"
+                            type="data"
+                            label="GTF File"
+                    />
                 </when>
             </conditional>
         </repeat>

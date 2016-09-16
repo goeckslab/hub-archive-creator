@@ -24,6 +24,7 @@ from util.Fasta import Fasta
 from util.Filters import TraceBackFormatter
 from Gff3 import Gff3
 from Gtf import Gtf
+from Psl import Psl
 from TrackHub import TrackHub
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
@@ -53,6 +54,9 @@ def main(argv):
 
     # Bam Management
     parser.add_argument('--bam', action='append', help='Bam format')
+
+    # Psl Management
+    parser.add_argument('--psl', action='append', help='Psl format')
 
     # TODO: Check if the running directory can have issues if we run the tool outside
     parser.add_argument('-d', '--directory',
@@ -106,12 +110,13 @@ def main(argv):
     # These inputs are populated in the Galaxy Wrapper xml and are in this format:
     # ARRAY[DICT{FILE_PATH: DICT{NAME: NAME_VALUE, EXTRA_DATA: EXTRA_DATA_VALUE}}]
     # EXTRA_DATA could be anything, for example the index of a BAM => {"index", FILE_PATH}
-    array_inputs_gff3 = args.gff3
-    array_inputs_bed_simple_repeats = args.bedSimpleRepeats
-    array_inputs_bed_generic = args.bed
-    array_inputs_gtf = args.gtf
     array_inputs_bam = args.bam
+    array_inputs_bed_generic = args.bed
+    array_inputs_bed_simple_repeats = args.bedSimpleRepeats
     array_inputs_bigwig = args.bigwig
+    array_inputs_gff3 = args.gff3
+    array_inputs_gtf = args.gtf
+    array_inputs_psl = args.psl
 
     outputFile = args.output
 
@@ -129,12 +134,14 @@ def main(argv):
 
     all_datatype_dictionary = {}
 
-    for (inputs, datatype_class) in [(array_inputs_gff3, Gff3),
-                         (array_inputs_bed_simple_repeats, BedSimpleRepeats),
-                         (array_inputs_bed_generic, Bed),
-                         (array_inputs_gtf, Gtf),
-                         (array_inputs_bam, Bam),
-                         (array_inputs_bigwig, BigWig)]:
+    for (inputs, datatype_class) in [
+                        (array_inputs_bam, Bam),
+                        (array_inputs_bed_generic, Bed),
+                        (array_inputs_bigwig, BigWig),
+                        (array_inputs_bed_simple_repeats, BedSimpleRepeats),
+                        (array_inputs_gff3, Gff3),
+                        (array_inputs_gtf, Gtf),
+                        (array_inputs_psl, Psl)]:
         if inputs:
             all_datatype_dictionary.update(create_ordered_datatype_objects(datatype_class, inputs, inputs_data))
 

@@ -28,10 +28,9 @@ def _handleExceptionAndCheckCall(array_call, **kwargs):
     It maps the signature of subprocess.check_call:
     See https://docs.python.org/2/library/subprocess.html#subprocess.check_call
     """
-    stdin = kwargs.get('stdin')
-    stdout = kwargs.get('stdout')
-    stderr = kwargs.get('stderr')
-    shell = kwargs.get('shell')
+    stdout = kwargs.get('stdout', subprocess.PIPE)
+    stderr = kwargs.get('stderr', subprocess.PIPE)
+    shell = kwargs.get('shell', False)
 
     cmd = array_call[0]
 
@@ -45,15 +44,26 @@ def _handleExceptionAndCheckCall(array_call, **kwargs):
 
     # TODO: Use universal_newlines option from Popen?
     try:
-        p = subprocess.Popen(array_call, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
+        p = subprocess.Popen(array_call, stdout=stdout, stderr=stderr, shell=shell)
+
+        # TODO: Change this because of possible memory issues => https://docs.python.org/2/library/subprocess.html#subprocess.Popen.communicate
+
         output, error = p.communicate()
 
-        logging.debug("\t{0}".format(output))
+        if stdout == subprocess.PIPE:
+            logging.debug("\t{0}".format(output))
+        else:
+            logging.debug("\tOutput in file {0}".format(stdout.name))
         # If we detect an error from the subprocess, then we raise an exception
         # TODO: Manage if we raise an exception for everything, or use CRITICAL etc... but not stop process
         # TODO: The responsability of returning a sys.exit() should not be there, but up in the app.
         if p.returncode:
-            raise PopenError(cmd, error, p.returncode)
+            if stderr == subprocess.PIPE:
+                raise PopenError(cmd, error, p.returncode)
+            else:
+                # TODO: To Handle properly with a design behind, if we received a option as a file for the error
+                raise Exception("Error when calling {0}. Error as been logged in your file {1}. Error code: {2}"\
+                                .format(cmd, stderr.name, p.returncode))
 
     except OSError as e:
         message = "The subprocess {0} has encountered an OSError: {1}".format(cmd, e.strerror)
@@ -75,7 +85,6 @@ def _handleExceptionAndCheckCall(array_call, **kwargs):
         sys.exit(-1)
     return p
 
-
 def twoBitInfo(two_bit_file_name, two_bit_info_file):
     """
     Call twoBitInfo and write the result into twoBit_info_file
@@ -86,7 +95,6 @@ def twoBitInfo(two_bit_file_name, two_bit_info_file):
     array_call = ['twoBitInfo', two_bit_file_name, two_bit_info_file]
     p = _handleExceptionAndCheckCall(array_call)
     return p
-
 
 def faToTwoBit(fasta_file_name, twoBitFile):
     """
@@ -101,7 +109,6 @@ def faToTwoBit(fasta_file_name, twoBitFile):
 
     return twoBitFile
 
-
 def gtfToGenePred(input_gtf_file_name, gene_pred_file_name):
     """
     Call gtfToGenePred and write the result into gene_pred_file_name
@@ -112,7 +119,6 @@ def gtfToGenePred(input_gtf_file_name, gene_pred_file_name):
     array_call = ['gtfToGenePred', input_gtf_file_name, gene_pred_file_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p
-
 
 def gff3ToGenePred(input_gff3_file_name, gene_pred_file_name):
     """
@@ -149,7 +155,6 @@ def genePredToBed(gene_pred_file_name, unsorted_bed_file_name):
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
-
 def sort(unsorted_bed_file_name, sorted_bed_file_name):
     """
     Call sort with -k1,1 -k2,2n on unsorted_bed_file_name and write the result into sorted_bed_file_name
@@ -161,7 +166,6 @@ def sort(unsorted_bed_file_name, sorted_bed_file_name):
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
-
 def sortChromSizes(two_bit_info_file_name, chrom_sizes_file_name):
     """
     Call sort with -k2rn on two_bit_info_file_name and write the result into chrom_sizes_file_name
@@ -172,7 +176,6 @@ def sortChromSizes(two_bit_info_file_name, chrom_sizes_file_name):
     array_call = ['sort', '-k2rn', two_bit_info_file_name, '-o', chrom_sizes_file_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p
-
 
 def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name,
                 typeOption=None, autoSql=None, tab=False):
@@ -206,7 +209,6 @@ def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name,
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
-
 def sortBam(input_bam_file_name, output_sorted_bam_name):
     """
     Call samtools on input_bam_file_name and output the result in output_sorted_bam_name
@@ -218,7 +220,6 @@ def sortBam(input_bam_file_name, output_sorted_bam_name):
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
-
 def createBamIndex(input_sorted_bam_file_name, output_name_index_name):
     """
     Call `samtools index` on imput_sorted_bam_file_name and output the result in output_name_index_name
@@ -227,5 +228,18 @@ def createBamIndex(input_sorted_bam_file_name, output_name_index_name):
     :return:
     """
     array_call = ['samtools', 'index', input_sorted_bam_file_name, output_name_index_name]
+    p = _handleExceptionAndCheckCall(array_call)
+    return p
+
+def pslToBigPsl(input_psl_file_name, output_bed12_file_name):
+    """
+    Call `pslToBigPsl` on input_psl_file_name and output the result in output_bed12_file_name
+    :param input_psl_file_name: Name of the psl input file
+    :param output_bed12_file_name: Name of the output file where to store the result of the cmd
+    :return:
+    """
+    # The command to send
+    array_call = ['pslToBigPsl', input_psl_file_name, output_bed12_file_name]
+
     p = _handleExceptionAndCheckCall(array_call)
     return p

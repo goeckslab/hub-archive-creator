@@ -194,6 +194,8 @@ def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data):
     for input_false_path in array_inputs:
         for key, data_value in inputs_data.items():
             if key == input_false_path:
+                logging.debug("input_false_path: " + input_false_path)
+                logging.debug("data_value: " + str(data_value))
                 extensionObject = ExtensionClass(input_false_path, data_value)
                 datatype_dictionary.update({data_value["order_index"]: extensionObject})
     return datatype_dictionary

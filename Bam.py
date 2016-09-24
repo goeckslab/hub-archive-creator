@@ -5,6 +5,7 @@
 Class to handle Bam files to UCSC TrackHub
 """
 
+import logging
 import os
 import shutil
 
@@ -31,6 +32,9 @@ class Bam( Datatype ):
 
         self.priority = self.data_bam["order_index"]
         self.index_bam = self.data_bam["index"]
+        self.track_color = self.data_bam["track_color"]
+
+        logging.debug("Color of bam: {0}".format(self.track_color))
 
         #print "Creating TrackHub BAM from (falsePath: %s; name: %s)" % ( self.input_bam_false_path, self.name_bam)
 

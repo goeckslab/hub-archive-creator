@@ -61,28 +61,35 @@
         #end def
 
         #for $i, $f in enumerate( $format )
+            #set track_color = str($f.formatChoice.track_color)
+
             #if $f.formatChoice.format_select == "bam"
                 --bam $f.formatChoice.BAM
                 #set bam_index = $f.formatChoice.BAM.metadata.bam_index
-                #silent $prepare_json($f.formatChoice.BAM, $i, {"index": $bam_index})
+                #silent $prepare_json($f.formatChoice.BAM, $i, {"index": $bam_index,
+                                                                "track_color": $track_color})
             #end if
             #if $f.formatChoice.format_select == "bed"
                 #if $f.formatChoice.bedChoice.bed_select == "bed"
                     --bed $f.formatChoice.bedChoice.BED
-                    #silent $prepare_json($f.formatChoice.bedChoice.BED, $i)
+                    #silent $prepare_json($f.formatChoice.bedChoice.BED, $i,
+                                            {"track_color": $track_color})
                 #end if
                 #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
                     --bedSimpleRepeats $f.formatChoice.bedChoice.BED_simple_repeats
-                    #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats, $i)
+                    #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats, $i,
+                                            {"track_color": $track_color})
                 #end if
             #end if
             #if $f.formatChoice.format_select == "psl"
                 --psl $f.formatChoice.PSL
-                #silent $prepare_json($f.formatChoice.PSL, $i)
+                #silent $prepare_json($f.formatChoice.PSL, $i,
+                                        {"track_color": $track_color})
             #end if
             #if $f.formatChoice.format_select == "bigwig"
                 --bigwig $f.formatChoice.BIGWIG
-                #silent $prepare_json($f.formatChoice.BIGWIG, $i)
+                #silent $prepare_json($f.formatChoice.BIGWIG, $i,
+                                        {"track_color": $track_color})
             #end if
             #if $f.formatChoice.format_select == "gff3"
                 --gff3 $f.formatChoice.GFF3
@@ -148,6 +155,14 @@
                             type="data"
                             label="BAM File"
                     />
+                    <!-- TODO: Find a solution to avoid repetition and to generate a new color depending on the others -->
+                    <param name="track_color" type="color" label="Track color" value="#000000">
+                        <sanitizer>
+                            <valid initial="string.letters,string.digits">
+                                <add value="#"/>
+                            </valid>
+                        </sanitizer>
+                    </param>
                 </when>
                 <when value="bed">
                     <conditional name="bedChoice">
@@ -162,6 +177,13 @@
                                     type="data"
                                     label="Generic Bed File Choice"
                             />
+                            <param name="track_color" type="color" label="Track color" value="#000000">
+                                <sanitizer>
+                                    <valid initial="string.letters,string.digits">
+                                        <add value="#"/>
+                                    </valid>
+                                </sanitizer>
+                            </param>
                         </when>
                         <when value="bed_simple_repeats_option">
                             <param
@@ -170,6 +192,13 @@
                                     type="data"
                                     label="Bed Simple Repeats (Bed4+12) File"
                             />
+                            <param name="track_color" type="color" label="Track color" value="#000000">
+                                <sanitizer>
+                                    <valid initial="string.letters,string.digits">
+                                        <add value="#"/>
+                                    </valid>
+                                </sanitizer>
+                            </param>
                         </when>
                     </conditional>
                 </when>
@@ -180,6 +209,13 @@
                             type="data"
                             label="PSL File"
                     />
+                    <param name="track_color" type="color" label="Track color" value="#000000">
+                        <sanitizer>
+                            <valid initial="string.letters,string.digits">
+                                <add value="#"/>
+                            </valid>
+                        </sanitizer>
+                    </param>
                 </when>
                 <when value="bigwig">
                     <param
@@ -188,6 +224,13 @@
                             type="data"
                             label="BIGWIG File"
                     />
+                    <param name="track_color" type="color" label="Track color" value="#000000">
+                        <sanitizer>
+                            <valid initial="string.letters,string.digits">
+                                <add value="#"/>
+                            </valid>
+                        </sanitizer>
+                    </param>
                 </when>
                 <when value="gff3">
                     <param
@@ -196,6 +239,13 @@
                             type="data"
                             label="GFF3 File"
                     />
+                    <param name="track_color" type="color" label="Track color" value="#000000">
+                        <sanitizer>
+                            <valid initial="string.letters,string.digits">
+                                <add value="#"/>
+                            </valid>
+                        </sanitizer>
+                    </param>
                 </when>
                 <when value="gtf">
                     <param
@@ -204,6 +254,13 @@
                             type="data"
                             label="GTF File"
                     />
+                    <param name="track_color" type="color" label="Track color" value="#000000">
+                        <sanitizer>
+                            <valid initial="string.letters,string.digits">
+                                <add value="#"/>
+                            </valid>
+                        </sanitizer>
+                    </param>
                 </when>
             </conditional>
         </repeat>

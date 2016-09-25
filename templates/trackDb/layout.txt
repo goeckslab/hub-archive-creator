@@ -8,5 +8,6 @@
     visibility ${trackDb.visibility}
     thickDrawItem ${trackDb.thickDrawItem}
     priority ${trackDb.priority}
+    color ${trackDb.track_color}
 
 % endfor

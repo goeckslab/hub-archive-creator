@@ -16,6 +16,7 @@ class Psl(Datatype):
         self.input_psl_path = input_psl_path
         self.name_psl = data_psl["name"]
         self.priority = data_psl["order_index"]
+        self.track_color = data_psl["track_color"]
 
         # Temporary files
         unsorted_bed_formatted_psl_file = tempfile.NamedTemporaryFile(suffix='.psl')
@@ -50,6 +51,7 @@ class Psl(Datatype):
                          long_label=self.name_psl,
                          track_type='bigPsl', visibility='dense',
                          priority=self.priority,
-                         track_file=my_big_psl_file_path)
+                         track_file=my_big_psl_file_path,
+                         track_color=self.track_color)
 
         print("- BigPsl %s created" % self.name_psl)

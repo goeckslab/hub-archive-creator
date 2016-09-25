@@ -19,6 +19,7 @@ class Gff3( Datatype ):
         self.input_Gff3_false_path = input_Gff3_false_path
         self.name_gff3 = data_gff3["name"]
         self.priority = data_gff3["order_index"]
+        self.track_color = data_gff3["track_color"]
 
         # TODO: See if we need these temporary files as part of the generated files
         unsorted_genePred_file = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
@@ -57,6 +58,7 @@ class Gff3( Datatype ):
                          long_label=self.name_gff3,
                          track_type='bigGenePred', visibility='dense',
                          priority=self.priority,
-                         track_file=myBigBedFilePath)
+                         track_file=myBigBedFilePath,
+                         track_color=self.track_color)
 
         print("- Gff3 %s created" % self.name_gff3)

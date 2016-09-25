@@ -17,6 +17,7 @@ class BedSimpleRepeats( Datatype ):
         self.input_bed_simple_repeats_false_path = input_bed_simple_repeats_false_path
         self.name_bed_simple_repeats = data_bed_simple_repeats["name"]
         self.priority = data_bed_simple_repeats["order_index"]
+        self.track_color = data_bed_simple_repeats["track_color"]
 
         sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
 
@@ -42,7 +43,8 @@ class BedSimpleRepeats( Datatype ):
                          track_name=trackName,
                          long_label=self.name_bed_simple_repeats, track_type='bigBed 4 +', visibility='dense',
                          priority=self.priority,
-                         track_file=myBigBedFilePath)
+                         track_file=myBigBedFilePath,
+                         track_color=self.track_color)
 
         # dataURL = "tracks/%s" % trackName
         #

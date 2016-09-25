@@ -18,6 +18,7 @@ class BigWig( Datatype ):
         self.input_bigwig_path = input_bigwig_path
         self.name_bigwig = data_bigwig["name"]
         self.priority = data_bigwig["order_index"]
+        self.track_color = data_bigwig["track_color"]
 
         #print "Creating TrackHub BigWig from (falsePath: %s; name: %s)" % ( self.input_bigwig_path, self.name_bigwig )
 
@@ -32,7 +33,8 @@ class BigWig( Datatype ):
                          long_label=self.name_bigwig,
                          track_type='bigWig', visibility='full',
                          priority=self.priority,
-                         track_file=myBigWigFilePath)
+                         track_file=myBigWigFilePath,
+                         track_color=self.track_color)
 
         # dataURL = "tracks/%s" % trackName
         #

@@ -23,6 +23,7 @@ class Bed( Datatype ):
         self.data_bed_generic = data_bed_generic
         self.name_bed_generic = self.data_bed_generic["name"]
         self.priority = self.data_bed_generic["order_index"]
+        self.track_color = self.data_bed_generic["track_color"]
 
         # Sort processing
         subtools.sort(self.inputBedGeneric, self.sortedBedFile.name)
@@ -42,7 +43,8 @@ class Bed( Datatype ):
                          track_name=trackName,
                          long_label=self.name_bed_generic, track_type='bigBed', visibility='dense',
                          priority=self.priority,
-                         track_file=myBigBedFilePath)
+                         track_file=myBigBedFilePath,
+                         track_color=self.track_color)
 
         # dataURL = "tracks/%s" % trackName
         #

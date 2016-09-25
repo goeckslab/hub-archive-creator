@@ -76,7 +76,7 @@ class Datatype(object):
                     file_path=None,
                     track_name=None, long_label=None, thick_draw_item='off',
                     short_label=None, track_type=None, visibility=None, priority=None,
-                    track_file=None):
+                    track_file=None, track_color='#000000'):
 
         # TODO: Remove the hardcoded "tracks" by the value used as variable from myTrackFolderPath
         data_url = "tracks/%s" % file_path
@@ -89,6 +89,12 @@ class Datatype(object):
         long_label = long_label.replace("_", " ")
         short_label = short_label.replace("_", " ")
 
+        #TODO: Check if rgb or hexa
+        # Convert hexa to rgb array
+        hexa_without_sharp = track_color.lstrip('#')
+        rgb_array = [int(hexa_without_sharp[i:i+2], 16) for i in (0, 2, 4)]
+        rgb_ucsc = ','.join(map(str, rgb_array))
+
         track_db = TrackDb(
                 trackName=track_name,
                 longLabel=long_label,
@@ -98,6 +104,7 @@ class Datatype(object):
                 visibility=visibility,
                 thickDrawItem=thick_draw_item,
                 priority=priority,
+                track_color=rgb_ucsc
         )
 
         # Return the Bam Track Object

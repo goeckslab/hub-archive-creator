@@ -12,7 +12,8 @@
         <requirement type="package" version="332">ucsc-genepredtobiggenepred</requirement>
         <requirement type="package" version="332">ucsc-gff3togenepred</requirement>
         <requirement type="package" version="332">ucsc-gtftogenepred</requirement>
-        <requirement type="package" version="332">ucsc-psltobigpsl</requirement>
+        <!-- TODO: Change the conda ucsc-psltobigpsl and take one > v337 because of bugs before -->
+        <!-- <requirement type="package" version="332">ucsc-psltobigpsl</requirement> -->
         <requirement type="package" version="332">ucsc-twobitinfo</requirement>
         <requirement type="package" version="1.3">samtools</requirement>
         <!-- ToolShed dependencies -->
@@ -21,6 +22,7 @@
         <requirement type="package" version="0.0.1">gtfToGenePred</requirement>
         <requirement type="package" version="0.0.1">genePredToBed</requirement>
         <requirement type="package" version="0.0.1">genePredToBigGenePred</requirement>
+        <requirement type="package" version="0.0.1">pslToBigPsl</requirement>
         <requirement type="package" version="1.2">samtools</requirement>
     </requirements>
 
@@ -62,46 +64,55 @@
 
         #for $i_g, $g in enumerate( $group )
             #for $i, $f in enumerate( $g.format )
+
+                ## For each format, we have a few mandatory fields we store in a dict
                 #set track_color = str($f.formatChoice.track_color)
+                #set group_name = str($g.group_name)
+
+                #set extra_data_dict = {"track_color": $track_color,
+                                        "group_name": $group_name}
 
                 #if $f.formatChoice.format_select == "bam"
                     --bam $f.formatChoice.BAM
                     #set bam_index = $f.formatChoice.BAM.metadata.bam_index
-                    #silent $prepare_json($f.formatChoice.BAM, $i, {"index": $bam_index,
-                                                                    "track_color": $track_color})
+
+                    ## Add Bam format specific fields
+                    #silent extra_data_dict.update({"index": $bam_index})
+
+                    #silent $prepare_json($f.formatChoice.BAM, $i, extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "bed"
                     #if $f.formatChoice.bedChoice.bed_select == "bed"
                         --bed $f.formatChoice.bedChoice.BED
                         #silent $prepare_json($f.formatChoice.bedChoice.BED, $i,
-                                                {"track_color": $track_color})
+                                                extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
                         --bedSimpleRepeats $f.formatChoice.bedChoice.BED_simple_repeats
                         #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats, $i,
-                                                {"track_color": $track_color})
+                                                extra_data_dict)
                     #end if
                 #end if
                 #if $f.formatChoice.format_select == "psl"
                     --psl $f.formatChoice.PSL
                     #silent $prepare_json($f.formatChoice.PSL, $i,
-                                            {"track_color": $track_color})
+                                           extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "bigwig"
                     --bigwig $f.formatChoice.BIGWIG
                     #silent $prepare_json($f.formatChoice.BIGWIG, $i,
-                                            {"track_color": $track_color})
+                                            extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "gff3"
                     --gff3 $f.formatChoice.GFF3
                     #silent $prepare_json($f.formatChoice.GFF3, $i,
-                                            {"track_color": $track_color})
+                                            extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "gtf"
                     ## Add also GTF from Agustus? See https://github.com/ENCODE-DCC/kentUtils/issues/8
                     --gtf $f.formatChoice.GTF
                     #silent $prepare_json($f.formatChoice.GTF, $i,
-                                             {"track_color": $track_color})
+                                             extra_data_dict)
                 #end if
             #end for
         #end for

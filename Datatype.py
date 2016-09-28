@@ -76,7 +76,7 @@ class Datatype(object):
                     file_path=None,
                     track_name=None, long_label=None, thick_draw_item='off',
                     short_label=None, track_type=None, visibility=None, priority=None,
-                    track_file=None, track_color='#000000'):
+                    track_file=None, track_color='#000000', group_name="Default"):
 
         # TODO: Remove the hardcoded "tracks" by the value used as variable from myTrackFolderPath
         data_url = "tracks/%s" % file_path
@@ -104,7 +104,8 @@ class Datatype(object):
                 visibility=visibility,
                 thickDrawItem=thick_draw_item,
                 priority=priority,
-                track_color=rgb_ucsc
+                track_color=rgb_ucsc,
+                group_name=group_name
         )
 
         # Return the Bam Track Object

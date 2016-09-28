@@ -9,5 +9,6 @@
     thickDrawItem ${trackDb.thickDrawItem}
     priority ${trackDb.priority}
     color ${trackDb.track_color}
+    group ${trackDb.group_name.lower().replace(' ', '_')}
 
 % endfor

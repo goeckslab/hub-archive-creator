@@ -32,12 +32,11 @@ class Bam( Datatype ):
 
         self.priority = self.data_bam["order_index"]
         self.index_bam = self.data_bam["index"]
-        # TODO: Think about how to avoir repetition of the color treatment
+        # TODO: Think about how to avoid repetition of the color treatment
         self.track_color = self.data_bam["track_color"]
 
-        logging.debug("Color of bam: {0}".format(self.track_color))
-
-        #print "Creating TrackHub BAM from (falsePath: %s; name: %s)" % ( self.input_bam_false_path, self.name_bam)
+        # TODO: Think about how to avoid repetition of the group_name everywhere
+        self.group_name = self.data_bam["group_name"]
 
         # First: Add the bam file
         # Second: Add the bam index file, in the same folder (https://genome.ucsc.edu/goldenpath/help/bam.html)
@@ -55,7 +54,9 @@ class Bam( Datatype ):
                          track_name=self.name_bam,
                          long_label=self.name_bam, track_type='bam', visibility='pack', priority=self.priority,
                          track_file=bam_index_file_path,
-                         track_color=self.track_color)
+                         track_color=self.track_color,
+                         group_name=self.group_name
+                         )
         #
         # dataURL = "tracks/%s" % self.name_bam
         #

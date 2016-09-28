@@ -1,4 +1,5 @@
-name ${mapName}
-label ${labelMapping}
-priority ${prioriy}
-defaultIsClosed ${isClosed}
+name ${label.lower().replace(' ', '_')}
+label ${label}
+priority 2
+defaultIsClosed 0
+

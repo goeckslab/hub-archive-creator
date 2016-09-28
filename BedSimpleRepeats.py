@@ -18,6 +18,8 @@ class BedSimpleRepeats( Datatype ):
         self.name_bed_simple_repeats = data_bed_simple_repeats["name"]
         self.priority = data_bed_simple_repeats["order_index"]
         self.track_color = data_bed_simple_repeats["track_color"]
+        # TODO: Think about how to avoid repetition of the group_name everywhere
+        self.group_name = data_bed_simple_repeats["group_name"]
 
         sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
 
@@ -44,7 +46,8 @@ class BedSimpleRepeats( Datatype ):
                          long_label=self.name_bed_simple_repeats, track_type='bigBed 4 +', visibility='dense',
                          priority=self.priority,
                          track_file=myBigBedFilePath,
-                         track_color=self.track_color)
+                         track_color=self.track_color,
+                         group_name=self.group_name)
 
         # dataURL = "tracks/%s" % trackName
         #

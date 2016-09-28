@@ -33,10 +33,22 @@ class TrackHub(object):
         self.default_pos = None
         self.user_email = user_email
 
+        # Set containing the groups already added. Updated by addGroup()
+        self.groups = set()
+
         # TODO: Modify according to the files passed in parameter
+        # ---- Templates ----
+        # Template trackDb
         mylookup = TemplateLookup(directories=[os.path.join(tool_directory, 'templates/trackDb')],
                                   output_encoding='utf-8', encoding_errors='replace')
         self.trackDbTemplate = mylookup.get_template("layout.txt")
+
+        # Template groups
+        mylookup = TemplateLookup(directories=[os.path.join(self.tool_directory, 'templates/groupsTxt')],
+                                  output_encoding='utf-8', encoding_errors='replace')
+        self.groupsTemplate = mylookup.get_template("layout.txt")
+
+        # ---- End Templates ----
 
         self.extra_files_path = extra_files_path
         self.outputFile = outputFile
@@ -68,15 +80,42 @@ class TrackHub(object):
     def addTrack(self, trackDbObject=None):
         # Create the trackDb.txt file in the specie folder, if not exists
         # Else append the new track
+        # TODO: Get this out of the function
         trackDbTxtFilePath = os.path.join(self.mySpecieFolderPath, 'trackDb.txt')
 
         # Append to trackDbTxtFilePath the trackDbTemplate populate with the newTrack object
         with open(trackDbTxtFilePath, 'a+') as trackDbFile:
             trackDbs = [trackDbObject]
+
+            # TODO: The addGroup does not belong here. Move it when the group becomes more than just a label
+            # Add the group as well, if exists in trackDbObject
+            self.addGroup(trackDbObject.group_name)
+
             htmlMakoRendered = self.trackDbTemplate.render(
                 trackDbs=trackDbs
             )
             trackDbFile.write(htmlMakoRendered)
+
+    def addGroup(self, group_name="Default"):
+        # If not already present in self.groups, add to groups.txt
+        # Create the trackDb.txt file in the specie folder, if not exists
+        # Else append the new track
+        # TODO: Get this out of the function
+        groupsTxtFilePath = os.path.join(self.mySpecieFolderPath, 'groups.txt')
+
+        # If the group is already present, we don't need to add it
+        if group_name in self.groups:
+            return
+
+        # Append to trackDbTxtFilePath the trackDbTemplate populate with the newTrack object
+        with open(groupsTxtFilePath, 'a+') as groupFile:
+            # Add the group as well, if exists in trackDbObject
+
+            htmlMakoRendered = self.groupsTemplate.render(
+                    label=group_name
+            )
+            groupFile.write(htmlMakoRendered)
+        self.groups.add(group_name)
 
     def terminate(self):
         # Just a test to output a simple HTML
@@ -182,8 +221,8 @@ class TrackHub(object):
 
         # Create the file groups.txt
         # TODO: If not inputs for this, do no create the file
-        groupsTxtFilePath = os.path.join(mySpecieFolderPath, 'groups.txt')
-        self.__fillGroupsTxtFile__(groupsTxtFilePath)
+        # groupsTxtFilePath = os.path.join(mySpecieFolderPath, 'groups.txt')
+        # self.__fillGroupsTxtFile__(groupsTxtFilePath)
 
         # Create the folder tracks into the specie folder
         tracksFolderPath = os.path.join(mySpecieFolderPath, "tracks")

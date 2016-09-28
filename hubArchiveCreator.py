@@ -126,7 +126,6 @@ def main(argv):
     # We remove the spaces in ["name"] of inputs_data
     sanitize_name_inputs(inputs_data)
 
-
     # TODO: Check here all the binaries / tools we need. Exception if missing
 
     # Create the Track Hub folder

@@ -17,6 +17,8 @@ class Psl(Datatype):
         self.name_psl = data_psl["name"]
         self.priority = data_psl["order_index"]
         self.track_color = data_psl["track_color"]
+        # TODO: Think about how to avoid repetition of the group_name everywhere
+        self.group_name = data_psl["group_name"]
 
         # Temporary files
         unsorted_bed_formatted_psl_file = tempfile.NamedTemporaryFile(suffix='.psl')
@@ -52,6 +54,7 @@ class Psl(Datatype):
                          track_type='bigPsl', visibility='dense',
                          priority=self.priority,
                          track_file=my_big_psl_file_path,
-                         track_color=self.track_color)
+                         track_color=self.track_color,
+                         group_name=self.group_name)
 
         print("- BigPsl %s created" % self.name_psl)

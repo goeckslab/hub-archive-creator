@@ -24,6 +24,9 @@ class Bed( Datatype ):
         self.name_bed_generic = self.data_bed_generic["name"]
         self.priority = self.data_bed_generic["order_index"]
         self.track_color = self.data_bed_generic["track_color"]
+        # TODO: Think about how to avoid repetition of the group_name everywhere
+        self.group_name = self.data_bed_generic["group_name"]
+
 
         # Sort processing
         subtools.sort(self.inputBedGeneric, self.sortedBedFile.name)
@@ -44,7 +47,8 @@ class Bed( Datatype ):
                          long_label=self.name_bed_generic, track_type='bigBed', visibility='dense',
                          priority=self.priority,
                          track_file=myBigBedFilePath,
-                         track_color=self.track_color)
+                         track_color=self.track_color,
+                         group_name=self.group_name)
 
         # dataURL = "tracks/%s" % trackName
         #

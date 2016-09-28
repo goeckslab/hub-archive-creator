@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-
+# TODO: Is this still useful?
 class Track(object):
     """Class to manage the track informations needed for Track Hub, in the TrackDb text file"""
 

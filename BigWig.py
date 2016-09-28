@@ -19,6 +19,8 @@ class BigWig( Datatype ):
         self.name_bigwig = data_bigwig["name"]
         self.priority = data_bigwig["order_index"]
         self.track_color = data_bigwig["track_color"]
+        # TODO: Think about how to avoid repetition of the group_name everywhere
+        self.group_name = data_bigwig["group_name"]
 
         #print "Creating TrackHub BigWig from (falsePath: %s; name: %s)" % ( self.input_bigwig_path, self.name_bigwig )
 
@@ -34,7 +36,8 @@ class BigWig( Datatype ):
                          track_type='bigWig', visibility='full',
                          priority=self.priority,
                          track_file=myBigWigFilePath,
-                         track_color=self.track_color)
+                         track_color=self.track_color,
+                         group_name=self.group_name)
 
         # dataURL = "tracks/%s" % trackName
         #

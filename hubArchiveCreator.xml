@@ -56,14 +56,32 @@
             #silent data_dict.update($extra_data_dict)
 
             ## Add the ordering by taking the tool form indexes
-            #silent $data_dict.update({"order_index": $order_index + 1})
+            #silent $data_dict.update({"order_index": $order_index})
 
             #silent $data_parameter_dict.update({$false_path: $data_dict})
 
         #end def
 
+
+        ## Get the number of digits from tracks, to have a unique integer from group index and track index
+
+        #set temp_max_digit = 0
+
+        #for $g in $group
+            #if len($g.format) > $temp_max_digit
+                #silent temp_max_digit = len($g.format)
+            #end if
+        #end for
+
+        #set nb_digits_max_track = len(str($temp_max_digit))
+
+        ## END Get the number of digits
+
         #for $i_g, $g in enumerate( $group )
             #for $i, $f in enumerate( $g.format )
+                ## Create the order index using index_group+1 concatenated with index_track
+                #set index_group_final = str($i_g + 1)
+                #set index_track_final = str($index_group_final) + str($i).zfill($nb_digits_max_track)
 
                 ## For each format, we have a few mandatory fields we store in a dict
                 #set track_color = str($f.formatChoice.track_color)
@@ -79,39 +97,39 @@
                     ## Add Bam format specific fields
                     #silent extra_data_dict.update({"index": $bam_index})
 
-                    #silent $prepare_json($f.formatChoice.BAM, $i, extra_data_dict)
+                    #silent $prepare_json($f.formatChoice.BAM, $index_track_final, extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "bed"
                     #if $f.formatChoice.bedChoice.bed_select == "bed"
                         --bed $f.formatChoice.bedChoice.BED
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED, $i,
+                        #silent $prepare_json($f.formatChoice.bedChoice.BED, $index_track_final,
                                                 extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
                         --bedSimpleRepeats $f.formatChoice.bedChoice.BED_simple_repeats
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats, $i,
+                        #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats, $index_track_final,
                                                 extra_data_dict)
                     #end if
                 #end if
                 #if $f.formatChoice.format_select == "psl"
                     --psl $f.formatChoice.PSL
-                    #silent $prepare_json($f.formatChoice.PSL, $i,
+                    #silent $prepare_json($f.formatChoice.PSL, $index_track_final,
                                            extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "bigwig"
                     --bigwig $f.formatChoice.BIGWIG
-                    #silent $prepare_json($f.formatChoice.BIGWIG, $i,
+                    #silent $prepare_json($f.formatChoice.BIGWIG, $index_track_final,
                                             extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "gff3"
                     --gff3 $f.formatChoice.GFF3
-                    #silent $prepare_json($f.formatChoice.GFF3, $i,
+                    #silent $prepare_json($f.formatChoice.GFF3, $index_track_final,
                                             extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "gtf"
                     ## Add also GTF from Agustus? See https://github.com/ENCODE-DCC/kentUtils/issues/8
                     --gtf $f.formatChoice.GTF
-                    #silent $prepare_json($f.formatChoice.GTF, $i,
+                    #silent $prepare_json($f.formatChoice.GTF, $index_track_final,
                                              extra_data_dict)
                 #end if
             #end for

@@ -96,6 +96,9 @@ class TrackHub(object):
             )
             trackDbFile.write(htmlMakoRendered)
 
+        logging.debug("We just added track {0} (in group {1})".format(trackDbObject.trackName,
+                                                                  trackDbObject.group_name.lower().replace(' ', '_')))
+
     def addGroup(self, group_name="Default"):
         # If not already present in self.groups, add to groups.txt
         # Create the trackDb.txt file in the specie folder, if not exists
@@ -105,6 +108,8 @@ class TrackHub(object):
 
         # If the group is already present, we don't need to add it
         if group_name in self.groups:
+            logging.debug("We DON'T add in {0} the group {1}".format(groupsTxtFilePath,
+                                                                      group_name))
             return
 
         # Append to trackDbTxtFilePath the trackDbTemplate populate with the newTrack object
@@ -115,6 +120,8 @@ class TrackHub(object):
                     label=group_name
             )
             groupFile.write(htmlMakoRendered)
+        logging.debug("We just added in {0} the group {1}".format(groupsTxtFilePath,
+                                                                  group_name))
         self.groups.add(group_name)
 
     def terminate(self):

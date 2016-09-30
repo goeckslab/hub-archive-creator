@@ -147,8 +147,13 @@ def main(argv):
     # Create Ordered Dictionary to add the tracks in the tool form order
     all_datatype_ordered_dictionary = collections.OrderedDict(all_datatype_dictionary)
 
+    logging.debug("----- End of all_datatype_dictionary processing -----")
+    logging.debug("all_datatype_ordered_dictionary keys are: {0}".format(all_datatype_ordered_dictionary.values()))
+
+    logging.debug("----- Beginning of Track adding processing -----")
     for index, datatypeObject in all_datatype_ordered_dictionary.iteritems():
         trackHub.addTrack(datatypeObject.track.trackDb)
+    logging.debug("----- End of Track adding processing -----")
 
     # We process all the modifications to create the zip file
     #trackHub.createZip()

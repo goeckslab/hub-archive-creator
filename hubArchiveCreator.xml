@@ -345,6 +345,35 @@
         </test>
 
         <!-- Test with Bam -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bam"/>
+                        <param name="BAM" value="bam/inputs/HISAT2_Accepted_Hits.bam" />
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="bam/bam.html">
+                <!-- Verify tracks folder contains bam and bai -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam"
+                             value="bam/myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam.bai"
+                             value="bam/myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam.bai"
+                             compare="sim_size"
+                />
+                <!-- Verify trackDb.txt contains the basic fields for a bam -->
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
         <!-- Test with Bed Generic -->
         <!-- Test with Bed Simple repeat -->
         <!-- Test with Psl -->

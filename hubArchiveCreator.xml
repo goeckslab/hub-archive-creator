@@ -374,10 +374,64 @@
                 <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
             </output>
         </test>
+
         <!-- Test with Bed Generic -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bed"/>
+                        <conditional name="bedChoice">
+                            <param name="bed_select" value="bed"/>
+                            <param name="BED" value="bed_generic/inputs/TBLASTN_Alignment_to_proteins"/>
+                        </conditional>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="bed_generic/bed_generic.html">
+                <!-- Verify tracks folder contains bam and bai -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/TBLASTN_Alignment_to_proteins.bb"
+                             value="bed_generic/myHub/Dbia3/tracks/TBLASTN_Alignment_to_proteins.bb"
+                             compare="sim_size"
+                />
+                <!-- Verify trackDb.txt contains the basic fields for a bam -->
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
+
         <!-- Test with Bed Simple repeat -->
         <!-- Test with Psl -->
         <!-- Test with BigWig -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bigwig"/>
+                        <param name="BIGWIG" value="bigwig/inputs/RNA-Seq_Alignment_Summary"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="bigwig/bigwig.html">
+                <!-- Verify tracks folder contains bam and bai -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             value="bigwig/myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             compare="sim_size"
+                />
+                <!-- Verify trackDb.txt contains the basic fields for a bam -->
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
+
         <!-- Test with GFF3 -->
         <!-- Test with GTF -->
 

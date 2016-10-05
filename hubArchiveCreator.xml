@@ -38,6 +38,7 @@
     <!-- Idea: python \ -augustus [parameters] \ -trfBig [parameters] -->
     <command detect_errors="exit_code"><![CDATA[
         mkdir -p $output.extra_files_path;
+
         python $__tool_directory__/hubArchiveCreator.py
 
         ## Ask the user to enter the genome name
@@ -149,11 +150,12 @@
 
         -d $__tool_directory__
 
-        -e $output.files_path
+        -e $output.extra_files_path
 
         $advanced_options.debug_mode
 
         -o $output;
+
     ]]></command>
 
     <inputs>
@@ -322,52 +324,43 @@
     </outputs>
 
     <tests>
-        <!-- Can also use assert_command to test command -->
-        <!-- Testing GFF3 input -->
+        <!-- Test with only the fasta file -->
         <test>
+            <param name="genome_name" value="Dbia3"/>
             <param name="fasta_file" value="dbia3.fa"/>
-            <repeat name="format">
-                <conditional name="formatChoice">
-                    <param name="format_select" value="gff3"/>
-                    <param name="GFF3" value="augustusDbia3.gff3"/>
-                </conditional>
-            </repeat>
-            <repeat name="format">
-                <param name="BED_simple_repeats" value="dbia3_trfBig_unsorted.bed"/>
-                <!-- TODO: Ask why the tests are not passing with this xml:
-                     Error creating a job for these tool inputs - Error executing tool: 'NoneType' object has no attribute 'current_history'
-                <conditional name="formatChoice">
-                    <param name="format_select" value="bed"/>
-                    <conditional name="bedChoice">
-                        <param name="bed_select" value="bed_simple_repeats_option"/>
-                        <param name="BED_simple_repeats" value="dbia3_trfBig_unsorted.bed"/>
-                    </conditional>
-                </conditional>
-                -->
-            </repeat>
+            <output name="output" file="only_genome/only_genome.html">
+                <extra_files type="file" name="__main__.log" value="only_genome/__main__.log" />
+                <extra_files type="file" name="myHub/genomes.txt" value="only_genome/myHub/genomes.txt" />
+                <extra_files type="file" name="myHub/Dbia3.html" value="only_genome/myHub/Dbia3.html"/>
+                <!-- Email could be different, but we need to ensure we still have the email line -->
+                <extra_files type="file" name="myHub/hub.txt" value="only_genome/myHub/hub.txt" lines_diff="2">
+                    <assert_contents>
+                        <has_text text="email"/>
+                    </assert_contents>
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="only_genome/myHub/Dbia3/Dbia3.2bit">
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/description.html" value="only_genome/myHub/Dbia3/description.html"/>
+            </output>
+        </test>
 
-            <output name="output">
-                <assert_contents>
-                    <has_text text="myHub"/>
-                </assert_contents>
-                <assert_contents>
-                    <has_text text="dbia3_trfBig.bb"/>
-                </assert_contents>
-                <assert_contents>
-                    <has_text text="SAODOAii qwwqod92921"/>
-                </assert_contents>
-            </output>
-        </test>
-        <test>
-            <param name="fasta_file" value="dbia3.fa"/>
-            <param name="GFF3" value="augustusDbia3.gff3"/>
-            <output name="output" file="augustusOutput.html" lines_diff="2">
-                <extra_files type="directory" value="myHub"/>
-                <extra_files type="file" name="myHub/dbia3/tracks/augustusDbia3.bb" value="augustusDbia3.bb"/>
-            </output>
-        </test>
-        <!-- Testing Generic BED input -->
-        <!-- Testing Bed Simple repeat input -->
+        <!-- Test with Bam -->
+        <!-- Test with Bed Generic -->
+        <!-- Test with Bed Simple repeat -->
+        <!-- Test with Psl -->
+        <!-- Test with BigWig -->
+        <!-- Test with GFF3 -->
+        <!-- Test with GTF -->
+
+        <!-- Test with one group and multiple tracks -->
+
+        <!-- Test with one group and all the supported datatypes on 10/04/2016 -->
+
+        <!-- Test with two groups and no tracks -->
+        <!-- Test with two groups and one track in first -->
+        <!-- Test with two groups and one track in both -->
+        <!-- Test with two groups and multiple tracks in both -->
+
     </tests>
 
     <help>

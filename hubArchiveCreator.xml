@@ -327,7 +327,7 @@
         <!-- Test with only the fasta file -->
         <test>
             <param name="genome_name" value="Dbia3"/>
-            <param name="fasta_file" value="dbia3.fa"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
             <output name="output" file="only_genome/only_genome.html">
                 <extra_files type="file" name="__main__.log" value="only_genome/__main__.log" />
                 <extra_files type="file" name="myHub/genomes.txt" value="only_genome/myHub/genomes.txt" />
@@ -338,7 +338,7 @@
                         <has_text text="email"/>
                     </assert_contents>
                 </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="only_genome/myHub/Dbia3/Dbia3.2bit">
+                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
                 </extra_files>
                 <extra_files type="file" name="myHub/Dbia3/description.html" value="only_genome/myHub/Dbia3/description.html"/>
             </output>
@@ -360,6 +360,9 @@
         <!-- Test with two groups and one track in first -->
         <!-- Test with two groups and one track in both -->
         <!-- Test with two groups and multiple tracks in both -->
+
+        <!-- Test default color in a track -->
+        <!-- Test changed color in a track -->
 
     </tests>
 

@@ -606,6 +606,13 @@
                         <param name="track_color" value="#000000"/>
                     </conditional>
                 </repeat>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bam"/>
+                        <param name="BAM" value="bam/inputs/HISAT2_Accepted_Hits.bam"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
             </repeat>
             <repeat name="group">
                 <param name="group_name" value="Other group"/>
@@ -616,13 +623,20 @@
                         <param name="track_color" value="#000000"/>
                     </conditional>
                 </repeat>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gff3"/>
+                        <param name="GFF3" value="gff3_multi_fasta/inputs/Multi-Fasta_GlimmerHMM_Gene_Predictions"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
             </repeat>
-            <output name="output" file="two_groups_one_track_both/two_groups_one_track_both_trackhub.html">
+            <output name="output" file="two_groups_multiple_tracks/two_groups_multiple_tracks_trackhub.html">
                 <!-- Check myHub structure -->
-                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_one_track_both/myHub/genomes.txt"/>
-                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_one_track_both/myHub/Dbia3.html"/>
+                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_multiple_tracks/myHub/genomes.txt"/>
+                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_multiple_tracks/myHub/Dbia3.html"/>
                 <!-- Email could be different, but we need to ensure we still have the email line -->
-                <extra_files type="file" name="myHub/hub.txt" value="two_groups_one_track_both/myHub/hub.txt"
+                <extra_files type="file" name="myHub/hub.txt" value="two_groups_multiple_tracks/myHub/hub.txt"
                              lines_diff="2">
                     <assert_contents>
                         <has_text text="email"/>
@@ -631,20 +645,37 @@
                 <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
                 </extra_files>
                 <extra_files type="file" name="myHub/Dbia3/description.html"
-                             value="two_groups_one_track_both/myHub/Dbia3/description.html"/>
+                             value="two_groups_multiple_tracks/myHub/Dbia3/description.html"/>
 
                 <!-- Check tracks exist -->
+                <!-- First group -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
                              value="bigwig/myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
                              compare="sim_size"
                 />
                 <extra_files type="file"
+                             name="myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam"
+                             value="bam/myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam.bai"
+                             value="bam/myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam.bai"
+                             compare="sim_size"
+                />
+
+                <!-- Second group -->
+                <extra_files type="file"
                              name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
                              value="gtf/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
                              compare="sim_size"
                 />
-
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/Multi-Fasta_GlimmerHMM_Gene_Predictions.bb"
+                             value="gff3_multi_fasta/myHub/Dbia3/tracks/Multi-Fasta_GlimmerHMM_Gene_Predictions.bb"
+                             compare="sim_size"
+                />
                 <!-- Check the groups.txt exists and is properly populated -->
             </output>
         </test>

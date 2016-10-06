@@ -433,19 +433,228 @@
         </test>
 
         <!-- Test with GFF3 -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gff3"/>
+                        <param name="GFF3" value="gff3/inputs/Augustus_Gene_Predictions"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="gff3/gff3_trackhub.html">
+                <!-- Verify tracks folder contains bam and bai -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb"
+                             value="gff3/myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb"
+                             compare="sim_size"
+                />
+                <!-- Verify trackDb.txt contains the basic fields for a bam -->
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
+
         <!-- Test with GTF -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gtf"/>
+                        <param name="GTF" value="gtf/inputs/StringTie_Assembled_Transcripts"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="gtf/gtf_trackhub.html">
+                <!-- Verify tracks folder contains bam and bai -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             value="gtf/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             compare="sim_size"
+                />
+                <!-- Verify trackDb.txt contains the basic fields for a bam -->
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
 
         <!-- Test with one group and multiple tracks -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gtf"/>
+                        <param name="GTF" value="gtf/inputs/StringTie_Assembled_Transcripts"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gff3"/>
+                        <param name="GFF3" value="gff3/inputs/Augustus_Gene_Predictions"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="gtf_gff/gtf_gff_trackhub.html">
+                <!-- verify tracks folder contains bam and bai -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             value="gtf/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb"
+                             value="gff3/myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb"
+                             compare="sim_size"
+                />
+                <!-- verify trackdb.txt contains the basic fields for a bam -->
+                <!-- todo: find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
 
         <!-- Test with one group and all the supported datatypes on 10/04/2016 -->
 
         <!-- Test with two groups and no tracks -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+            </repeat>
+            <repeat name="group">
+                <param name="group_name" value="Other group"/>
+            </repeat>
+            <output name="output" file="two_groups_no_track/two_groups_no_track_trackhub.html">
+                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_no_track/myHub/genomes.txt"/>
+                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_no_track/myHub/Dbia3.html"/>
+                <!-- Email could be different, but we need to ensure we still have the email line -->
+                <extra_files type="file" name="myHub/hub.txt" value="two_groups_no_track/myHub/hub.txt" lines_diff="2">
+                    <assert_contents>
+                        <has_text text="email"/>
+                    </assert_contents>
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/description.html"
+                             value="two_groups_no_track/myHub/Dbia3/description.html"/>
+            </output>
+        </test>
+
         <!-- Test with two groups and one track in first -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bigwig"/>
+                        <param name="BIGWIG" value="bigwig/inputs/RNA-Seq_Alignment_Summary"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <repeat name="group">
+                <param name="group_name" value="Other group"/>
+            </repeat>
+            <output name="output" file="two_groups_one_track_first/two_groups_one_track_first_trackhub.html">
+                <!-- Check myHub structure -->
+                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_one_track_first/myHub/genomes.txt"/>
+                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_one_track_first/myHub/Dbia3.html"/>
+                <!-- Email could be different, but we need to ensure we still have the email line -->
+                <extra_files type="file" name="myHub/hub.txt" value="two_groups_one_track_first/myHub/hub.txt" lines_diff="2">
+                    <assert_contents>
+                        <has_text text="email"/>
+                    </assert_contents>
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/description.html"
+                             value="two_groups_one_track_first/myHub/Dbia3/description.html"/>
+
+                <!-- Check tracks exist -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             value="bigwig/myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             compare="sim_size"
+                />
+
+                <!-- Check the groups.txt exists and is properly populated -->
+            </output>
+        </test>
+
         <!-- Test with two groups and one track in both -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bigwig"/>
+                        <param name="BIGWIG" value="bigwig/inputs/RNA-Seq_Alignment_Summary"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <repeat name="group">
+                <param name="group_name" value="Other group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gtf"/>
+                        <param name="GTF" value="gtf/inputs/StringTie_Assembled_Transcripts"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="two_groups_one_track_both/two_groups_one_track_both_trackhub.html">
+                <!-- Check myHub structure -->
+                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_one_track_both/myHub/genomes.txt"/>
+                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_one_track_both/myHub/Dbia3.html"/>
+                <!-- Email could be different, but we need to ensure we still have the email line -->
+                <extra_files type="file" name="myHub/hub.txt" value="two_groups_one_track_both/myHub/hub.txt"
+                             lines_diff="2">
+                    <assert_contents>
+                        <has_text text="email"/>
+                    </assert_contents>
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/description.html"
+                             value="two_groups_one_track_both/myHub/Dbia3/description.html"/>
+
+                <!-- Check tracks exist -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             value="bigwig/myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             value="gtf/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             compare="sim_size"
+                />
+
+                <!-- Check the groups.txt exists and is properly populated -->
+            </output>
+        </test>
+
         <!-- Test with two groups and multiple tracks in both -->
 
         <!-- Test default color in a track -->
         <!-- Test changed color in a track -->
+
+        <!-- Find tests that should fail -->
 
     </tests>
 

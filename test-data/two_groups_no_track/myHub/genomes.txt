@@ -1,0 +1,10 @@
+genome Dbia3
+trackDb Dbia3/trackDb.txt
+groups Dbia3/groups.txt
+description Dbia3
+twoBitPath Dbia3/Dbia3.2bit
+organism Dbia3
+defaultPos contig25
+orderKey 4500
+scientificName Dbia3
+htmlPath Dbia3/description.html

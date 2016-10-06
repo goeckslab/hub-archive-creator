@@ -1,0 +1,22 @@
+    track RNA-Seq_Alignment_Summary.bigwig
+    longLabel RNA-Seq Alignment Summary
+    shortLabel RNA-Seq Alignme
+    bigDataUrl tracks/RNA-Seq_Alignment_Summary.bigwig
+    type bigWig
+    visibility full
+    thickDrawItem off
+    priority 10
+    color 0,0,0
+    group default_group
+
+    track StringTie_Assembled_Transcripts.bb
+    longLabel StringTie Assembled Transcripts
+    shortLabel StringTie Assem
+    bigDataUrl tracks/StringTie_Assembled_Transcripts.bb
+    type bigGenePred
+    visibility dense
+    thickDrawItem off
+    priority 20
+    color 0,0,0
+    group other_group
+

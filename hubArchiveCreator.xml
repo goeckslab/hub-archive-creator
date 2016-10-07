@@ -371,6 +371,20 @@
                              compare="sim_size"
                 />
                 <!-- Verify trackDb.txt contains the basic fields for a bam -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt" value="bam/myHub/Dbia3/trackDb.txt">
+                    <assert_contents>
+                        <has_text text="track"/>
+                        <has_text text="longLabel"/>
+                        <has_text text="shortLabel"/>
+                        <has_text text="bigDataUrl"/>
+                        <has_text text="type"/>
+                        <has_text text="visibility"/>
+                        <has_text text="thickDrawItem"/>
+                        <has_text text="priority"/>
+                        <has_text text="color"/>
+                        <has_text text="group"/>
+                    </assert_contents>
+                </extra_files>
                 <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
             </output>
         </test>

@@ -606,6 +606,64 @@
                         <param name="track_color" value="#000000"/>
                     </conditional>
                 </repeat>
+            </repeat>
+            <repeat name="group">
+                <param name="group_name" value="Other group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gtf"/>
+                        <param name="GTF" value="gtf/inputs/StringTie_Assembled_Transcripts"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="two_groups_one_track_both/two_groups_one_track_both_trackhub.html">
+                <!-- Check myHub structure -->
+                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_one_track_both/myHub/genomes.txt"/>
+                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_one_track_both/myHub/Dbia3.html"/>
+                <!-- Email could be different, but we need to ensure we still have the email line -->
+                <extra_files type="file" name="myHub/hub.txt" value="two_groups_one_track_both/myHub/hub.txt"
+                             lines_diff="2">
+                    <assert_contents>
+                        <has_text text="email"/>
+                    </assert_contents>
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
+                </extra_files>
+                <extra_files type="file" name="myHub/Dbia3/description.html"
+                             value="two_groups_one_track_both/myHub/Dbia3/description.html"/>
+
+                <!-- Check tracks exist -->
+                <!-- First group -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             value="bigwig/myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             compare="sim_size"
+                />
+
+                <!-- Second group -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             value="gtf/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             compare="sim_size"
+                />
+                <!-- Check the groups.txt exists and is properly populated -->
+            </output>
+        </test>
+
+        <!-- Test with two groups and multiple tracks in both -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bigwig"/>
+                        <param name="BIGWIG" value="bigwig/inputs/RNA-Seq_Alignment_Summary"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
                 <repeat name="format">
                     <conditional name="formatChoice">
                         <param name="format_select" value="bam"/>
@@ -680,10 +738,57 @@
             </output>
         </test>
 
-        <!-- Test with two groups and multiple tracks in both -->
-
         <!-- Test default color in a track -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bam"/>
+                        <param name="BAM" value="bam/inputs/HISAT2_Accepted_Hits.bam"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="default_color/default_color_trackhub.html">
+                <!-- Verify trackDb.txt contains the color 0,0,0 -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt" value="default_color/myHub/Dbia3/trackDb.txt">
+                    <assert_contents>
+                        <has_text text="color 0,0,0"/>
+                    </assert_contents>
+                </extra_files>
+
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
+
         <!-- Test changed color in a track -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bam"/>
+                        <param name="BAM" value="bam/inputs/HISAT2_Accepted_Hits.bam"/>
+                        <param name="track_color" value="#8064a2"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="changed_color/changed_color_trackhub.html">
+                <!-- Verify trackDb.txt contains the color 128,100,162 -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt" value="changed_color/myHub/Dbia3/trackDb.txt">
+                    <assert_contents>
+                        <has_text text="color 128,100,162"/>
+                    </assert_contents>
+                </extra_files>
+
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
 
         <!-- Find tests that should fail -->
 

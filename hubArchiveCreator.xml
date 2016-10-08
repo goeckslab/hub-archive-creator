@@ -101,7 +101,7 @@
                     #silent $prepare_json($f.formatChoice.BAM, $index_track_final, extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "bed"
-                    #if $f.formatChoice.bedChoice.bed_select == "bed"
+                    #if $f.formatChoice.bedChoice.bed_select == "bed_generic"
                         --bed $f.formatChoice.bedChoice.BED
                         #silent $prepare_json($f.formatChoice.bedChoice.BED, $index_track_final,
                                                 extra_data_dict)
@@ -204,10 +204,10 @@
                     <when value="bed">
                         <conditional name="bedChoice">
                             <param name="bed_select" type="select" label="Bed Choice">
-                                <option value="bed" selected="true">BED Generic (bed3+)</option>
+                                <option value="bed_generic" selected="true">BED Generic (bed3+)</option>
                                 <option value="bed_simple_repeats_option">BED Simple repeat (bed4+12 / simpleRepeat.as)</option>
                             </param>
-                            <when value="bed">
+                            <when value="bed_generic">
                                 <param
                                         format="bed"
                                         name="BED"
@@ -397,12 +397,12 @@
                 <param name="group_name" value="Default group"/>
                 <repeat name="format">
                     <conditional name="formatChoice">
-                        <param name="format_select" value="bed"/>
+                        <param name="format_select" value="bed" />
                         <conditional name="bedChoice">
-                            <param name="bed_select" value="bed"/>
-                            <param name="BED" value="bed_generic/inputs/TBLASTN_Alignment_to_proteins"/>
+                            <param name="bed_select" value="bed_generic"/>
+                            <param name="BED" ftype="bed" value="bed_generic/inputs/TBLASTN_Alignment_to_proteins"/>
+                            <param name="track_color" value="#000000"/>
                         </conditional>
-                        <param name="track_color" value="#000000"/>
                     </conditional>
                 </repeat>
             </repeat>
@@ -413,8 +413,6 @@
                              value="bed_generic/myHub/Dbia3/tracks/TBLASTN_Alignment_to_proteins.bb"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
             </output>
         </test>
 

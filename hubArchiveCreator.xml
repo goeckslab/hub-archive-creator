@@ -417,6 +417,31 @@
         </test>
 
         <!-- Test with Bed Simple repeat -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bed" />
+                        <conditional name="bedChoice">
+                            <param name="bed_select" value="bed_simple_repeats_option"/>
+                            <param name="BED_simple_repeats" ftype="bed" value="bed_simple_repeats/inputs/Repeating_Elements_by_TrfBig"/>
+                            <param name="track_color" value="#000000"/>
+                        </conditional>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="bed_simple_repeats/bed_simple_repeats_trackhub.html">
+                <!-- Verify tracks folder contains bam and bai -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/Repeating_Elements_by_TrfBig.bb"
+                             value="bed_simple_repeats/myHub/Dbia3/tracks/Repeating_Elements_by_TrfBig.bb"
+                             compare="sim_size"
+                />
+            </output>
+        </test>
         <!-- Test with Psl -->
         <!-- Test with BigWig -->
         <test>

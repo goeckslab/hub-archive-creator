@@ -6,6 +6,7 @@
 
     <requirements>
         <!-- Conda dependencies -->
+        <requirement type="package" version="332">ucsc-bedclip</requirement>
         <requirement type="package" version="332">ucsc-bedtobigbed</requirement>
         <requirement type="package" version="332">ucsc-fatotwobit</requirement>
         <requirement type="package" version="332">ucsc-genepredtobed</requirement>
@@ -822,6 +823,31 @@
                         <has_text text="color 128,100,162"/>
                     </assert_contents>
                 </extra_files>
+
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
+
+        <!-- Test for StringTie Chromosome end coordinates -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gtf"/>
+                        <param name="GTF" ftype="gtf" value="stringtie_chromosome_end_coordinates/inputs/stringtie_assembled_transcripts"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="stringtie_chromosome_end_coordinates/stringtie_chromosome_end_coordinates_trackhub.html">
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/stringtie_assembled_transcripts.bb"
+                             value="stringtie_chromosome_end_coordinates/myHub/Dbia3/tracks/stringtie_assembled_transcripts.bb"
+                             compare="sim_size"
+                />
 
                 <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
             </output>

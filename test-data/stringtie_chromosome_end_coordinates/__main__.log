@@ -1,0 +1,38 @@
+DEBUG:root:#### Welcome in HubArchiveCreator Debug Mode ####
+
+DEBUG:root:Calling faToTwoBit:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling twoBitInfo:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/svc_galaxy/new/galaxy/database/files/001/dataset_1324.dat
+DEBUG:root:data_value: {u'order_index': u'10', u'name': u'StringTie_on_data_16__Assembled_transcripts_filtered', u'track_color': u'#000000', u'group_name': u'Default group'}
+DEBUG:root:Calling gtfToGenePred:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling genePredToBigGenePred:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /home/svc_galaxy/new/galaxy/database/tmp/tmppigloW.sortedBed.bigGenePred
+DEBUG:root:chrom_sizes_file_name: /home/svc_galaxy/new/galaxy/database/tmp/tmpXYAgys.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/svc_galaxy/new/galaxy/database/jobs_directory/000/958/dataset_1325_files/myHub/Dbia3/tracks/StringTie_on_data_16__Assembled_transcripts_filtered.bb
+DEBUG:root:typeOption: bed12+8
+DEBUG:root:autoSql: /home/svc_galaxy/new/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/d786bca6a75d/hubarchivecreator/bigGenePred.as
+DEBUG:root:tab option: True
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:----- End of all_datatype_dictionary processing -----
+DEBUG:root:all_datatype_ordered_dictionary keys are: [<Gtf.Gtf object at 0x2a83cd0>]
+DEBUG:root:----- Beginning of Track adding processing -----
+DEBUG:root:We just added in /home/svc_galaxy/new/galaxy/database/jobs_directory/000/958/dataset_1325_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track StringTie_on_data_16__Assembled_transcripts_filtered.bb (in group default_group)
+DEBUG:root:----- End of Track adding processing -----
+DEBUG:root:#### End of HubArchiveCreator Debug Mode: Bye! ####

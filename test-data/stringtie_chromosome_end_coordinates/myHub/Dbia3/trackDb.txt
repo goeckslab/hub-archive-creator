@@ -1,0 +1,11 @@
+    track StringTie_on_data_16__Assembled_transcripts_filtered.bb
+    longLabel StringTie on data 16  Assembled transcripts filtered
+    shortLabel StringTie on da
+    bigDataUrl tracks/StringTie_on_data_16__Assembled_transcripts_filtered.bb
+    type bigGenePred
+    visibility dense
+    thickDrawItem off
+    priority 10
+    color 0,0,0
+    group default_group
+

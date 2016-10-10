@@ -32,6 +32,10 @@ class Gtf( Datatype ):
         sorted_bigGenePred_file = tempfile.NamedTemporaryFile(suffix=".sortedBed.bigGenePred")
 
         # GtfToGenePred
+        ## Checking the integrity of the inputs
+        _checkAndFixGtf()
+
+        ## Processing the gtf
         subtools.gtfToGenePred(self.input_gtf_false_path, genePredFile.name)
 
         # TODO: From there, refactor because common use with Gff3.py
@@ -67,3 +71,13 @@ class Gtf( Datatype ):
                          group_name=self.group_name)
 
         print("- Gtf %s created" % self.name_gtf)
+
+    def _checkAndFixGtf():
+        """
+        Call _checkAndFixGtf, check the integrity of gtf file, 
+        if coordinates exceed chromosome size, either removed the whole line(s) or truncated to the end of the scaffold 
+        depending on the user choice
+        default: remove the whole line(s)
+        """
+        # TODO: Get the user choice and use it
+        # TODO: Check if the start > 0 and the end <= chromosome size

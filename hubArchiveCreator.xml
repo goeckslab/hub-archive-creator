@@ -6,7 +6,6 @@
 
     <requirements>
         <!-- Conda dependencies -->
-        <requirement type="package" version="332">ucsc-bedclip</requirement>
         <requirement type="package" version="332">ucsc-bedtobigbed</requirement>
         <requirement type="package" version="332">ucsc-fatotwobit</requirement>
         <requirement type="package" version="332">ucsc-genepredtobed</requirement>
@@ -837,15 +836,15 @@
                 <repeat name="format">
                     <conditional name="formatChoice">
                         <param name="format_select" value="gtf"/>
-                        <param name="GTF" ftype="gtf" value="stringtie_chromosome_end_coordinates/inputs/stringtie_assembled_transcripts"/>
+                        <param name="GTF" ftype="gtf" value="stringtie_chromosome_end_coordinates/inputs/StringTie_Assembled_Transcripts"/>
                         <param name="track_color" value="#000000"/>
                     </conditional>
                 </repeat>
             </repeat>
             <output name="output" file="stringtie_chromosome_end_coordinates/stringtie_chromosome_end_coordinates_trackhub.html">
                 <extra_files type="file"
-                             name="myHub/Dbia3/tracks/stringtie_assembled_transcripts.bb"
-                             value="stringtie_chromosome_end_coordinates/myHub/Dbia3/tracks/stringtie_assembled_transcripts.bb"
+                             name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             value="stringtie_chromosome_end_coordinates/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
                              compare="sim_size"
                 />
 

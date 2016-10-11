@@ -1,7 +1,7 @@
-    track StringTie_on_data_16__Assembled_transcripts_filtered.bb
-    longLabel StringTie on data 16  Assembled transcripts filtered
-    shortLabel StringTie on da
-    bigDataUrl tracks/StringTie_on_data_16__Assembled_transcripts_filtered.bb
+    track StringTie_Assembled_Transcripts.bb
+    longLabel StringTie Assembled Transcripts
+    shortLabel StringTie Assem
+    bigDataUrl tracks/StringTie_Assembled_Transcripts.bb
     type bigGenePred
     visibility dense
     thickDrawItem off

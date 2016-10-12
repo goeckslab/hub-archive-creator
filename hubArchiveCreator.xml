@@ -586,6 +586,114 @@
         </test>
 
         <!-- Test with one group and all the supported datatypes on 10/04/2016 -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bam"/>
+                        <param name="BAM" value="bam/inputs/HISAT2_Accepted_Hits.bam"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bed"/>
+                        <conditional name="bedChoice">
+                            <param name="bed_select" value="bed_generic"/>
+                            <param name="BED" ftype="bed" value="bed_generic/inputs/TBLASTN_Alignment_to_proteins"/>
+                            <param name="track_color" value="#000000"/>
+                        </conditional>
+                    </conditional>
+                </repeat>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bed"/>
+                        <conditional name="bedChoice">
+                            <param name="bed_select" value="bed_simple_repeats_option"/>
+                            <param name="BED_simple_repeats" ftype="bed"
+                                   value="bed_simple_repeats/inputs/Repeating_Elements_by_TrfBig"/>
+                            <param name="track_color" value="#000000"/>
+                        </conditional>
+                    </conditional>
+                </repeat>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="psl"/>
+                        <param name="PSL" value="psl/inputs/blastXmlToPsl"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bigwig"/>
+                        <param name="BIGWIG" value="bigwig/inputs/RNA-Seq_Alignment_Summary"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gff3"/>
+                        <param name="GFF3" value="gff3/inputs/Augustus_Gene_Predictions"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gtf"/>
+                        <param name="GTF" value="gtf/inputs/StringTie_Assembled_Transcripts"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="all_datatypes/all_datatypes_trackhub.html">
+                <!-- verify tracks folder contains all the files -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam"
+                             value="all_datatypes/myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam.bai"
+                             value="all_datatypes/myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam.bai"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/TBLASTN_Alignment_to_proteins.bb"
+                             value="all_datatypes/myHub/Dbia3/tracks/TBLASTN_Alignment_to_proteins.bb"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/Repeating_Elements_by_TrfBig.bb"
+                             value="all_datatypes/myHub/Dbia3/tracks/Repeating_Elements_by_TrfBig.bb"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/blastXmlToPsl.bb"
+                             value="all_datatypes/myHub/Dbia3/tracks/blastXmlToPsl.bb"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             value="all_datatypes/myHub/Dbia3/tracks/RNA-Seq_Alignment_Summary.bigwig"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb"
+                             value="all_datatypes/myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb"
+                             compare="sim_size"
+                />
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             value="all_datatypes/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             compare="sim_size"
+                />
+                <!-- verify trackdb.txt contains the basic fields for a bam -->
+                <!-- todo: find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
 
         <!-- Test with two groups and no tracks -->
         <test>
@@ -877,6 +985,8 @@
                 <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
             </output>
         </test>
+
+        <!-- Test for big files? -->
 
         <!-- Find tests that should fail -->
 

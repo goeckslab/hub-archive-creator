@@ -442,7 +442,33 @@
                 />
             </output>
         </test>
+
         <!-- Test with Psl -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="psl"/>
+                        <param name="PSL" value="psl/inputs/blastXmlToPsl"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="psl/psl_trackhub.html">
+                <!-- Verify tracks folder contains bam and bai -->
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/blastXmlToPsl.bb"
+                             value="psl/myHub/Dbia3/tracks/blastXmlToPsl.bb"
+                             compare="sim_size"
+                />
+                <!-- Verify trackDb.txt contains the basic fields for a bam -->
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
+
         <!-- Test with BigWig -->
         <test>
             <param name="genome_name" value="Dbia3"/>

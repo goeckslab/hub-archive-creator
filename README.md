@@ -61,3 +61,7 @@ If you are having issues, please let us know.
 - For more information about the project vision, or for partneship:
     - [Elgin, Sarah](selgin@wustl.edu) - PI
     - [Jeremy Goecks](jgoecks@gwu.edu) - PI
+    
+## License
+
+The project is licensed under the GPL-3.0+. See [LICENSE.txt](LICENSE.txt).

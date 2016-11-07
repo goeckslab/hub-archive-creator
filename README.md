@@ -64,4 +64,4 @@ If you are having issues, please let us know.
     
 ## License
 
-The project is licensed under the GPL-3.0+. See [LICENSE.txt](LICENSE.txt).
+The project is licensed under the Academic Free License 3.0. See [LICENSE.txt](LICENSE.txt).

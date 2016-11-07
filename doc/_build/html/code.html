@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Auto Generated Documentation &#8212; HubArchiveCreator 2.3 documentation</title>
+    <title>Code documentation &#8212; HubArchiveCreator 2.3 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,7 +27,8 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="HubArchiveCreator 2.3 documentation" href="index.html" />
-    <link rel="prev" title="Welcome to HubArchiveCreator’s documentation!" href="index.html" /> 
+    <link rel="next" title="Main entry point: hubArchiveCreator.py" href="code_documentation/main_entry_point.html" />
+    <link rel="prev" title="The G-OnRamp Tutorial" href="tutorial/index.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,7 +41,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to HubArchiveCreator’s documentation!"
+          <a href="code_documentation/main_entry_point.html" title="Main entry point: hubArchiveCreator.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial/index.html" title="The G-OnRamp Tutorial"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">HubArchiveCreator 2.3 documentation</a> &#187;</li> 
       </ul>
@@ -51,127 +55,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-hubArchiveCreator">
-<span id="auto-generated-documentation"></span><h1>Auto Generated Documentation<a class="headerlink" href="#module-hubArchiveCreator" title="Permalink to this headline">¶</a></h1>
-<p>This Galaxy tool permits to prepare your files to be ready for
-Assembly Hub visualization.
-Program test arguments:
-hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . -u ./tools -o output.html</p>
-<dl class="function">
-<dt id="hubArchiveCreator.configure_logger_dev">
-<code class="descclassname">hubArchiveCreator.</code><code class="descname">configure_logger_dev</code><span class="sig-paren">(</span><em>log_stdout=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hubArchiveCreator.html#configure_logger_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.configure_logger_dev" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Dev Logger is defined as following:</dt>
-<dd><ul class="first last simple">
-<li>Dev needs to have WARN, ERROR and CRITICAL but well formatted / without traceback, in stdout</li>
-<li>Still access to full, brute and traceback in stderr for errors</li>
-<li>And further access to debug if needed</li>
+  <div class="section" id="code-documentation">
+<h1>Code documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code_documentation/main_entry_point.html">Main entry point: hubArchiveCreator.py</a></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="hubArchiveCreator.configure_logger_stderr">
-<code class="descclassname">hubArchiveCreator.</code><code class="descname">configure_logger_stderr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/hubArchiveCreator.html#configure_logger_stderr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.configure_logger_stderr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure what should be logged in stderr</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="hubArchiveCreator.configure_logger_user">
-<code class="descclassname">hubArchiveCreator.</code><code class="descname">configure_logger_user</code><span class="sig-paren">(</span><em>log_stdout=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hubArchiveCreator.html#configure_logger_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.configure_logger_user" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>User Logger is defined as following:</dt>
-<dd><ul class="first last">
-<li><dl class="first docutils">
-<dt>User needs to have WARN, ERROR and CRITICAL but well formatted / without traceback</dt>
-<dd><p class="first last">in STDOUT</p>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>Still access to full, brute and traceback for errors</dt>
-<dd><p class="first last">in STDERR</p>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>And further access to debug if needed</dt>
-<dd><p class="first last">in .log</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="hubArchiveCreator.create_ordered_datatype_objects">
-<code class="descclassname">hubArchiveCreator.</code><code class="descname">create_ordered_datatype_objects</code><span class="sig-paren">(</span><em>ExtensionClass</em>, <em>array_inputs</em>, <em>inputs_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hubArchiveCreator.html#create_ordered_datatype_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.create_ordered_datatype_objects" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub
-and update the dictionary of datatype</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ExtensionClass</strong> (<em>Datatype</em>) &#8211; </li>
-<li><strong>array_inputs</strong> (<em>list[string]</em>) &#8211; </li>
-<li><strong>inputs_data</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="hubArchiveCreator.sanitize_name_input">
-<code class="descclassname">hubArchiveCreator.</code><code class="descname">sanitize_name_input</code><span class="sig-paren">(</span><em>string_to_sanitize</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hubArchiveCreator.html#sanitize_name_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.sanitize_name_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sanitize the string passed in parameter by replacing &#8216;/&#8217; and &#8216; &#8216; by &#8216;_&#8217;</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string_to_sanitize</strong> &#8211; </td>
-</tr>
-</tbody>
-</table>
-<p>:return :</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sanitize_name_input</span><span class="p">(</span><span class="s1">&#39;this/is an//example&#39;</span><span class="p">)</span>
-<span class="go">this_is_an__example</span>
-</pre></div>
 </div>
-</dd></dl>
-
-<dl class="function">
-<dt id="hubArchiveCreator.sanitize_name_inputs">
-<code class="descclassname">hubArchiveCreator.</code><code class="descname">sanitize_name_inputs</code><span class="sig-paren">(</span><em>inputs_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hubArchiveCreator.html#sanitize_name_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.sanitize_name_inputs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sanitize value of the keys &#8220;name&#8221; of the dictionary passed in parameter.</p>
-<p>Because sometimes output from Galaxy, or even just file name, from user inputs, have spaces.
-Also, it can contain &#8216;/&#8217; character and could break the use of os.path function.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inputs_data</strong> &#8211; dict[string, dict[string, string]]</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
 
 
@@ -181,8 +71,11 @@ Also, it can contain &#8216;/&#8217; character and could break the use of os.pat
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to HubArchiveCreator&#8217;s documentation!</a></p>
+  <p class="topless"><a href="tutorial/index.html"
+                        title="previous chapter">The G-OnRamp Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="code_documentation/main_entry_point.html"
+                        title="next chapter">Main entry point: hubArchiveCreator.py</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -214,7 +107,10 @@ Also, it can contain &#8216;/&#8217; character and could break the use of os.pat
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to HubArchiveCreator’s documentation!"
+          <a href="code_documentation/main_entry_point.html" title="Main entry point: hubArchiveCreator.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial/index.html" title="The G-OnRamp Tutorial"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">HubArchiveCreator 2.3 documentation</a> &#187;</li> 
       </ul>

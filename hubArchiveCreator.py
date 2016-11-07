@@ -2,10 +2,10 @@
 # -*- coding: utf8 -*-
 
 """
-This Galaxy tool permits to prepare your files to be ready for
-Assembly Hub visualization.
-Program test arguments:
-hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . -u ./tools -o output.html
+This Python file could be seen as the "main.py" file for HubArchiveCreator.
+
+Galaxy will run this file when the user clicks on "Execute".
+
 """
 
 import argparse
@@ -31,8 +31,16 @@ from TrackHub import TrackHub
 
 
 def main(argv):
+    """Entry of the program, receives all the parameter, via argparse, to begin the whole process
+    of creating a UCSC TrackHub output.
+
+
+    :param argv:
+    :return: HTML document: Displays the structure of the Track Hub folder created
+    """
+
     # Command Line parsing init
-    parser = argparse.ArgumentParser(description='Create a foo.txt inside the given folder.')
+    parser = argparse.ArgumentParser(description='Take inputs from Galaxy and produces a UCSC TrackHub output of the tracks.')
 
     # Reference genome mandatory
     parser.add_argument('-f', '--fasta', help='Fasta file of the reference genome')
@@ -172,7 +180,7 @@ def sanitize_name_input(string_to_sanitize):
     Sanitize the string passed in parameter by replacing '/' and ' ' by '_'
 
     :param string_to_sanitize:
-    :return :
+    :return string: Sanitized string
 
     :Example:
 
@@ -199,15 +207,19 @@ def sanitize_name_inputs(inputs_data):
 
 def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data):
     """
-    Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub
+    Function which executes the creation all the necessary files/folders for a special Datatype, for TrackHub
     and update the dictionary of datatype
 
     :param ExtensionClass:
-    :param array_inputs:
-    :param inputs_data:
     :type ExtensionClass: Datatype
+
+    :param array_inputs: Array of the false_path given by Galaxy. These paths are the location of the input files.
     :type array_inputs: list[string]
-    :type inputs_data: dict
+
+    :param inputs_data: Dictionary containing the Galaxy false path as key, and the data as values
+    :type inputs_data: dict{FILE_PATH: dict{NAME: NAME_VALUE, EXTRA_DATA: EXTRA_DATA_VALUE}}]
+
+    :return: An ordered dictionary of generic Datatype objects
     :rtype: dict
     """
 
@@ -224,6 +236,18 @@ def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data):
     return datatype_dictionary
 
 def configure_logger(extra_files_path=None, debug=False):
+    """Configure the logger depending on the option chosen:
+    Dev or User.
+
+    It also configures the creation of a log file.
+
+    :param extra_files_path: Path where all the outputs will be stored. Displayed in the HTML.
+    :type extra_files_path: string
+
+    :param debug: Flag to configure the logger with extra debug messages or not.
+    :type debug: bool
+    """
+
     if not extra_files_path:
         raise Exception("Extra files path is not set. Stopping the application")
 
@@ -255,6 +279,8 @@ def configure_logger_user(log_stdout=None):
         - And further access to debug if needed
             in .log
 
+    :param log_stdout: StreamHandler to configure for user.
+    :type log_stdout: logging.StreamHandler
     """
 
     if not log_stdout:
@@ -292,7 +318,7 @@ def configure_logger_dev(log_stdout=None):
 
 def configure_logger_stderr():
     """
-    Configure what should be logged in stderr
+    Configure what should be logged in stderr. Nothing specific, but can be useful if needed.
     """
     log_error = logging.StreamHandler(sys.stderr)
     log_error.setLevel(logging.ERROR)

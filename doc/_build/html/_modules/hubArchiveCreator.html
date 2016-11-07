@@ -54,10 +54,10 @@
 <span class="c1"># -*- coding: utf8 -*-</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This Galaxy tool permits to prepare your files to be ready for</span>
-<span class="sd">Assembly Hub visualization.</span>
-<span class="sd">Program test arguments:</span>
-<span class="sd">hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . -u ./tools -o output.html</span>
+<span class="sd">This Python file could be seen as the &quot;main.py&quot; file for HubArchiveCreator.</span>
+
+<span class="sd">Galaxy will run this file when the user clicks on &quot;Execute&quot;.</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">argparse</span>
@@ -82,9 +82,17 @@
 <span class="c1"># TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort</span>
 
 
-<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">argv</span><span class="p">):</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">argv</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Entry of the program, receives all the parameter, via argparse, to begin the whole process</span>
+<span class="sd">    of creating a UCSC TrackHub output.</span>
+
+
+<span class="sd">    :param argv:</span>
+<span class="sd">    :return: HTML document: Displays the structure of the Track Hub folder created</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># Command Line parsing init</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Create a foo.txt inside the given folder.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Take inputs from Galaxy and produces a UCSC TrackHub output of the tracks.&#39;</span><span class="p">)</span>
 
     <span class="c1"># Reference genome mandatory</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;--fasta&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Fasta file of the reference genome&#39;</span><span class="p">)</span>
@@ -174,6 +182,7 @@
 
     <span class="n">json_inputs_data</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">data_json</span>
 
+    <span class="c1"># TODO: Instead use a class to properly store the objects, with object_hook</span>
     <span class="n">inputs_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_inputs_data</span><span class="p">)</span>
     <span class="c1"># We remove the spaces in [&quot;name&quot;] of inputs_data</span>
     <span class="n">sanitize_name_inputs</span><span class="p">(</span><span class="n">inputs_data</span><span class="p">)</span>
@@ -215,15 +224,15 @@
 
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;#### End of HubArchiveCreator Debug Mode: Bye! ####&#39;</span><span class="p">)</span>
 
-    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="sanitize_name_input"><a class="viewcode-back" href="../code.html#hubArchiveCreator.sanitize_name_input">[docs]</a><span class="k">def</span> <span class="nf">sanitize_name_input</span><span class="p">(</span><span class="n">string_to_sanitize</span><span class="p">):</span>
+<div class="viewcode-block" id="sanitize_name_input"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.sanitize_name_input">[docs]</a><span class="k">def</span> <span class="nf">sanitize_name_input</span><span class="p">(</span><span class="n">string_to_sanitize</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sanitize the string passed in parameter by replacing &#39;/&#39; and &#39; &#39; by &#39;_&#39;</span>
 
 <span class="sd">    :param string_to_sanitize:</span>
-<span class="sd">    :return :</span>
+<span class="sd">    :return string: Sanitized string</span>
 
 <span class="sd">    :Example:</span>
 
@@ -235,7 +244,7 @@
             <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="sanitize_name_inputs"><a class="viewcode-back" href="../code.html#hubArchiveCreator.sanitize_name_inputs">[docs]</a><span class="k">def</span> <span class="nf">sanitize_name_inputs</span><span class="p">(</span><span class="n">inputs_data</span><span class="p">):</span>
+<div class="viewcode-block" id="sanitize_name_inputs"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.sanitize_name_inputs">[docs]</a><span class="k">def</span> <span class="nf">sanitize_name_inputs</span><span class="p">(</span><span class="n">inputs_data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sanitize value of the keys &quot;name&quot; of the dictionary passed in parameter.</span>
 
@@ -248,17 +257,21 @@
         <span class="n">inputs_data</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sanitize_name_input</span><span class="p">(</span><span class="n">inputs_data</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="create_ordered_datatype_objects"><a class="viewcode-back" href="../code.html#hubArchiveCreator.create_ordered_datatype_objects">[docs]</a><span class="k">def</span> <span class="nf">create_ordered_datatype_objects</span><span class="p">(</span><span class="n">ExtensionClass</span><span class="p">,</span> <span class="n">array_inputs</span><span class="p">,</span> <span class="n">inputs_data</span><span class="p">):</span>
+<div class="viewcode-block" id="create_ordered_datatype_objects"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.create_ordered_datatype_objects">[docs]</a><span class="k">def</span> <span class="nf">create_ordered_datatype_objects</span><span class="p">(</span><span class="n">ExtensionClass</span><span class="p">,</span> <span class="n">array_inputs</span><span class="p">,</span> <span class="n">inputs_data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub</span>
+<span class="sd">    Function which executes the creation all the necessary files/folders for a special Datatype, for TrackHub</span>
 <span class="sd">    and update the dictionary of datatype</span>
 
 <span class="sd">    :param ExtensionClass:</span>
-<span class="sd">    :param array_inputs:</span>
-<span class="sd">    :param inputs_data:</span>
 <span class="sd">    :type ExtensionClass: Datatype</span>
+
+<span class="sd">    :param array_inputs: Array of the false_path given by Galaxy. These paths are the location of the input files.</span>
 <span class="sd">    :type array_inputs: list[string]</span>
-<span class="sd">    :type inputs_data: dict</span>
+
+<span class="sd">    :param inputs_data: Dictionary containing the Galaxy false path as key, and the data as values</span>
+<span class="sd">    :type inputs_data: dict{FILE_PATH: dict{NAME: NAME_VALUE, EXTRA_DATA: EXTRA_DATA_VALUE}}]</span>
+
+<span class="sd">    :return: An ordered dictionary of generic Datatype objects</span>
 <span class="sd">    :rtype: dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -274,7 +287,19 @@
                 <span class="n">datatype_dictionary</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">data_value</span><span class="p">[</span><span class="s2">&quot;order_index&quot;</span><span class="p">]:</span> <span class="n">extensionObject</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">datatype_dictionary</span></div>
 
-<span class="k">def</span> <span class="nf">configure_logger</span><span class="p">(</span><span class="n">extra_files_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="configure_logger"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger">[docs]</a><span class="k">def</span> <span class="nf">configure_logger</span><span class="p">(</span><span class="n">extra_files_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Configure the logger depending on the option chosen:</span>
+<span class="sd">    Dev or User.</span>
+
+<span class="sd">    It also configures the creation of a log file.</span>
+
+<span class="sd">    :param extra_files_path: Path where all the outputs will be stored. Displayed in the HTML.</span>
+<span class="sd">    :type extra_files_path: string</span>
+
+<span class="sd">    :param debug: Flag to configure the logger with extra debug messages or not.</span>
+<span class="sd">    :type debug: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">if</span> <span class="ow">not</span> <span class="n">extra_files_path</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Extra files path is not set. Stopping the application&quot;</span><span class="p">)</span>
 
@@ -294,9 +319,9 @@
     <span class="c1"># stderr configuration</span>
     <span class="n">configure_logger_stderr</span><span class="p">()</span>
 
-    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;#### Welcome in HubArchiveCreator Debug Mode ####</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;#### Welcome in HubArchiveCreator Debug Mode ####</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="configure_logger_user"><a class="viewcode-back" href="../code.html#hubArchiveCreator.configure_logger_user">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_user</span><span class="p">(</span><span class="n">log_stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="configure_logger_user"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger_user">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_user</span><span class="p">(</span><span class="n">log_stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    User Logger is defined as following:</span>
 <span class="sd">        - User needs to have WARN, ERROR and CRITICAL but well formatted / without traceback</span>
@@ -306,6 +331,8 @@
 <span class="sd">        - And further access to debug if needed</span>
 <span class="sd">            in .log</span>
 
+<span class="sd">    :param log_stdout: StreamHandler to configure for user.</span>
+<span class="sd">    :type log_stdout: logging.StreamHandler</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">log_stdout</span><span class="p">:</span>
@@ -320,7 +347,7 @@
 
     <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">log_stdout</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="configure_logger_dev"><a class="viewcode-back" href="../code.html#hubArchiveCreator.configure_logger_dev">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_dev</span><span class="p">(</span><span class="n">log_stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="configure_logger_dev"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger_dev">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_dev</span><span class="p">(</span><span class="n">log_stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dev Logger is defined as following:</span>
 <span class="sd">        - Dev needs to have WARN, ERROR and CRITICAL but well formatted / without traceback, in stdout</span>
@@ -341,9 +368,9 @@
 
     <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">log_stdout</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="configure_logger_stderr"><a class="viewcode-back" href="../code.html#hubArchiveCreator.configure_logger_stderr">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_stderr</span><span class="p">():</span>
+<div class="viewcode-block" id="configure_logger_stderr"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger_stderr">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_stderr</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Configure what should be logged in stderr</span>
+<span class="sd">    Configure what should be logged in stderr. Nothing specific, but can be useful if needed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">log_error</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
     <span class="n">log_error</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>

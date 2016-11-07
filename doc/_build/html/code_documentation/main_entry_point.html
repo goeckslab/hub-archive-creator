@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Main entry point: hubArchiveCreator.py &#8212; HubArchiveCreator 2.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="HubArchiveCreator 2.3 documentation" href="../index.html" />
+    <link rel="up" title="Code documentation" href="../code.html" />
+    <link rel="prev" title="Code documentation" href="../code.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../code.html" title="Code documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../code.html" accesskey="U">Code documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hubArchiveCreator">
+<span id="main-entry-point-hubarchivecreator-py"></span><h1>Main entry point: hubArchiveCreator.py<a class="headerlink" href="#module-hubArchiveCreator" title="Permalink to this headline">¶</a></h1>
+<p>This Python file could be seen as the &#8220;main.py&#8221; file for HubArchiveCreator.</p>
+<p>Galaxy will run this file when the user clicks on &#8220;Execute&#8221;.</p>
+<dl class="function">
+<dt id="hubArchiveCreator.configure_logger">
+<code class="descclassname">hubArchiveCreator.</code><code class="descname">configure_logger</code><span class="sig-paren">(</span><em>extra_files_path=None</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hubArchiveCreator.html#configure_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.configure_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the logger depending on the option chosen:
+Dev or User.</p>
+<p>It also configures the creation of a log file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>extra_files_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Path where all the outputs will be stored. Displayed in the HTML.</li>
+<li><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Flag to configure the logger with extra debug messages or not.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hubArchiveCreator.configure_logger_dev">
+<code class="descclassname">hubArchiveCreator.</code><code class="descname">configure_logger_dev</code><span class="sig-paren">(</span><em>log_stdout=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hubArchiveCreator.html#configure_logger_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.configure_logger_dev" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Dev Logger is defined as following:</dt>
+<dd><ul class="first last simple">
+<li>Dev needs to have WARN, ERROR and CRITICAL but well formatted / without traceback, in stdout</li>
+<li>Still access to full, brute and traceback in stderr for errors</li>
+<li>And further access to debug if needed</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hubArchiveCreator.configure_logger_stderr">
+<code class="descclassname">hubArchiveCreator.</code><code class="descname">configure_logger_stderr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hubArchiveCreator.html#configure_logger_stderr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.configure_logger_stderr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure what should be logged in stderr. Nothing specific, but can be useful if needed.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hubArchiveCreator.configure_logger_user">
+<code class="descclassname">hubArchiveCreator.</code><code class="descname">configure_logger_user</code><span class="sig-paren">(</span><em>log_stdout=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hubArchiveCreator.html#configure_logger_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.configure_logger_user" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>User Logger is defined as following:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>User needs to have WARN, ERROR and CRITICAL but well formatted / without traceback</dt>
+<dd><p class="first last">in STDOUT</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Still access to full, brute and traceback for errors</dt>
+<dd><p class="first last">in STDERR</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>And further access to debug if needed</dt>
+<dd><p class="first last">in .log</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>log_stdout</strong> (<a class="reference external" href="https://docs.python.org/2/library/logging.handlers.html#logging.StreamHandler" title="(in Python v2.7)"><em>logging.StreamHandler</em></a>) &#8211; StreamHandler to configure for user.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hubArchiveCreator.create_ordered_datatype_objects">
+<code class="descclassname">hubArchiveCreator.</code><code class="descname">create_ordered_datatype_objects</code><span class="sig-paren">(</span><em>ExtensionClass</em>, <em>array_inputs</em>, <em>inputs_data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hubArchiveCreator.html#create_ordered_datatype_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.create_ordered_datatype_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function which executes the creation all the necessary files/folders for a special Datatype, for TrackHub
+and update the dictionary of datatype</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ExtensionClass</strong> (<em>Datatype</em>) &#8211; </li>
+<li><strong>array_inputs</strong> (<em>list[string]</em>) &#8211; Array of the false_path given by Galaxy. These paths are the location of the input files.</li>
+<li><strong>inputs_data</strong> (<em>dict{FILE_PATH: dict{NAME: NAME_VALUE, EXTRA_DATA: EXTRA_DATA_VALUE}}]</em>) &#8211; Dictionary containing the Galaxy false path as key, and the data as values</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An ordered dictionary of generic Datatype objects</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hubArchiveCreator.main">
+<code class="descclassname">hubArchiveCreator.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hubArchiveCreator.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entry of the program, receives all the parameter, via argparse, to begin the whole process
+of creating a UCSC TrackHub output.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>argv</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">HTML document: Displays the structure of the Track Hub folder created</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hubArchiveCreator.sanitize_name_input">
+<code class="descclassname">hubArchiveCreator.</code><code class="descname">sanitize_name_input</code><span class="sig-paren">(</span><em>string_to_sanitize</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hubArchiveCreator.html#sanitize_name_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.sanitize_name_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitize the string passed in parameter by replacing &#8216;/&#8217; and &#8216; &#8216; by &#8216;_&#8217;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string_to_sanitize</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return string:</th><td class="field-body">Sanitized string</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sanitize_name_input</span><span class="p">(</span><span class="s1">&#39;this/is an//example&#39;</span><span class="p">)</span>
+<span class="go">this_is_an__example</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hubArchiveCreator.sanitize_name_inputs">
+<code class="descclassname">hubArchiveCreator.</code><code class="descname">sanitize_name_inputs</code><span class="sig-paren">(</span><em>inputs_data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hubArchiveCreator.html#sanitize_name_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hubArchiveCreator.sanitize_name_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitize value of the keys &#8220;name&#8221; of the dictionary passed in parameter.</p>
+<p>Because sometimes output from Galaxy, or even just file name, from user inputs, have spaces.
+Also, it can contain &#8216;/&#8217; character and could break the use of os.path function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inputs_data</strong> &#8211; dict[string, dict[string, string]]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../code.html"
+                        title="previous chapter">Code documentation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/code_documentation/main_entry_point.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../code.html" title="Code documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../code.html" >Code documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Remi Marenco.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

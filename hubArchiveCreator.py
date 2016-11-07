@@ -122,6 +122,7 @@ def main(argv):
 
     json_inputs_data = args.data_json
 
+    # TODO: Instead use a class to properly store the objects, with object_hook
     inputs_data = json.loads(json_inputs_data)
     # We remove the spaces in ["name"] of inputs_data
     sanitize_name_inputs(inputs_data)
@@ -167,17 +168,30 @@ def main(argv):
 
 
 def sanitize_name_input(string_to_sanitize):
-        return string_to_sanitize \
+    """
+    Sanitize the string passed in parameter by replacing '/' and ' ' by '_'
+
+    :param string_to_sanitize:
+    :return :
+
+    :Example:
+
+    >>> sanitize_name_input('this/is an//example')
+    this_is_an__example
+    """
+    return string_to_sanitize \
             .replace("/", "_") \
             .replace(" ", "_")
 
 
 def sanitize_name_inputs(inputs_data):
     """
-    Sometimes output from Galaxy, or even just file name from user have spaces
-    Also, it can contain '/' character and could break the use of os.path function
+    Sanitize value of the keys "name" of the dictionary passed in parameter.
+
+    Because sometimes output from Galaxy, or even just file name, from user inputs, have spaces.
+    Also, it can contain '/' character and could break the use of os.path function.
+
     :param inputs_data: dict[string, dict[string, string]]
-    :return:
     """
     for key in inputs_data:
         inputs_data[key]["name"] = sanitize_name_input(inputs_data[key]["name"])
@@ -187,9 +201,14 @@ def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data):
     """
     Function which executes the creation all the necessary files / folders for a special Datatype, for TrackHub
     and update the dictionary of datatype
-    :param ExtensionClass: T <= Datatype
-    :param array_inputs: list[string]
+
+    :param ExtensionClass:
+    :param array_inputs:
     :param inputs_data:
+    :type ExtensionClass: Datatype
+    :type array_inputs: list[string]
+    :type inputs_data: dict
+    :rtype: dict
     """
 
     datatype_dictionary = {}
@@ -235,8 +254,9 @@ def configure_logger_user(log_stdout=None):
             in STDERR
         - And further access to debug if needed
             in .log
-    :return:
+
     """
+
     if not log_stdout:
         raise Exception("No log_stdout given. Stopping the application")
 
@@ -255,7 +275,7 @@ def configure_logger_dev(log_stdout=None):
         - Dev needs to have WARN, ERROR and CRITICAL but well formatted / without traceback, in stdout
         - Still access to full, brute and traceback in stderr for errors
         - And further access to debug if needed
-    :return:
+
     """
     if not log_stdout:
         raise Exception("No log_stdout given. Stopping the application")
@@ -273,7 +293,6 @@ def configure_logger_dev(log_stdout=None):
 def configure_logger_stderr():
     """
     Configure what should be logged in stderr
-    :return:
     """
     log_error = logging.StreamHandler(sys.stderr)
     log_error.setLevel(logging.ERROR)

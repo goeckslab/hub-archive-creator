@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>hubArchiveCreator &#8212; HubArchiveCreator 2.3 documentation</title>
+    <title>hubArchiveCreator &mdash; HubArchiveCreator 2.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,8 +24,6 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
     <link rel="top" title="HubArchiveCreator 2.3 documentation" href="../index.html" />
     <link rel="up" title="Module code" href="index.html" /> 
   </head>
@@ -39,8 +37,8 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -68,16 +66,16 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="c1"># Internal dependencies</span>
-<span class="kn">from</span> <span class="nn">Bam</span> <span class="k">import</span> <span class="n">Bam</span>
-<span class="kn">from</span> <span class="nn">BedSimpleRepeats</span> <span class="k">import</span> <span class="n">BedSimpleRepeats</span>
-<span class="kn">from</span> <span class="nn">Bed</span> <span class="k">import</span> <span class="n">Bed</span>
-<span class="kn">from</span> <span class="nn">BigWig</span> <span class="k">import</span> <span class="n">BigWig</span>
-<span class="kn">from</span> <span class="nn">util.Fasta</span> <span class="k">import</span> <span class="n">Fasta</span>
-<span class="kn">from</span> <span class="nn">util.Filters</span> <span class="k">import</span> <span class="n">TraceBackFormatter</span>
-<span class="kn">from</span> <span class="nn">Gff3</span> <span class="k">import</span> <span class="n">Gff3</span>
-<span class="kn">from</span> <span class="nn">Gtf</span> <span class="k">import</span> <span class="n">Gtf</span>
-<span class="kn">from</span> <span class="nn">Psl</span> <span class="k">import</span> <span class="n">Psl</span>
-<span class="kn">from</span> <span class="nn">TrackHub</span> <span class="k">import</span> <span class="n">TrackHub</span>
+<span class="kn">from</span> <span class="nn">Bam</span> <span class="kn">import</span> <span class="n">Bam</span>
+<span class="kn">from</span> <span class="nn">BedSimpleRepeats</span> <span class="kn">import</span> <span class="n">BedSimpleRepeats</span>
+<span class="kn">from</span> <span class="nn">Bed</span> <span class="kn">import</span> <span class="n">Bed</span>
+<span class="kn">from</span> <span class="nn">BigWig</span> <span class="kn">import</span> <span class="n">BigWig</span>
+<span class="kn">from</span> <span class="nn">util.Fasta</span> <span class="kn">import</span> <span class="n">Fasta</span>
+<span class="kn">from</span> <span class="nn">util.Filters</span> <span class="kn">import</span> <span class="n">TraceBackFormatter</span>
+<span class="kn">from</span> <span class="nn">Gff3</span> <span class="kn">import</span> <span class="n">Gff3</span>
+<span class="kn">from</span> <span class="nn">Gtf</span> <span class="kn">import</span> <span class="n">Gtf</span>
+<span class="kn">from</span> <span class="nn">Psl</span> <span class="kn">import</span> <span class="n">Psl</span>
+<span class="kn">from</span> <span class="nn">TrackHub</span> <span class="kn">import</span> <span class="n">TrackHub</span>
 
 <span class="c1"># TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort</span>
 
@@ -209,7 +207,7 @@
     <span class="n">all_datatype_ordered_dictionary</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">all_datatype_dictionary</span><span class="p">)</span>
 
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;----- End of all_datatype_dictionary processing -----&quot;</span><span class="p">)</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;all_datatype_ordered_dictionary keys are: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">all_datatype_ordered_dictionary</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;all_datatype_ordered_dictionary keys are: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">all_datatype_ordered_dictionary</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;----- Beginning of Track adding processing -----&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">datatypeObject</span> <span class="ow">in</span> <span class="n">all_datatype_ordered_dictionary</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
@@ -287,7 +285,7 @@
                 <span class="n">datatype_dictionary</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">data_value</span><span class="p">[</span><span class="s2">&quot;order_index&quot;</span><span class="p">]:</span> <span class="n">extensionObject</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">datatype_dictionary</span></div>
 
-<div class="viewcode-block" id="configure_logger"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger">[docs]</a><span class="k">def</span> <span class="nf">configure_logger</span><span class="p">(</span><span class="n">extra_files_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="configure_logger"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger">[docs]</a><span class="k">def</span> <span class="nf">configure_logger</span><span class="p">(</span><span class="n">extra_files_path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Configure the logger depending on the option chosen:</span>
 <span class="sd">    Dev or User.</span>
 
@@ -321,7 +319,7 @@
 
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;#### Welcome in HubArchiveCreator Debug Mode ####</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="configure_logger_user"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger_user">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_user</span><span class="p">(</span><span class="n">log_stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="configure_logger_user"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger_user">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_user</span><span class="p">(</span><span class="n">log_stdout</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    User Logger is defined as following:</span>
 <span class="sd">        - User needs to have WARN, ERROR and CRITICAL but well formatted / without traceback</span>
@@ -347,7 +345,7 @@
 
     <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">log_stdout</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="configure_logger_dev"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger_dev">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_dev</span><span class="p">(</span><span class="n">log_stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="configure_logger_dev"><a class="viewcode-back" href="../code_documentation/main_entry_point.html#hubArchiveCreator.configure_logger_dev">[docs]</a><span class="k">def</span> <span class="nf">configure_logger_dev</span><span class="p">(</span><span class="n">log_stdout</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dev Logger is defined as following:</span>
 <span class="sd">        - Dev needs to have WARN, ERROR and CRITICAL but well formatted / without traceback, in stdout</span>
@@ -395,11 +393,14 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -415,13 +416,13 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2016, Remi Marenco.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+        &copy; Copyright 2016, Remi Marenco.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
     </div>
   </body>
 </html>

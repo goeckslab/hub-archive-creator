@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Bam &mdash; HubArchiveCreator 2.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="HubArchiveCreator 2.3 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Bam</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># -*- coding: utf8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Class to handle Bam files to UCSC TrackHub</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="kn">from</span> <span class="nn">Datatype</span> <span class="kn">import</span> <span class="n">Datatype</span>
+<span class="kn">from</span> <span class="nn">Track</span> <span class="kn">import</span> <span class="n">Track</span>
+<span class="kn">from</span> <span class="nn">TrackDb</span> <span class="kn">import</span> <span class="n">TrackDb</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">subtools</span>
+
+
+<div class="viewcode-block" id="Bam"><a class="viewcode-back" href="../code_documentation/datatypes/specific_datatypes/bam.html#Bam.Bam">[docs]</a><span class="k">class</span> <span class="nc">Bam</span><span class="p">(</span> <span class="n">Datatype</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_bam_false_path</span><span class="p">,</span> <span class="n">data_bam</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">track</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_bam_false_path</span> <span class="o">=</span> <span class="n">input_bam_false_path</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_bam</span> <span class="o">=</span> <span class="n">data_bam</span>
+        <span class="c1"># TODO: Check if it already contains the .bam extension / Do a function in Datatype which check the extension</span>
+        <span class="k">if</span> <span class="s2">&quot;.bam&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_bam</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name_bam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_bam</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.bam&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name_bam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_bam</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_bam</span><span class="p">[</span><span class="s2">&quot;order_index&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index_bam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_bam</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span>
+        <span class="c1"># TODO: Think about how to avoid repetition of the color treatment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">track_color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_bam</span><span class="p">[</span><span class="s2">&quot;track_color&quot;</span><span class="p">]</span>
+
+        <span class="c1"># TODO: Think about how to avoid repetition of the group_name everywhere</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">group_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_bam</span><span class="p">[</span><span class="s2">&quot;group_name&quot;</span><span class="p">]</span>
+
+        <span class="c1"># First: Add the bam file</span>
+        <span class="c1"># Second: Add the bam index file, in the same folder (https://genome.ucsc.edu/goldenpath/help/bam.html)</span>
+
+        <span class="n">bam_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myTrackFolderPath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_bam</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_bam_false_path</span><span class="p">,</span> <span class="n">bam_file_path</span><span class="p">)</span>
+
+        <span class="c1"># Create and add the bam index file to the same folder</span>
+        <span class="n">name_index_bam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_bam</span> <span class="o">+</span> <span class="s2">&quot;.bai&quot;</span>
+        <span class="n">bam_index_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myTrackFolderPath</span><span class="p">,</span> <span class="n">name_index_bam</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_bam</span><span class="p">,</span> <span class="n">bam_index_file_path</span><span class="p">)</span>
+
+        <span class="c1"># Create the Track Object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createTrack</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name_bam</span><span class="p">,</span>
+                         <span class="n">track_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name_bam</span><span class="p">,</span>
+                         <span class="n">long_label</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name_bam</span><span class="p">,</span> <span class="n">track_type</span><span class="o">=</span><span class="s1">&#39;bam&#39;</span><span class="p">,</span> <span class="n">visibility</span><span class="o">=</span><span class="s1">&#39;pack&#39;</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span>
+                         <span class="n">track_file</span><span class="o">=</span><span class="n">bam_index_file_path</span><span class="p">,</span>
+                         <span class="n">track_color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">track_color</span><span class="p">,</span>
+                         <span class="n">group_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">group_name</span>
+                         <span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># dataURL = &quot;tracks/%s&quot; % self.name_bam</span>
+        <span class="c1">#</span>
+        <span class="c1"># trackDb = TrackDb(</span>
+        <span class="c1">#     trackName=self.name_bam,</span>
+        <span class="c1">#     longLabel=self.name_bam,</span>
+        <span class="c1">#     shortLabel=self.getShortName( self.name_bam ),</span>
+        <span class="c1">#     trackDataURL=dataURL,</span>
+        <span class="c1">#     trackType=&#39;bam&#39;,</span>
+        <span class="c1">#     visibility=&#39;pack&#39;,</span>
+        <span class="c1">#     priority=self.priority,</span>
+        <span class="c1"># )</span>
+        <span class="c1">#</span>
+        <span class="c1"># # Return the Bam Track Object</span>
+        <span class="c1"># self.track = Track(</span>
+        <span class="c1">#     trackFile=bam_index_file_path,</span>
+        <span class="c1">#     trackDb=trackDb,</span>
+        <span class="c1"># )</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;- Bam </span><span class="si">%s</span><span class="s2"> created&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_bam</span><span class="p">)</span></div>
+        <span class="c1">#print(&quot;- %s created in %s&quot; % (self.name_bam, bam_file_path))</span>
+        <span class="c1">#print(&quot;- %s created in %s&quot; % (self.index_bam, bam_index_file_path))</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Remi Marenco.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+    </div>
+  </body>
+</html>

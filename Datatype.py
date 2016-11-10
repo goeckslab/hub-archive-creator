@@ -14,7 +14,10 @@ from TrackDb import TrackDb
 
 
 class Datatype(object):
-
+    """This class is an abstract class representing an UCSC Track Hub datatype.
+    His role is to gather the common operation and handle the read-only shared variables
+    (like the reference genome file pointer)
+    """
     twoBitFile = None
 
     input_fasta_file = None
@@ -30,7 +33,9 @@ class Datatype(object):
     track = None
 
     def __init__(self):
-
+        """The init function checks if the Object has properly been initiated, via pre_init function,
+        before being invoked.
+        """
         not_init_message = "The {0} is not initialized." \
                            "Did you use pre_init static method first?"
         if Datatype.input_fasta_file is None:
@@ -43,6 +48,19 @@ class Datatype(object):
     @staticmethod
     def pre_init(reference_genome, two_bit_path, chrom_sizes_file,
                  extra_files_path, tool_directory, specie_folder, tracks_folder):
+        """This method is mandatory before using ANY datatype.
+        His role is to initialized all the variables for the datatypes to properly work.
+
+        :param reference_genome: Fasta object of the reference genome
+        :type reference_genome: :class:`util.Fasta.Fasta`
+        :param two_bit_path:
+        :param chrom_sizes_file:
+        :param extra_files_path:
+        :param tool_directory:
+        :param specie_folder:
+        :param tracks_folder:
+        :return:
+        """
         Datatype.extra_files_path = extra_files_path
         Datatype.tool_directory = tool_directory
 

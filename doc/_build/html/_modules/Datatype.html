@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Datatype &mdash; HubArchiveCreator 2.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="HubArchiveCreator 2.3 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Datatype</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># -*- coding: utf8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Super Class of the managed datatype</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">subtools</span>
+<span class="kn">from</span> <span class="nn">Track</span> <span class="kn">import</span> <span class="n">Track</span>
+<span class="kn">from</span> <span class="nn">TrackDb</span> <span class="kn">import</span> <span class="n">TrackDb</span>
+
+
+<div class="viewcode-block" id="Datatype"><a class="viewcode-back" href="../code_documentation/datatypes/generic_datatype.html#Datatype.Datatype">[docs]</a><span class="k">class</span> <span class="nc">Datatype</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class is an abstract class representing an UCSC Track Hub datatype.</span>
+<span class="sd">    His role is to gather the common operation and handle the read-only shared variables</span>
+<span class="sd">    (like the reference genome file pointer)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">twoBitFile</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">input_fasta_file</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">extra_files_path</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">tool_directory</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">mySpecieFolderPath</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">myTrackFolderPath</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">twoBitFile</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">chromSizesFile</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">track</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The init function checks if the Object has properly been initiated, via pre_init function,</span>
+<span class="sd">        before being invoked.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">not_init_message</span> <span class="o">=</span> <span class="s2">&quot;The {0} is not initialized.&quot;</span> \
+                           <span class="s2">&quot;Did you use pre_init static method first?&quot;</span>
+        <span class="k">if</span> <span class="n">Datatype</span><span class="o">.</span><span class="n">input_fasta_file</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">not_init_message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;reference genome&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">Datatype</span><span class="o">.</span><span class="n">extra_files_path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">not_init_message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;track Hub path&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">Datatype</span><span class="o">.</span><span class="n">tool_directory</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">not_init_message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;tool directory&#39;</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Datatype.pre_init"><a class="viewcode-back" href="../code_documentation/datatypes/generic_datatype.html#Datatype.Datatype.pre_init">[docs]</a>    <span class="k">def</span> <span class="nf">pre_init</span><span class="p">(</span><span class="n">reference_genome</span><span class="p">,</span> <span class="n">two_bit_path</span><span class="p">,</span> <span class="n">chrom_sizes_file</span><span class="p">,</span>
+                 <span class="n">extra_files_path</span><span class="p">,</span> <span class="n">tool_directory</span><span class="p">,</span> <span class="n">specie_folder</span><span class="p">,</span> <span class="n">tracks_folder</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method is mandatory before using ANY datatype.</span>
+<span class="sd">        His role is to initialized all the variables for the datatypes to properly work.</span>
+
+<span class="sd">        :param reference_genome: Fasta object of the reference genome</span>
+<span class="sd">        :type reference_genome: :class:`util.Fasta.Fasta`</span>
+<span class="sd">        :param two_bit_path:</span>
+<span class="sd">        :param chrom_sizes_file:</span>
+<span class="sd">        :param extra_files_path:</span>
+<span class="sd">        :param tool_directory:</span>
+<span class="sd">        :param specie_folder:</span>
+<span class="sd">        :param tracks_folder:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Datatype</span><span class="o">.</span><span class="n">extra_files_path</span> <span class="o">=</span> <span class="n">extra_files_path</span>
+        <span class="n">Datatype</span><span class="o">.</span><span class="n">tool_directory</span> <span class="o">=</span> <span class="n">tool_directory</span>
+
+        <span class="c1"># TODO: All this should be in TrackHub and not in Datatype</span>
+        <span class="n">Datatype</span><span class="o">.</span><span class="n">mySpecieFolderPath</span> <span class="o">=</span> <span class="n">specie_folder</span>
+        <span class="n">Datatype</span><span class="o">.</span><span class="n">myTrackFolderPath</span> <span class="o">=</span> <span class="n">tracks_folder</span>
+
+        <span class="n">Datatype</span><span class="o">.</span><span class="n">input_fasta_file</span> <span class="o">=</span> <span class="n">reference_genome</span>
+
+        <span class="c1"># 2bit file creation from input fasta</span>
+        <span class="n">Datatype</span><span class="o">.</span><span class="n">twoBitFile</span> <span class="o">=</span> <span class="n">two_bit_path</span>
+        <span class="n">Datatype</span><span class="o">.</span><span class="n">chromSizesFile</span> <span class="o">=</span> <span class="n">chrom_sizes_file</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Datatype.get_largest_scaffold_name"><a class="viewcode-back" href="../code_documentation/datatypes/generic_datatype.html#Datatype.Datatype.get_largest_scaffold_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_largest_scaffold_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># We can get the biggest scaffold here, with chromSizesFile</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Datatype</span><span class="o">.</span><span class="n">chromSizesFile</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">chrom_sizes</span><span class="p">:</span>
+            <span class="c1"># TODO: Check if exists</span>
+            <span class="k">return</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
+
+    <span class="c1"># TODO: Rename for PEP8</span>
+<div class="viewcode-block" id="Datatype.getShortName"><a class="viewcode-back" href="../code_documentation/datatypes/generic_datatype.html#Datatype.Datatype.getShortName">[docs]</a>    <span class="k">def</span> <span class="nf">getShortName</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">name_to_shortify</span> <span class="p">):</span>
+        <span class="c1"># Slice to get from Long label the short label</span>
+        <span class="n">short_label_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">name_to_shortify</span><span class="p">[</span><span class="n">short_label_slice</span><span class="p">]</span></div>
+
+    <span class="c1"># TODO: Better handle parameters, use heritance mecanism</span>
+    <span class="c1"># TODO: Use default parameters for some, like visibility</span>
+<div class="viewcode-block" id="Datatype.createTrack"><a class="viewcode-back" href="../code_documentation/datatypes/generic_datatype.html#Datatype.Datatype.createTrack">[docs]</a>    <span class="k">def</span> <span class="nf">createTrack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                    <span class="n">file_path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                    <span class="n">track_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">long_label</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">thick_draw_item</span><span class="o">=</span><span class="s1">&#39;off&#39;</span><span class="p">,</span>
+                    <span class="n">short_label</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">track_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">visibility</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                    <span class="n">track_file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">track_color</span><span class="o">=</span><span class="s1">&#39;#000000&#39;</span><span class="p">,</span> <span class="n">group_name</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span><span class="p">):</span>
+
+        <span class="c1"># TODO: Remove the hardcoded &quot;tracks&quot; by the value used as variable from myTrackFolderPath</span>
+        <span class="n">data_url</span> <span class="o">=</span> <span class="s2">&quot;tracks/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">file_path</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">short_label</span><span class="p">:</span>
+            <span class="n">short_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getShortName</span><span class="p">(</span><span class="n">long_label</span><span class="p">)</span>
+
+        <span class="c1"># Replace &#39;_&#39; by &#39; &#39;, to invert the sanitization mecanism</span>
+        <span class="c1"># TODO: Find a better way to manage the sanitization of file path</span>
+        <span class="n">long_label</span> <span class="o">=</span> <span class="n">long_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">short_label</span> <span class="o">=</span> <span class="n">short_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+        <span class="c1">#TODO: Check if rgb or hexa</span>
+        <span class="c1"># Convert hexa to rgb array</span>
+        <span class="n">hexa_without_sharp</span> <span class="o">=</span> <span class="n">track_color</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+        <span class="n">rgb_array</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">hexa_without_sharp</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+        <span class="n">rgb_ucsc</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">rgb_array</span><span class="p">))</span>
+
+        <span class="n">track_db</span> <span class="o">=</span> <span class="n">TrackDb</span><span class="p">(</span>
+                <span class="n">trackName</span><span class="o">=</span><span class="n">track_name</span><span class="p">,</span>
+                <span class="n">longLabel</span><span class="o">=</span><span class="n">long_label</span><span class="p">,</span>
+                <span class="n">shortLabel</span><span class="o">=</span><span class="n">short_label</span><span class="p">,</span>
+                <span class="n">trackDataURL</span><span class="o">=</span><span class="n">data_url</span><span class="p">,</span>
+                <span class="n">trackType</span><span class="o">=</span><span class="n">track_type</span><span class="p">,</span>
+                <span class="n">visibility</span><span class="o">=</span><span class="n">visibility</span><span class="p">,</span>
+                <span class="n">thickDrawItem</span><span class="o">=</span><span class="n">thick_draw_item</span><span class="p">,</span>
+                <span class="n">priority</span><span class="o">=</span><span class="n">priority</span><span class="p">,</span>
+                <span class="n">track_color</span><span class="o">=</span><span class="n">rgb_ucsc</span><span class="p">,</span>
+                <span class="n">group_name</span><span class="o">=</span><span class="n">group_name</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Return the Bam Track Object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">track</span> <span class="o">=</span> <span class="n">Track</span><span class="p">(</span>
+                <span class="n">trackFile</span><span class="o">=</span><span class="n">track_file</span><span class="p">,</span>
+                <span class="n">trackDb</span><span class="o">=</span><span class="n">track_db</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Remi Marenco.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+    </div>
+  </body>
+</html>

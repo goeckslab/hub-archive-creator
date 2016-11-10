@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Main entry point: hubArchiveCreator.py &#8212; HubArchiveCreator 2.3 documentation</title>
+    <title>Main entry point: hubArchiveCreator.py &mdash; HubArchiveCreator 2.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,10 +24,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
     <link rel="top" title="HubArchiveCreator 2.3 documentation" href="../index.html" />
     <link rel="up" title="Code documentation" href="../code.html" />
+    <link rel="next" title="Supported datatypes" href="datatype.html" />
     <link rel="prev" title="Code documentation" href="../code.html" /> 
   </head>
   <body role="document">
@@ -41,10 +40,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="datatype.html" title="Supported datatypes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
           <a href="../code.html" title="Code documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../code.html" accesskey="U">Code documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../code.html" accesskey="U">Code documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -68,8 +70,8 @@ Dev or User.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>extra_files_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Path where all the outputs will be stored. Displayed in the HTML.</li>
-<li><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Flag to configure the logger with extra debug messages or not.</li>
+<li><strong>extra_files_path</strong> (<a class="reference external" href="https://docs.python.org/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Path where all the outputs will be stored. Displayed in the HTML.</li>
+<li><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Flag to configure the logger with extra debug messages or not.</li>
 </ul>
 </td>
 </tr>
@@ -128,7 +130,7 @@ Dev or User.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>log_stdout</strong> (<a class="reference external" href="https://docs.python.org/2/library/logging.handlers.html#logging.StreamHandler" title="(in Python v2.7)"><em>logging.StreamHandler</em></a>) &#8211; StreamHandler to configure for user.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>log_stdout</strong> (<a class="reference external" href="https://docs.python.org/library/logging.handlers.html#logging.StreamHandler" title="(in Python v2.7)"><em>logging.StreamHandler</em></a>) &#8211; StreamHandler to configure for user.</td>
 </tr>
 </tbody>
 </table>
@@ -144,7 +146,7 @@ and update the dictionary of datatype</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ExtensionClass</strong> (<em>Datatype</em>) &#8211; </li>
+<li><strong>ExtensionClass</strong> (<a class="reference internal" href="datatypes/generic_datatype.html#Datatype.Datatype" title="Datatype.Datatype"><em>Datatype</em></a>) &#8211; </li>
 <li><strong>array_inputs</strong> (<em>list[string]</em>) &#8211; Array of the false_path given by Galaxy. These paths are the location of the input files.</li>
 <li><strong>inputs_data</strong> (<em>dict{FILE_PATH: dict{NAME: NAME_VALUE, EXTRA_DATA: EXTRA_DATA_VALUE}}]</em>) &#8211; Dictionary containing the Galaxy false path as key, and the data as values</li>
 </ul>
@@ -153,7 +155,7 @@ and update the dictionary of datatype</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An ordered dictionary of generic Datatype objects</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
 </td>
 </tr>
 </tbody>
@@ -193,7 +195,7 @@ of creating a UCSC TrackHub output.</p>
 </tr>
 </tbody>
 </table>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sanitize_name_input</span><span class="p">(</span><span class="s1">&#39;this/is an//example&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sanitize_name_input</span><span class="p">(</span><span class="s1">&#39;this/is an//example&#39;</span><span class="p">)</span>
 <span class="go">this_is_an__example</span>
 </pre></div>
 </div>
@@ -226,6 +228,9 @@ Also, it can contain &#8216;/&#8217; character and could break the use of os.pat
   <h4>Previous topic</h4>
   <p class="topless"><a href="../code.html"
                         title="previous chapter">Code documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="datatype.html"
+                        title="next chapter">Supported datatypes</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -236,11 +241,14 @@ Also, it can contain &#8216;/&#8217; character and could break the use of os.pat
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -257,15 +265,18 @@ Also, it can contain &#8216;/&#8217; character and could break the use of os.pat
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="datatype.html" title="Supported datatypes"
+             >next</a> |</li>
+        <li class="right" >
           <a href="../code.html" title="Code documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../code.html" >Code documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">HubArchiveCreator 2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../code.html" >Code documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2016, Remi Marenco.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+        &copy; Copyright 2016, Remi Marenco.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
     </div>
   </body>
 </html>

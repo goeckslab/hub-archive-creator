@@ -1,4 +1,4 @@
-The G-OnRamp Tutorial
+G-OnRamp Tutorials
 =====================
 
 G-OnRamp allows you to visualize your genome tracks in UCSC Track Hub using Galaxy.

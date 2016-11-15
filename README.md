@@ -1,4 +1,4 @@
-.. image:: https://readthedocs.org/projects/g-onramp/badge/?version=latest
+[![Documentation Status](https://readthedocs.org/projects/g-onramp/badge/?version=documentation)](http://g-onramp.readthedocs.io/en/documentation/?badge=documentation)
 
 # Hub Archive Creator
 This Galaxy tool permits to prepare your files to be ready for Assembly Hub visualization.

@@ -1,3 +1,5 @@
+.. image:: https://readthedocs.org/projects/g-onramp/badge/?version=latest
+
 # Hub Archive Creator
 This Galaxy tool permits to prepare your files to be ready for Assembly Hub visualization.
 

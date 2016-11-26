@@ -1,37 +1,3 @@
-### TEMP St Louis ###
-- How to manage messages to user and debugging:
-    - User should receive INFO / WARN / ERROR / CRITICAL:
-        - User summary informations in stdout
-        - Full error in stderr
-    - Developer should receive all Logging stack:
-        - Not the user summary in stdout
-        - Full stack in stdout and stderr directly
-
-    - HOWTO:
-        - Manage (at least) two type of Logging types:
-            - The user one => When Debug mode is not set or disabled
-            - The dev one => When Debug mode is enabled
-        - User:
-            - Two Handlers: stdout and stderr
-            - STDOUT:
-                - Filter stdout:
-                    - NO ERROR and CRITICAL here
-                    - (Warn)
-                - Formatter:
-                    - Only show %(message) for clarity
-            - STDERR:
-                - Filter stderr => WARN / ERRROR / CRITICAL
-                - Formatter:
-                    - Show message
-                    - Show traceback
-        - Dev:
-            - One Handler:
-                - To both stdout and stderr
-            - Filter:
-                - Nope?
-            - Formatter:
-                - Show traceback in both
-
 # HubArchiveCreator's TODO
 
 *TODO file inspired from: http://lifehacker.com/why-a-github-gist-is-my-favorite-to-do-list-1493063613*
@@ -43,25 +9,25 @@
 - [ ] Move the class and others program related files, into separated folders
 - [ ] Take into account the name of the reference genome / the change:
   - [ ] Somebody could want to launch two visualisations of two different genomes. Repeats of Genome with extensions associated
-- [ ] Add TDD => First add the test. It should not pass. Implement. It should now pass :)
-- [ ] Replace Gff3 by an abstract class GeneralFormat, with two sub-classes GFF3Format and GTFFormat
-- [ ] TrackHub should check if the 2bit already exists instead of recreating it (which is the case atm)
+- [ ] Replace Gff3/GTF by an abstract class GeneralFormat, with two sub-classes GFF3Format and GTFFormat
 - [ ] Manage the error when a user is selecting Generic Bed instead of Bed Simple Repeats. Two options: a. Output a better error message ("Check with the other Bed options") b. Identify internally this is not a regular BED but a specific one
 - [ ] Remove the non-explicit parameters for the communication between Galaxy Wrapper and the entry point
-- [ ] Rename all occurences of `extension` which `datatype`
+- [ ] Rename all occurences of `extension` with `datatype`
 - [ ] Follow https://google.github.io/styleguide/pyguide.html
-- [ ] Move to Python 3
-- [ ] Remove the repetition of the extension if it already exists
+- [ ] Migrate to Python 3
+- [ ] Remove the repetition of the extension file if it already exists
 - [ ] Better thinking about the tool_directory management / Classes path refactoring
-- [ ] Add a debug mode to have more outputs
-- [ ] Improve the standard output of HAC
-- [ ] Find why a $ (newline) is added when installing dependencies from tool_dependencies.xml
-- [ ] Sort the order of the HTML directories/files
 
 ### DONE
 
 
+- [x] Add TDD => First add the test. It should not pass. Implement. It should now pass :)
+- [x] TrackHub should check if the 2bit already exists instead of recreating it (which is the case atm)
+- [x] Add a debug mode to have more outputs
+- [x] Improve the standard output of HAC
 - [x] Each time a file is added => Print it in the output with the full path (or relative path to root)
+- [x] Find why a $ (newline) is added when installing dependencies from tool_dependencies.xml
+- [x] Sort the order of the HTML directories/files
 - [x] Add a script for Linux.x86_64 to download and and chmod +x the dependencies for local testing => util/install_linux_binaries.py
 - [x] Add sorting BED if not sorted (Use the output of bedToBigBed)
 - [x] Add a script to install the huba datatype

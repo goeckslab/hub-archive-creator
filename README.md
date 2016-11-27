@@ -5,6 +5,8 @@ This Galaxy tool permits to prepare your files to be ready for Assembly Hub visu
 
 Into a publicly accessible Galaxy (Linux for maximum tools compatibility), you will be able to use UCSC Genome Browser fonctionality to see your tracks.
 
+**You can have access to the full documentation [here](http://g-onramp.readthedocs.io/).**
+
 ## Features
 1. Create a structure for your tracks, and convert them to more efficient datatypes (e.g Bed => BigBed)
 2. Benefits from Galaxy strong features as well as UCSC Genome Browser's ones without the hassle to move your data from one to another

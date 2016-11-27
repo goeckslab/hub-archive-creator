@@ -1,5 +1,5 @@
-Welcome in the documentation of HAC!
-------------------------------------
+Welcome in the documentation of Hub Archive Creator!
+----------------------------------------------------
 
 Are you looking for the documentation? [Here](http://g-onramp.readthedocs.io/) it is ;).
 

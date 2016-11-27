@@ -5,6 +5,7 @@
 ### TO COMPLETE
 
 
+- [ ] Parse the [JSON received from Galaxy inputs](hubArchiveCreator.xml#L47-L137) in a class instead of doing [this spaghetti code](hubArchiveCreator.py#L137-L149)
 - [ ] Don't let the Tool Classes manage the archive (add or remove files / folders) => Everything should pass through TrackHub or another class dedicated to that
 - [ ] Move the class and others program related files, into separated folders
 - [ ] Take into account the name of the reference genome / the change:

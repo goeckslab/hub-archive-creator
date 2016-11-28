@@ -49,6 +49,90 @@ Once you are done, you will be able to understand the following:
 3. HubArchiveCreator testing workflow
 -------------------------------------
 
-3. G-OnRamp <=> UCSC Track Hub: Manual part
+**Requirements**:
+
+  - Python 2.7
+  - Planemo (`pip install planemo` or any other package management supporting it)
+  - HubArchiveCreator (`git clone`)
+
+As a developer, you are invited to test your code as much as you can. It has a slight cost upfront, but save you big
+overtime.
+
+The workflow in HubArchiveCreator follows TDD guidelines when implementing a new feature:
+
+1. Write the test (find below the explanation)
+***********************************************
+
+Example:
+++++++++
+
+.. code-block:: xml
+
+  <!-- Test with only the fasta file -->
+  <test>
+      <param name="genome_name" value="Dbia3"/>
+      <param name="fasta_file" value="common/dbia3.fa"/>
+      <output name="output" file="only_genome/only_genome.html">
+          <extra_files type="file" name="__main__.log" value="only_genome/__main__.log" />
+          <extra_files type="file" name="myHub/genomes.txt" value="only_genome/myHub/genomes.txt" />
+          <extra_files type="file" name="myHub/Dbia3.html" value="only_genome/myHub/Dbia3.html"/>
+          <!-- Email could be different, but we need to ensure we still have the email line -->
+          <extra_files type="file" name="myHub/hub.txt" value="only_genome/myHub/hub.txt" lines_diff="2">
+              <assert_contents>
+                  <has_text text="email"/>
+              </assert_contents>
+          </extra_files>
+          <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
+          </extra_files>
+          <extra_files type="file" name="myHub/Dbia3/description.html" value="only_genome/myHub/Dbia3/description.html"/>
+      </output>
+  </test>
+
+Explanation:
+++++++++++++
+
+<test> Markup:
+``````````````
+
+.. code-block:: xml
+
+  <!-- Test with only the fasta file -->
+  <test>
+      ...
+  </test>
+
+This piece of code uses a comment first (`<!-- Content -->`) to explain the type of test,
+**then** opens the `test` XML markup to tell Galaxy/Planemo the content is a test.
+
+Follow the `tool syntax documentation <https://docs.galaxyproject.org/en/latest/dev/schema.html#tool-tests-test>`_
+for more details.
+
+<param> Markup:
+```````````````
+
+.. code-block:: xml
+
+  <param name="genome_name" value="Dbia3"/>
+  <param name="fasta_file" value="common/dbia3.fa"/>
+
+This piece of code use the `param` XML markup to tell Galaxy/Planemo to use these two files as input for our tool.
+
+`name` matches the name of the associated input parameter in the tool definition file. For us, **genome_name** can
+be found `here <https://github.com/remimarenco/hub-archive-creator/blob/master/hubArchiveCreator.xml#L162-L168>`_:
+
+.. code-block:: xml
+
+  <param
+        name="genome_name"
+        type="text"
+        size="30"
+        value="unknown"
+        label="UCSC Genome Browser assembly ID"
+  />
+
+`value` matches one of the legal values that can be assigned to this very input parameter. For `genome_name`, we
+can see it is a type `text` (look again above). So we have assigned to it a simple string `Dbia3`.
+
+4. G-OnRamp <=> UCSC Track Hub: Manual part
 -------------------------------------------
 

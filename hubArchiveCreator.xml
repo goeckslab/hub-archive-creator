@@ -111,6 +111,11 @@
                         #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats, $index_track_final,
                                                 extra_data_dict)
                     #end if
+                    #if $f.formatChoice.bedChoice.bed_select == "bed_splice_junctions_option"
+                        --bedSpliceJunctions $f.formatChoice.bedChoice.Bed_splice_junctions
+                        #silent $prepare_json($f.formatChoice.bedChoice.BED_splice_junctions, $index_track_final,
+                                                extra_data_dict)
+                    #end if
                 #end if
                 #if $f.formatChoice.format_select == "psl"
                     --psl $f.formatChoice.PSL
@@ -206,6 +211,7 @@
                             <param name="bed_select" type="select" label="Bed Choice">
                                 <option value="bed_generic" selected="true">BED Generic (bed3+)</option>
                                 <option value="bed_simple_repeats_option">BED Simple repeat (bed4+12 / simpleRepeat.as)</option>
+                                <option value="bed_splice_junctions_option">BED Splice junctions (bed12+1 / spliceJunctions.as)</option>
                             </param>
                             <when value="bed_generic">
                                 <param
@@ -222,6 +228,14 @@
                                         name="BED_simple_repeats"
                                         type="data"
                                         label="Bed Simple Repeats (Bed4+12) File"
+                                />
+                            </when>
+                            <when value="bed_splice_junctions_option">
+                                <param
+                                        format="bed"
+                                        name="BED_splice_junctions"
+                                        type="data"
+                                        label="Bed Splice Junctions (Bed12+1) File"
                                 />
                             </when>
                         </conditional>
@@ -442,6 +456,7 @@
                 />
             </output>
         </test>
+        
 
         <!-- Test with Psl -->
         <test>

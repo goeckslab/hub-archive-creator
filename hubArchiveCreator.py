@@ -18,6 +18,7 @@ import sys
 # Internal dependencies
 from Bam import Bam
 from BedSimpleRepeats import BedSimpleRepeats
+from BedSpliceJunctions import BedSpliceJunctions
 from Bed import Bed
 from BigWig import BigWig
 from util.Fasta import Fasta
@@ -45,6 +46,9 @@ def main(argv):
 
     # Bed4+12 (TrfBig)
     parser.add_argument('--bedSimpleRepeats', action='append', help='Bed4+12 format, using simpleRepeats.as')
+
+    # Bed12+1 (regtools)
+    parser.add_argument('--bedSpliceJunctions', action='append', help='Bed12+1 format, using spliceJunctions.as')
 
     # Generic Bed (Blastx transformed to bed)
     parser.add_argument('--bed', action='append', help='Bed generic format')
@@ -113,6 +117,7 @@ def main(argv):
     array_inputs_bam = args.bam
     array_inputs_bed_generic = args.bed
     array_inputs_bed_simple_repeats = args.bedSimpleRepeats
+    array_inputs_bed_splice_junctions = args.bedSpliceJunctions
     array_inputs_bigwig = args.bigwig
     array_inputs_gff3 = args.gff3
     array_inputs_gtf = args.gtf
@@ -139,6 +144,7 @@ def main(argv):
                         (array_inputs_bed_generic, Bed),
                         (array_inputs_bigwig, BigWig),
                         (array_inputs_bed_simple_repeats, BedSimpleRepeats),
+                        (array_inputs_bed_splice_junctions, BedSpliceJunctions),
                         (array_inputs_gff3, Gff3),
                         (array_inputs_gtf, Gtf),
                         (array_inputs_psl, Psl)]:

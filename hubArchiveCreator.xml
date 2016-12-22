@@ -112,7 +112,7 @@
                                                 extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_splice_junctions_option"
-                        --bedSpliceJunctions $f.formatChoice.bedChoice.Bed_splice_junctions
+                        --bedSpliceJunctions $f.formatChoice.bedChoice.BED_splice_junctions
                         #silent $prepare_json($f.formatChoice.bedChoice.BED_splice_junctions, $index_track_final,
                                                 extra_data_dict)
                     #end if

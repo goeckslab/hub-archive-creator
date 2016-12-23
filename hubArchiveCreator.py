@@ -27,6 +27,7 @@ from Gff3 import Gff3
 from Gtf import Gtf
 from Psl import Psl
 from TrackHub import TrackHub
+from bigPsl import bigPsl
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -52,6 +53,9 @@ def main(argv):
 
     # Generic Bed (Blastx transformed to bed)
     parser.add_argument('--bed', action='append', help='Bed generic format')
+
+    # Bed12+12 (tblastn)
+    parser.add_argument('--bigpsl', action='append', help='bigPsl format')
 
     # BigWig Management
     parser.add_argument('--bigwig', action='append', help='BigWig format')
@@ -122,6 +126,7 @@ def main(argv):
     array_inputs_gff3 = args.gff3
     array_inputs_gtf = args.gtf
     array_inputs_psl = args.psl
+    array_inputs_bigpsl = args.bigpsl
 
     outputFile = args.output
 
@@ -147,7 +152,8 @@ def main(argv):
                         (array_inputs_bed_splice_junctions, BedSpliceJunctions),
                         (array_inputs_gff3, Gff3),
                         (array_inputs_gtf, Gtf),
-                        (array_inputs_psl, Psl)]:
+                        (array_inputs_psl, Psl),
+                        (array_inputs_bigpsl, bigPsl)]:
         if inputs:
             all_datatype_dictionary.update(create_ordered_datatype_objects(datatype_class, inputs, inputs_data))
 

@@ -37,7 +37,7 @@ class bigPsl( Datatype ):
             subtools.bedToBigBed(self.input_bigpsl_false_path,
                                  self.chromSizesFile.name,
                                  bigBedFile.name,
-                                 typeOption='bed12+12',
+                                 typeOption='bed12+13',
                                  tab='True',
                                  autoSql=auto_sql_option)
 

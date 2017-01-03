@@ -6,7 +6,7 @@ table bigPsl
     uint   chromEnd;    "End position in chromosome"
     string name;        "Name or ID of item, ideally both human readable and unique"
     uint score;         "Score (0-1000)"
-    char[1] strand;     "+ or - indicates whether the query aligns to the + or - strand on the reference"
+    char[1] strand;     "+ or - for strand"
     uint thickStart;    "Start of where display should be thick (start codon)"
     uint thickEnd;      "End of where display should be thick (stop codon)"
     uint reserved;       "RGB value (use R,G,B string in input file)"
@@ -16,9 +16,9 @@ table bigPsl
 
     uint    oChromStart;"Start position in other chromosome"
     uint    oChromEnd;  "End position in other chromosome"
-    char[1] oStrand;    "+ or -, - means that psl was reversed into BED-compatible coordinates" 
+    char[1] oStrand;    "+ or - for other strand"
     uint    oChromSize; "Size of other chromosome."
-    int[blockCount] oChromStarts; "Start positions relative to oChromStart or from oChromStart+oChromSize depending on strand"
+    int[blockCount] oChromStarts; "Start positions relative to oChromStart"
 
     lstring  oSequence;  "Sequence on other chrom (or edit list, or empty)"
     string   oCDS;       "CDS in NCBI format"
@@ -29,6 +29,5 @@ table bigPsl
     uint misMatch; " Number of bases that don't match "
     uint repMatch; " Number of bases that match but are part of repeats "
     uint nCount;   " Number of 'N' bases "
-    uint seqType;    "0=empty, 1=nucleotide, 2=amino_acid"
     )
 

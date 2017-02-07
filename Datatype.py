@@ -95,8 +95,11 @@ class Datatype(object):
         rgb_array = [int(hexa_without_sharp[i:i+2], 16) for i in (0, 2, 4)]
         rgb_ucsc = ','.join(map(str, rgb_array))
 
+        #sanitize the track_name
+        sanitized_name = subtools.fixName(track_name)
+        
         track_db = TrackDb(
-                trackName=track_name,
+                trackName=sanitized_name,
                 longLabel=long_label,
                 shortLabel=short_label,
                 trackDataURL=data_url,

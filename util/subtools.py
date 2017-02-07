@@ -10,6 +10,7 @@ import logging
 import os
 import subprocess
 import sys
+import string
 
 class PopenError(Exception):
     def __init__(self, cmd, error, return_code):
@@ -243,3 +244,13 @@ def pslToBigPsl(input_psl_file_name, output_bed12_file_name):
 
     p = _handleExceptionAndCheckCall(array_call)
     return p
+
+#santitize trackName. Because track name must begin with a letter and
+# contain only the following chars: [a-zA-Z0-9_].
+# See the "track" Common settings at:
+#https://genome.ucsc.edu/goldenpath/help/trackDb/trackDbHub.html#bigPsl_-_Pairwise_Alignments
+def fixName(filename):
+    valid_chars = "_%s%s" % (string.ascii_letters, string.digits)
+    sanitize_name = ''.join([c if c in valid_chars else '_' for c in filename])
+    sanitize_name = "gonramp_" + sanitize_name
+    return sanitize_name

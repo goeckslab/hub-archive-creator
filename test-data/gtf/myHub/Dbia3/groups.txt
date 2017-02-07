@@ -1,5 +1,0 @@
-name default_group
-label Default group
-priority 2
-defaultIsClosed 0
-

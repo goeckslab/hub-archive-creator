@@ -2,6 +2,7 @@
 
 import os
 import tempfile
+import string
 
 from Datatype import Datatype
 from Track import Track
@@ -29,6 +30,7 @@ class bigPsl( Datatype ):
         # bedToBigBed processing
         # TODO: Change the name of the bb, to tool + genome + .bb
         trackName = "".join( ( self.name_bigpsl, '.bb' ) )
+
         myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
 
         auto_sql_option = os.path.join(self.tool_directory, 'bigPsl.as')
@@ -41,14 +43,14 @@ class bigPsl( Datatype ):
                                  tab='True',
                                  autoSql=auto_sql_option)
 
-        # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_bigpsl, track_type='bigBed 12 +', visibility='dense',
+                         long_label=self.name_bigpsl, track_type='bigPsl', visibility='dense',
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,
                          group_name=self.group_name)
+
 
         # dataURL = "tracks/%s" % trackName
         #

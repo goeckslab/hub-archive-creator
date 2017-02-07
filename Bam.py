@@ -12,7 +12,7 @@ import shutil
 from Datatype import Datatype
 from Track import Track
 from TrackDb import TrackDb
-from util import subtools
+
 
 
 class Bam( Datatype ):

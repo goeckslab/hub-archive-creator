@@ -54,8 +54,8 @@ def main(argv):
     # Generic Bed (Blastx transformed to bed)
     parser.add_argument('--bed', action='append', help='Bed generic format')
 
-    # Bed12+12 (tblastn)
-    parser.add_argument('--bigpsl', action='append', help='bigPsl format')
+    # BigPsl (blat alignment)
+    parser.add_argument('--bigpsl', action='append', help='bigPsl format, using bigPsl.as')
 
     # BigWig Management
     parser.add_argument('--bigwig', action='append', help='BigWig format')

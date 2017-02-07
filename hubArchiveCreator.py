@@ -28,6 +28,7 @@ from Gtf import Gtf
 from Psl import Psl
 from TrackHub import TrackHub
 from bigPsl import bigPsl
+from BedBlastAlignments import BedBlastAlignments
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -56,6 +57,9 @@ def main(argv):
 
     # BigPsl (blat alignment)
     parser.add_argument('--bigpsl', action='append', help='bigPsl format, using bigPsl.as')
+
+    # Bed12+12 (tblastn alignment)
+    parser.add_argument('--bedBlastAlignments', action='append', help='Bed12+12 format, using bigPsl.as')
 
     # BigWig Management
     parser.add_argument('--bigwig', action='append', help='BigWig format')
@@ -127,6 +131,7 @@ def main(argv):
     array_inputs_gtf = args.gtf
     array_inputs_psl = args.psl
     array_inputs_bigpsl = args.bigpsl
+    array_inputs_bed_blast_alignments = args.bedBlastAlignments
 
     outputFile = args.output
 
@@ -153,7 +158,8 @@ def main(argv):
                         (array_inputs_gff3, Gff3),
                         (array_inputs_gtf, Gtf),
                         (array_inputs_psl, Psl),
-                        (array_inputs_bigpsl, bigPsl)]:
+                        (array_inputs_bigpsl, bigPsl),
+                        (array_inputs_bed_blast_alignments, BedBlastAlignments)]:
         if inputs:
             all_datatype_dictionary.update(create_ordered_datatype_objects(datatype_class, inputs, inputs_data))
 

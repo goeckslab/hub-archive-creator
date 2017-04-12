@@ -1,4 +1,4 @@
-<tool id="hubArchiveCreator" name="Hub Archive Creator" version="2.3.0">
+<tool id="hubArchiveCreator" name="Hub Archive Creator" version="2.3.1">
     <description>
         This Galaxy tool permits to prepare your files to be ready for
         Assembly Hub visualization.
@@ -99,14 +99,14 @@
                         #silent $prepare_json($f.formatChoice.bedChoice.BED_splice_junctions, $index_track_final,
                                                 extra_data_dict)
                     #end if
-                    #if $f.formatChoice.bedChoice.bed_select == "bed_bigpsl"
-                        --bigpsl $f.formatChoice.bedChoice.BED_bigpsl
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED_bigpsl, $index_track_final,                              
-                                             extra_data_dict)
-                    #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_blast_alignment_option"
                         --bedBlastAlignments $f.formatChoice.bedChoice.BED_blast_alignment
                         #silent $prepare_json($f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,                              
+                                             extra_data_dict)
+                    #end if
+                    #if $f.formatChoice.bedChoice.bed_select == "bed_blat_alignment_option"
+                        --bigpsl $f.formatChoice.bedChoice.BED_blat_alignment
+                        #silent $prepare_json($f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,                              
                                              extra_data_dict)
                     #end if
                 #end if
@@ -205,8 +205,8 @@
                                 <option value="bed_generic" selected="true">BED Generic (bed3+)</option>
                                 <option value="bed_simple_repeats_option">BED Simple repeat (bed4+12 / simpleRepeat.as)</option>
                                 <option value="bed_splice_junctions_option">BED Splice junctions (bed12+1 / spliceJunctions.as)</option>
-                                <option value="bed_bigpsl">bigPsl (bigPsl / bigPsl.as)</option>
-                                <option value="bed_blast_alignment_option">BED Blast alignments (bed12+12 / bigPsl.as)</option>
+                                <option value="bed_blast_alignment_option">Blast alignments (bed12+12 / bigPsl.as)</option>
+                                <option value="bed_blat_alignment_option">BLAT alignments (bigPsl / bigPsl.as)</option>
                             </param>
                             <when value="bed_generic">
                                 <param
@@ -233,20 +233,20 @@
                                         label="Bed Splice Junctions (Bed12+1) File"
                                 />
                             </when>
-                            <when value="bed_bigpsl">
-                                <param
-                                        format="bed"
-                                        name="BED_bigpsl"
-                                        type="data"
-                                        label="bigPsl File"
-                                />
-                            </when>
                             <when value="bed_blast_alignment_option">
                                 <param
                                         format="bed"
                                         name="BED_blast_alignment"
                                         type="data"
                                         label="Bed Blast Alignments (Bed12+12) File"
+                                />
+                            </when>
+                            <when value="bed_blat_alignment_option">
+                                <param
+                                        format="bed"
+                                        name="BED_blat_alignment"
+                                        type="data"
+                                        label="Bed BLAT Alignments (bigPsl) File"
                                 />
                             </when>
                         </conditional>
@@ -318,21 +318,6 @@
                             </sanitizer>
                         </param>
                     </when>
-                    <when value="bigpsl">
-                        <param 
-                                format="bigpsl"
-                                name="bigPsl"
-                                type="data"
-                                label="bigPsl File"
-                        />
-                        <param name="track_color" type="color" label="Track color" value="#000000">
-                            <sanitizer>
-                                <valid initial="string.letters,string.digits">
-                                    <add value="#"/>
-                                </valid>
-                            </sanitizer>
-                        </param>
-                    </when>   
                 </conditional>
             </repeat>
         </repeat>

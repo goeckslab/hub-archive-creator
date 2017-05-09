@@ -19,7 +19,10 @@ class Psl(Datatype):
         self.track_color = data_psl["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_psl["group_name"]
-
+        if data_psl["long_label"]:
+            self.long_label = data_psl["long_label"]
+        else:
+            self.long_label = self.name_psl
         # Temporary files
         unsorted_bed_formatted_psl_file = tempfile.NamedTemporaryFile(suffix='.psl')
         sorted_bed_formatted_psl_file = tempfile.NamedTemporaryFile(suffix='psl')
@@ -50,7 +53,7 @@ class Psl(Datatype):
         # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_psl,
+                         long_label=self.long_label,
                          track_type='bigPsl', visibility='dense',
                          priority=self.priority,
                          track_file=my_big_psl_file_path,

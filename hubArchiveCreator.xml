@@ -70,9 +70,10 @@
                 ## For each format, we have a few mandatory fields we store in a dict
                 #set track_color = str($f.formatChoice.track_color)
                 #set group_name = str($g.group_name)
-
+                #set longLabel = str($f.formatChoice.longLabel)
                 #set extra_data_dict = {"track_color": $track_color,
-                                        "group_name": $group_name}
+                                        "group_name": $group_name,
+                                        "long_label": $longLabel}
 
                 #if $f.formatChoice.format_select == "bam"
                     --bam $f.formatChoice.BAM
@@ -190,6 +191,7 @@
                                 type="data"
                                 label="BAM File"
                         />
+                        <param name="longLabel" type="text" size="80" label="Track label" />
                         <!-- TODO: Find a solution to avoid repetition and to generate a new color depending on the others -->
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
@@ -250,6 +252,7 @@
                                 />
                             </when>
                         </conditional>
+                        <param name="longLabel" type="text" size="30" label="Track name" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">
@@ -265,6 +268,7 @@
                                 type="data"
                                 label="PSL File"
                         />
+                        <param name="longLabel" type="text" size="30" label="Track name" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">
@@ -280,6 +284,7 @@
                                 type="data"
                                 label="BIGWIG File"
                         />
+                        <param name="longLabel" type="text" size="30" label="Track name" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">
@@ -295,6 +300,7 @@
                                 type="data"
                                 label="GFF3 File"
                         />
+                        <param name="longLabel" type="text" size="30" label="Track name" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">
@@ -310,6 +316,7 @@
                                 type="data"
                                 label="GTF File"
                         />
+                        <param name="longLabel" type="text" size="30" label="Track name" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">

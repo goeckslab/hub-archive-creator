@@ -21,7 +21,10 @@ class BigWig( Datatype ):
         self.track_color = data_bigwig["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_bigwig["group_name"]
-
+        if data_bigwig["long_label"]:
+            self.long_label = data_bigwig["long_label"]
+        else:
+            self.long_label = self.name_bigwig
         #print "Creating TrackHub BigWig from (falsePath: %s; name: %s)" % ( self.input_bigwig_path, self.name_bigwig )
 
         trackName = "".join( ( self.name_bigwig, ".bigwig" ) )
@@ -32,7 +35,7 @@ class BigWig( Datatype ):
         # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_bigwig,
+                         long_label=self.long_label,
                          track_type='bigWig', visibility='full',
                          priority=self.priority,
                          track_file=myBigWigFilePath,

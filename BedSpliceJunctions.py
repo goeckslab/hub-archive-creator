@@ -20,7 +20,10 @@ class BedSpliceJunctions( Datatype ):
         self.track_color = data_bed_splice_junctions["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_bed_splice_junctions["group_name"]
-
+        if data_bed_splice_junctions["long_label"]:
+            self.long_label = data_bed_splice_junctions["long_label"]
+        else:
+            self.long_label = self.name_bed_splice_junctions
         sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
 
         # Sort processing
@@ -43,7 +46,7 @@ class BedSpliceJunctions( Datatype ):
         # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_bed_splice_junctions, track_type='bigBed 12 +', visibility='dense',
+                         long_label=self.long_label, track_type='bigBed 12 +', visibility='dense',
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,

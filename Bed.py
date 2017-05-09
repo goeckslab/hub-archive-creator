@@ -26,7 +26,10 @@ class Bed( Datatype ):
         self.track_color = self.data_bed_generic["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = self.data_bed_generic["group_name"]
-
+        if self.data_bed_generic["long_label"]:
+            self.long_label = self.data_bed_generic["long_label"]
+        else:
+            self.long_label = self.name_bed_generic
 
         # Sort processing
         subtools.sort(self.inputBedGeneric, self.sortedBedFile.name)
@@ -44,7 +47,7 @@ class Bed( Datatype ):
         # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_bed_generic, track_type='bigBed', visibility='dense',
+                         long_label=self.long_label, track_type='bigBed', visibility='dense',
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,

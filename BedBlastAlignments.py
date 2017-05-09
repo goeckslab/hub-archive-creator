@@ -21,7 +21,10 @@ class BedBlastAlignments( Datatype ):
         self.track_color = data_bed_blast_alignments["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_bed_blast_alignments["group_name"]
-
+        if data_bed_blast_alignments["long_label"]:
+            self.long_label = data_bed_blast_alignments["long_label"]
+        else:
+            self.long_label = self.name_bed_blast_alignments
         #sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
 
         # Sort processing
@@ -45,7 +48,7 @@ class BedBlastAlignments( Datatype ):
 
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_bed_blast_alignments, track_type='bigBed 12 +', visibility='dense',
+                         long_label=self.long_label, track_type='bigBed 12 +', visibility='dense',
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,

@@ -21,7 +21,10 @@ class bigPsl( Datatype ):
         self.track_color = data_bigpsl["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_bigpsl["group_name"]
-
+        if data_bigpsl["long_label"]:
+            self.long_label = data_bigpsl["long_label"]
+        else:
+            self.long_label = self.name_bigpsl
         #sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
 
         # Sort processing
@@ -45,7 +48,7 @@ class bigPsl( Datatype ):
 
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_bigpsl, track_type='bigPsl', visibility='dense',
+                         long_label=self.long_label, track_type='bigPsl', visibility='dense',
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,

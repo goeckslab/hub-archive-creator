@@ -37,7 +37,10 @@ class Bam( Datatype ):
 
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = self.data_bam["group_name"]
-
+        if self.data_bam["long_label"]:
+            self.long_label = self.data_bam["long_label"]
+        else:
+            self.long_label = self.name_bam
         # First: Add the bam file
         # Second: Add the bam index file, in the same folder (https://genome.ucsc.edu/goldenpath/help/bam.html)
 
@@ -52,7 +55,7 @@ class Bam( Datatype ):
         # Create the Track Object
         self.createTrack(file_path=self.name_bam,
                          track_name=self.name_bam,
-                         long_label=self.name_bam, track_type='bam', visibility='pack', priority=self.priority,
+                         long_label=self.long_label, track_type='bam', visibility='pack', priority=self.priority,
                          track_file=bam_index_file_path,
                          track_color=self.track_color,
                          group_name=self.group_name

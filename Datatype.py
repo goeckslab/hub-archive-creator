@@ -66,7 +66,7 @@ class Datatype(object):
     # TODO: Rename for PEP8
     def getShortName( self, name_to_shortify ):
         # Slice to get from Long label the short label
-        short_label_slice = slice(0, 15)
+        short_label_slice = slice(0, 17)
 
         return name_to_shortify[short_label_slice]
 

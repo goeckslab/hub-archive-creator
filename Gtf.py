@@ -28,7 +28,10 @@ class Gtf( Datatype ):
         self.track_color = data_gtf["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_gtf["group_name"]
-
+        if data_gtf["long_label"]:
+            self.long_label = data_gtf["long_label"]
+        else:
+            self.long_label = self.name_gtf
         #print "Creating TrackHub GTF from (falsePath: %s; name: %s)" % ( self.input_gtf_false_path, self.name_gtf)
 
         # TODO: See if we need these temporary files as part of the generated files
@@ -69,7 +72,7 @@ class Gtf( Datatype ):
         # Create the Track Object
         self.createTrack(file_path=trackName,
                          track_name=trackName,
-                         long_label=self.name_gtf, track_type='bigGenePred',
+                         long_label=self.long_label, track_type='bigGenePred',
                          visibility='dense', priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,

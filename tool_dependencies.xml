@@ -35,6 +35,7 @@
          <readme>The well known UCSC tools from Jim Kent.</readme>
     </package>
 
+<<<<<<< 5de46f8de72bc34c595fb802e2eb279e9806e192
     <!-- package ucsc_bigwig is created by Wilson Leung -->
     <package name="ucsc_bigwig" version="340">
         <install version="1.0">
@@ -88,6 +89,10 @@
             JBrowse, IGV).
         ]]>
         </readme>
+=======
+    <package name="ucsc_bigbed" version="340">
+        <repository name="package_ucsc_bigbed_340" owner="wleung" />
+>>>>>>> initial support for bigBed format
     </package>
 </tool_dependency>
 

@@ -8,6 +8,7 @@
         <requirement type="package" version="1.0">ucsc_tools_340</requirement>
         <requirement type="package" version="1.2">samtools</requirement>
         <requirement type="package" version="340">ucsc_bigwig</requirement>
+        <requirement type="package" version="340">ucsc_bigbed</requirement>
     </requirements>
 
     <stdio>
@@ -127,6 +128,11 @@
                     #silent $prepare_json($f.formatChoice.BIGWIG, $index_track_final,
                                             extra_data_dict)
                 #end if
+                #if $f.formatChoice.format_select == "bigbed"
+                    --bigbed $f.formatChoice.BIGBED
+                    #silent $prepare_json($f.formatChoice.BIGBED, $index_track_final,
+                                            extra_data_dict)
+                #end if
                 #if $f.formatChoice.format_select == "gff3"
                     --gff3 $f.formatChoice.GFF3
                     #silent $prepare_json($f.formatChoice.GFF3, $index_track_final,
@@ -186,6 +192,7 @@
                         <option value="bed">BED</option>
                         <option value="psl">PSL</option>
                         <option value="bigwig">BIGWIG</option>
+                        <option value="bigbed">BIGBED</option>
                         <option value="gff3">GFF3</option>
                         <option value="gtf">GTF</option>
                     </param>
@@ -300,6 +307,21 @@
                                 label="BIGWIG File"
                         />
                         <param name="longLabel" type="text" size="30" label="Track name" />
+                        <param name="track_color" type="color" label="Track color" value="#000000">
+                            <sanitizer>
+                                <valid initial="string.letters,string.digits">
+                                    <add value="#"/>
+                                </valid>
+                            </sanitizer>
+                        </param>
+                    </when>
+                    <when value="bigbed">
+                        <param
+                                format="bigbed"
+                                name="BIGBED"
+                                type="data"
+                                label="BIGBED File"
+                        />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">

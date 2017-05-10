@@ -30,6 +30,7 @@ from Psl import Psl
 from TrackHub import TrackHub
 from bigPsl import bigPsl
 from BedBlastAlignments import BedBlastAlignments
+from BigBed import BigBed
 
 # TODO: Verify each subprocessed dependency is accessible [gff3ToGenePred, genePredToBed, twoBitInfo, faToTwoBit, bedToBigBed, sort
 
@@ -73,6 +74,9 @@ def main(argv):
 
     # Psl Management
     parser.add_argument('--psl', action='append', help='Psl format')
+
+    # BigBed Management
+    parser.add_argument('--bigbed', action='append', help='BigBed format')
 
     # TODO: Check if the running directory can have issues if we run the tool outside
     parser.add_argument('-d', '--directory',
@@ -137,6 +141,7 @@ def main(argv):
     array_inputs_psl = args.psl
     array_inputs_bigpsl = args.bigpsl
     array_inputs_bed_blast_alignments = args.bedBlastAlignments
+    array_inputs_bigbed = args.bigbed
 
     outputFile = args.output
 
@@ -165,7 +170,8 @@ def main(argv):
                         (array_inputs_gtf, Gtf),
                         (array_inputs_psl, Psl),
                         (array_inputs_bigpsl, bigPsl),
-                        (array_inputs_bed_blast_alignments, BedBlastAlignments)]:
+                        (array_inputs_bed_blast_alignments, BedBlastAlignments),
+                        (array_inputs_bigbed, BigBed)]:
         if inputs:
             all_datatype_dictionary.update(create_ordered_datatype_objects(datatype_class, inputs, inputs_data))
 

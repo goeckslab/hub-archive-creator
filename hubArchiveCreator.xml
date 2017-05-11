@@ -7,6 +7,7 @@
     <requirements>
         <requirement type="package" version="1.0">ucsc_tools_340</requirement>
         <requirement type="package" version="1.2">samtools</requirement>
+        <requirement type="package" version="340">ucsc_bigwig</requirement>
     </requirements>
 
     <stdio>
@@ -102,12 +103,12 @@
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_blast_alignment_option"
                         --bedBlastAlignments $f.formatChoice.bedChoice.BED_blast_alignment
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,                              
+                        #silent $prepare_json($f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,
                                              extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_blat_alignment_option"
                         --bigpsl $f.formatChoice.bedChoice.BED_blat_alignment
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,                              
+                        #silent $prepare_json($f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,
                                              extra_data_dict)
                     #end if
                 #end if
@@ -200,7 +201,7 @@
                                 </valid>
                             </sanitizer>
                         </param>
-                    </when>     
+                    </when>
                     <when value="bed">
                         <conditional name="bedChoice">
                             <param name="bed_select" type="select" label="Bed Choice">
@@ -474,7 +475,7 @@
                 />
             </output>
         </test>
-        
+
 
         <!-- Test with Psl -->
         <test>
@@ -1029,4 +1030,8 @@
         This Galaxy tool permits to prepare your files to be ready for
         Assembly Hub visualization.
     </help>
+
+    <citations>
+        <citation type="doi">10.7490/f1000research.1112719.1</citation>
+    </citations>
 </tool>

@@ -16,16 +16,16 @@
     <package name="samtools" version="1.2">
         <repository name="package_samtools_1_2" owner="iuc" prior_installation_required="True"/>
     </package>
-    
+
     <package name="ucsc_tools_340" version="1.0">
         <install version="1.0">
             <actions_group>
                 <actions architecture="x86_64" os="linux">
                     <action type="download_by_url">http://old-gep.wustl.edu/~galaxy/ucsc_tools_340.tar.gz</action>
                     <action type="move_directory_files">
-                        <source_directory>.</source_directory>                       
+                        <source_directory>.</source_directory>
                         <destination_directory>$INSTALL_DIR/bin</destination_directory>
-                    </action>    
+                    </action>
                 </actions>
                 <action type="set_environment">
                     <environment_variable name="PATH" action="prepend_to">$INSTALL_DIR/bin</environment_variable>
@@ -34,6 +34,60 @@
          </install>
          <readme>The well known UCSC tools from Jim Kent.</readme>
     </package>
-    
+
+    <!-- package ucsc_bigwig is created by Wilson Leung -->
+    <package name="ucsc_bigwig" version="340">
+        <install version="1.0">
+            <actions_group>
+                <actions os="darwin" architecture="x86_64">
+                    <action type="download_by_url"
+                            sha256sum="a34c57a9fb3c36a984b8fa879a99697c994cd981a1277663d372638e4dec8bb2">
+                        http://old-gep.wustl.edu/~wilson/packages/ucsc_bigwig/ucsc_bigwig_340_macOS_x86_64.tar.gz
+                    </action>
+                    <action type="move_directory_files">
+                        <source_directory>bin</source_directory>
+                        <destination_directory>$INSTALL_DIR/bin</destination_directory>
+                    </action>
+                </actions>
+
+                <actions os="linux" architecture="x86_64">
+                    <action type="download_by_url"
+                            sha256sum="0d2bd886e312980e0ae58ae912315beeeac612fd1783c959b4eabd62cffd8512">
+                        http://old-gep.wustl.edu/~wilson/packages/ucsc_bigwig/ucsc_bigwig_340_linux_x86_64.tar.gz
+                    </action>
+                    <action type="move_directory_files">
+                        <source_directory>bin</source_directory>
+                        <destination_directory>$INSTALL_DIR/bin</destination_directory>
+                    </action>
+                </actions>
+
+                <!-- Display error message for unsupported OS and CPU architecture -->
+                <actions>
+                    <action type="shell_command">
+                        echo "ERROR: This package only supports 64-bit systems running macOS or Linux"
+                    </action>
+                    <action type="shell_command">false</action>
+                </actions>
+
+                <!-- update $PATH environment variable -->
+                <action type="set_environment">
+                    <environment_variable name="PATH" action="prepend_to">$INSTALL_DIR/bin</environment_variable>
+                </action>
+            </actions_group>
+        </install>
+        <readme>
+        <![CDATA[
+            This package contains the utilities for constructing
+            `bigWig files <https://genome.ucsc.edu/goldenpath/help/bigWig.html>`_.
+            The utilities were created by the
+            `Genome Bioinformatics Group <https://genome.ucsc.edu/staff.html>`_
+            at the UCSC Genomics Institute.
+
+            The bigWig file format is designed to store dense continuous datasets
+            and it is compatible with many genome browsers (e.g., UCSC Genome Browser,
+            JBrowse, IGV).
+        ]]>
+        </readme>
+    </package>
 </tool_dependency>
 

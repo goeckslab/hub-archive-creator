@@ -1,14 +1,32 @@
 % for trackDb in trackDbs:
-    ## See this http://genome.ucsc.edu/goldenPath/help/hgTrackHubHelp.html
-    track ${trackDb.trackName}
-    longLabel ${trackDb.longLabel}
-    shortLabel ${trackDb.shortLabel}
-    bigDataUrl ${trackDb.trackDataURL}
-    type ${trackDb.trackType}
-    visibility ${trackDb.visibility}
-    thickDrawItem ${trackDb.thickDrawItem}
-    priority ${trackDb.priority}
-    color ${trackDb.track_color}
-    group ${trackDb.group_name.lower().replace(' ', '_')}
+    % if "bigWig" in trackDb.trackType:
 
+track ${trackDb.trackName}
+longLabel ${trackDb.longLabel}
+shortLabel ${trackDb.shortLabel}
+bigDataUrl ${trackDb.trackDataURL}
+visibility ${trackDb.visibility}
+priority ${trackDb.priority}
+color ${trackDb.track_color}
+group ${trackDb.group_name.lower().replace(' ', '_')}
+type ${trackDb.trackType}
+autoScale on
+maxHeightPixels 100:32:8
+windowingFunction mean+whiskers
+
+    % else:
+
+## See this http://genome.ucsc.edu/goldenPath/help/hgTrackHubHelp.html
+track ${trackDb.trackName}
+longLabel ${trackDb.longLabel}
+shortLabel ${trackDb.shortLabel}
+bigDataUrl ${trackDb.trackDataURL}
+type ${trackDb.trackType}
+visibility ${trackDb.visibility}
+thickDrawItem ${trackDb.thickDrawItem}
+priority ${trackDb.priority}
+color ${trackDb.track_color}
+group ${trackDb.group_name.lower().replace(' ', '_')}
+
+    % endif
 % endfor

@@ -2,6 +2,8 @@
 
 import os
 import shutil
+from subprocess import Popen, PIPE
+import re
 
 # Internal dependencies
 from Datatype import Datatype
@@ -36,30 +38,37 @@ class BigWig( Datatype ):
         self.createTrack(file_path=trackName,
                          track_name=trackName,
                          long_label=self.long_label,
-                         track_type='bigWig', visibility='full',
+                         track_type=self.determine_track_type(myBigWigFilePath),
+                         visibility='full',
                          priority=self.priority,
                          track_file=myBigWigFilePath,
                          track_color=self.track_color,
                          group_name=self.group_name)
 
-        # dataURL = "tracks/%s" % trackName
-        #
-        # # Return the BigBed track
-        #
-        # trackDb = TrackDb(
-        #     trackName=trackName,
-        #     longLabel=self.name_bigwig,
-        #     shortLabel=self.getShortName( self.name_bigwig ),
-        #     trackDataURL=dataURL,
-        #     trackType='bigWig',
-        #     visibility='full',
-        #     priority=self.priority,
-        # )
-        #
-        # self.track = Track(
-        #     trackFile=myBigWigFilePath,
-        #     trackDb=trackDb,
-        # )
-
         print("- BigWig %s created" % self.name_bigwig)
         #print("- %s created in %s" % (trackName, myBigWigFilePath))
+
+    def determine_track_type(self, bw_file):
+        """
+        bigWig tracks must declare the expected signal range for the data
+        (See https://genome.ucsc.edu/goldenpath/help/trackDb/trackDbHub.html).
+        This method determines the range of values for a bigWig file using
+        the bigWigInfo program.
+
+        Implementation of reading from stdout is based on a Stackoverflow post:
+        http://stackoverflow.com/questions/2715847/python-read-streaming-input-from-subprocess-communicate
+
+        :param bw_file: path to a bigWig file
+
+        :returns: the bigWig track type
+        """
+        cmd_ph = Popen(["bigWigInfo", "-minMax", bw_file],
+                       stdout=PIPE, bufsize=1)
+
+        with cmd_ph.stdout:
+            for line in iter(cmd_ph.stdout.readline, b''):
+                bw_type = "bigWig %s" % line.rstrip()
+
+        cmd_ph.wait()
+
+        return bw_type

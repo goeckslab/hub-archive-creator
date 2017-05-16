@@ -20,6 +20,7 @@ from Bam import Bam
 from BedSimpleRepeats import BedSimpleRepeats
 from BedSpliceJunctions import BedSpliceJunctions
 from Bed import Bed
+from cytoBand import cytoBand
 from BigWig import BigWig
 from util.Fasta import Fasta
 from util.Filters import TraceBackFormatter
@@ -54,6 +55,9 @@ def main(argv):
 
     # Generic Bed (Blastx transformed to bed)
     parser.add_argument('--bed', action='append', help='Bed generic format')
+
+    #cytoBandIdeo
+    parser.add_argument('--cytoBand', action='append', help='Cytoband Track, using cytoBandIdeo.as')
 
     # BigPsl (blat alignment)
     parser.add_argument('--bigpsl', action='append', help='bigPsl format, using bigPsl.as')
@@ -124,6 +128,7 @@ def main(argv):
     # EXTRA_DATA could be anything, for example the index of a BAM => {"index", FILE_PATH}
     array_inputs_bam = args.bam
     array_inputs_bed_generic = args.bed
+    array_inputs_bed_cytoBand = args.cytoBand
     array_inputs_bed_simple_repeats = args.bedSimpleRepeats
     array_inputs_bed_splice_junctions = args.bedSpliceJunctions
     array_inputs_bigwig = args.bigwig
@@ -152,6 +157,7 @@ def main(argv):
     for (inputs, datatype_class) in [
                         (array_inputs_bam, Bam),
                         (array_inputs_bed_generic, Bed),
+                        (array_inputs_bed_cytoBand, cytoBand),
                         (array_inputs_bigwig, BigWig),
                         (array_inputs_bed_simple_repeats, BedSimpleRepeats),
                         (array_inputs_bed_splice_junctions, BedSpliceJunctions),

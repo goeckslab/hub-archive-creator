@@ -250,6 +250,8 @@ def pslToBigPsl(input_psl_file_name, output_bed12_file_name):
 # See the "track" Common settings at:
 #https://genome.ucsc.edu/goldenpath/help/trackDb/trackDbHub.html#bigPsl_-_Pairwise_Alignments
 def fixName(filename):
+    if filename == 'cytoBandIdeo':
+        return filename
     valid_chars = "_%s%s" % (string.ascii_letters, string.digits)
     sanitize_name = ''.join([c if c in valid_chars else '_' for c in filename])
     sanitize_name = "gonramp_" + sanitize_name

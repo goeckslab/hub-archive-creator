@@ -5,7 +5,7 @@
     </description>
 
     <requirements>
-        <requirement type="package" version="1.0">ucsc_tools_340</requirement>
+        <requirement type="package" version="340">ucsc_hac</requirement>
         <requirement type="package" version="1.2">samtools</requirement>
         <requirement type="package" version="340">ucsc_bigwig</requirement>
         <requirement type="package" version="340">ucsc_bigbed</requirement>
@@ -322,6 +322,7 @@
                                 type="data"
                                 label="BIGBED File"
                         />
+                        <param name="longLabel" type="text" size="30" label="Track name" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">

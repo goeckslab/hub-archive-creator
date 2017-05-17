@@ -23,6 +23,10 @@ class BigBed(Datatype):
         self.group_name = data_bigbed["group_name"]
 
         track_name = "".join((self.name_bigbed, ".bigbed"))
+        if data_bigbed["long_label"]:
+            self.long_label = data_bigbed["long_label"]
+        else:
+            self.long_label = self.name_bigbed
 
         bigbed_file_path = os.path.join(self.myTrackFolderPath, track_name)
 
@@ -33,7 +37,7 @@ class BigBed(Datatype):
         # Create the Track Object
         self.createTrack(file_path=track_name,
                          track_name=track_name,
-                         long_label=self.name_bigbed,
+                         long_label=self.long_label,
                          track_type=track_type,
                          visibility='hide',
                          priority=self.priority,

@@ -11,6 +11,7 @@ import os
 import subprocess
 import sys
 import string
+import tempfile
 
 class PopenError(Exception):
     def __init__(self, cmd, error, return_code):
@@ -128,7 +129,9 @@ def gff3ToGenePred(input_gff3_file_name, gene_pred_file_name):
     :param gene_pred_file_name:
     :return:
     """
-    array_call = ['gff3ToGenePred', input_gff3_file_name, gene_pred_file_name]
+    valid_gff3_file = tempfile.NamedTemporaryFile(bufsize=0, suffix=".gff3")
+    validateGff(input_gff3_file_name, valid_gff3_file.name)
+    array_call = ['gff3ToGenePred', valid_gff3_file.name, gene_pred_file_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
@@ -256,3 +259,19 @@ def fixName(filename):
     sanitize_name = ''.join([c if c in valid_chars else '_' for c in filename])
     sanitize_name = "gonramp_" + sanitize_name
     return sanitize_name
+
+def validateGff(orig_gff3, valid_gff3):
+    """
+    Remove extra meta line: ##gff-version 3
+    """
+    valid = open(valid_gff3, 'w')
+    num = 0
+    with open(orig_gff3, 'r') as f:
+        for line in f:
+            if '##gff-version 3' in line:
+                if num == 0:
+                    num += 1
+                else:
+                    continue
+            valid.write(line)
+                    

@@ -37,6 +37,7 @@ class Bam( Datatype ):
 
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = self.data_bam["group_name"]
+        self.database = self.data_bam["database"]
         if self.data_bam["long_label"]:
             self.long_label = self.data_bam["long_label"]
         else:
@@ -58,7 +59,8 @@ class Bam( Datatype ):
                          long_label=self.long_label, track_type='bam', visibility='pack', priority=self.priority,
                          track_file=bam_index_file_path,
                          track_color=self.track_color,
-                         group_name=self.group_name
+                         group_name=self.group_name,
+                         database=self.database
                          )
         #
         # dataURL = "tracks/%s" % self.name_bam

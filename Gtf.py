@@ -28,6 +28,7 @@ class Gtf( Datatype ):
         self.track_color = data_gtf["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_gtf["group_name"]
+        self.database = data_gtf["database"]
         if data_gtf["long_label"]:
             self.long_label = data_gtf["long_label"]
         else:
@@ -66,7 +67,8 @@ class Gtf( Datatype ):
                                  bigBedFile.name,
                                  autoSql=auto_sql_option,
                                  typeOption='bed12+8',
-                                 tab=True)
+                                 tab=True,
+                                 extraIndex='name')
 
 
         # Create the Track Object
@@ -76,7 +78,8 @@ class Gtf( Datatype ):
                          visibility='dense', priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,
-                         group_name=self.group_name)
+                         group_name=self.group_name,
+                         database=self.database)
 
         # TODO: Use Logging instead of print
         if modified_gtf.is_modified:

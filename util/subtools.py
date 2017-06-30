@@ -182,7 +182,7 @@ def sortChromSizes(two_bit_info_file_name, chrom_sizes_file_name):
     return p
 
 def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name,
-                typeOption=None, autoSql=None, tab=False):
+                typeOption=None, autoSql=None, tab=False, extraIndex=None):
     """
     Call bedToBigBed on sorted_bed_file_name, using chrom_sizes_file_name and write the result into big_bed_file_name
     :param sorted_bed_file_name:
@@ -209,6 +209,9 @@ def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name,
         array_call.append(autoSql)
     if tab:
         array_call.append('-tab')
+    if extraIndex:
+        index = ''.join(['-extraIndex=', extraIndex])
+        array_call.append(index)
 
     p = _handleExceptionAndCheckCall(array_call)
     return p

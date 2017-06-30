@@ -21,6 +21,7 @@ class BedBlastAlignments( Datatype ):
         self.track_color = data_bed_blast_alignments["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_bed_blast_alignments["group_name"]
+        self.database = data_bed_blast_alignments["database"]
         if data_bed_blast_alignments["long_label"]:
             self.long_label = data_bed_blast_alignments["long_label"]
         else:
@@ -44,7 +45,8 @@ class BedBlastAlignments( Datatype ):
                                  bigBedFile.name,
                                  typeOption='bed12+12',
                                  tab='True',
-                                 autoSql=auto_sql_option)
+                                 autoSql=auto_sql_option,
+                                 extraIndex='name')
 
         self.createTrack(file_path=trackName,
                          track_name=trackName,
@@ -52,7 +54,9 @@ class BedBlastAlignments( Datatype ):
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,
-                         group_name=self.group_name)
+                         group_name=self.group_name,
+                         database=self.database
+                         )
 
 
         # dataURL = "tracks/%s" % trackName

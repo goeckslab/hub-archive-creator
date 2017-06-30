@@ -20,6 +20,7 @@ class BedSpliceJunctions( Datatype ):
         self.track_color = data_bed_splice_junctions["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_bed_splice_junctions["group_name"]
+        self.database = data_bed_splice_junctions["database"]
         if data_bed_splice_junctions["long_label"]:
             self.long_label = data_bed_splice_junctions["long_label"]
         else:
@@ -41,7 +42,9 @@ class BedSpliceJunctions( Datatype ):
                                  self.chromSizesFile.name,
                                  bigBedFile.name,
                                  typeOption='bed12+1',
-                                 autoSql=auto_sql_option)
+                                 autoSql=auto_sql_option,
+                                 extraIndex='name'
+                                 )
 
         # Create the Track Object
         self.createTrack(file_path=trackName,
@@ -50,7 +53,8 @@ class BedSpliceJunctions( Datatype ):
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,
-                         group_name=self.group_name)
+                         group_name=self.group_name,
+                         database=self.database)
 
         # dataURL = "tracks/%s" % trackName
         #

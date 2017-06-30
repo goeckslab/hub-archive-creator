@@ -23,6 +23,7 @@ class BigWig( Datatype ):
         self.track_color = data_bigwig["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_bigwig["group_name"]
+        self.database = data_bigwig["database"]
         if data_bigwig["long_label"]:
             self.long_label = data_bigwig["long_label"]
         else:
@@ -43,7 +44,8 @@ class BigWig( Datatype ):
                          priority=self.priority,
                          track_file=myBigWigFilePath,
                          track_color=self.track_color,
-                         group_name=self.group_name)
+                         group_name=self.group_name,
+                         database = self.database)
 
         print("- BigWig %s created" % self.name_bigwig)
         #print("- %s created in %s" % (trackName, myBigWigFilePath))

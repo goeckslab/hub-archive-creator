@@ -20,6 +20,7 @@ class BedSimpleRepeats( Datatype ):
         self.track_color = data_bed_simple_repeats["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_bed_simple_repeats["group_name"]
+        self.database = data_bed_simple_repeats["database"]
         if data_bed_simple_repeats["long_label"]:
             self.long_label = data_bed_simple_repeats["long_label"]
         else:
@@ -42,7 +43,9 @@ class BedSimpleRepeats( Datatype ):
                                  self.chromSizesFile.name,
                                  bigBedFile.name,
                                  typeOption='bed4+12',
-                                 autoSql=auto_sql_option)
+                                 autoSql=auto_sql_option,
+                                 extraIndex='name'
+                                 )
 
         # Create the Track Object
         self.createTrack(file_path=trackName,
@@ -51,7 +54,8 @@ class BedSimpleRepeats( Datatype ):
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,
-                         group_name=self.group_name)
+                         group_name=self.group_name,
+                         database=self.database)
 
         # dataURL = "tracks/%s" % trackName
         #

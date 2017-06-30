@@ -14,6 +14,54 @@ autoScale on
 maxHeightPixels 100:32:8
 windowingFunction mean+whiskers
 
+    % elif "bigBed 12 +" in trackDb.trackType and trackDb.database:
+
+track ${trackDb.trackName}
+longLabel ${trackDb.longLabel}
+shortLabel ${trackDb.shortLabel}
+bigDataUrl ${trackDb.trackDataURL}
+type ${trackDb.trackType}
+visibility ${trackDb.visibility}
+thickDrawItem ${trackDb.thickDrawItem}
+priority ${trackDb.priority}
+color ${trackDb.track_color}
+group ${trackDb.group_name.lower().replace(' ', '_')}
+searchIndex name
+        % if "NCBI" in trackDb.database:
+url https://www.ncbi.nlm.nih.gov/protein/$$
+urlLabel ${trackDb.database} Details:
+        % elif "UniProt" in trackDb.database:
+url http://www.uniprot.org/uniprot/$$
+urlLabel ${trackDb.database} Details:
+        % elif "FlyBase" in trackDb.database:
+url http://flybase.org/reports/$$
+urlLabel ${trackDb.database} Details:
+        % else:
+url https://www.ncbi.nlm.nih.gov/gquery/?term=$$
+urlLabel NCBI Details:
+        % endif
+        
+    % elif "bigPsl" in trackDb.trackType and trackDb.database:
+    
+track ${trackDb.trackName}
+longLabel ${trackDb.longLabel}
+shortLabel ${trackDb.shortLabel}
+bigDataUrl ${trackDb.trackDataURL}
+type ${trackDb.trackType}
+visibility ${trackDb.visibility}
+thickDrawItem ${trackDb.thickDrawItem}
+priority ${trackDb.priority}
+color ${trackDb.track_color}
+group ${trackDb.group_name.lower().replace(' ', '_')}
+searchIndex name
+    % if "NCBI" in trackDb.database:
+url https://www.ncbi.nlm.nih.gov/nuccore/$$
+urlLabel NCBI Details:
+    % else:
+url https://www.ncbi.nlm.nih.gov/gquery/?term=$$
+urlLabel NCBI Details:
+    % endif
+
     % else:
 
 ## See this http://genome.ucsc.edu/goldenPath/help/hgTrackHubHelp.html
@@ -27,6 +75,6 @@ thickDrawItem ${trackDb.thickDrawItem}
 priority ${trackDb.priority}
 color ${trackDb.track_color}
 group ${trackDb.group_name.lower().replace(' ', '_')}
-
+searchIndex name
     % endif
 % endfor

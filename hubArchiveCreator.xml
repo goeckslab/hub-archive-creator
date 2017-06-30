@@ -73,7 +73,8 @@
                 #set track_color = str($f.formatChoice.track_color)
                 #set group_name = str($g.group_name)
                 #set longLabel = str($f.formatChoice.longLabel)
-                #set extra_data_dict = {"track_color": $track_color,
+                #set extra_data_dict = {"database": "",
+                                        "track_color": $track_color,
                                         "group_name": $group_name,
                                         "long_label": $longLabel}
 
@@ -109,11 +110,15 @@
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_blast_alignment_option"
                         --bedBlastAlignments $f.formatChoice.bedChoice.BED_blast_alignment
+                        #set database = str($f.formatChoice.bedChoice.database)
+                        #silent extra_data_dict.update({"database": $database})
                         #silent $prepare_json($f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,
                                              extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_blat_alignment_option"
                         --bigpsl $f.formatChoice.bedChoice.BED_blat_alignment
+                        #set database = str($f.formatChoice.bedChoice.database)
+                        #silent extra_data_dict.update({"database": $database})
                         #silent $prepare_json($f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,
                                              extra_data_dict)
                     #end if
@@ -204,7 +209,7 @@
                                 type="data"
                                 label="BAM File"
                         />
-                        <param name="longLabel" type="text" size="80" label="Track label" />
+                        <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
                         <!-- TODO: Find a solution to avoid repetition and to generate a new color depending on the others -->
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
@@ -264,6 +269,12 @@
                                         type="data"
                                         label="Bed Blast Alignments (Bed12+12) File"
                                 />
+                                <param name="database" type="select" label="Protein database">
+                                    <option value="NCBI" selected="true">NCBI</option>
+                                    <option value="UniProt">UniProt</option>
+                                    <option value="FlyBase">FlyBase</option>
+                                    <option value="Others">Others</option>
+                                </param>
                             </when>
                             <when value="bed_blat_alignment_option">
                                 <param
@@ -272,9 +283,13 @@
                                         type="data"
                                         label="Bed BLAT Alignments (bigPsl) File"
                                 />
+                                <param name="database" type="select" label="mRNA database">
+                                    <option value="NCBI" selected="true">NCBI</option>
+                                    <option value="Others">Others</option>
+                                </param>
                             </when>
                         </conditional>
-                        <param name="longLabel" type="text" size="30" label="Track name" />
+                        <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">
@@ -290,7 +305,7 @@
                                 type="data"
                                 label="PSL File"
                         />
-                        <param name="longLabel" type="text" size="30" label="Track name" />
+                        <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">
@@ -306,7 +321,7 @@
                                 type="data"
                                 label="BIGWIG File"
                         />
-                        <param name="longLabel" type="text" size="30" label="Track name" />
+                        <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">
@@ -322,7 +337,7 @@
                                 type="data"
                                 label="BIGBED File"
                         />
-                        <param name="longLabel" type="text" size="30" label="Track name" />
+                        <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">
@@ -338,7 +353,7 @@
                                 type="data"
                                 label="GFF3 File"
                         />
-                        <param name="longLabel" type="text" size="30" label="Track name" />
+                        <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">
@@ -354,7 +369,7 @@
                                 type="data"
                                 label="GTF File"
                         />
-                        <param name="longLabel" type="text" size="30" label="Track name" />
+                        <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>
                                 <valid initial="string.letters,string.digits">

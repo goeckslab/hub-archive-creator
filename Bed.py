@@ -26,6 +26,7 @@ class Bed( Datatype ):
         self.track_color = self.data_bed_generic["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = self.data_bed_generic["group_name"]
+        self.database = self.data_bed_generic["database"]
         if self.data_bed_generic["long_label"]:
             self.long_label = self.data_bed_generic["long_label"]
         else:
@@ -42,7 +43,9 @@ class Bed( Datatype ):
         with open(myBigBedFilePath, 'w') as self.bigBedFile:
             subtools.bedToBigBed(self.sortedBedFile.name,
                                  self.chromSizesFile.name,
-                                 self.bigBedFile.name)
+                                 self.bigBedFile.name,
+                                 extraIndex='name'
+                                 )
 
         # Create the Track Object
         self.createTrack(file_path=trackName,
@@ -51,7 +54,8 @@ class Bed( Datatype ):
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,
-                         group_name=self.group_name)
+                         group_name=self.group_name,
+                         database=self.database)
 
         # dataURL = "tracks/%s" % trackName
         #

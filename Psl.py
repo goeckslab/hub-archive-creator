@@ -19,6 +19,7 @@ class Psl(Datatype):
         self.track_color = data_psl["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_psl["group_name"]
+        self.database = data_psl["database"]
         if data_psl["long_label"]:
             self.long_label = data_psl["long_label"]
         else:
@@ -48,7 +49,8 @@ class Psl(Datatype):
                                  big_psl_file.name,
                                  autoSql=auto_sql_option,
                                  typeOption='bed12+12',
-                                 tab=True)
+                                 tab=True,
+                                 extraIndex='name')
 
         # Create the Track Object
         self.createTrack(file_path=trackName,
@@ -58,6 +60,7 @@ class Psl(Datatype):
                          priority=self.priority,
                          track_file=my_big_psl_file_path,
                          track_color=self.track_color,
-                         group_name=self.group_name)
+                         group_name=self.group_name,
+                         database=self.database)
 
         print("- BigPsl %s created" % self.name_psl)

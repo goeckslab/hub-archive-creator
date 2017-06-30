@@ -21,6 +21,7 @@ class BigBed(Datatype):
         self.priority = data_bigbed["order_index"]
         self.track_color = data_bigbed["track_color"]
         self.group_name = data_bigbed["group_name"]
+        self.database = data_bigbed["database"]
 
         track_name = "".join((self.name_bigbed, ".bigbed"))
         if data_bigbed["long_label"]:
@@ -43,7 +44,8 @@ class BigBed(Datatype):
                          priority=self.priority,
                          track_file=bigbed_file_path,
                          track_color=self.track_color,
-                         group_name=self.group_name)
+                         group_name=self.group_name,
+                         database=self.database)
 
         print "- BigBed %s created" % self.name_bigbed
 

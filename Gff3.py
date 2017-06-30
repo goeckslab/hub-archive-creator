@@ -22,6 +22,7 @@ class Gff3( Datatype ):
         self.track_color = data_gff3["track_color"]
         # TODO: Think about how to avoid repetition of the group_name everywhere
         self.group_name = data_gff3["group_name"]
+        self.database = data_gff3["database"]
         if data_gff3["long_label"]:
             self.long_label = data_gff3["long_label"]
         else:
@@ -55,7 +56,8 @@ class Gff3( Datatype ):
                                  bigBedFile.name,
                                  autoSql=auto_sql_option,
                                  typeOption='bed12+8',
-                                 tab=True)
+                                 tab=True,
+                                 extraIndex='name')
 
         # Create the Track Object
         self.createTrack(file_path=trackName,
@@ -65,6 +67,7 @@ class Gff3( Datatype ):
                          priority=self.priority,
                          track_file=myBigBedFilePath,
                          track_color=self.track_color,
-                         group_name=self.group_name)
+                         group_name=self.group_name,
+                         database=self.database)
 
         print("- Gff3 %s created" % self.name_gff3)

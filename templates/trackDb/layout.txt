@@ -30,15 +30,23 @@ searchIndex name
         % if "NCBI" in trackDb.database:
 url https://www.ncbi.nlm.nih.gov/protein/$$
 urlLabel ${trackDb.database} Details:
+iframeUrl https://www.ncbi.nlm.nih.gov/protein/$$
+iframeOptions height='600' width='800'
         % elif "UniProt" in trackDb.database:
 url http://www.uniprot.org/uniprot/$$
 urlLabel ${trackDb.database} Details:
+iframeUrl http://www.uniprot.org/uniprot/$$
+iframeOptions height='600' width='800'
         % elif "FlyBase" in trackDb.database:
 url http://flybase.org/reports/$$
 urlLabel ${trackDb.database} Details:
+iframeUrl http://flybase.org/reports/$$
+iframeOptions height='600' width='800'
         % else:
 url https://www.ncbi.nlm.nih.gov/gquery/?term=$$
 urlLabel NCBI Details:
+iframeUrl https://www.ncbi.nlm.nih.gov/gquery/?term=$$
+iframeOptions height='600' width='800'
         % endif
         
     % elif "bigPsl" in trackDb.trackType and trackDb.database:
@@ -57,9 +65,13 @@ searchIndex name
     % if "NCBI" in trackDb.database:
 url https://www.ncbi.nlm.nih.gov/nuccore/$$
 urlLabel NCBI Details:
+iframeUrl https://www.ncbi.nlm.nih.gov/nuccore/$$
+iframeOptions height='600' width='800'
     % else:
 url https://www.ncbi.nlm.nih.gov/gquery/?term=$$
 urlLabel NCBI Details:
+iframeUrl https://www.ncbi.nlm.nih.gov/gquery/?term=$$
+iframeOptions height='600' width='800'
     % endif
 
     % else:

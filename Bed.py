@@ -44,6 +44,8 @@ class Bed( Datatype ):
             subtools.bedToBigBed(self.sortedBedFile.name,
                                  self.chromSizesFile.name,
                                  self.bigBedFile.name,
+                                 typeOption='bed4',
+                                 tab='True',
                                  extraIndex='name'
                                  )
 

@@ -41,7 +41,8 @@ class cytoBand( Datatype ):
             subtools.bedToBigBed(sortedBedFile.name,
                                  self.chromSizesFile.name,
                                  bigBedFile.name,
-                                 typeOption='bed4',
+                                 typeOption='bed4+1',
+                                 tab='True',
                                  autoSql=auto_sql_option)
 
         # Create the Track Object

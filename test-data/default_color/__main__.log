@@ -1,0 +1,20 @@
+DEBUG:root:#### Welcome in HubArchiveCreator Debug Mode ####
+
+DEBUG:root:Calling faToTwoBit:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling twoBitInfo:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_154.dat
+DEBUG:root:data_value: {u'index': u'/home/galaxy/galaxy/database/datasets/_metadata_files/000/metadata_6.dat', u'long_label': u'', u'name': u'HISAT2_Accepted_Hits', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'10'}
+DEBUG:root:----- End of all_datatype_dictionary processing -----
+DEBUG:root:all_datatype_ordered_dictionary keys are: [<Bam.Bam object at 0x7ff90b812650>]
+DEBUG:root:----- Beginning of Track adding processing -----
+DEBUG:root:We just added in /home/galaxy/galaxy/database/jobs/000/189/dataset_214_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_HISAT2_Accepted_Hits_bam (in group default_group)
+DEBUG:root:----- End of Track adding processing -----
+DEBUG:root:#### End of HubArchiveCreator Debug Mode: Bye! ####

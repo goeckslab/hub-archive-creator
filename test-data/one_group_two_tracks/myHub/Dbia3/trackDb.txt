@@ -1,0 +1,24 @@
+
+track gonramp_HISAT2_on_data_1__data_3__and_data_2_bam
+longLabel HISAT sequence alignment
+shortLabel HISAT sequence al
+bigDataUrl tracks/HISAT2_on_data_1,_data_3,_and_data_2.bam
+type bam
+visibility pack
+thickDrawItem off
+priority 11
+color 192,80,77
+group rna-seq
+searchIndex name
+
+track gonramp_StringTie_on_data_15__Assembled_transcripts_bb
+longLabel StringTie transcripts 
+shortLabel StringTie transcr
+bigDataUrl tracks/StringTie_on_data_15:_Assembled_transcripts.bb
+type bigGenePred
+visibility dense
+thickDrawItem off
+priority 10
+color 192,80,77
+group rna-seq
+searchIndex name

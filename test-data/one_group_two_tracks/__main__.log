@@ -1,0 +1,42 @@
+DEBUG:root:#### Welcome in HubArchiveCreator Debug Mode ####
+
+DEBUG:root:Calling faToTwoBit:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling twoBitInfo:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_154.dat
+DEBUG:root:data_value: {u'index': u'/home/galaxy/galaxy/database/datasets/_metadata_files/000/metadata_5.dat', u'long_label': u'HISAT sequence alignment', u'name': u'HISAT2_on_data_1,_data_3,_and_data_2', u'database': u'', u'track_color': u'#c0504d', u'group_name': u'RNA-Seq', u'order_index': u'11'}
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_158.dat
+DEBUG:root:data_value: {u'long_label': u'StringTie transcripts ', u'name': u'StringTie_on_data_15:_Assembled_transcripts', u'database': u'', u'track_color': u'#c0504d', u'group_name': u'RNA-Seq', u'order_index': u'10'}
+DEBUG:root:Calling gtfToGenePred:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling genePredToBigGenePred:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /tmp/tmpp_i4_J.sortedBed.bigGenePred
+DEBUG:root:chrom_sizes_file_name: /tmp/tmpTsX28d.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/150/dataset_177_files/myHub/Dbia3/tracks/StringTie_on_data_15:_Assembled_transcripts.bb
+DEBUG:root:typeOption: bed12+8
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/bigGenePred.as
+DEBUG:root:tab option: True
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:----- End of all_datatype_dictionary processing -----
+DEBUG:root:all_datatype_ordered_dictionary keys are: [<Bam.Bam object at 0x7f11363da650>, <Gtf.Gtf object at 0x7f11363da6d0>]
+DEBUG:root:----- Beginning of Track adding processing -----
+DEBUG:root:We just added in /home/galaxy/galaxy/database/jobs/000/150/dataset_177_files/myHub/Dbia3/groups.txt the group RNA-Seq
+DEBUG:root:We just added track gonramp_HISAT2_on_data_1__data_3__and_data_2_bam (in group rna-seq)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/150/dataset_177_files/myHub/Dbia3/groups.txt the group RNA-Seq
+DEBUG:root:We just added track gonramp_StringTie_on_data_15__Assembled_transcripts_bb (in group rna-seq)
+DEBUG:root:----- End of Track adding processing -----
+DEBUG:root:#### End of HubArchiveCreator Debug Mode: Bye! ####

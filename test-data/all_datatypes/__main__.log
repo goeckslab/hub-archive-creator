@@ -1,0 +1,178 @@
+DEBUG:root:#### Welcome in HubArchiveCreator Debug Mode ####
+
+DEBUG:root:Calling faToTwoBit:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling twoBitInfo:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_154.dat
+DEBUG:root:data_value: {u'index': u'/home/galaxy/galaxy/database/datasets/_metadata_files/000/metadata_6.dat', u'long_label': u'', u'name': u'HISAT2_Accepted_Hits', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'100'}
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_207.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'TBLASTN_Alignment_to_proteins', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'101'}
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /tmp/tmp1sO3E0.sortedBed
+DEBUG:root:chrom_sizes_file_name: /tmp/tmp6FxMJO.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/tracks/TBLASTN_Alignment_to_proteins.bb
+DEBUG:root:typeOption: None
+DEBUG:root:autoSql: None
+DEBUG:root:tab option: False
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_203.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'Cytoband', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'107'}
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /tmp/tmpqqVa9O.sortedBed
+DEBUG:root:chrom_sizes_file_name: /tmp/tmp6FxMJO.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/tracks/Cytoband.bb
+DEBUG:root:typeOption: bed4+1
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/cytoBandIdeo.as
+DEBUG:root:tab option: True
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_157.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'RNA-Seq_Alignment_Coverage', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'104'}
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_146.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'Repeating_Elements_by_TrfBig', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'102'}
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /tmp/tmpkAWfa_.sortedBed
+DEBUG:root:chrom_sizes_file_name: /tmp/tmp6FxMJO.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/tracks/Repeating_Elements_by_TrfBig.bb
+DEBUG:root:typeOption: bed4+12
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/trf_simpleRepeat.as
+DEBUG:root:tab option: False
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_160.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'regtools_junctions', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'108'}
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /tmp/tmpNMo1LO.sortedBed
+DEBUG:root:chrom_sizes_file_name: /tmp/tmp6FxMJO.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/tracks/regtools_junctions.bb
+DEBUG:root:typeOption: bed12+1
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/spliceJunctions.as
+DEBUG:root:tab option: False
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_147.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'Augustus_Gene_Predictions', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'105'}
+DEBUG:root:Calling gff3ToGenePred:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling genePredToBigGenePred:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /tmp/tmpK7zi5K.sorted.bigGenePred
+DEBUG:root:chrom_sizes_file_name: /tmp/tmp6FxMJO.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb
+DEBUG:root:typeOption: bed12+8
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/bigGenePred.as
+DEBUG:root:tab option: True
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_158.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'StringTie_Assembled_Transcripts', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'106'}
+DEBUG:root:Calling gtfToGenePred:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling genePredToBigGenePred:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /tmp/tmpHA3ZOl.sortedBed.bigGenePred
+DEBUG:root:chrom_sizes_file_name: /tmp/tmp6FxMJO.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb
+DEBUG:root:typeOption: bed12+8
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/bigGenePred.as
+DEBUG:root:tab option: True
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_191.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'blastXmlToPsl', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'103'}
+DEBUG:root:Calling pslToBigPsl:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Hello
+DEBUG:root:sorted_bed_file_name: /tmp/tmpolhiUhpsl
+DEBUG:root:chrom_sizes_file_name: /tmp/tmp6FxMJO.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/tracks/blastXmlToPsl.bb
+DEBUG:root:typeOption: bed12+12
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/bigPsl.as
+DEBUG:root:tab option: True
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_196.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'BLAT_alignment_bigpsl', u'database': u'NCBI', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'110'}
+DEBUG:root:sorted_bed_file_name: /home/galaxy/galaxy/database/datasets/000/dataset_196.dat
+DEBUG:root:chrom_sizes_file_name: /tmp/tmp6FxMJO.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/tracks/BLAT_alignment_bigpsl.bb
+DEBUG:root:typeOption: bed12+12
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/bigPsl.as
+DEBUG:root:tab option: True
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_199.dat
+DEBUG:root:data_value: {u'long_label': u'', u'name': u'BLAST_alignment_bigpsl', u'database': u'NCBI', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'109'}
+DEBUG:root:sorted_bed_file_name: /home/galaxy/galaxy/database/datasets/000/dataset_199.dat
+DEBUG:root:chrom_sizes_file_name: /tmp/tmp6FxMJO.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/tracks/BLAST_alignment_bigpsl.bb
+DEBUG:root:typeOption: bed12+12
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/bigPsl.as
+DEBUG:root:tab option: True
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:----- End of all_datatype_dictionary processing -----
+DEBUG:root:all_datatype_ordered_dictionary keys are: [<BedSpliceJunctions.BedSpliceJunctions object at 0x7f780e58c9d0>, <BedBlastAlignments.BedBlastAlignments object at 0x7f780e58cf50>, <bigPsl.bigPsl object at 0x7f780e58cdd0>, <BedSimpleRepeats.BedSimpleRepeats object at 0x7f780e58cb10>, <Psl.Psl object at 0x7f780e58ce10>, <Bam.Bam object at 0x7f780e58c6d0>, <Bed.Bed object at 0x7f780e58c790>, <Gtf.Gtf object at 0x7f780e58cbd0>, <cytoBand.cytoBand object at 0x7f780e58c810>, <BigWig.BigWig object at 0x7f780e58ca10>, <Gff3.Gff3 object at 0x7f780e58cc10>]
+DEBUG:root:----- Beginning of Track adding processing -----
+DEBUG:root:We just added in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_regtools_junctions_bb (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_BLAST_alignment_bigpsl_bb (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_BLAT_alignment_bigpsl_bb (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_Repeating_Elements_by_TrfBig_bb (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_blastXmlToPsl_bb (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_HISAT2_Accepted_Hits_bam (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_TBLASTN_Alignment_to_proteins_bb (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_StringTie_Assembled_Transcripts_bb (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track cytoBandIdeo (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_RNA_Seq_Alignment_Coverage_bigwig (in group default_group)
+DEBUG:root:We DON'T add in /home/galaxy/galaxy/database/jobs/000/185/dataset_210_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_Augustus_Gene_Predictions_bb (in group default_group)
+DEBUG:root:----- End of Track adding processing -----
+DEBUG:root:#### End of HubArchiveCreator Debug Mode: Bye! ####

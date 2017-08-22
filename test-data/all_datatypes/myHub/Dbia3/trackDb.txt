@@ -1,0 +1,144 @@
+
+track gonramp_regtools_junctions_bb
+longLabel regtools junctions
+shortLabel regtools junction
+bigDataUrl tracks/regtools_junctions.bb
+type bigBed 12 +
+visibility dense
+thickDrawItem off
+priority 108
+color 0,0,0
+group default_group
+searchIndex name
+
+track gonramp_BLAST_alignment_bigpsl_bb
+longLabel BLAST alignment bigpsl
+shortLabel BLAST alignment b
+bigDataUrl tracks/BLAST_alignment_bigpsl.bb
+type bigBed 12 +
+visibility dense
+thickDrawItem off
+priority 109
+color 0,0,0
+group default_group
+searchIndex name
+url https://www.ncbi.nlm.nih.gov/protein/$$
+urlLabel NCBI Details:
+iframeUrl https://www.ncbi.nlm.nih.gov/protein/$$
+iframeOptions height='600' width='800'
+        
+    
+track gonramp_BLAT_alignment_bigpsl_bb
+longLabel BLAT alignment bigpsl
+shortLabel BLAT alignment bi
+bigDataUrl tracks/BLAT_alignment_bigpsl.bb
+type bigPsl
+visibility dense
+thickDrawItem off
+priority 110
+color 0,0,0
+group default_group
+searchIndex name
+url https://www.ncbi.nlm.nih.gov/nuccore/$$
+urlLabel NCBI Details:
+iframeUrl https://www.ncbi.nlm.nih.gov/nuccore/$$
+iframeOptions height='600' width='800'
+
+
+track gonramp_Repeating_Elements_by_TrfBig_bb
+longLabel Repeating Elements by TrfBig
+shortLabel Repeating Element
+bigDataUrl tracks/Repeating_Elements_by_TrfBig.bb
+type bigBed 4 +
+visibility dense
+thickDrawItem off
+priority 102
+color 0,0,0
+group default_group
+searchIndex name
+
+track gonramp_blastXmlToPsl_bb
+longLabel blastXmlToPsl
+shortLabel blastXmlToPsl
+bigDataUrl tracks/blastXmlToPsl.bb
+type bigPsl
+visibility dense
+thickDrawItem off
+priority 103
+color 0,0,0
+group default_group
+searchIndex name
+
+track gonramp_HISAT2_Accepted_Hits_bam
+longLabel HISAT2 Accepted Hits.bam
+shortLabel HISAT2 Accepted H
+bigDataUrl tracks/HISAT2_Accepted_Hits.bam
+type bam
+visibility pack
+thickDrawItem off
+priority 100
+color 0,0,0
+group default_group
+searchIndex name
+
+track gonramp_TBLASTN_Alignment_to_proteins_bb
+longLabel TBLASTN Alignment to proteins
+shortLabel TBLASTN Alignment
+bigDataUrl tracks/TBLASTN_Alignment_to_proteins.bb
+type bigBed
+visibility dense
+thickDrawItem off
+priority 101
+color 0,0,0
+group default_group
+searchIndex name
+
+track gonramp_StringTie_Assembled_Transcripts_bb
+longLabel StringTie Assembled Transcripts
+shortLabel StringTie Assembl
+bigDataUrl tracks/StringTie_Assembled_Transcripts.bb
+type bigGenePred
+visibility dense
+thickDrawItem off
+priority 106
+color 0,0,0
+group default_group
+searchIndex name
+
+track cytoBandIdeo
+longLabel Cytoband
+shortLabel Cytoband
+bigDataUrl tracks/Cytoband.bb
+type bigBed
+visibility dense
+thickDrawItem off
+priority 107
+color 0,0,0
+group default_group
+searchIndex name
+
+track gonramp_RNA_Seq_Alignment_Coverage_bigwig
+longLabel RNA-Seq Alignment Coverage
+shortLabel RNA-Seq Alignment
+bigDataUrl tracks/RNA-Seq_Alignment_Coverage.bigwig
+visibility full
+priority 104
+color 0,0,0
+group default_group
+type bigWig 1.000000 39.000000
+autoScale on
+maxHeightPixels 100:32:8
+windowingFunction mean+whiskers
+
+
+track gonramp_Augustus_Gene_Predictions_bb
+longLabel Augustus Gene Predictions
+shortLabel Augustus Gene Pre
+bigDataUrl tracks/Augustus_Gene_Predictions.bb
+type bigGenePred
+visibility dense
+thickDrawItem off
+priority 105
+color 0,0,0
+group default_group
+searchIndex name

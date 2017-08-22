@@ -1,0 +1,32 @@
+DEBUG:root:#### Welcome in HubArchiveCreator Debug Mode ####
+
+DEBUG:root:Calling faToTwoBit:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling twoBitInfo:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/galaxy/galaxy/database/datasets/000/dataset_160.dat
+DEBUG:root:data_value: {u'long_label': u'Splice junctions', u'name': u'regtools_junctions', u'database': u'', u'track_color': u'#000000', u'group_name': u'Default group', u'order_index': u'10'}
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /tmp/tmpNmrPuS.sortedBed
+DEBUG:root:chrom_sizes_file_name: /tmp/tmpKM2jLb.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/galaxy/galaxy/database/jobs/000/175/dataset_201_files/myHub/Dbia3/tracks/regtools_junctions.bb
+DEBUG:root:typeOption: bed12+1
+DEBUG:root:autoSql: /home/galaxy/shed_tools/toolshed.g2.bx.psu.edu/repos/rmarenco/hubarchivecreator/6aa28a85cc38/hubarchivecreator/spliceJunctions.as
+DEBUG:root:tab option: False
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:----- End of all_datatype_dictionary processing -----
+DEBUG:root:all_datatype_ordered_dictionary keys are: [<BedSpliceJunctions.BedSpliceJunctions object at 0x7f3fc157f690>]
+DEBUG:root:----- Beginning of Track adding processing -----
+DEBUG:root:We just added in /home/galaxy/galaxy/database/jobs/000/175/dataset_201_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track gonramp_regtools_junctions_bb (in group default_group)
+DEBUG:root:----- End of Track adding processing -----
+DEBUG:root:#### End of HubArchiveCreator Debug Mode: Bye! ####

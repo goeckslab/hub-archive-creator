@@ -1,0 +1,32 @@
+DEBUG:root:#### Welcome in HubArchiveCreator Debug Mode ####
+
+DEBUG:root:Calling faToTwoBit:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling twoBitInfo:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:input_false_path: /home/svc_galaxy/new/galaxy/database/files/001/dataset_1199.dat
+DEBUG:root:data_value: {u'order_index': u'10', u'name': u'TBLASTN_Alignment_to_proteins', u'track_color': u'#000000', u'group_name': u'Default group'}
+DEBUG:root:Calling sort:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:sorted_bed_file_name: /home/svc_galaxy/new/galaxy/database/tmp/tmpmC5L13.sortedBed
+DEBUG:root:chrom_sizes_file_name: /home/svc_galaxy/new/galaxy/database/tmp/tmphIusrY.chrom.sizes
+DEBUG:root:big_bed_file_name: /home/svc_galaxy/new/galaxy/database/jobs_directory/000/905/dataset_1273_files/myHub/Dbia3/tracks/TBLASTN_Alignment_to_proteins.bb
+DEBUG:root:typeOption: None
+DEBUG:root:autoSql: None
+DEBUG:root:tab option: False
+DEBUG:root:Calling bedToBigBed:
+DEBUG:root:---------
+DEBUG:root:	
+DEBUG:root:----- End of all_datatype_dictionary processing -----
+DEBUG:root:all_datatype_ordered_dictionary keys are: [<Bed.Bed object at 0x2cbbd10>]
+DEBUG:root:----- Beginning of Track adding processing -----
+DEBUG:root:We just added in /home/svc_galaxy/new/galaxy/database/jobs_directory/000/905/dataset_1273_files/myHub/Dbia3/groups.txt the group Default group
+DEBUG:root:We just added track TBLASTN_Alignment_to_proteins.bb (in group default_group)
+DEBUG:root:----- End of Track adding processing -----
+DEBUG:root:#### End of HubArchiveCreator Debug Mode: Bye! ####

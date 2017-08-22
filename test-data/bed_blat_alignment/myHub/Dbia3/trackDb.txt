@@ -1,0 +1,17 @@
+    
+track gonramp_BLAT_alignment_bigpsl_bb
+longLabel BLAT alignment
+shortLabel BLAT alignment
+bigDataUrl tracks/BLAT_alignment_bigpsl.bb
+type bigPsl
+visibility dense
+thickDrawItem off
+priority 10
+color 0,0,0
+group default_group
+searchIndex name
+url https://www.ncbi.nlm.nih.gov/nuccore/$$
+urlLabel NCBI Details:
+iframeUrl https://www.ncbi.nlm.nih.gov/nuccore/$$
+iframeOptions height='600' width='800'
+

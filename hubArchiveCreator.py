@@ -5,7 +5,7 @@
 This Galaxy tool permits to prepare your files to be ready for
 Assembly Hub visualization.
 Program test arguments:
-hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f test-data/dbia3.fa -d . -u ./tools -o output.html
+hubArchiveCreator.py -g test-data/augustusDbia3.gff3 -f '{"false_path": "./test-data/common/dbia3.fa", "name":"dbia3"}' -d . -u ./tools -o output.html
 """
 
 import argparse

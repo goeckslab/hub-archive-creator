@@ -1,0 +1,26 @@
+
+track gonramp_RNA_Seq_Alignment_Coverage_bigwig
+longLabel RNA-Seq Alignment Coverage
+shortLabel RNA-Seq Alignment
+bigDataUrl tracks/RNA-Seq_Alignment_Coverage.bigwig
+visibility full
+priority 10
+color 0,0,0
+group default_group
+type bigWig 1.000000 39.000000
+autoScale on
+maxHeightPixels 100:32:8
+windowingFunction mean+whiskers
+
+
+track gonramp_StringTie_Assembled_Transcripts_bb
+longLabel StringTie Assembled Transcripts
+shortLabel StringTie Assembl
+bigDataUrl tracks/StringTie_Assembled_Transcripts.bb
+type bigGenePred
+visibility dense
+thickDrawItem off
+priority 20
+color 0,0,0
+group other_group
+searchIndex name

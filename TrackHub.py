@@ -89,16 +89,17 @@ class TrackHub(object):
 
             # TODO: The addGroup does not belong here. Move it when the group becomes more than just a label
             # Add the group as well, if exists in trackDbObject
-            self.addGroup(trackDbObject.group_name)
+            self.addGroup(trackDbObject["group_name"])
 
             htmlMakoRendered = self.trackDbTemplate.render(
                 trackDbs=trackDbs
             )
             trackDbFile.write(htmlMakoRendered)
 
-        logging.debug("We just added track {0} (in group {1})".format(trackDbObject.trackName,
-                                                                  trackDbObject.group_name.lower().replace(' ', '_')))
-
+        #logging.debug("We just added track {0} (in group {1})".format(trackDbObject.trackName,
+        #                                                          trackDbObject.group_name.lower().replace(' ', '_')))
+        logging.debug("We just added track {0} (in group {1})".format(trackDbObject.get("trackName"),
+                                                                  trackDbObject.get("group_name").lower().replace(' ', '_')))
     def addGroup(self, group_name="Default"):
         # If not already present in self.groups, add to groups.txt
         # Create the trackDb.txt file in the specie folder, if not exists

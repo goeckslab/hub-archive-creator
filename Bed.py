@@ -13,67 +13,46 @@ from util import subtools
 class Bed( Datatype ):
     def __init__( self, inputBedGeneric, data_bed_generic):
         super(Bed, self).__init__()
-
-        self.track = None
-
-        self.inputBedGeneric = inputBedGeneric
-
-        self.sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
-
-        self.data_bed_generic = data_bed_generic
-        self.name_bed_generic = self.data_bed_generic["name"]
-        self.priority = self.data_bed_generic["order_index"]
-        self.track_color = self.data_bed_generic["track_color"]
-        # TODO: Think about how to avoid repetition of the group_name everywhere
-        self.group_name = self.data_bed_generic["group_name"]
-        self.database = self.data_bed_generic["database"]
-        if self.data_bed_generic["long_label"]:
-            self.long_label = self.data_bed_generic["long_label"]
-        else:
-            self.long_label = self.name_bed_generic
-
-        # Sort processing
-        subtools.sort(self.inputBedGeneric, self.sortedBedFile.name)
-
-        # bedToBigBed processing
+        self.inputBed = inputBedGeneric
+        self.bedMetaData = data_bed_generic
+        self.bedType = 'bigBed'
+        
+    def generateCustomTrack(self):
+        self.initBedSettings(self.bedMetaData, self.bedType)
+        self.convertBedTobigBed()
+        # Create the Track Object
+        self.createTrack(trackName=self.trackName,
+                         longLabel=self.longLabel, 
+                         shortLabel=self.shortLabel,
+                         trackDataURL=self.trackDataURL,
+                         trackType=self.trackType,
+                         extra_settings = self.extra_settings
+        )
+        print("- Bed %s created" % self.trackName)  
+      
+    def initBedSettings(self, trackSettings, track_type):
+        self.initRequiredSettings(trackSettings, trackType=track_type) 
         # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
-        trackName = "".join( ( self.name_bed_generic, ".bb") )
-
-        myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
-        with open(myBigBedFilePath, 'w') as self.bigBedFile:
+        self.trackName = "".join( ( self.trackName, ".bb") )
+        self.trackDataURL = os.path.join(self.myTrackFolderPath, self.trackName)
+        if "track_color" in trackSettings:
+            self.extra_settings["track_color"] = trackSettings["track_color"]
+        if "group_name" in trackSettings:
+            self.extra_settings["group_name"] = trackSettings["group_name"]
+        if "database" in trackSettings:
+            self.extra_settings["database"] = trackSettings["database"]
+        self.extra_settings["visibility"] = "dense"
+        
+    def convertBedTobigBed(self):
+        # Sort processing
+        self.sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
+        subtools.sort(self.inputBed, self.sortedBedFile.name)
+        # bedToBigBed processing
+        with open(self.trackDataURL, 'w') as self.bigBedFile:
             subtools.bedToBigBed(self.sortedBedFile.name,
                                  self.chromSizesFile.name,
                                  self.bigBedFile.name,
                                  )
+        #print("- Bed %s created" % self.trackName)
 
-        # Create the Track Object
-        self.createTrack(file_path=trackName,
-                         track_name=trackName,
-                         long_label=self.long_label, track_type='bigBed', visibility='dense',
-                         priority=self.priority,
-                         track_file=myBigBedFilePath,
-                         track_color=self.track_color,
-                         group_name=self.group_name,
-                         database=self.database)
 
-        # dataURL = "tracks/%s" % trackName
-        #
-        # trackDb = TrackDb(
-        #     trackName=trackName,
-        #     longLabel=self.name_bed_generic,
-        #     shortLabel=self.getShortName(self.name_bed_generic),
-        #     trackDataURL=dataURL,
-        #     trackType='bigBed',
-        #     visibility='dense',
-        #     thickDrawItem='on',
-        #     priority=self.priority,
-        # )
-        #
-        # # Return the BigBed track
-        # self.track = Track(
-        #     trackFile=myBigBedFilePath,
-        #     trackDb=trackDb,
-        # )
-
-        print("- Bed %s created" % self.name_bed_generic)
-        #print("- %s created in %s" % (trackName, myBigBedFilePath))

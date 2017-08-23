@@ -4,17 +4,29 @@ import os
 import tempfile
 import string
 
-from Datatype import Datatype
+from Bed import Bed
 from Track import Track
 from TrackDb import TrackDb
 from util import subtools
 
 
-class BedBlastAlignments( Datatype ):
+class BedBlastAlignments(Bed):
     def __init__(self, input_bed_blast_alignments_false_path, data_bed_blast_alignments):
 
-        super(BedBlastAlignments, self).__init__()
+        super(BedBlastAlignments, self).__init__(input_bed_blast_alignments_false_path, data_bed_blast_alignments)
+        self.bedType ='bed12+12'
+       # self.initBedSettings(self.bedMetaData, 'bed12+12')
+       # self.convertBedTobigBed()
+       # self.createTrack(trackName=self.trackName,
+       #                  longLabel=self.longLabel, 
+       #                  shortLabel=self.shortLabel,
+       #                  trackDataURL=self.trackDataURL,
+       #                  trackType=self.trackType,
+       #                  extra_settings = self.extra_settings)
 
+        
+
+    ''' 
         self.input_bed_blast_alignments_false_path = input_bed_blast_alignments_false_path
         self.name_bed_blast_alignments = data_bed_blast_alignments["name"]
         self.priority = data_bed_blast_alignments["order_index"]
@@ -57,8 +69,23 @@ class BedBlastAlignments( Datatype ):
                          group_name=self.group_name,
                          database=self.database
                          )
-
-
+    '''
+    def convertBedTobigBed(self):
+        # Sort processing
+        self.sortedBedFile = tempfile.NamedTemporaryFile(suffix=".sortedBed")
+        subtools.sort(self.inputBed, self.sortedBedFile.name)
+        # bedToBigBed processing
+        auto_sql_option = os.path.join(self.tool_directory, 'bigPsl.as')
+        with open(self.trackDataURL, 'w') as self.bigBedFile:
+            subtools.bedToBigBed(self.sortedBedFile.name,
+                                 self.chromSizesFile.name,
+                                 self.bigBedFile.name,
+                                 typeOption='bed12+12',
+                                 tab='True',
+                                 autoSql=auto_sql_option,
+                                 extraIndex='name'
+                                 )
+        #print("- Bed Blast alignments %s created" % self.trackName)
         # dataURL = "tracks/%s" % trackName
         #
         # trackDb = TrackDb(
@@ -76,5 +103,5 @@ class BedBlastAlignments( Datatype ):
         #     trackDb=trackDb,
         # )
 
-        print("- Bed Blast alignments %s created" % self.name_bed_blast_alignments)
+    
         #print("- %s created in %s" % (trackName, myBigBedFilePath))

@@ -14,42 +14,40 @@ from TrackDb import TrackDb
 class BigWig( Datatype ):
     def __init__(self, input_bigwig_path, data_bigwig):
         super(BigWig, self).__init__()
+        self.inputBigWig = input_bigwig_path
+        self.bigWigMetaData = data_bigwig
+        self.trackType = None
 
-        self.track = None
-
-        self.input_bigwig_path = input_bigwig_path
-        self.name_bigwig = data_bigwig["name"]
-        self.priority = data_bigwig["order_index"]
-        self.track_color = data_bigwig["track_color"]
-        # TODO: Think about how to avoid repetition of the group_name everywhere
-        self.group_name = data_bigwig["group_name"]
-        self.database = data_bigwig["database"]
-        if data_bigwig["long_label"]:
-            self.long_label = data_bigwig["long_label"]
-        else:
-            self.long_label = self.name_bigwig
-        #print "Creating TrackHub BigWig from (falsePath: %s; name: %s)" % ( self.input_bigwig_path, self.name_bigwig )
-
-        trackName = "".join( ( self.name_bigwig, ".bigwig" ) )
-
-        myBigWigFilePath = os.path.join(self.myTrackFolderPath, trackName)
-        shutil.copy(self.input_bigwig_path, myBigWigFilePath)
-
+    def generateCustomTrack(self):
+        self.initBigWigSettings()
         # Create the Track Object
-        self.createTrack(file_path=trackName,
-                         track_name=trackName,
-                         long_label=self.long_label,
-                         track_type=self.determine_track_type(myBigWigFilePath),
-                         visibility='full',
-                         priority=self.priority,
-                         track_file=myBigWigFilePath,
-                         track_color=self.track_color,
-                         group_name=self.group_name,
-                         database = self.database)
+        self.createTrack(trackName=self.trackName,
+                         longLabel=self.longLabel, 
+                         shortLabel=self.shortLabel,
+                         trackDataURL=self.trackDataURL,
+                         trackType=self.trackType,
+                         extra_settings = self.extra_settings
+        )
+        print("- BigWig %s created" % self.trackName)  
 
-        print("- BigWig %s created" % self.name_bigwig)
-        #print("- %s created in %s" % (trackName, myBigWigFilePath))
+    def initBigWigSettings(self):
+        self.initRequiredSettings(self.bigWigMetaData) 
+        self.trackName = "".join( ( self.trackName, ".bigwig" ) )
+        self.moveBigWig()
+        self.trackDataURL = os.path.join(self.myTrackFolderPath, self.trackName)
+        self.trackType=self.determine_track_type(self.trackDataURL)
+        if "track_color" in self.bigWigMetaData:
+            self.extra_settings["track_color"] = self.bigWigMetaData["track_color"]
+        if "group_name" in self.bigWigMetaData:
+            self.extra_settings["group_name"] = self.bigWigMetaData["group_name"]
+        self.extra_settings["visibility"] = "dense"
+        self.extra_settings["priority"] = self.bigWigMetaData["order_index"]
 
+    def moveBigWig(self):
+        myBigWigFilePath = os.path.join(self.myTrackFolderPath, self.trackName)
+        shutil.copy(self.inputBigWig, myBigWigFilePath)
+        
+        
     def determine_track_type(self, bw_file):
         """
         bigWig tracks must declare the expected signal range for the data

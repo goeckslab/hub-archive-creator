@@ -7,6 +7,7 @@ import tempfile
 from Datatype import Datatype
 from util import subtools
 
+'''
 class InfoModifiedGtf():
     def __init__(self, is_modified=False, array_modified_lines=[]):
         self.is_modified = is_modified
@@ -14,80 +15,72 @@ class InfoModifiedGtf():
 
     def get_str_modified_lines(self):
         return ','.join(map(str, self.array_modified_lines))
+'''
 
 class Gtf( Datatype ):
     def __init__( self, input_gtf_false_path, data_gtf):
 
         super(Gtf, self).__init__()
+        self.inputGTF = input_gtf_false_path
+        self.GTFMetaData = data_gtf
+        self.trackType = "bigGenePred"
+        self.bedType = "bed12+8"
 
-        self.track = None
-
-        self.input_gtf_false_path = input_gtf_false_path
-        self.name_gtf = data_gtf["name"]
-        self.priority = data_gtf["order_index"]
-        self.track_color = data_gtf["track_color"]
-        # TODO: Think about how to avoid repetition of the group_name everywhere
-        self.group_name = data_gtf["group_name"]
-        self.database = data_gtf["database"]
-        if data_gtf["long_label"]:
-            self.long_label = data_gtf["long_label"]
+    def generateCustomTrack(self):
+        self.initGTFSettings()
+        self.convertGTFTobigBed()
+        # Create the Track Object
+        self.createTrack(trackName=self.trackName,
+                         longLabel=self.longLabel, 
+                         shortLabel=self.shortLabel,
+                         trackDataURL=self.trackDataURL,
+                         trackType=self.trackType,
+                         extra_settings = self.extra_settings
+        )
+        # TODO: Use Logging instead of print
+        if self.is_modified:
+            print("- Warning: Gtf %s created with a modified version of your Gtf because of start/end coordinates issues."
+                  % self.trackName)
+            print("Here are the lines removed: " + self.get_str_modified_lines())
         else:
-            self.long_label = self.name_gtf
-        #print "Creating TrackHub GTF from (falsePath: %s; name: %s)" % ( self.input_gtf_false_path, self.name_gtf)
-
+            print("- Gtf %s created" % self.trackName)
+    
+    def initGTFSettings(self):
+        self.initRequiredSettings(self.GTFMetaData, trackType = self.trackType) 
+        # TODO: Change the name of the bb, to tool + genome + possible adding if multiple +  .bb
+        self.trackName = "".join( ( self.trackName, ".bb") )
+        self.trackDataURL = os.path.join(self.myTrackFolderPath, self.trackName)
+        if "track_color" in self.GTFMetaData:
+            self.extra_settings["track_color"] = self.GTFMetaData["track_color"]
+        if "group_name" in self.GTFMetaData:
+            self.extra_settings["group_name"] = self.GTFMetaData["group_name"]
+        self.extra_settings["visibility"] = "dense"
+        self.extra_settings["priority"] = self.GTFMetaData["order_index"]
+        
+    def convertGTFTobigBed(self):
         # TODO: See if we need these temporary files as part of the generated files
         genePredFile = tempfile.NamedTemporaryFile(bufsize=0, suffix=".genePred")
         unsorted_bigGenePred_file = tempfile.NamedTemporaryFile(bufsize=0, suffix=".unsorted.bigGenePred")
         sorted_bigGenePred_file = tempfile.NamedTemporaryFile(suffix=".sortedBed.bigGenePred")
-
         # GtfToGenePred
         ## Checking the integrity of the inputs
         modified_gtf = self._checkAndFixGtf()
-
         ## Processing the gtf
-        subtools.gtfToGenePred(self.input_gtf_false_path, genePredFile.name)
-
-        # TODO: From there, refactor because common use with Gff3.py
+        subtools.gtfToGenePred(self.inputGTF, genePredFile.name)
         # genePredToBigGenePred processing
         subtools.genePredToBigGenePred(genePredFile.name, unsorted_bigGenePred_file.name)
-
         # Sort processing
         subtools.sort(unsorted_bigGenePred_file.name, sorted_bigGenePred_file.name)
-
         # bedToBigBed processing
-        trackName = "".join( ( self.name_gtf, ".bb") )
-
         auto_sql_option = os.path.join(self.tool_directory, 'bigGenePred.as')
-
-        myBigBedFilePath = os.path.join(self.myTrackFolderPath, trackName)
-
-        with open(myBigBedFilePath, 'w') as bigBedFile:
+        with open(self.trackDataURL, 'w') as self.bigBedFile:
             subtools.bedToBigBed(sorted_bigGenePred_file.name,
                                  self.chromSizesFile.name,
-                                 bigBedFile.name,
+                                 self.bigBedFile.name,
                                  autoSql=auto_sql_option,
-                                 typeOption='bed12+8',
+                                 typeOption=self.bedType,
                                  tab=True,
                                  extraIndex='name')
-
-
-        # Create the Track Object
-        self.createTrack(file_path=trackName,
-                         track_name=trackName,
-                         long_label=self.long_label, track_type='bigGenePred',
-                         visibility='dense', priority=self.priority,
-                         track_file=myBigBedFilePath,
-                         track_color=self.track_color,
-                         group_name=self.group_name,
-                         database=self.database)
-
-        # TODO: Use Logging instead of print
-        if modified_gtf.is_modified:
-            print("- Warning: Gtf %s created with a modified version of your Gtf because of start/end coordinates issues."
-                  % self.name_gtf)
-            print("Here are the lines removed: " + modified_gtf.get_str_modified_lines())
-        else:
-            print("- Gtf %s created" % self.name_gtf)
 
     def _checkAndFixGtf(self):
         """
@@ -97,8 +90,8 @@ class Gtf( Datatype ):
         default: remove the whole line(s)
         """
         # Set the boolean telling if we had to modify the file
-        modified_gtf = InfoModifiedGtf()
-
+        self.is_modified = False
+        self.array_modified_lines = []
         # Create a temp gtf just in case we have issues
         temp_gtf = tempfile.NamedTemporaryFile(bufsize=0, suffix=".gtf", delete=False)
 
@@ -118,7 +111,7 @@ class Gtf( Datatype ):
 
         # Parse the GTF and check each line using the chrom sizes dictionary
         with open(temp_gtf.name, 'a+') as tmp:
-            with open(self.input_gtf_false_path, 'r') as gtf:
+            with open(self.inputGTF, 'r') as gtf:
                 lines = gtf.readlines()
                 for index, line in enumerate(lines):
                     # If this is not a comment, we check the fields
@@ -144,10 +137,10 @@ class Gtf( Datatype ):
                         # If we are here, it means the gtf has been modified
                         else:
                             # We save the line for the feedback to the user
-                            modified_gtf.array_modified_lines.append(index + 1)
+                            self.array_modified_lines.append(index + 1)
 
-                            if modified_gtf.is_modified is False:
-                                modified_gtf.is_modified = True
+                            if self.is_modified is False:
+                                self.is_modified = True
                             else:
                                 pass
                     else:
@@ -155,8 +148,10 @@ class Gtf( Datatype ):
                         tmp.write(os.linesep)
 
         # Once the process it completed, we just replace the path of the gtf
-        self.input_gtf_false_path = temp_gtf.name
+        self.inputGTF = temp_gtf.name
 
         # TODO: Manage the issue with the fact the dataset is going to still exist on the disk because of delete=False
-
-        return modified_gtf
+        #return modified_gtf
+    
+    def get_str_modified_lines(self):
+        return ','.join(map(str, self.array_modified_lines))

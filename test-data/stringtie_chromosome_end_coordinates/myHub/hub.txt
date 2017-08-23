@@ -1,0 +1,6 @@
+hub gonrampDbia3
+shortLabel Dbia3
+longLabel Dbia3
+genomesFile genomes.txt
+email rmarenco@gwu.edu
+descriptionUrl Dbia3.html

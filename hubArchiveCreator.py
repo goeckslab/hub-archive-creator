@@ -183,7 +183,8 @@ def main(argv):
 
     logging.debug("----- Beginning of Track adding processing -----")
     for index, datatypeObject in all_datatype_ordered_dictionary.iteritems():
-        trackHub.addTrack(datatypeObject.track.trackDb)
+       # trackHub.addTrack(datatypeObject.track.trackDb)
+       trackHub.addTrack(datatypeObject.track.track_db)
     logging.debug("----- End of Track adding processing -----")
 
     # We process all the modifications to create the zip file
@@ -250,6 +251,7 @@ def create_ordered_datatype_objects(ExtensionClass, array_inputs, inputs_data):
                 logging.debug("input_false_path: " + input_false_path)
                 logging.debug("data_value: " + str(data_value))
                 extensionObject = ExtensionClass(input_false_path, data_value)
+                extensionObject.generateCustomTrack()
                 datatype_dictionary.update({data_value["order_index"]: extensionObject})
     return datatype_dictionary
 

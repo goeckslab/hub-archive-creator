@@ -13,42 +13,40 @@ class BigBed(Datatype):
 
     def __init__(self, input_bigbed_path, data_bigbed):
         super(BigBed, self).__init__()
+        self.inputBigBed = input_bigbed_path
+        self.bigBedMetaData = data_bigbed
+        self.trackType = None
 
-        self.track = None
-
-        self.input_bigbed_path = input_bigbed_path
-        self.name_bigbed = data_bigbed["name"]
-        self.priority = data_bigbed["order_index"]
-        self.track_color = data_bigbed["track_color"]
-        self.group_name = data_bigbed["group_name"]
-        self.database = data_bigbed["database"]
-
-        track_name = "".join((self.name_bigbed, ".bigbed"))
-        if data_bigbed["long_label"]:
-            self.long_label = data_bigbed["long_label"]
-        else:
-            self.long_label = self.name_bigbed
-
-        bigbed_file_path = os.path.join(self.myTrackFolderPath, track_name)
-
-        track_type = self.determine_track_type(input_bigbed_path)
-
-        shutil.copy(self.input_bigbed_path, bigbed_file_path)
-
+    def generateCustomTrack(self):
+        self.initBigWigSettings()
         # Create the Track Object
-        self.createTrack(file_path=track_name,
-                         track_name=track_name,
-                         long_label=self.long_label,
-                         track_type=track_type,
-                         visibility='hide',
-                         priority=self.priority,
-                         track_file=bigbed_file_path,
-                         track_color=self.track_color,
-                         group_name=self.group_name,
-                         database=self.database)
+        self.createTrack(trackName=self.trackName,
+                         longLabel=self.longLabel, 
+                         shortLabel=self.shortLabel,
+                         trackDataURL=self.trackDataURL,
+                         trackType=self.trackType,
+                         extra_settings = self.extra_settings
+        )
+        print("- BigBed %s created" % self.trackName)  
 
-        print "- BigBed %s created" % self.name_bigbed
-
+    def initBigWigSettings(self):
+        self.initRequiredSettings(self.bigBedMetaData) 
+        self.trackName = "".join( ( self.trackName, ".bigbed" ) )
+        self.moveBigBed()
+        self.trackDataURL = os.path.join(self.myTrackFolderPath, self.trackName)
+        self.trackType=self.determine_track_type(self.trackDataURL)
+        if "track_color" in self.bigBedMetaData:
+            self.extra_settings["track_color"] = self.bigBedMetaData["track_color"]
+        if "group_name" in self.bigBedMetaData:
+            self.extra_settings["group_name"] = self.bigBedMetaData["group_name"]
+        self.extra_settings["visibility"] = "dense"
+        self.extra_settings["priority"] = self.bigBedMetaData["order_index"]
+        if "database" in self.bigBedMetaData:
+            self.extra_settings["database"] = self.bigBedMetaData["database"]
+    
+    def moveBigBed(self):
+        myBigBedFilePath = os.path.join(self.myTrackFolderPath, self.trackName)
+        shutil.copy(self.inputBigBed, myBigBedFilePath)
 
     def determine_track_type(self, bb_file):
         """

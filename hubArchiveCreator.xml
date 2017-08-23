@@ -1265,6 +1265,31 @@
             </output>
         </test>
 
+        <!-- Test for StringTie Chromosome end coordinates -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="gtf"/>
+                        <param name="GTF" ftype="gtf" value="stringtie_chromosome_end_coordinates/inputs/StringTie_Assembled_Transcripts"/>
+                        <param name="track_color" value="#000000"/>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <output name="output" file="stringtie_chromosome_end_coordinates/stringtie_chromosome_end_coordinates_trackhub.html">
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             value="stringtie_chromosome_end_coordinates/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
+                             compare="sim_size"
+                />
+
+                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+            </output>
+        </test>
+
         <!-- Test default label in a track -->
         <test>
             <param name="genome_name" value="Dbia3"/>

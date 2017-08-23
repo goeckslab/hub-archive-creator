@@ -18,69 +18,43 @@ from TrackDb import TrackDb
 class Bam( Datatype ):
     def __init__(self, input_bam_false_path, data_bam):
         super(Bam, self).__init__()
+        self.inputBam = input_bam_false_path
+        self.bamMetaData = data_bam
+        self.trackType = "bam"
+        
+    def generateCustomTrack(self):
+        self.initBamSettings()
+        # Create the Track Object
+        self.createTrack(trackName=self.trackName,
+                         longLabel=self.longLabel, 
+                         shortLabel=self.shortLabel,
+                         trackDataURL=self.trackDataURL,
+                         trackType=self.trackType,
+                         extra_settings = self.extra_settings
+        )
+        print("- Bam %s created" % self.trackName)  
 
-        self.track = None
+    def initBamSettings(self):
+        self.initRequiredSettings(self.bamMetaData, trackType = self.trackType) 
+        self.moveBam()
+        self.moveBamIndex()
+        self.trackDataURL = os.path.join(self.myTrackFolderPath, self.trackName)
+        if "track_color" in self.bamMetaData:
+            self.extra_settings["track_color"] = self.bamMetaData["track_color"]
+        if "group_name" in self.bamMetaData:
+            self.extra_settings["group_name"] = self.bamMetaData["group_name"]
+        self.extra_settings["visibility"] = "pack"
+        self.extra_settings["priority"] = self.bamMetaData["order_index"]
 
-        self.input_bam_false_path = input_bam_false_path
-
-        self.data_bam = data_bam
-        # TODO: Check if it already contains the .bam extension / Do a function in Datatype which check the extension
-        if ".bam" not in self.data_bam["name"]:
-            self.name_bam = self.data_bam["name"] + ".bam"
-        else:
-            self.name_bam = self.data_bam["name"]
-
-        self.priority = self.data_bam["order_index"]
-        self.index_bam = self.data_bam["index"]
-        # TODO: Think about how to avoid repetition of the color treatment
-        self.track_color = self.data_bam["track_color"]
-
-        # TODO: Think about how to avoid repetition of the group_name everywhere
-        self.group_name = self.data_bam["group_name"]
-        self.database = self.data_bam["database"]
-        if self.data_bam["long_label"]:
-            self.long_label = self.data_bam["long_label"]
-        else:
-            self.long_label = self.name_bam
-        # First: Add the bam file
-        # Second: Add the bam index file, in the same folder (https://genome.ucsc.edu/goldenpath/help/bam.html)
-
-        bam_file_path = os.path.join(self.myTrackFolderPath, self.name_bam)
-        shutil.copyfile(self.input_bam_false_path, bam_file_path)
-
+    def moveBam(self):
+        if ".bam" not in self.trackName:
+            self.trackName = self.trackName + ".bam"
+        bam_file_path = os.path.join(self.myTrackFolderPath, self.trackName)
+        shutil.copyfile(self.inputBam, bam_file_path)
+    
+    def moveBamIndex(self):
         # Create and add the bam index file to the same folder
-        name_index_bam = self.name_bam + ".bai"
+        self.index_bam = self.bamMetaData["index"]
+        name_index_bam = self.trackName + ".bai"
         bam_index_file_path = os.path.join(self.myTrackFolderPath, name_index_bam)
         shutil.copyfile(self.index_bam, bam_index_file_path)
-
-        # Create the Track Object
-        self.createTrack(file_path=self.name_bam,
-                         track_name=self.name_bam,
-                         long_label=self.long_label, track_type='bam', visibility='pack', priority=self.priority,
-                         track_file=bam_index_file_path,
-                         track_color=self.track_color,
-                         group_name=self.group_name,
-                         database=self.database
-                         )
-        #
-        # dataURL = "tracks/%s" % self.name_bam
-        #
-        # trackDb = TrackDb(
-        #     trackName=self.name_bam,
-        #     longLabel=self.name_bam,
-        #     shortLabel=self.getShortName( self.name_bam ),
-        #     trackDataURL=dataURL,
-        #     trackType='bam',
-        #     visibility='pack',
-        #     priority=self.priority,
-        # )
-        #
-        # # Return the Bam Track Object
-        # self.track = Track(
-        #     trackFile=bam_index_file_path,
-        #     trackDb=trackDb,
-        # )
-
-        print("- Bam %s created" % self.name_bam)
-        #print("- %s created in %s" % (self.name_bam, bam_file_path))
-        #print("- %s created in %s" % (self.index_bam, bam_index_file_path))

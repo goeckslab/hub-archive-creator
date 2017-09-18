@@ -23,30 +23,35 @@
     <!-- Idea: python \ -augustus [parameters] \ -trfBig [parameters] -->
     <command detect_errors="exit_code"><![CDATA[
         mkdir -p $output.extra_files_path;
-
-        python $__tool_directory__/hubArchiveCreator.py
+        #import json
+        #import os
+        #set global $data_parameter_dict = {}
+        
 
         ## Ask the user to enter the genome name
-        --genome_name '$genome_name'
+        #silent $data_parameter_dict.update({"genome_name": str($genome_name)})
 
-        #import json
-
-        #set global data_parameter_dict = {}
-
+    
         ## Function to retrieve the data of the inputs
-        #def prepare_json($input_to_prepare, $order_index, $extra_data_dict={})
+        #def prepare_json($datatype, $input_to_prepare, $order_index, $extra_data_dict={})
             #set false_path = str($input_to_prepare)
-            #set name = $input_to_prepare.name
+            #set $data_dict = {"false_path": $false_path}
 
-            #set data_dict = {"name": $name}
-            #silent data_dict.update($extra_data_dict)
-
+            #set name = str($input_to_prepare.name)
+            #silent $data_dict.update({"name": $name})
+            #silent $data_dict.update($extra_data_dict)
             ## Add the ordering by taking the tool form indexes
             #silent $data_dict.update({"order_index": $order_index})
 
-            #silent $data_parameter_dict.update({$false_path: $data_dict})
-
+            #if $datatype in $data_parameter_dict
+                #silent $data_parameter_dict[$datatype].append($data_dict)
+            #else
+                #set array_inputs = []
+                #silent $array_inputs.append($data_dict)
+                #silent $data_parameter_dict.update({$datatype: $array_inputs})
+            #end if 
         #end def
+
 
 
         ## Get the number of digits from tracks, to have a unique integer from group index and track index
@@ -79,101 +84,106 @@
                                         "long_label": $longLabel}
 
                 #if $f.formatChoice.format_select == "bam"
-                    --bam $f.formatChoice.BAM
+                    ##--bam $f.formatChoice.BAM
                     #set bam_index = $f.formatChoice.BAM.metadata.bam_index
 
                     ## Add Bam format specific fields
-                    #silent extra_data_dict.update({"index": $bam_index})
+                    #silent $extra_data_dict.update({"index": $bam_index})
 
-                    #silent $prepare_json($f.formatChoice.BAM, $index_track_final, extra_data_dict)
+                    #silent $prepare_json("bam", $f.formatChoice.BAM, $index_track_final, $extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "bed"
                     #if $f.formatChoice.bedChoice.bed_select == "bed_generic"
-                        --bed $f.formatChoice.bedChoice.BED
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED, $index_track_final,
-                                                extra_data_dict)
+                        ##--Bed $f.formatChoice.bedChoice.BED
+                        #silent $prepare_json("Bed", $f.formatChoice.bedChoice.BED, $index_track_final,
+                                                $extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_cytoBand"
-                        --cytoBand $f.formatChoice.bedChoice.BED_cytoBand
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED_cytoBand, $index_track_final,
-                                                extra_data_dict)
+                        ##--CytoBand $f.formatChoice.bedChoice.BED_cytoBand
+                        #silent $prepare_json("CytoBand", $f.formatChoice.bedChoice.BED_cytoBand, $index_track_final,
+                                                $extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
-                        --bedSimpleRepeats $f.formatChoice.bedChoice.BED_simple_repeats
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED_simple_repeats, $index_track_final,
-                                                extra_data_dict)
+                        ##--BedSimpleRepeats $f.formatChoice.bedChoice.BED_simple_repeats
+                        #silent $prepare_json("BedSimpleRepeats", $f.formatChoice.bedChoice.BED_simple_repeats, $index_track_final,
+                                                $extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_splice_junctions_option"
-                        --bedSpliceJunctions $f.formatChoice.bedChoice.BED_splice_junctions
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED_splice_junctions, $index_track_final,
-                                                extra_data_dict)
+                        ##--BedSpliceJunctions $f.formatChoice.bedChoice.BED_splice_junctions
+                        #silent $prepare_json("BedSpliceJunctions", $f.formatChoice.bedChoice.BED_splice_junctions, $index_track_final,
+                                                $extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_blast_alignment_option"
-                        --bedBlastAlignments $f.formatChoice.bedChoice.BED_blast_alignment
+                        ##--bedBlastAlignments $f.formatChoice.bedChoice.BED_blast_alignment
                         #set database = str($f.formatChoice.bedChoice.database)
-                        #silent extra_data_dict.update({"database": $database})
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,
-                                             extra_data_dict)
+                        #silent $extra_data_dict.update({"database": $database})
+                        #silent $prepare_json("BedBlastAlignments", $f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,
+                                             $extra_data_dict)
                     #end if
                     #if $f.formatChoice.bedChoice.bed_select == "bed_blat_alignment_option"
-                        --bigpsl $f.formatChoice.bedChoice.BED_blat_alignment
+                        ##--bedBlatAlignments $f.formatChoice.bedChoice.BED_blat_alignment
                         #set database = str($f.formatChoice.bedChoice.database)
-                        #silent extra_data_dict.update({"database": $database})
-                        #silent $prepare_json($f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,
-                                             extra_data_dict)
+                        #silent $extra_data_dict.update({"database": $database})
+                        #silent $prepare_json("BedBlatAlignments", $f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,
+                                             $extra_data_dict)
                     #end if
                 #end if
                 #if $f.formatChoice.format_select == "psl"
-                    --psl $f.formatChoice.PSL
-                    #silent $prepare_json($f.formatChoice.PSL, $index_track_final,
-                                           extra_data_dict)
+                    ##--psl $f.formatChoice.PSL
+                    #silent $prepare_json("Psl", $f.formatChoice.PSL, $index_track_final,
+                                           $extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "bigwig"
-                    --bigwig $f.formatChoice.BIGWIG
-                    #silent $prepare_json($f.formatChoice.BIGWIG, $index_track_final,
-                                            extra_data_dict)
+                    ##--bigwig $f.formatChoice.BIGWIG
+                    #silent $prepare_json("BigWig", $f.formatChoice.BIGWIG, $index_track_final,
+                                            $extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "bigbed"
-                    --bigbed $f.formatChoice.BIGBED
-                    #silent $prepare_json($f.formatChoice.BIGBED, $index_track_final,
-                                            extra_data_dict)
+                    ##--bigbed $f.formatChoice.BIGBED
+                    #silent $prepare_json("BigBed", $f.formatChoice.BIGBED, $index_track_final,
+                                            $extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "gff3"
-                    --gff3 $f.formatChoice.GFF3
-                    #silent $prepare_json($f.formatChoice.GFF3, $index_track_final,
-                                            extra_data_dict)
+                    ##--gff3 $f.formatChoice.GFF3
+                    #silent $prepare_json("Gff3", $f.formatChoice.GFF3, $index_track_final,
+                                            $extra_data_dict)
                 #end if
                 #if $f.formatChoice.format_select == "gtf"
                     ## Add also GTF from Agustus? See https://github.com/ENCODE-DCC/kentUtils/issues/8
-                    --gtf $f.formatChoice.GTF
-                    #silent $prepare_json($f.formatChoice.GTF, $index_track_final,
-                                             extra_data_dict)
+                    ##--gtf $f.formatChoice.GTF
+                    #silent $prepare_json("Gtf", $f.formatChoice.GTF, $index_track_final,
+                                             $extra_data_dict)
                 #end if
             #end for
         #end for
 
         ## We combine the fasta file dataset name with his false path in a JSON object
-        #set fasta_json = json.dumps({"false_path": str($fasta_file), "name": $fasta_file.name})
-        -f '$fasta_json'
-
-        ## Dump the final json
-        #set all_data_json = json.dumps($data_parameter_dict)
-
-        --data_json '$all_data_json'
+        #set fasta_json = {"false_path": str($fasta_file), "name": str($fasta_file.name)}
+        #silent $data_parameter_dict.update({"fasta": $fasta_json})
 
         ## Retrieve the user email
-        --user_email $__user_email__
+        #silent $data_parameter_dict.update({"user_email": str($__user_email__)})
 
-        -d $__tool_directory__
+        #silent $data_parameter_dict.update({"tool_directory": str($__tool_directory__)})
 
-        -e $output.extra_files_path
+        #silent $data_parameter_dict.update({"extra_files_path": str($output.extra_files_path)})
 
-        $advanced_options.debug_mode
+        #silent $data_parameter_dict.update({"debug_mode": str($advanced_options.debug_mode)})
 
-        -o $output;
+        ##silent $data_parameter_dict.update({"output": str($output.name)})
+
+        ## TODO: Dump the final json into a file 
+
+        ##set $f = open('parameters_json', 'w')
+        ##json.dump($data_parameter_dict, $f)
+        ##python $create_json_file $data_parameter_dict;
+        ##python $__tool_directory__/hubArchiveCreator.py --data_json $all_data_json -o $output
+
+        ## Dump parameters into JSON string
+        #set $data = json.dumps($data_parameter_dict)
+        python $__tool_directory__/hubArchiveCreator.py --data_json '$data' -o $output
 
     ]]></command>
-
     <inputs>
         <param
                 name="genome_name"
@@ -388,9 +398,9 @@
             </param>
             <!-- TODO: Avoid redundancy here -->
             <when value="on">
-                <param name="debug_mode" type="boolean"
-                       label="Activate debug mode" checked="false"
-                       truevalue="--debug_mode" falsevalue="">
+                <param name="debug_mode" type="select" label="Activate debug mode"> 
+                    <option value="false" selected="true">No</option>
+                    <option value="true">Yes</option>
                     <help>
                         Use this option if you are a G-OnRamp developer
                     </help>
@@ -398,11 +408,11 @@
             </when>
             <when value="off">
                 <param name="debug_mode" type="hidden"
-                       value="">
+                       value="false">
                 </param>
             </when>
-    </conditional>
-</inputs>
+        </conditional>
+    </inputs>
 
     <outputs>
         <data format="trackhub" name="output"/>
@@ -414,7 +424,6 @@
             <param name="genome_name" value="Dbia3"/>
             <param name="fasta_file" value="common/dbia3.fa"/>
             <output name="output" file="only_genome/only_genome.html">
-                <extra_files type="file" name="__main__.log" value="only_genome/__main__.log" />
                 <extra_files type="file" name="myHub/genomes.txt" value="only_genome/myHub/genomes.txt" />
                 <extra_files type="file" name="myHub/Dbia3.html" value="only_genome/myHub/Dbia3.html"/>
                 <!-- Email could be different, but we need to ensure we still have the email line -->
@@ -457,7 +466,7 @@
                              compare="sim_size"
                 />
                 <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <extra_files type="file" name="myHub/Dbia3/trackDb.txt" value="bam/myHub/Dbia3/trackDb.txt">
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
                     <assert_contents>
                         <has_text text="track"/>
                         <has_text text="longLabel"/>

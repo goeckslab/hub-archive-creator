@@ -23,167 +23,156 @@
     <!-- Idea: python \ -augustus [parameters] \ -trfBig [parameters] -->
     <command detect_errors="exit_code"><![CDATA[
         mkdir -p $output.extra_files_path;
-        #import json
-        #import os
-        #set global $data_parameter_dict = {}
         
+        ## Dump the tool parameters into a JSON file 
+        python $json_file parameters.json;
 
-        ## Ask the user to enter the genome name
-        #silent $data_parameter_dict.update({"genome_name": str($genome_name)})
-
-    
-        ## Function to retrieve the data of the inputs
-        #def prepare_json($datatype, $input_to_prepare, $order_index, $extra_data_dict={})
-            #set false_path = str($input_to_prepare)
-            #set $data_dict = {"false_path": $false_path}
-
-            #set name = str($input_to_prepare.name)
-            #silent $data_dict.update({"name": $name})
-            #silent $data_dict.update($extra_data_dict)
-            ## Add the ordering by taking the tool form indexes
-            #silent $data_dict.update({"order_index": $order_index})
-
-            #if $datatype in $data_parameter_dict
-                #silent $data_parameter_dict[$datatype].append($data_dict)
-            #else
-                #set array_inputs = []
-                #silent $array_inputs.append($data_dict)
-                #silent $data_parameter_dict.update({$datatype: $array_inputs})
-            #end if 
-        #end def
+        python $__tool_directory__/hubArchiveCreator.py --data_json parameters.json -o $output;
 
 
+    ]]></command>
+    <configfiles>
+        <configfile name="json_file">
+import json
+import sys
 
-        ## Get the number of digits from tracks, to have a unique integer from group index and track index
+file_path = sys.argv[1]
+#set global $data_parameter_dict = {}
 
-        #set temp_max_digit = 0
+## Ask the user to enter the genome name
+#silent $data_parameter_dict.update({"genome_name": str($genome_name)})
 
-        #for $g in $group
-            #if len($g.format) > $temp_max_digit
-                #silent temp_max_digit = len($g.format)
-            #end if
-        #end for
+## Function to retrieve the data of the inputs
+#def prepare_json($datatype, $input_to_prepare, $order_index, $extra_data_dict={})
+    #set false_path = str($input_to_prepare)
+    #set $data_dict = {"false_path": $false_path}
 
-        #set nb_digits_max_track = len(str($temp_max_digit))
+    #set name = str($input_to_prepare.name)
+    #silent $data_dict.update({"name": $name})
+    #silent $data_dict.update($extra_data_dict)
+    ## Add the ordering by taking the tool form indexes
+    #silent $data_dict.update({"order_index": $order_index})
 
-        ## END Get the number of digits
+    #if $datatype in $data_parameter_dict
+        #silent $data_parameter_dict[$datatype].append($data_dict)
+    #else
+        #set array_inputs = []
+        #silent $array_inputs.append($data_dict)
+        #silent $data_parameter_dict.update({$datatype: $array_inputs})
+    #end if 
+#end def
 
-        #for $i_g, $g in enumerate( $group )
-            #for $i, $f in enumerate( $g.format )
-                ## Create the order index using index_group+1 concatenated with index_track
-                #set index_group_final = str($i_g + 1)
-                #set index_track_final = str($index_group_final) + str($i).zfill($nb_digits_max_track)
+## Get the number of digits from tracks, to have a unique integer from group index and track index
 
-                ## For each format, we have a few mandatory fields we store in a dict
-                #set track_color = str($f.formatChoice.track_color)
-                #set group_name = str($g.group_name)
-                #set longLabel = str($f.formatChoice.longLabel)
-                #set extra_data_dict = {"database": "",
+#set temp_max_digit = 0
+
+#for $g in $group
+    #if len($g.format) > $temp_max_digit
+        #silent temp_max_digit = len($g.format)
+    #end if
+#end for
+
+
+#set nb_digits_max_track = len(str($temp_max_digit))
+
+## END Get the number of digits
+
+#for $i_g, $g in enumerate( $group )
+    #for $i, $f in enumerate( $g.format )
+        ## Create the order index using index_group+1 concatenated with index_track
+        #set index_group_final = str($i_g + 1)
+        #set index_track_final = str($index_group_final) + str($i).zfill($nb_digits_max_track)
+
+        ## For each format, we have a few mandatory fields we store in a dict
+        #set track_color = str($f.formatChoice.track_color)
+        #set group_name = str($g.group_name)
+        #set longLabel = str($f.formatChoice.longLabel)
+        #set extra_data_dict = {"database": "",
                                         "track_color": $track_color,
                                         "group_name": $group_name,
                                         "long_label": $longLabel}
 
-                #if $f.formatChoice.format_select == "bam"
-                    ##--bam $f.formatChoice.BAM
-                    #set bam_index = $f.formatChoice.BAM.metadata.bam_index
+        #if $f.formatChoice.format_select == "bam"
+            #set bam_index = $f.formatChoice.BAM.metadata.bam_index
 
-                    ## Add Bam format specific fields
-                    #silent $extra_data_dict.update({"index": $bam_index})
+            ## Add Bam format specific fields
+            #silent $extra_data_dict.update({"index": $bam_index})
 
-                    #silent $prepare_json("bam", $f.formatChoice.BAM, $index_track_final, $extra_data_dict)
-                #end if
-                #if $f.formatChoice.format_select == "bed"
-                    #if $f.formatChoice.bedChoice.bed_select == "bed_generic"
-                        ##--Bed $f.formatChoice.bedChoice.BED
-                        #silent $prepare_json("Bed", $f.formatChoice.bedChoice.BED, $index_track_final,
+            #silent $prepare_json("bam", $f.formatChoice.BAM, $index_track_final, $extra_data_dict)
+        #end if
+        #if $f.formatChoice.format_select == "bed"
+            #if $f.formatChoice.bedChoice.bed_select == "bed_generic"
+                #silent $prepare_json("Bed", $f.formatChoice.bedChoice.BED, $index_track_final,
                                                 $extra_data_dict)
-                    #end if
-                    #if $f.formatChoice.bedChoice.bed_select == "bed_cytoBand"
-                        ##--CytoBand $f.formatChoice.bedChoice.BED_cytoBand
-                        #silent $prepare_json("CytoBand", $f.formatChoice.bedChoice.BED_cytoBand, $index_track_final,
+            #end if
+            #if $f.formatChoice.bedChoice.bed_select == "bed_cytoBand"
+                #silent $prepare_json("CytoBand", $f.formatChoice.bedChoice.BED_cytoBand, $index_track_final,
                                                 $extra_data_dict)
-                    #end if
-                    #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
-                        ##--BedSimpleRepeats $f.formatChoice.bedChoice.BED_simple_repeats
-                        #silent $prepare_json("BedSimpleRepeats", $f.formatChoice.bedChoice.BED_simple_repeats, $index_track_final,
+            #end if
+            #if $f.formatChoice.bedChoice.bed_select == "bed_simple_repeats_option"
+                #silent $prepare_json("BedSimpleRepeats", $f.formatChoice.bedChoice.BED_simple_repeats, $index_track_final,
                                                 $extra_data_dict)
-                    #end if
-                    #if $f.formatChoice.bedChoice.bed_select == "bed_splice_junctions_option"
-                        ##--BedSpliceJunctions $f.formatChoice.bedChoice.BED_splice_junctions
-                        #silent $prepare_json("BedSpliceJunctions", $f.formatChoice.bedChoice.BED_splice_junctions, $index_track_final,
+            #end if
+            #if $f.formatChoice.bedChoice.bed_select == "bed_splice_junctions_option"
+                #silent $prepare_json("BedSpliceJunctions", $f.formatChoice.bedChoice.BED_splice_junctions, $index_track_final,
                                                 $extra_data_dict)
-                    #end if
-                    #if $f.formatChoice.bedChoice.bed_select == "bed_blast_alignment_option"
-                        ##--bedBlastAlignments $f.formatChoice.bedChoice.BED_blast_alignment
-                        #set database = str($f.formatChoice.bedChoice.database)
-                        #silent $extra_data_dict.update({"database": $database})
-                        #silent $prepare_json("BedBlastAlignments", $f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,
+            #end if
+            #if $f.formatChoice.bedChoice.bed_select == "bed_blast_alignment_option"
+                #set database = str($f.formatChoice.bedChoice.database)
+                #silent $extra_data_dict.update({"database": $database})
+                #silent $prepare_json("BedBlastAlignments", $f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,
                                              $extra_data_dict)
-                    #end if
-                    #if $f.formatChoice.bedChoice.bed_select == "bed_blat_alignment_option"
-                        ##--bedBlatAlignments $f.formatChoice.bedChoice.BED_blat_alignment
-                        #set database = str($f.formatChoice.bedChoice.database)
-                        #silent $extra_data_dict.update({"database": $database})
-                        #silent $prepare_json("BedBlatAlignments", $f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,
+            #end if
+            #if $f.formatChoice.bedChoice.bed_select == "bed_blat_alignment_option"
+                #set database = str($f.formatChoice.bedChoice.database)
+                #silent $extra_data_dict.update({"database": $database})
+                #silent $prepare_json("BedBlatAlignments", $f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,
                                              $extra_data_dict)
-                    #end if
-                #end if
-                #if $f.formatChoice.format_select == "psl"
-                    ##--psl $f.formatChoice.PSL
-                    #silent $prepare_json("Psl", $f.formatChoice.PSL, $index_track_final,
+            #end if
+        #end if
+        #if $f.formatChoice.format_select == "psl"
+            #silent $prepare_json("Psl", $f.formatChoice.PSL, $index_track_final,
                                            $extra_data_dict)
-                #end if
-                #if $f.formatChoice.format_select == "bigwig"
-                    ##--bigwig $f.formatChoice.BIGWIG
-                    #silent $prepare_json("BigWig", $f.formatChoice.BIGWIG, $index_track_final,
+        #end if
+        #if $f.formatChoice.format_select == "bigwig"
+            #silent $prepare_json("BigWig", $f.formatChoice.BIGWIG, $index_track_final,
                                             $extra_data_dict)
-                #end if
-                #if $f.formatChoice.format_select == "bigbed"
-                    ##--bigbed $f.formatChoice.BIGBED
-                    #silent $prepare_json("BigBed", $f.formatChoice.BIGBED, $index_track_final,
+        #end if
+        #if $f.formatChoice.format_select == "bigbed"
+            #silent $prepare_json("BigBed", $f.formatChoice.BIGBED, $index_track_final,
                                             $extra_data_dict)
-                #end if
-                #if $f.formatChoice.format_select == "gff3"
-                    ##--gff3 $f.formatChoice.GFF3
-                    #silent $prepare_json("Gff3", $f.formatChoice.GFF3, $index_track_final,
+        #end if
+        #if $f.formatChoice.format_select == "gff3"
+            #silent $prepare_json("Gff3", $f.formatChoice.GFF3, $index_track_final,
                                             $extra_data_dict)
-                #end if
-                #if $f.formatChoice.format_select == "gtf"
-                    ## Add also GTF from Agustus? See https://github.com/ENCODE-DCC/kentUtils/issues/8
-                    ##--gtf $f.formatChoice.GTF
-                    #silent $prepare_json("Gtf", $f.formatChoice.GTF, $index_track_final,
+        #end if
+        #if $f.formatChoice.format_select == "gtf"
+            ## Add also GTF from Agustus? See https://github.com/ENCODE-DCC/kentUtils/issues/8
+            #silent $prepare_json("Gtf", $f.formatChoice.GTF, $index_track_final,
                                              $extra_data_dict)
-                #end if
-            #end for
-        #end for
+        #end if
+    #end for
+#end for
 
-        ## We combine the fasta file dataset name with his false path in a JSON object
-        #set fasta_json = {"false_path": str($fasta_file), "name": str($fasta_file.name)}
-        #silent $data_parameter_dict.update({"fasta": $fasta_json})
+## We combine the fasta file dataset name with his false path in a JSON object
+#set fasta_json = {"false_path": str($fasta_file), "name": str($fasta_file.name)}
+$data_parameter_dict.update({"fasta": $fasta_json})
 
-        ## Retrieve the user email
-        #silent $data_parameter_dict.update({"user_email": str($__user_email__)})
+## Retrieve the user email
+#silent $data_parameter_dict.update({"user_email": str($__user_email__)})
 
-        #silent $data_parameter_dict.update({"tool_directory": str($__tool_directory__)})
+#silent $data_parameter_dict.update({"tool_directory": str($__tool_directory__)})
 
-        #silent $data_parameter_dict.update({"extra_files_path": str($output.extra_files_path)})
+#silent $data_parameter_dict.update({"extra_files_path": str($output.extra_files_path)})
 
-        #silent $data_parameter_dict.update({"debug_mode": str($advanced_options.debug_mode)})
+#silent $data_parameter_dict.update({"debug_mode": str($advanced_options.debug_mode)})
 
-        ##silent $data_parameter_dict.update({"output": str($output.name)})
+with open(file_path, 'w') as f:
+    json.dump($data_parameter_dict, f)
 
-        ## TODO: Dump the final json into a file 
+        </configfile>
+    </configfiles>
 
-        ##set $f = open('parameters_json', 'w')
-        ##json.dump($data_parameter_dict, $f)
-        ##python $create_json_file $data_parameter_dict;
-        ##python $__tool_directory__/hubArchiveCreator.py --data_json $all_data_json -o $output
-
-        ## Dump parameters into JSON string
-        #set $data = json.dumps($data_parameter_dict)
-        python $__tool_directory__/hubArchiveCreator.py --data_json '$data' -o $output
-
-    ]]></command>
     <inputs>
         <param
                 name="genome_name"

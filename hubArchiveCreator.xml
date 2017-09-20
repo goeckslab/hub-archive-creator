@@ -3,6 +3,9 @@
         This Galaxy tool permits to prepare your files to be ready for
         Assembly Hub visualization.
     </description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
 
     <requirements>
         <requirement type="package" version="340">ucsc_hac</requirement>
@@ -87,10 +90,9 @@ file_path = sys.argv[1]
         #set track_color = str($f.formatChoice.track_color)
         #set group_name = str($g.group_name)
         #set longLabel = str($f.formatChoice.longLabel)
-        #set extra_data_dict = {"database": "",
-                                        "track_color": $track_color,
-                                        "group_name": $group_name,
-                                        "long_label": $longLabel}
+        #set extra_data_dict = {"track_color": $track_color,
+                                "group_name": $group_name,
+                                "long_label": $longLabel}
 
         #if $f.formatChoice.format_select == "bam"
             #set bam_index = $f.formatChoice.BAM.metadata.bam_index
@@ -98,7 +100,7 @@ file_path = sys.argv[1]
             ## Add Bam format specific fields
             #silent $extra_data_dict.update({"index": $bam_index})
 
-            #silent $prepare_json("bam", $f.formatChoice.BAM, $index_track_final, $extra_data_dict)
+            #silent $prepare_json("Bam", $f.formatChoice.BAM, $index_track_final, $extra_data_dict)
         #end if
         #if $f.formatChoice.format_select == "bed"
             #if $f.formatChoice.bedChoice.bed_select == "bed_generic"
@@ -413,17 +415,8 @@ with open(file_path, 'w') as f:
             <param name="genome_name" value="Dbia3"/>
             <param name="fasta_file" value="common/dbia3.fa"/>
             <output name="output" file="only_genome/only_genome.html">
-                <extra_files type="file" name="myHub/genomes.txt" value="only_genome/myHub/genomes.txt" />
-                <extra_files type="file" name="myHub/Dbia3.html" value="only_genome/myHub/Dbia3.html"/>
-                <!-- Email could be different, but we need to ensure we still have the email line -->
-                <extra_files type="file" name="myHub/hub.txt" value="only_genome/myHub/hub.txt" lines_diff="2">
-                    <assert_contents>
-                        <has_text text="email"/>
-                    </assert_contents>
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/description.html" value="only_genome/myHub/Dbia3/description.html"/>
+                <!-- Use macro to check the whole common structure without repeated code -->
+                <expand macro="verify_hub_structure_no_track" test="only_genome" />
             </output>
         </test>
 
@@ -454,22 +447,8 @@ with open(file_path, 'w') as f:
                              value="bam/myHub/Dbia3/tracks/HISAT2_Accepted_Hits.bam.bai"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
-                    <assert_contents>
-                        <has_text text="track"/>
-                        <has_text text="longLabel"/>
-                        <has_text text="shortLabel"/>
-                        <has_text text="bigDataUrl"/>
-                        <has_text text="type"/>
-                        <has_text text="visibility"/>
-                        <has_text text="thickDrawItem"/>
-                        <has_text text="priority"/>
-                        <has_text text="color"/>
-                        <has_text text="group"/>
-                    </assert_contents>
-                </extra_files>
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <!-- Use macro to check the whole common structure without repeated code -->
+                <expand macro="verify_hub_structure" test="bam" />
             </output>
         </test>
 
@@ -492,12 +471,12 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="bed_generic/bed_generic.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/TBLASTN_Alignment_to_proteins.bb"
                              value="bed_generic/myHub/Dbia3/tracks/TBLASTN_Alignment_to_proteins.bb"
                              compare="sim_size"
                 />
+                <expand macro="verify_hub_structure" test="bed_generic" />
             </output>
         </test>
 
@@ -520,12 +499,12 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="bed_simple_repeats/bed_simple_repeats_trackhub.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/Repeating_Elements_by_TrfBig.bb"
                              value="bed_simple_repeats/myHub/Dbia3/tracks/Repeating_Elements_by_TrfBig.bb"
                              compare="sim_size"
                 />
+                <expand macro="verify_hub_structure" test="bed_simple_repeats" />
             </output>
         </test>
 
@@ -545,14 +524,12 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="psl/psl_trackhub.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/blastXmlToPsl.bb"
                              value="psl/myHub/Dbia3/tracks/blastXmlToPsl.bb"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="psl" />
             </output>
         </test>
 
@@ -572,14 +549,20 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="bigwig/bigwig.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/RNA-Seq_Alignment_Coverage.bigwig"
                              value="bigwig/myHub/Dbia3/tracks/RNA-Seq_Alignment_Coverage.bigwig"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="bigwig" />
+                <!-- check additional trackDb settings for BigWig -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
+                    <assert_contents>
+                        <has_text text="autoScale"/>
+                        <has_text text="maxHeightPixels"/>
+                        <has_text text="windowingFunction"/>
+                    </assert_contents>
+                </extra_files>
             </output>
         </test>
 
@@ -599,14 +582,12 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="gff3/gff3_trackhub.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb"
                              value="gff3/myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="gff3" />
             </output>
         </test>
 
@@ -626,14 +607,12 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="gtf/gtf_trackhub.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
                              value="gtf/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="gtf" />
             </output>
         </test>
 
@@ -657,14 +636,22 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="bed_blat_alignment/blat_alignment_trackhub.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/BLAT_alignment_bigpsl.bb"
                              value="bed_blat_alignment/myHub/Dbia3/tracks/BLAT_alignment_bigpsl.bb"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="bed_blat_alignment" />
+                <!-- check additional trackDb settings for BLAT -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
+                    <assert_contents>
+                        <has_text text="searchIndex"/>
+                        <has_text text="url"/>
+                        <has_text text="urlLabel"/>
+                        <has_text text="iframeUrl"/>
+                        <has_text text="iframeOptions"/>
+                    </assert_contents>
+                </extra_files>
             </output>
         </test>
 
@@ -688,14 +675,22 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="bed_blast_alignment/blast_alignment_trackhub.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/BLAST_alignment_bigpsl.bb"
                              value="bed_blast_alignment/myHub/Dbia3/tracks/BLAST_alignment_bigpsl.bb"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="bed_blast_alignment" />
+                <!-- check additional trackDb settings for BLAST -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
+                    <assert_contents>
+                        <has_text text="searchIndex"/>
+                        <has_text text="url"/>
+                        <has_text text="urlLabel"/>
+                        <has_text text="iframeUrl"/>
+                        <has_text text="iframeOptions"/>
+                    </assert_contents>
+                </extra_files>
             </output>
         </test>
 
@@ -718,14 +713,12 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="bed_splice_junctions/splice_junctions_trackhub.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/regtools_junctions.bb"
                              value="bed_splice_junctions/myHub/Dbia3/tracks/regtools_junctions.bb"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="bed_splice_junctions" />
             </output>
         </test>
 
@@ -748,14 +741,17 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="bed_cytoband/cytoband_trackhub.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/Cytoband.bb"
                              value="bed_cytoband/myHub/Dbia3/tracks/Cytoband.bb"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="bed_cytoband" />
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
+                    <assert_contents>
+                        <has_text text="track cytoBandIdeo"/>
+                    </assert_contents>
+                </extra_files>
             </output>
         </test>
 
@@ -775,14 +771,12 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="big_bed/bigbed_trackhub.html">
-                <!-- Verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/BLAT_alignment_bigbed.bigbed"
                              value="big_bed/myHub/Dbia3/tracks/BLAT_alignment_bigbed.bigbed"
                              compare="sim_size"
                 />
-                <!-- Verify trackDb.txt contains the basic fields for a bam -->
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="big_bed" />
             </output>
         </test>
 
@@ -808,7 +802,6 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="gtf_gff/gtf_gff_trackhub.html">
-                <!-- verify tracks folder contains bam and bai -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
                              value="gtf/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
@@ -819,8 +812,7 @@ with open(file_path, 'w') as f:
                              value="gff3/myHub/Dbia3/tracks/Augustus_Gene_Predictions.bb"
                              compare="sim_size"
                 />
-                <!-- verify trackdb.txt contains the basic fields for a bam -->
-                <!-- todo: find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="gtf_gff" />   
             </output>
         </test>
 
@@ -991,9 +983,7 @@ with open(file_path, 'w') as f:
                              value="all_datatypes/myHub/Dbia3/tracks/BLAT_alignment_bigpsl.bb"
                              compare="sim_size"
                 />
-
-                <!-- verify trackdb.txt contains the basic fields for a bam -->
-                <!-- todo: find a way to check also that the whole common structure is intact too, without too much repetition -->
+                <expand macro="verify_hub_structure" test="all_datatypes" />
             </output>
         </test>
 
@@ -1008,18 +998,7 @@ with open(file_path, 'w') as f:
                 <param name="group_name" value="Other group"/>
             </repeat>
             <output name="output" file="two_groups_no_track/two_groups_no_track_trackhub.html">
-                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_no_track/myHub/genomes.txt"/>
-                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_no_track/myHub/Dbia3.html"/>
-                <!-- Email could be different, but we need to ensure we still have the email line -->
-                <extra_files type="file" name="myHub/hub.txt" value="two_groups_no_track/myHub/hub.txt" lines_diff="2">
-                    <assert_contents>
-                        <has_text text="email"/>
-                    </assert_contents>
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/description.html"
-                             value="two_groups_no_track/myHub/Dbia3/description.html"/>
+                <expand macro="verify_hub_structure_no_track" test="two_groups_no_track" />
             </output>
         </test>
 
@@ -1041,28 +1020,13 @@ with open(file_path, 'w') as f:
                 <param name="group_name" value="Other group"/>
             </repeat>
             <output name="output" file="two_groups_one_track_first/two_groups_one_track_first_trackhub.html">
-                <!-- Check myHub structure -->
-                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_one_track_first/myHub/genomes.txt"/>
-                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_one_track_first/myHub/Dbia3.html"/>
-                <!-- Email could be different, but we need to ensure we still have the email line -->
-                <extra_files type="file" name="myHub/hub.txt" value="two_groups_one_track_first/myHub/hub.txt" lines_diff="2">
-                    <assert_contents>
-                        <has_text text="email"/>
-                    </assert_contents>
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/description.html"
-                             value="two_groups_one_track_first/myHub/Dbia3/description.html"/>
-
                 <!-- Check tracks exist -->
                 <extra_files type="file"
                              name="myHub/Dbia3/tracks/RNA-Seq_Alignment_Coverage.bigwig"
                              value="bigwig/myHub/Dbia3/tracks/RNA-Seq_Alignment_Coverage.bigwig"
                              compare="sim_size"
                 />
-
-                <!-- Check the groups.txt exists and is properly populated -->
+                <expand macro="verify_hub_structure" test="two_groups_one_track_first" />
             </output>
         </test>
 
@@ -1091,21 +1055,6 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="two_groups_one_track_both/two_groups_one_track_both_trackhub.html">
-                <!-- Check myHub structure -->
-                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_one_track_both/myHub/genomes.txt"/>
-                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_one_track_both/myHub/Dbia3.html"/>
-                <!-- Email could be different, but we need to ensure we still have the email line -->
-                <extra_files type="file" name="myHub/hub.txt" value="two_groups_one_track_both/myHub/hub.txt"
-                             lines_diff="2">
-                    <assert_contents>
-                        <has_text text="email"/>
-                    </assert_contents>
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/description.html"
-                             value="two_groups_one_track_both/myHub/Dbia3/description.html"/>
-
                 <!-- Check tracks exist -->
                 <!-- First group -->
                 <extra_files type="file"
@@ -1120,6 +1069,7 @@ with open(file_path, 'w') as f:
                              value="gtf/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
                              compare="sim_size"
                 />
+                <expand macro="verify_hub_structure" test="two_groups_one_track_both" />
                 <!-- Check the groups.txt exists and is properly populated -->
             </output>
         </test>
@@ -1163,21 +1113,6 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="two_groups_multiple_tracks/two_groups_multiple_tracks_trackhub.html">
-                <!-- Check myHub structure -->
-                <extra_files type="file" name="myHub/genomes.txt" value="two_groups_multiple_tracks/myHub/genomes.txt"/>
-                <extra_files type="file" name="myHub/Dbia3.html" value="two_groups_multiple_tracks/myHub/Dbia3.html"/>
-                <!-- Email could be different, but we need to ensure we still have the email line -->
-                <extra_files type="file" name="myHub/hub.txt" value="two_groups_multiple_tracks/myHub/hub.txt"
-                             lines_diff="2">
-                    <assert_contents>
-                        <has_text text="email"/>
-                    </assert_contents>
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/Dbia3.2bit" value="common/Dbia3.2bit">
-                </extra_files>
-                <extra_files type="file" name="myHub/Dbia3/description.html"
-                             value="two_groups_multiple_tracks/myHub/Dbia3/description.html"/>
-
                 <!-- Check tracks exist -->
                 <!-- First group -->
                 <extra_files type="file"
@@ -1207,7 +1142,7 @@ with open(file_path, 'w') as f:
                              value="gff3_multi_fasta/myHub/Dbia3/tracks/Multi-Fasta_GlimmerHMM_Gene_Predictions.bb"
                              compare="sim_size"
                 />
-                <!-- Check the groups.txt exists and is properly populated -->
+                <expand macro="verify_hub_structure" test="two_groups_multiple_tracks" />
             </output>
         </test>
 
@@ -1226,8 +1161,9 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="default_color/default_color_trackhub.html">
+                <expand macro="verify_hub_structure" test="default_color" />
                 <!-- Verify trackDb.txt contains the color 0,0,0 -->
-                <extra_files type="file" name="myHub/Dbia3/trackDb.txt" value="default_color/myHub/Dbia3/trackDb.txt">
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
                     <assert_contents>
                         <has_text text="color 0,0,0"/>
                     </assert_contents>
@@ -1252,8 +1188,9 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="changed_color/changed_color_trackhub.html">
+                <expand macro="verify_hub_structure" test="changed_color" />
                 <!-- Verify trackDb.txt contains the color 128,100,162 -->
-                <extra_files type="file" name="myHub/Dbia3/trackDb.txt" value="changed_color/myHub/Dbia3/trackDb.txt">
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
                     <assert_contents>
                         <has_text text="color 128,100,162"/>
                     </assert_contents>
@@ -1283,6 +1220,7 @@ with open(file_path, 'w') as f:
                              value="stringtie_chromosome_end_coordinates/myHub/Dbia3/tracks/StringTie_Assembled_Transcripts.bb"
                              compare="sim_size"
                 />
+                <expand macro="verify_hub_structure" test="stringtie_chromosome_end_coordinates" />
 
                 <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
             </output>
@@ -1303,34 +1241,9 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="default_color/default_color_trackhub.html">
-                <!-- Verify trackDb.txt contains the color 0,0,0 -->
-                <extra_files type="file" name="myHub/Dbia3/trackDb.txt" value="default_color/myHub/Dbia3/trackDb.txt">
-                    <assert_contents>
-                        <has_text text="longLabel HISAT2 Accepted Hits.bam"/>
-                    </assert_contents>
-                </extra_files>
-
-                <!-- TODO: Find a way to check also that the whole common structure is intact too, without too much repetition -->
-            </output>
-        </test>
-
-        <!-- Test default label in a track -->
-        <test>
-            <param name="genome_name" value="Dbia3"/>
-            <param name="fasta_file" value="common/dbia3.fa"/>
-            <repeat name="group">
-                <param name="group_name" value="Default group"/>
-                <repeat name="format">
-                    <conditional name="formatChoice">
-                        <param name="format_select" value="bam"/>
-                        <param name="BAM" value="bam/inputs/HISAT2_Accepted_Hits.bam"/>
-                        <param name="track_color" value="#000000"/>
-                    </conditional>
-                </repeat>
-            </repeat>
-            <output name="output" file="default_color/default_color_trackhub.html">
-                <!-- Verify trackDb.txt contains the color 0,0,0 -->
-                <extra_files type="file" name="myHub/Dbia3/trackDb.txt" value="default_color/myHub/Dbia3/trackDb.txt">
+                <expand macro="verify_hub_structure" test="default_color" />
+                <!-- Verify trackDb.txt contains default label -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
                     <assert_contents>
                         <has_text text="longLabel HISAT2 Accepted Hits.bam"/>
                     </assert_contents>
@@ -1356,8 +1269,9 @@ with open(file_path, 'w') as f:
                 </repeat>
             </repeat>
             <output name="output" file="changed_label/changed_label_trackhub.html">
-                <!-- Verify trackDb.txt contains the color 0,0,0 -->
-                <extra_files type="file" name="myHub/Dbia3/trackDb.txt" value="changed_label/myHub/Dbia3/trackDb.txt">
+                <expand macro="verify_hub_structure" test="changed_label" />
+                <!-- Verify trackDb.txt contains the customized label -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
                     <assert_contents>
                         <has_text text="longLabel HISAT sequence alignment"/>
                     </assert_contents>

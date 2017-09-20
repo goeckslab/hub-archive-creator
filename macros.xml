@@ -1,0 +1,52 @@
+<macros>
+    <xml name="verify_hub_structure" token_genome="Dbia3" token_test="common">
+        <!--genomes.txt -->
+        <extra_files type="file" name="myHub/genomes.txt" value="@TEST@/myHub/genomes.txt" />
+
+        <extra_files type="file" name="myHub/@GENOME@.html" value="@TEST@/myHub/@GENOME@.html"/>
+        <!-- hub.txt -->
+        <extra_files type="file" name="myHub/hub.txt" value="@TEST@/myHub/hub.txt" lines_diff="2">
+            <assert_contents>
+                <has_text text="email"/>
+            </assert_contents>
+        </extra_files>
+        <!-- 2bit file -->
+        <extra_files type="file" name="myHub/@GENOME@/@GENOME@.2bit" value="common/@GENOME@.2bit" />
+        <!-- groups.txt -->
+        <extra_files type="file" name="myHub/@GENOME@/groups.txt" value="@TEST@/myHub/@GENOME@/groups.txt" />
+        <!-- description.html -->
+        <extra_files type="file" name="myHub/@GENOME@/description.html" value="@TEST@/myHub/@GENOME@/description.html"/>
+        <!-- trackDb.txt -->
+        <extra_files type="file" name="myHub/@GENOME@/trackDb.txt">
+            <assert_contents>
+                <has_text text="track"/>
+                <has_text text="longLabel"/>
+                <has_text text="shortLabel"/>
+                <has_text text="bigDataUrl"/>
+                <has_text text="type"/>
+                <has_text text="visibility"/>
+                <has_text text="thickDrawItem"/>
+                <has_text text="priority"/>
+                <has_text text="color"/>
+                <has_text text="group"/>
+            </assert_contents>
+        </extra_files>
+    </xml>
+
+    <xml name="verify_hub_structure_no_track" token_genome="Dbia3" token_test="common">
+        <!--genomes.txt -->
+        <extra_files type="file" name="myHub/genomes.txt" value="@TEST@/myHub/genomes.txt" />
+
+        <extra_files type="file" name="myHub/@GENOME@.html" value="@TEST@/myHub/@GENOME@.html"/>
+        <!-- hub.txt -->
+        <extra_files type="file" name="myHub/hub.txt" value="@TEST@/myHub/hub.txt" lines_diff="2">
+            <assert_contents>
+                <has_text text="email"/>
+            </assert_contents>
+        </extra_files>
+        <!-- 2bit file -->
+        <extra_files type="file" name="myHub/@GENOME@/@GENOME@.2bit" value="common/@GENOME@.2bit" />
+        <!-- description.html -->
+        <extra_files type="file" name="myHub/@GENOME@/description.html" value="@TEST@/myHub/@GENOME@/description.html"/>
+    </xml>
+</macros>

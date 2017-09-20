@@ -7,3 +7,5 @@ class TraceBackFormatter(logging.Formatter):
         if record.exc_text or record.exc_info:
             s = record.message
         return s
+
+    

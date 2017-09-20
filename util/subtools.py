@@ -13,6 +13,7 @@ import sys
 import string
 import tempfile
 
+
 class PopenError(Exception):
     def __init__(self, cmd, error, return_code):
         self.cmd = cmd
@@ -20,9 +21,12 @@ class PopenError(Exception):
         self.return_code = return_code
 
     def __str__(self):
-        message = "The subprocess {0} has returned the error: {1}.".format(self.cmd, self.return_code)
-        message = ','.join((message, "Its error message is: {0}".format(self.error)))
+        message = "The subprocess {0} has returned the error: {1}.".format(
+            self.cmd, self.return_code)
+        message = ','.join(
+            (message, "Its error message is: {0}".format(self.error)))
         return repr(message)
+
 
 def _handleExceptionAndCheckCall(array_call, **kwargs):
     """
@@ -41,12 +45,13 @@ def _handleExceptionAndCheckCall(array_call, **kwargs):
 
     # TODO: Check the value of array_call and <=[0]
     logging.debug("Calling {0}:".format(cmd))
-
+    logging.debug("%s", array_call)
     logging.debug("---------")
 
     # TODO: Use universal_newlines option from Popen?
     try:
-        p = subprocess.Popen(array_call, stdout=stdout, stderr=stderr, shell=shell)
+        p = subprocess.Popen(array_call, stdout=stdout,
+                             stderr=stderr, shell=shell)
 
         # TODO: Change this because of possible memory issues => https://docs.python.org/2/library/subprocess.html#subprocess.Popen.communicate
 
@@ -64,28 +69,34 @@ def _handleExceptionAndCheckCall(array_call, **kwargs):
                 raise PopenError(cmd, error, p.returncode)
             else:
                 # TODO: To Handle properly with a design behind, if we received a option as a file for the error
-                raise Exception("Error when calling {0}. Error as been logged in your file {1}. Error code: {2}"\
+                raise Exception("Error when calling {0}. Error as been logged in your file {1}. Error code: {2}"
                                 .format(cmd, stderr.name, p.returncode))
 
     except OSError as e:
-        message = "The subprocess {0} has encountered an OSError: {1}".format(cmd, e.strerror)
+        message = "The subprocess {0} has encountered an OSError: {1}".format(
+            cmd, e.strerror)
         if e.filename:
-            message = '\n'.join((message, ", against this file: {0}".format(e.filename)))
+            message = '\n'.join(
+                (message, ", against this file: {0}".format(e.filename)))
         logging.error(message)
         sys.exit(-1)
     except PopenError as p:
-        message = "The subprocess {0} has returned the error: {1}.".format(p.cmd, p.return_code)
-        message = '\n'.join((message, "Its error message is: {0}".format(p.error)))
+        message = "The subprocess {0} has returned the error: {1}.".format(
+            p.cmd, p.return_code)
+        message = '\n'.join(
+            (message, "Its error message is: {0}".format(p.error)))
 
         logging.exception(message)
 
         sys.exit(p.return_code)
     except Exception as e:
-        message = "The subprocess {0} has encountered an unknown error: {1}".format(cmd, e)
+        message = "The subprocess {0} has encountered an unknown error: {1}".format(
+            cmd, e)
         logging.exception(message)
 
         sys.exit(-1)
     return p
+
 
 def twoBitInfo(two_bit_file_name, two_bit_info_file):
     """
@@ -97,6 +108,7 @@ def twoBitInfo(two_bit_file_name, two_bit_info_file):
     array_call = ['twoBitInfo', two_bit_file_name, two_bit_info_file]
     p = _handleExceptionAndCheckCall(array_call)
     return p
+
 
 def faToTwoBit(fasta_file_name, twoBitFile):
     """
@@ -111,6 +123,7 @@ def faToTwoBit(fasta_file_name, twoBitFile):
 
     return twoBitFile
 
+
 def gtfToGenePred(input_gtf_file_name, gene_pred_file_name):
     """
     Call gtfToGenePred and write the result into gene_pred_file_name
@@ -122,6 +135,7 @@ def gtfToGenePred(input_gtf_file_name, gene_pred_file_name):
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
+
 def gff3ToGenePred(input_gff3_file_name, gene_pred_file_name):
     """
     Call gff3ToGenePred and write the result into gene_pred_file_name
@@ -129,11 +143,10 @@ def gff3ToGenePred(input_gff3_file_name, gene_pred_file_name):
     :param gene_pred_file_name:
     :return:
     """
-    valid_gff3_file = tempfile.NamedTemporaryFile(bufsize=0, suffix=".gff3")
-    validateGff(input_gff3_file_name, valid_gff3_file.name)
-    array_call = ['gff3ToGenePred', valid_gff3_file.name, gene_pred_file_name]
+    array_call = ['gff3ToGenePred', input_gff3_file_name, gene_pred_file_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p
+
 
 def genePredToBigGenePred(gene_pred_file_name, unsorted_bigGenePred_file_name):
     """
@@ -148,6 +161,7 @@ def genePredToBigGenePred(gene_pred_file_name, unsorted_bigGenePred_file_name):
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
+
 def genePredToBed(gene_pred_file_name, unsorted_bed_file_name):
     """
     Call genePredToBed and write the result into unsorted_bed_file_name
@@ -159,6 +173,7 @@ def genePredToBed(gene_pred_file_name, unsorted_bed_file_name):
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
+
 def sort(unsorted_bed_file_name, sorted_bed_file_name):
     """
     Call sort with -k1,1 -k2,2n on unsorted_bed_file_name and write the result into sorted_bed_file_name
@@ -166,9 +181,11 @@ def sort(unsorted_bed_file_name, sorted_bed_file_name):
     :param sorted_bed_file_name:
     :return:
     """
-    array_call = ['sort', '-k', '1,1', '-k', '2,2n', unsorted_bed_file_name, '-o', sorted_bed_file_name]
+    array_call = ['sort', '-k', '1,1', '-k', '2,2n',
+                  unsorted_bed_file_name, '-o', sorted_bed_file_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p
+
 
 def sortChromSizes(two_bit_info_file_name, chrom_sizes_file_name):
     """
@@ -177,12 +194,13 @@ def sortChromSizes(two_bit_info_file_name, chrom_sizes_file_name):
     :param chrom_sizes_file_name:
     :return:
     """
-    array_call = ['sort', '-k2rn', two_bit_info_file_name, '-o', chrom_sizes_file_name]
+    array_call = ['sort', '-k2rn', two_bit_info_file_name,
+                  '-o', chrom_sizes_file_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
-def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name,
-                typeOption=None, autoSql=None, tab=False, extraIndex=None):
+
+def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name, options=None):
     """
     Call bedToBigBed on sorted_bed_file_name, using chrom_sizes_file_name and write the result into big_bed_file_name
     :param sorted_bed_file_name:
@@ -191,28 +209,24 @@ def bedToBigBed(sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name,
     :return:
     """
 
-    # TODO: Move this into the _handleExceptionAndCheckCall function
-    # Parse the array
-    logging.debug("sorted_bed_file_name: {0}".format(sorted_bed_file_name))
-    logging.debug("chrom_sizes_file_name: {0}".format(chrom_sizes_file_name))
-    logging.debug("big_bed_file_name: {0}".format(big_bed_file_name))
-    logging.debug("typeOption: {0}".format(typeOption))
-    logging.debug("autoSql: {0}".format(autoSql))
-    logging.debug("tab option: {0}".format(tab))
-
-    array_call = ['bedToBigBed', sorted_bed_file_name, chrom_sizes_file_name, big_bed_file_name]
-    if typeOption:
-        typeOption = ''.join(['-type=', typeOption])
-        array_call.append(typeOption)
-    if autoSql:
-        autoSql = ''.join(['-as=', autoSql])
-        array_call.append(autoSql)
-    if tab:
-        array_call.append('-tab')
-    if extraIndex:
-        index = ''.join(['-extraIndex=', extraIndex])
-        array_call.append(index)
-
+    array_call = ['bedToBigBed', sorted_bed_file_name,
+                  chrom_sizes_file_name, big_bed_file_name]
+    if options:
+        typeOption = options.get("typeOption")
+        autoSql = options.get("autoSql")
+        tab = options.get("tab")
+        extraIndex = options.get("extraIndex")
+        if typeOption:
+            typeOption = ''.join(['-type=', typeOption])
+            array_call.append(typeOption)
+        if autoSql:
+            autoSql = ''.join(['-as=', autoSql])
+            array_call.append(autoSql)
+        if tab:
+            array_call.append('-tab')
+        if extraIndex:
+            index = ''.join(['-extraIndex=', extraIndex])
+            array_call.append(index)
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
@@ -223,9 +237,11 @@ def sortBam(input_bam_file_name, output_sorted_bam_name):
     :param output_sorted_bam_name:
     :return:
     """
-    array_call = ['samtools', 'sort', input_bam_file_name, '-o', output_sorted_bam_name]
+    array_call = ['samtools', 'sort',
+                  input_bam_file_name, '-o', output_sorted_bam_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p
+
 
 def createBamIndex(input_sorted_bam_file_name, output_name_index_name):
     """
@@ -234,9 +250,11 @@ def createBamIndex(input_sorted_bam_file_name, output_name_index_name):
     :param output_name_index_name:
     :return:
     """
-    array_call = ['samtools', 'index', input_sorted_bam_file_name, output_name_index_name]
+    array_call = ['samtools', 'index',
+                  input_sorted_bam_file_name, output_name_index_name]
     p = _handleExceptionAndCheckCall(array_call)
     return p
+
 
 def pslToBigPsl(input_psl_file_name, output_bed12_file_name):
     """
@@ -251,30 +269,44 @@ def pslToBigPsl(input_psl_file_name, output_bed12_file_name):
     p = _handleExceptionAndCheckCall(array_call)
     return p
 
-#santitize trackName. Because track name must begin with a letter and
+# santitize trackName. Because track name must begin with a letter and
 # contain only the following chars: [a-zA-Z0-9_].
 # See the "track" Common settings at:
-#https://genome.ucsc.edu/goldenpath/help/trackDb/trackDbHub.html#bigPsl_-_Pairwise_Alignments
-def fixName(filename):
-    if filename == 'cytoBandIdeo':
-        return filename
-    valid_chars = "_%s%s" % (string.ascii_letters, string.digits)
-    sanitize_name = ''.join([c if c in valid_chars else '_' for c in filename])
-    sanitize_name = "gonramp_" + sanitize_name
-    return sanitize_name
+# https://genome.ucsc.edu/goldenpath/help/trackDb/trackDbHub.html#bigPsl_-_Pairwise_Alignments
 
-def validateGff(orig_gff3, valid_gff3):
+def validateFiles(input_file, chrom_sizes_file_name, file_type, options=None):
     """
-    Remove extra meta line: ##gff-version 3
+    Call validateFiles on input_file, using chrom_sizes_file_name and file_type
+    :param input_file:
+    :param chrom_sizes_file_name:
+    :param file_type:
+    :return:
     """
-    valid = open(valid_gff3, 'w')
-    num = 0
-    with open(orig_gff3, 'r') as f:
-        for line in f:
-            if '##gff-version 3' in line:
-                if num == 0:
-                    num += 1
-                else:
-                    continue
-            valid.write(line)
-                    
+    
+    array_call = ['validateFiles', '-chromInfo=' + chrom_sizes_file_name, '-type='+ file_type, input_file]
+    if options:
+        tab = options.get("tab")
+        autoSql = options.get("autoSql")
+        logging.debug("tab: {0}".format(tab))
+        logging.debug("autoSql: {0}".format(autoSql))
+        if autoSql:
+            autoSql = ''.join(['-as=', autoSql])
+            array_call.append(autoSql)
+        if tab:
+            array_call.append('-tab')
+    p = _handleExceptionAndCheckCall(array_call)
+    return p
+
+def pslCheck(input_file, options=None):
+    """
+    Call pslCheck on input_file
+    :param input_file:
+    :return:
+    """
+
+    array_call = ['pslCheck', input_file]
+    p = _handleExceptionAndCheckCall(array_call)
+    return p
+
+    
+

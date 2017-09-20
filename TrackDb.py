@@ -1,13 +1,24 @@
 #!/usr/bin/python
-from util import subtools
+import collections
+from util import santitizer
 
 class TrackDb(object):
     """docstring for TrackDb"""
-    def __init__(self, trackName="", longLabel="", shortLabel="", trackDataURL="", trackType="", extra_settings=None):
-        super(TrackDb, self).__init__()
-        self.createTrackDb(trackName, longLabel, shortLabel, trackDataURL, trackType, extra_settings)
+    def __init__(self, trackName="", longLabel="", shortLabel="", trackDataURL="", trackType="", extraSettings=None):
+        #super(TrackDb, self).__init__()
+        not_init_message = "The {0} is not initialized." 
+        if trackName is None:
+            raise TypeError(not_init_message.format('trackName'))
+        if longLabel is None:
+            raise TypeError(not_init_message.format('longLabel'))
+        if trackType is None:
+            raise TypeError(not_init_message.format('trackType'))
+        if trackDataURL is None:
+            raise TypeError(not_init_message.format('trackDataURL'))
+            
+        self.createTrackDb(trackName, longLabel, shortLabel, trackDataURL, trackType, extraSettings)
 
-    def createTrackDb(self, track_name, long_label, short_label, file_path, track_type, extra_settings = None):
+    def createTrackDb(self, track_name, long_label, short_label, file_path, track_type, extraSettings = None):
     
         # TODO: Remove the hardcoded "tracks" by the value used as variable from myTrackFolderPath
         data_url = "tracks/%s" % track_name
@@ -19,18 +30,18 @@ class TrackDb(object):
         short_label = short_label.replace("_", " ")
 
         #sanitize the track_name
-        sanitized_name = subtools.fixName(track_name)
+        sanitized_name = santitizer.prefixTrackName(track_name)
 
-        self.track_db = dict(trackName=sanitized_name,
-                longLabel=long_label,
-                shortLabel=short_label,
-                trackDataURL=data_url,
-                trackType=track_type
+        self.track_db = collections.OrderedDict([("track",sanitized_name),
+                ("type",track_type),
+                ("shortLabel",short_label),
+                ("longLabel",long_label),
+                ("bigDataUrl",data_url)]
                 )
         
         
-        TrackDb.prepareExtraSetting(extra_settings)
-        self.track_db.update(extra_settings)
+        TrackDb.prepareExtraSetting(extraSettings)
+        self.track_db.update(extraSettings)
         #print self.track_db
 
     # TODO: Rename for PEP8
@@ -50,29 +61,20 @@ class TrackDb(object):
         return rgb_ucsc
 
     @staticmethod
-    def prepareExtraSetting(extra_settings):
-        if not extra_settings:
-            extra_settings = dict()
-        if not "track_color" in extra_settings:
-            extra_settings["track_color"] = "#000000"
-        extra_settings["track_color"] = TrackDb.getRgb(extra_settings["track_color"])
-        if not "group_name" in extra_settings:
-            extra_settings["group_name"] = "Default"
-        if not "thick_draw_item" in extra_settings:
-            extra_settings["thickDrawItem"] = "off"
+    def prepareExtraSetting(extraSettings):
+        if not extraSettings:
+            extraSettings = collections.OrderedDict()
+        if not "color" in extraSettings:
+            extraSettings["color"] = "#000000"
+        extraSettings["color"] = TrackDb.getRgb(extraSettings["color"])
+        if not "group" in extraSettings:
+            extraSettings["group"] = "Default group"
+        if not "thickDrawItem" in extraSettings:
+            extraSettings["thickDrawItem"] = "off"
     
     def get(self, item_name):
-        return self.track_db[item_name]
-'''
-        self.trackName = trackName
-        self.longLabel = longLabel
-        self.shortLabel = shortLabel
-        self.trackDataURL = trackDataURL
-        self.trackType = trackType
-        self.visibility = visibility
-        self.thickDrawItem = thickDrawItem
-        self.priority = priority
-        self.track_color = track_color
-        self.group_name = group_name
-        self.database = database
-'''            
+        if item_name in self.track_db:
+            return self.track_db[item_name]
+        return None
+
+    

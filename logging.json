@@ -1,7 +1,6 @@
 {
     "version": 1,
     "disable_existing_loggers": false,
-    "base_directory": "",
     "formatters": {
         "simple": {
             "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -27,27 +26,7 @@
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
             "formatter": "simple",
-            "filename": "debug.log",
-            "maxBytes": 10485760,
-            "backupCount": 20,
-            "encoding": "utf8"
-        },
-
-        "info_file_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "level": "INFO",
-            "formatter": "simple",
-            "filename": "info.log",
-            "maxBytes": 10485760,
-            "backupCount": 20,
-            "encoding": "utf8"
-        },
-
-        "error_file_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "level": "ERROR",
-            "formatter": "simple",
-            "filename": "errors.log",
+            "filename": "__main__.log",
             "maxBytes": 10485760,
             "backupCount": 20,
             "encoding": "utf8"
@@ -56,7 +35,7 @@
 
     "loggers": {
         "Reader": {
-            "level": "ERROR",
+            "level": "INFO",
             "handlers": ["console"],
             "propagate": "yes"
         }
@@ -64,6 +43,6 @@
 
     "root": {
         "level": "INFO",
-        "handlers": ["console",  "console_stderr","debug_file_handler", "info_file_handler", "error_file_handler"]
+        "handlers": ["console", "console_stderr", "debug_file_handler"]
     }
 }

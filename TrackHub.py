@@ -6,12 +6,13 @@ import os
 import tempfile
 import shutil
 import zipfile
+from mako.lookup import TemplateLookup
 
 # Internal dependencies
-from Datatype import Datatype
+from datatypes.Datatype import Datatype
 from util import subtools
 
-from mako.lookup import TemplateLookup
+
 
 
 class TrackHub(object):
@@ -19,7 +20,6 @@ class TrackHub(object):
 
     def __init__(self, inputFastaFile, user_email, outputFile, extra_files_path, tool_directory):
         super(TrackHub, self).__init__()
-
         self.rootAssemblyHub = None
 
         self.mySpecieFolderPath = None
@@ -68,7 +68,7 @@ class TrackHub(object):
         Datatype.pre_init(self.reference_genome, self.two_bit_final_path, self.chromSizesFile,
                           self.extra_files_path, self.tool_directory,
                           self.mySpecieFolderPath, self.myTracksFolderPath)
-
+    '''
     def createZip(self):
         for root, dirs, files in os.walk(self.rootAssemblyHub):
             # Get all files and construct the dir at the same time
@@ -76,7 +76,7 @@ class TrackHub(object):
                 self.outputZip.write(os.path.join(root, file))
 
         self.outputZip.close()
-
+    '''
     def addTrack(self, trackDbObject=None):
         # Create the trackDb.txt file in the specie folder, if not exists
         # Else append the new track
@@ -88,7 +88,7 @@ class TrackHub(object):
 
             # TODO: The addGroup does not belong here. Move it when the group becomes more than just a label
             # Add the group as well, if exists in trackDbObject
-            self.addGroup(trackDbObject["group_name"])
+            self.addGroup(trackDbObject["group"])
 
             htmlMakoRendered = self.trackDbTemplate.render(
                 trackDbs=trackDbs
@@ -97,8 +97,8 @@ class TrackHub(object):
 
         #logging.debug("We just added track {0} (in group {1})".format(trackDbObject.trackName,
         #                                                          trackDbObject.group_name.lower().replace(' ', '_')))
-        logging.debug("We just added track {0} (in group {1})".format(trackDbObject.get("trackName"),
-                                                                  trackDbObject.get("group_name").lower().replace(' ', '_')))
+        logging.debug("We just added track {0} (in group {1})".format(trackDbObject.get("track"),
+                                                                  trackDbObject.get("group").lower().replace(' ', '_')))
     def addGroup(self, group_name="Default"):
         # If not already present in self.groups, add to groups.txt
         # Create the trackDb.txt file in the specie folder, if not exists
@@ -167,6 +167,7 @@ class TrackHub(object):
                 walkable_tree=walkable_tree
             )
             htmlOutput.write(htmlMakoRendered)
+
 
     def __createAssemblyHub__(self, extra_files_path):
         # Get all necessaries infos first

@@ -11,6 +11,7 @@ from mako.lookup import TemplateLookup
 # Internal dependencies
 from datatypes.Datatype import Datatype
 from util import subtools
+from util import santitizer
 
 
 
@@ -84,11 +85,12 @@ class TrackHub(object):
         trackDbTxtFilePath = os.path.join(self.mySpecieFolderPath, 'trackDb.txt')
         # Append to trackDbTxtFilePath the trackDbTemplate populate with the newTrack object
         with open(trackDbTxtFilePath, 'a+') as trackDbFile:
+            group_name = trackDbObject["group"]
+            trackDbObject["group"] = santitizer.sanitize_group_name(trackDbObject["group"])
             trackDbs = [trackDbObject]
-
             # TODO: The addGroup does not belong here. Move it when the group becomes more than just a label
             # Add the group as well, if exists in trackDbObject
-            self.addGroup(trackDbObject["group"])
+            self.addGroup(group_name)
 
             htmlMakoRendered = self.trackDbTemplate.render(
                 trackDbs=trackDbs

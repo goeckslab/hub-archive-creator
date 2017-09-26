@@ -67,7 +67,7 @@ class TrackDb(object):
         if not "color" in extraSettings:
             extraSettings["color"] = "#000000"
         extraSettings["color"] = TrackDb.getRgb(extraSettings["color"])
-        if not "group" in extraSettings:
+        if "group" in extraSettings:
             extraSettings["group"] = "Default group"
         if not "thickDrawItem" in extraSettings:
             extraSettings["thickDrawItem"] = "off"

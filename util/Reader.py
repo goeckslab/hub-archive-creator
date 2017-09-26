@@ -105,6 +105,7 @@ class Reader(object):
         # TODO: Optimize this double loop
         for input_data in array_inputs:
             input_false_path = input_data["false_path"]
+            input_data["name"] = santitizer.sanitize_name_input(input_data["name"])
             extensionObject = ExtensionClass(input_false_path, input_data)
             extensionObject.generateCustomTrack()
             datatype_dictionary.update({input_data["order_index"]: extensionObject})

@@ -45,7 +45,6 @@ def sanitize_name_input(string_to_sanitize):
             .replace("/", "_") \
             .replace(" ", "_")
 
-
 def sanitize_name_inputs(inputs_data):
     """
     Sanitize value of the keys "name" of the dictionary passed in parameter.
@@ -57,3 +56,6 @@ def sanitize_name_inputs(inputs_data):
     """
     for key in inputs_data:
         inputs_data[key]["name"] = sanitize_name_input(inputs_data[key]["name"])
+
+def sanitize_group_name(group_name):
+    return group_name.lower().replace(' ', '_')

@@ -13,4 +13,5 @@ class BedBlastAlignments( BigPsl ):
 
         super(BedBlastAlignments, self).__init__(input_bed_blast_alignments_false_path, data_bed_blast_alignments)
         self.seqType = 2
+        self.trackType = "bigBed 12 +"
     

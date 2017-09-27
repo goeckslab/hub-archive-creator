@@ -21,7 +21,7 @@ class Interval(Datatype):
         super(Interval, self).__init__()
 
     def getConvertType(self):
-        return (self.dataType.lower(), self.trackType.lower())
+        return (self.dataType.lower(), self.trackType.split()[0].lower())
 
     def getValidateOptions(self, tab=None, autoSql=None):
         options = dict()

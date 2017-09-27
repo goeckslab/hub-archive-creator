@@ -17,12 +17,12 @@ class BigWig(Binary):
         self.inputFile = input_bigwig_path
         self.trackSettings = data_bigwig
         self.dataType = "bigWig"
+        self.trackType=self._determine_track_type(self.inputFile)
 
     def initSettings(self):
         super(BigWig, self).initSettings()
         self.trackName = "".join( ( self.trackName, ".bigwig" ) )
         self.trackDataURL = os.path.join(self.myTrackFolderPath, self.trackName)
-        self.trackType=self._determine_track_type(self.inputFile)
         if "track_color" in self.trackSettings:
             self.extraSettings["color"] = self.trackSettings["track_color"]
         if "group_name" in self.trackSettings:

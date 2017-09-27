@@ -16,8 +16,8 @@ class BigBed(Binary):
         super(BigBed, self).__init__()
         self.inputFile = input_bigbed_path
         self.trackSettings = data_bigbed
-        self.dataType = self._determine_track_type(self.inputFile)
-        self.trackType = self.dataType
+        self.trackType = self._determine_track_type(self.inputFile)
+        self.dataType = self.trackType.replace(' ', '')
         self.seqType = None
 
     def initSettings(self):
@@ -65,7 +65,7 @@ class BigBed(Binary):
 
                 if match:
                     extra_mark = "." if match.group(1) == match.group(2) else "+"
-                    bed_type = "bigBed%s%s" % (match.group(1), extra_mark)
+                    bed_type = "bigBed %s %s" % (match.group(1), extra_mark)
                     break
 
         cmd_ph.wait()

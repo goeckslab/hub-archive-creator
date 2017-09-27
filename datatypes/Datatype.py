@@ -75,7 +75,7 @@ class Datatype(object):
     def validateData(self):
         """validate the input data with DataValidation"""
     
-    def initSettings(self, trackType = None):
+    def initSettings(self):
         #Initialize required fields: trackName, longLabel, shortLable
         self.trackName = self.trackSettings["name"]
         if self.trackSettings["long_label"]:
@@ -87,8 +87,7 @@ class Datatype(object):
         else:
             self.shortLabel = self.trackSettings["short_label"]
         self.trackDataURL = os.path.join(self.myTrackFolderPath, self.trackName)
-        if trackType:
-            self.trackType = trackType
+        
 
     @abc.abstractmethod
     def createTrack(self):

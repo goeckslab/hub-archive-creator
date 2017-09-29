@@ -24,7 +24,7 @@ class Logger(object):
         if os.path.exists(config_path):
             with open(config_path, 'rt') as f:
                 config = json.load(f)
-            config["root"]["level"] = default_level
+            config["handlers"]["console"]["level"] = default_level
             if self.extra_files_path:
                 for i in config["handlers"]:
                     if "filename" in config["handlers"][i]:

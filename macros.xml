@@ -49,4 +49,56 @@
         <!-- description.html -->
         <extra_files type="file" name="myHub/@GENOME@/description.html" value="@TEST@/myHub/@GENOME@/description.html"/>
     </xml>
+
+    <xml name="add_trix_file">
+        <conditional name="add_trix_index">
+            <param name="add_trix_index_selector" type="select" label="Add Trix index that allow for fast look-up of free text associated with a list of identifiers." help="More about Trix index: https://genome.ucsc.edu/goldenpath/help/trix.html">
+                <option value="no" selected="true">No</option>
+                <option value="yes">Yes</option>
+            </param>
+
+            <when value="yes">
+                <param 
+                    name="trix_id" 
+                    value="name" 
+                    type="text"
+                    size="30"
+                    label="Specify Trix identifier"
+                />
+                <conditional name="index_files">
+                    <param name="index_files_type" type="select" label="Single files or an index collection" help="Select between provide individual Trix files (.ix and .ixx) or an Trix index collection">
+                        <option value="collection">Index collection</option>
+                        <option value="single">Single files</option>
+                    </param>
+                    <when value="collection">
+                        <param 
+                            name="trix_index" 
+                            format="txt" 
+                            type="data_collection" 
+                            collection_type="list" 
+                            label="Select dataset collection" 
+                            help="Specify dataset collection containing ix and ixx files"
+                        />
+                    </when>
+                    <when value="single">
+                        <param
+                            format="txt"
+                            name="index_ix"
+                            type="data"
+                            label="Trix index file (.ix)"
+                        />
+                        <param
+                            format="txt"
+                            name="index_ixx"
+                            type="data"
+                            label="Trix index file (.ixx)"
+                        />
+                    </when>
+                </conditional>
+            </when>
+            <when value="no">
+            </when>
+        </conditional>
+    </xml>
+
 </macros>

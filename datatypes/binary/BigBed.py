@@ -9,6 +9,7 @@ import re
 from Binary import Binary
 from datatypes.validators.DataValidation import DataValidation
 from util.index.DatabaseIndex import DatabaseIndex
+from util.index.TrixIndex import TrixIndex
 
 
 class BigBed(Binary):
@@ -33,6 +34,10 @@ class BigBed(Binary):
         if "database" in self.trackSettings:
             self.database_settings = DatabaseIndex(database=self.trackSettings["database"], seqType=self.seqType).setExtLink()
             self.extraSettings.update(self.database_settings)
+        if "indexIx" in self.trackSettings and "indexIxx" in self.trackSettings:
+            trix_id = self.trackSettings["trix_id"]
+            self.trix_settings = TrixIndex(indexIx=self.trackSettings["indexIx"], indexIxx=self.trackSettings["indexIxx"], trackName=self.trackName, mySpecieFolderPath=self.mySpecieFolderPath, trixId=trix_id).setExtLink()
+            self.extraSettings.update(self.trix_settings)
     
     def validateData(self):
         self.validator = DataValidation(self.inputFile, self.dataType, self.chromSizesFile.name)

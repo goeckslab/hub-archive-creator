@@ -6,6 +6,7 @@ import string
 
 from Interval import Interval
 from util.index.DatabaseIndex import DatabaseIndex
+from util.index.TrixIndex import TrixIndex
 from datatypes.validators.DataValidation import DataValidation
 from datatypes.converters.DataConversion import DataConversion
 
@@ -33,12 +34,17 @@ class BigPsl(Interval):
             self.extraSettings["group"] = self.trackSettings["group_name"]
         self.extraSettings["visibility"] = "dense"
         self.extraSettings["priority"] = self.trackSettings["order_index"]
-        self.extraSettings["searchIndex"] = "name"
+        #self.extraSettings["searchIndex"] = "name"
         if self.seqType is None:
             self.seqType = self._getSeqType()
         if "database" in self.trackSettings:
             self.database_settings = DatabaseIndex(database=self.trackSettings["database"], seqType=self.seqType).setExtLink()
             self.extraSettings.update(self.database_settings)
+        if "indexIx" in self.trackSettings and "indexIxx" in self.trackSettings:
+            trix_id = self.trackSettings["trix_id"]
+            self.trix_settings = TrixIndex(indexIx=self.trackSettings["indexIx"], indexIxx=self.trackSettings["indexIxx"], trackName=self.trackName, mySpecieFolderPath=self.mySpecieFolderPath, trixId = trix_id, default_index = "name").setExtLink()
+            self.extraSettings.update(self.trix_settings)
+            
 
     def validateData(self):
         self.validateOptions = self.getValidateOptions(tab="True", autoSql=self.autoSql)

@@ -122,12 +122,36 @@ file_path = sys.argv[1]
             #if $f.formatChoice.bedChoice.bed_select == "bed_blast_alignment_option"
                 #set database = str($f.formatChoice.bedChoice.database)
                 #silent $extra_data_dict.update({"database": $database})
+                #if $f.formatChoice.bedChoice.add_trix_index.add_trix_index_selector == "yes"
+                    #set trix_id = str($f.formatChoice.bedChoice.add_trix_index.trix_id)
+                    #silent $extra_data_dict.update({"trix_id": $trix_id})
+                    #if $f.formatChoice.bedChoice.add_trix_index.index_files.index_files_type == "collection"
+                        #set ix_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.trix_index.index_ix)
+                        #set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.trix_index.index_ixx)
+                    #else 
+                        #set ix_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.index_ix)
+                        #set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.index_ixx)
+                    #end if
+                    #silent $extra_data_dict.update({"indexIx": $ix_index, "indexIxx": $ixx_index})
+                #end if
                 #silent $prepare_json("BedBlastAlignments", $f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,
                                              $extra_data_dict)
             #end if
             #if $f.formatChoice.bedChoice.bed_select == "bed_blat_alignment_option"
                 #set database = str($f.formatChoice.bedChoice.database)
                 #silent $extra_data_dict.update({"database": $database})
+                #if $f.formatChoice.bedChoice.add_trix_index.add_trix_index_selector == "yes"
+                    #set trix_id = str($f.formatChoice.bedChoice.add_trix_index.trix_id)
+                    #silent $extra_data_dict.update({"trix_id": $trix_id})
+                    #if $f.formatChoice.bedChoice.add_trix_index.index_files.index_files_type == "collection"
+                        #set ix_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.trix_index.index_ix)
+                        #set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.trix_index.index_ixx)
+                    #else 
+                        #set ix_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.index_ix)
+                        #set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.index_ixx)
+                    #end if
+                    #silent $extra_data_dict.update({"indexIx": $ix_index, "indexIxx": $ixx_index})
+                #end if
                 #silent $prepare_json("BedBlatAlignments", $f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,
                                              $extra_data_dict)
             #end if
@@ -141,6 +165,18 @@ file_path = sys.argv[1]
                                             $extra_data_dict)
         #end if
         #if $f.formatChoice.format_select == "bigbed"
+            #if $f.formatChoice.add_trix_index.add_trix_index_selector == "yes"
+                    #set trix_id = str($f.formatChoice.add_trix_index.trix_id)
+                    #silent $extra_data_dict.update({"trix_id": $trix_id})
+                    #if $f.formatChoice.add_trix_index.index_files.index_files_type == "collection"
+                        #set ix_index = str($f.formatChoice.add_trix_index.index_files.trix_index.index_ix)
+                        #set ixx_index = str($f.formatChoice.add_trix_index.index_files.trix_index.index_ixx)
+                    #else 
+                        #set ix_index = str($f.formatChoice.add_trix_index.index_files.index_ix)
+                        #set ixx_index = str($f.formatChoice.add_trix_index.index_files.index_ixx)
+                    #end if
+                    #silent $extra_data_dict.update({"indexIx": $ix_index, "indexIxx": $ixx_index})
+            #end if
             #silent $prepare_json("BigBed", $f.formatChoice.BIGBED, $index_track_final,
                                             $extra_data_dict)
         #end if
@@ -276,6 +312,7 @@ with open(file_path, 'w') as f:
                                     <option value="FlyBase">FlyBase</option>
                                     <option value="Others">Others</option>
                                 </param>
+                                <expand macro="add_trix_file"/>
                             </when>
                             <when value="bed_blat_alignment_option">
                                 <param
@@ -288,6 +325,7 @@ with open(file_path, 'w') as f:
                                     <option value="NCBI" selected="true">NCBI</option>
                                     <option value="Others">Others</option>
                                 </param>
+                                <expand macro="add_trix_file"/>
                             </when>
                         </conditional>
                         <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
@@ -338,6 +376,9 @@ with open(file_path, 'w') as f:
                                 type="data"
                                 label="BIGBED File"
                         />
+                        <expand macro="add_trix_file">
+                            <expand macro="specify_search_index" />
+                        </expand>
                         <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
                             <sanitizer>

@@ -13,15 +13,9 @@ class TrixIndex(ExternIndex):
         self.indexIxx = indexIxx
         self.trackName = trackName
         self.mySpecieFolderPath = mySpecieFolderPath
-        self.trixId = trixId.strip()
-        if not self.trixId:
-            self.logger.error("Didn't specify the Trix identifier. To use TRIX index, you need to specify the identifier")
-            exit(1)
-        if "default_index" in args:
-            self.default_index = args["default_index"]
-        else:
-            self.default_index = None
         self.index_settings = collections.OrderedDict()
+        self.trixId = trixId.rstrip()
+        
 
     def setExtLink(self):
         self.setSearchIndex()
@@ -43,13 +37,9 @@ class TrixIndex(ExternIndex):
         shutil.copyfile(self.indexIxx, self.indexIxxPath)
 
     def setSearchIndex(self):
-        if self.default_index:
-            set_index = set()
-            set_index.add(self.trixId)
-            set_index.add(self.default_index)
-            search_index = ",".join(set_index)
-        else:
-            search_index = self.trixId
-        logging.debug("trixId= %s, searchIndex= %s", self.trixId, search_index)
-        self.index_settings["searchIndex"] = search_index
+        if not self.trixId:
+            self.logger.error("Didn't specify Trix Id")
+        self.logger.debug("trixId= %s, searchIndex= %s", self.trixId, self.trixId)
+        self.index_settings["searchIndex"] = self.trixId
+    
         

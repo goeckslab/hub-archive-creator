@@ -123,16 +123,16 @@ file_path = sys.argv[1]
                 #set database = str($f.formatChoice.bedChoice.database)
                 #silent $extra_data_dict.update({"database": $database})
                 #if $f.formatChoice.bedChoice.add_trix_index.add_trix_index_selector == "yes"
-                    #set trix_id = str($f.formatChoice.bedChoice.add_trix_index.trix_id)
-                    #silent $extra_data_dict.update({"trix_id": $trix_id})
-                    #if $f.formatChoice.bedChoice.add_trix_index.index_files.index_files_type == "collection"
-                        #set ix_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.trix_index.index_ix)
-                        #set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.trix_index.index_ixx)
-                    #else 
-                        #set ix_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.index_ix)
-                        #set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.index_ixx)
-                    #end if
-                    #silent $extra_data_dict.update({"indexIx": $ix_index, "indexIxx": $ixx_index})
+                    #for i in $f.formatChoice.bedChoice.add_trix_index.trix_index
+                        #if $i.element_identifier.endswith("ix")
+                            #$extra_data_dict.update({"index_ix": str($i)})
+                        #elif $i.element_identifier.endswith("ixx")
+                            #$extra_data_dict.update({"index_ixx": str($i)})
+                        #end if
+                    #end for
+                    ##set ix_index = str($f.formatChoice.bedChoice.add_trix_index.trix_index.index_ix)
+                    ##set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.trix_index.index_ixx)
+                    ##silent $extra_data_dict.update({"indexIx": $ix_index, "indexIxx": $ixx_index})
                 #end if
                 #silent $prepare_json("BedBlastAlignments", $f.formatChoice.bedChoice.BED_blast_alignment, $index_track_final,
                                              $extra_data_dict)
@@ -141,16 +141,16 @@ file_path = sys.argv[1]
                 #set database = str($f.formatChoice.bedChoice.database)
                 #silent $extra_data_dict.update({"database": $database})
                 #if $f.formatChoice.bedChoice.add_trix_index.add_trix_index_selector == "yes"
-                    #set trix_id = str($f.formatChoice.bedChoice.add_trix_index.trix_id)
-                    #silent $extra_data_dict.update({"trix_id": $trix_id})
-                    #if $f.formatChoice.bedChoice.add_trix_index.index_files.index_files_type == "collection"
-                        #set ix_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.trix_index.index_ix)
-                        #set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.trix_index.index_ixx)
-                    #else 
-                        #set ix_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.index_ix)
-                        #set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.index_files.index_ixx)
-                    #end if
-                    #silent $extra_data_dict.update({"indexIx": $ix_index, "indexIxx": $ixx_index})
+                    #for i in $f.formatChoice.bedChoice.add_trix_index.trix_index
+                        #if $i.element_identifier.endswith("ix")
+                            #$extra_data_dict.update({"index_ix": str($i)})
+                        #elif $i.element_identifier.endswith("ixx")
+                            #$extra_data_dict.update({"index_ixx": str($i)})
+                        #end if
+                    #end for
+                    ##set ix_index = str($f.formatChoice.bedChoice.add_trix_index.trix_index.index_ix)
+                    ##set ixx_index = str($f.formatChoice.bedChoice.add_trix_index.trix_index.index_ixx)
+                    ##silent $extra_data_dict.update({"indexIx": $ix_index, "indexIxx": $ixx_index})
                 #end if
                 #silent $prepare_json("BedBlatAlignments", $f.formatChoice.bedChoice.BED_blat_alignment, $index_track_final,
                                              $extra_data_dict)
@@ -166,16 +166,18 @@ file_path = sys.argv[1]
         #end if
         #if $f.formatChoice.format_select == "bigbed"
             #if $f.formatChoice.add_trix_index.add_trix_index_selector == "yes"
-                    #set trix_id = str($f.formatChoice.add_trix_index.trix_id)
-                    #silent $extra_data_dict.update({"trix_id": $trix_id})
-                    #if $f.formatChoice.add_trix_index.index_files.index_files_type == "collection"
-                        #set ix_index = str($f.formatChoice.add_trix_index.index_files.trix_index.index_ix)
-                        #set ixx_index = str($f.formatChoice.add_trix_index.index_files.trix_index.index_ixx)
-                    #else 
-                        #set ix_index = str($f.formatChoice.add_trix_index.index_files.index_ix)
-                        #set ixx_index = str($f.formatChoice.add_trix_index.index_files.index_ixx)
+                ##set ix_index = str($f.formatChoice.add_trix_index.trix_index.index_ix)
+                ##set ixx_index = str($f.formatChoice.add_trix_index.trix_index.index_ixx)
+                #for i in $f.formatChoice.add_trix_index.trix_index
+                    #if $i.element_identifier.endswith("ix")
+                        #$extra_data_dict.update({"index_ix": str($i)})
+                    #elif $i.element_identifier.endswith("ixx")
+                        #$extra_data_dict.update({"index_ixx": str($i)})
                     #end if
-                    #silent $extra_data_dict.update({"indexIx": $ix_index, "indexIxx": $ixx_index})
+                #end for
+                #$extra_data_dict.update({"trix_id": str($f.formatChoice.add_trix_index.trix_id)})
+                ##set trix_id = str($f.formatChoice.add_trix_index.trix_id)
+                ##silent $extra_data_dict.update({"indexIx": $ix_index, "indexIxx": $ixx_index, "trix_id": $trix_id})
             #end if
             #silent $prepare_json("BigBed", $f.formatChoice.BIGBED, $index_track_final,
                                             $extra_data_dict)
@@ -377,7 +379,13 @@ with open(file_path, 'w') as f:
                                 label="BIGBED File"
                         />
                         <expand macro="add_trix_file">
-                            <expand macro="specify_search_index" />
+                            <param 
+                                name="trix_id" 
+                                value="name" 
+                                type="text"
+                                size="30"
+                                label="Specify Trix identifier (The default is name)"
+                            />
                         </expand>
                         <param name="longLabel" type="text" size="76" label="Track label" help="It is limited to 76 printable characters, the first 17 printable characters will be used as a short label of the track" />
                         <param name="track_color" type="color" label="Track color" value="#000000">
@@ -451,7 +459,8 @@ with open(file_path, 'w') as f:
     </outputs>
 
     <tests>
-        <!-- Test with only the fasta file -->
+   
+       <!-- Test with only the fasta file -->
         <test>
             <param name="genome_name" value="Dbia3"/>
             <param name="fasta_file" value="common/dbia3.fa"/>
@@ -1322,13 +1331,146 @@ with open(file_path, 'w') as f:
             </output>
         </test>
 
+        <!-- Test TrixIndex for Blat alignment track -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bed" />
+                        <conditional name="bedChoice">
+                            <param name="bed_select" value="bed_blat_alignment_option"/>
+                            <param name="BED_blat_alignment" ftype="bed" value="bed_blat_alignment/inputs/BLAT_alignment_bigpsl"/>
+                            <param name="longLabel" value="BLAT alignment" />
+                            <param name="track_color" value="#000000"/>
+                            <param name="database" value="NCBI" />
+                            <conditional name="add_trix_index">
+                                <param name="add_trix_index_selector" value="yes" />
+                                <param name="trix_index" value="trix_index_files/blat_out.ix,trix_index_files/blat_out.ixx" />
+                            </conditional>
+                        </conditional>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <param name="debug_mode" value="true" />
+            <output name="output" file="trix_index_files/blat_alignment_trackhub.html">
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/BLAT_alignment_bigpsl.bb"
+                             value="bed_blat_alignment/myHub/Dbia3/tracks/BLAT_alignment_bigpsl.bb"
+                             compare="sim_size"
+                />
+                <expand macro="verify_hub_structure" test="bed_blat_alignment" />
+                <!-- check additional trackDb settings for BLAT -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
+                    <assert_contents>
+                        <has_text text="searchIndex"/>
+                        <has_text text="searchTrix"/>
+                        <has_text text="url"/>
+                        <has_text text="urlLabel"/>
+                        <has_text text="iframeUrl"/>
+                        <has_text text="iframeOptions"/>
+                    </assert_contents>
+                </extra_files>
+                <!-- check Trix index directory -->
+                <extra_files type="file" name="myHub/Dbia3/trix/BLAT_alignment_bigpsl.bb.ix"
+                             value="trix_index_files/blat_out.ix" />
+                <extra_files type="file" name="myHub/Dbia3/trix/BLAT_alignment_bigpsl.bb.ixx"
+                             value="trix_index_files/blat_out.ixx" />
+            </output>
+        </test>
+
+        <!-- Test TrixIndex for BLAST Alignment -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bed" />
+                        <conditional name="bedChoice">
+                            <param name="bed_select" value="bed_blast_alignment_option"/>
+                            <param name="BED_blast_alignment" ftype="bed" value="bed_blast_alignment/inputs/BLAST_alignment_bigpsl"/>
+                            <param name="longLabel" value="BLAST alignment" />
+                            <param name="track_color" value="#000000"/>
+                            <param name="database" value="NCBI" />
+                            <conditional name="add_trix_index">
+                                <param name="add_trix_index_selector" value="yes" />
+                                <param name="trix_index" value="trix_index_files/blast_out.ix,trix_index_files/blast_out.ixx" />
+                            </conditional>
+                        </conditional>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <param name="debug_mode" value="true" />
+            <output name="output" file="trix_index_files/blast_alignment_trackhub.html">
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/BLAST_alignment_bigpsl.bb"
+                             value="bed_blast_alignment/myHub/Dbia3/tracks/BLAST_alignment_bigpsl.bb"
+                             compare="sim_size"
+                />
+                <expand macro="verify_hub_structure" test="bed_blast_alignment" />
+                <!-- check additional trackDb settings for BLAST -->
+                <extra_files type="file" name="myHub/Dbia3/trackDb.txt">
+                    <assert_contents>
+                        <has_text text="searchIndex"/>
+                        <has_text text="searchTrix"/>
+                        <has_text text="url"/>
+                        <has_text text="urlLabel"/>
+                        <has_text text="iframeUrl"/>
+                        <has_text text="iframeOptions"/>
+                    </assert_contents>
+                </extra_files>
+                <!-- check Trix index directory -->
+                <extra_files type="file" name="myHub/Dbia3/trix/BLAST_alignment_bigpsl.bb.ix"
+                             value="trix_index_files/blast_out.ix" />
+                <extra_files type="file" name="myHub/Dbia3/trix/BLAST_alignment_bigpsl.bb.ixx"
+                             value="trix_index_files/blast_out.ixx" />
+            </output>
+        </test>
+
+        <!-- Test TrixIndex for BigBed -->
+        <test>
+            <param name="genome_name" value="Dbia3"/>
+            <param name="fasta_file" value="common/dbia3.fa"/>
+            <repeat name="group">
+                <param name="group_name" value="Default group"/>
+                <repeat name="format">
+                    <conditional name="formatChoice">
+                        <param name="format_select" value="bigbed"/>
+                        <param name="BIGBED" value="big_bed/inputs/BLAT_alignment_bigbed" />
+                        <param name="longLabel" value="bigBed" />
+                        <param name="track_color" value="#000000"/>
+                        <conditional name="add_trix_index">
+                            <param name="add_trix_index_selector" value="yes" />
+                            <param name="trix_index" value="trix_index_files/blat_out.ix,trix_index_files/blat_out.ixx" />
+                            <param name="trix_id" value="name" />
+                        </conditional>
+                    </conditional>
+                </repeat>
+            </repeat>
+            <param name="debug_mode" value="true" />
+            <output name="output" file="trix_index_files/bigbed_trackhub.html">
+                <extra_files type="file"
+                             name="myHub/Dbia3/tracks/BLAT_alignment_bigbed.bigbed"
+                             value="big_bed/myHub/Dbia3/tracks/BLAT_alignment_bigbed.bigbed"
+                             compare="sim_size"
+                />
+                <expand macro="verify_hub_structure" test="big_bed">
+                    <has_text text="searchIndex"/>
+                    <has_text text="searchTrix"/>
+                </expand>
+
+                <!-- check Trix index directory -->
+                <extra_files type="file" name="myHub/Dbia3/trix/BLAT_alignment_bigbed.bigbed.ix"
+                             value="trix_index_files/blat_out.ix" />
+                <extra_files type="file" name="myHub/Dbia3/trix/BLAT_alignment_bigbed.bigbed.ixx"
+                             value="trix_index_files/blat_out.ixx" />
+            </output>
+        </test>
         
-
-
-        <!-- Test for big files? -->
-
-        <!-- Find tests that should fail -->
-
     </tests>
 
     <help>

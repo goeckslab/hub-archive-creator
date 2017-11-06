@@ -4,6 +4,7 @@ import os
 import shutil
 from subprocess import Popen, PIPE
 import re
+import logging
 
 # Internal dependencies
 from Binary import Binary
@@ -20,6 +21,7 @@ class BigBed(Binary):
         self.trackType = self._determine_track_type(self.inputFile)
         self.dataType = self.trackType.replace(' ', '')
         self.seqType = None
+        self.logger = logging.getLogger(__name__)
 
     def initSettings(self):
         super(BigBed, self).initSettings()
@@ -34,11 +36,14 @@ class BigBed(Binary):
         if "database" in self.trackSettings:
             self.database_settings = DatabaseIndex(database=self.trackSettings["database"], seqType=self.seqType).setExtLink()
             self.extraSettings.update(self.database_settings)
-        if "indexIx" in self.trackSettings and "indexIxx" in self.trackSettings:
-            trix_id = self.trackSettings["trix_id"]
-            self.trix_settings = TrixIndex(indexIx=self.trackSettings["indexIx"], indexIxx=self.trackSettings["indexIxx"], trackName=self.trackName, mySpecieFolderPath=self.mySpecieFolderPath, trixId=trix_id).setExtLink()
+        if "index_ix" in self.trackSettings and "index_ixx" in self.trackSettings:
+            self.trix_id = self.trackSettings.get("trix_id")
+            if not self.trix_id:
+                self.logger.info("Didn't specify the ID for Trix index for BigBed file: %s. \n Will use \"name\" as default", self.trackName)
+                self.trix_id = "name"
+            self.trix_settings = TrixIndex(indexIx=self.trackSettings["index_ix"], indexIxx=self.trackSettings["index_ixx"], trackName=self.trackName, mySpecieFolderPath=self.mySpecieFolderPath, trixId=self.trix_id).setExtLink()
             self.extraSettings.update(self.trix_settings)
-    
+
     def validateData(self):
         self.validator = DataValidation(self.inputFile, self.dataType, self.chromSizesFile.name)
         self.validator.validate()

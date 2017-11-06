@@ -3,6 +3,7 @@
 import os
 import tempfile
 import string
+import logging
 
 from Interval import Interval
 from util.index.DatabaseIndex import DatabaseIndex
@@ -23,6 +24,7 @@ class BigPsl(Interval):
         self.extFields = 12
         self.seqType = None
         self.autoSql = os.path.join(self.tool_directory, 'bigPsl.as')
+        self.logger = logging.getLogger(__name__)
     
     def initSettings(self):
         super(BigPsl, self).initSettings()
@@ -33,17 +35,23 @@ class BigPsl(Interval):
         if "group_name" in self.trackSettings:
             self.extraSettings["group"] = self.trackSettings["group_name"]
         self.extraSettings["visibility"] = "dense"
-        self.extraSettings["priority"] = self.trackSettings["order_index"]
-        #self.extraSettings["searchIndex"] = "name"
+        self.extraSettings["priority"] = self.trackSettings["order_index"] 
         if self.seqType is None:
             self.seqType = self._getSeqType()
         if "database" in self.trackSettings:
             self.database_settings = DatabaseIndex(database=self.trackSettings["database"], seqType=self.seqType).setExtLink()
             self.extraSettings.update(self.database_settings)
-        if "indexIx" in self.trackSettings and "indexIxx" in self.trackSettings:
-            trix_id = self.trackSettings["trix_id"]
-            self.trix_settings = TrixIndex(indexIx=self.trackSettings["indexIx"], indexIxx=self.trackSettings["indexIxx"], trackName=self.trackName, mySpecieFolderPath=self.mySpecieFolderPath, trixId = trix_id, default_index = "name").setExtLink()
+        if "index_ix" in self.trackSettings and "index_ixx" in self.trackSettings:
+            self.trix_id = self.extraSettings.get("trix_id")
+            if not self.trix_id:
+                self.logger.info("Didn't specify the ID for Trix index for BigBed file: %s. \n Will use \"name\" as default", self.trackName)
+                self.trix_id = "name"
+            self.trix_settings = TrixIndex(indexIx=self.trackSettings["index_ix"], indexIxx=self.trackSettings["index_ixx"], trackName=self.trackName, mySpecieFolderPath=self.mySpecieFolderPath, trixId=self.trix_id).setExtLink()
             self.extraSettings.update(self.trix_settings)
+            self.extraIndex = self.trix_id
+        else:
+            self.extraIndex = "name"
+            self.extraSettings["searchIndex"] = "name"
             
 
     def validateData(self):
@@ -53,7 +61,7 @@ class BigPsl(Interval):
 
     def createTrack(self):
         self.convertType = self.getConvertType()
-        self.options = self.getConvertOptions(typeOption=self.getValidateType(), tab="True", autoSql=self.autoSql, extraIndex="name")
+        self.options = self.getConvertOptions(typeOption=self.getValidateType(), tab="True", autoSql=self.autoSql, extraIndex=self.extraIndex)
         self.converter = DataConversion(self.inputFile, self.trackDataURL, self.chromSizesFile.name, self.convertType, self.options)
         self.converter.convertFormats()
     

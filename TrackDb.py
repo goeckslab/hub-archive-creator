@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import os
 import collections
 from util import santitizer
 
@@ -21,7 +22,7 @@ class TrackDb(object):
     def createTrackDb(self, track_name, long_label, short_label, file_path, track_type, extraSettings = None):
     
         # TODO: Remove the hardcoded "tracks" by the value used as variable from myTrackFolderPath
-        data_url = "tracks/%s" % track_name
+        data_url = "tracks/%s" % os.path.basename(file_path)
         if not short_label:
             short_label = TrackDb.getShortName(long_label)
         # Replace '_' by ' ', to invert the sanitization mecanism

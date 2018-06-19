@@ -1,3 +1,4 @@
+import os
 import json
 import logging
 import codecs
@@ -105,10 +106,14 @@ class Reader(object):
         # TODO: Optimize this double loop
         for input_data in array_inputs:
             input_false_path = input_data["false_path"]
-            input_data["name"] = santitizer.sanitize_name_input(input_data["name"])
-            extensionObject = ExtensionClass(input_false_path, input_data)
-            extensionObject.generateCustomTrack()
-            datatype_dictionary.update({input_data["order_index"]: extensionObject})
+            # if the file is empty, skip the rest
+            if os.path.isfile(input_false_path) and os.path.getsize(input_false_path) > 0:
+                input_data["name"] = santitizer.sanitize_name_input(input_data["name"])
+                extensionObject = ExtensionClass(input_false_path, input_data)
+                extensionObject.generateCustomTrack()
+                datatype_dictionary.update({input_data["order_index"]: extensionObject})
+            else:
+                self.logger.info("The input file: %s is empty, skip creating the track for this data", input_data["name"])
         return datatype_dictionary
 
     

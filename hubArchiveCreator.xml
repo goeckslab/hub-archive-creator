@@ -1,4 +1,4 @@
-<tool id="hubArchiveCreator" name="Hub Archive Creator" version="2.5.1">
+<tool id="hubArchiveCreator" name="Hub Archive Creator" version="2.5.2">
     <description>
         This Galaxy tool permits to prepare your files to be ready for
         Assembly Hub visualization.
@@ -261,7 +261,7 @@ with open(file_path, 'w') as f:
                     <when value="bed">
                         <conditional name="bedChoice">
                             <param name="bed_select" type="select" label="Bed Choice">
-                                <option value="bed_generic" selected="true">BED Generic (bed4)</option>
+                                <option value="bed_generic" selected="true">BED Generic</option>
                                 <option value="bed_cytoBand">cytoBand Track (bed4+1)</option>
                                 <option value="bed_simple_repeats_option">BED Simple repeat (bed4+12 / simpleRepeat.as)</option>
                                 <option value="bed_splice_junctions_option">BED Splice junctions (bed12+1 / spliceJunctions.as)</option>

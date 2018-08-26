@@ -1,4 +1,4 @@
-<tool id="hubArchiveCreator" name="Hub Archive Creator" version="2.5.2">
+<tool id="hubArchiveCreator" name="Hub Archive Creator" version="2.5.3">
     <description>
         This Galaxy tool permits to prepare your files to be ready for
         Assembly Hub visualization.
@@ -34,6 +34,12 @@
 
 
     ]]></command>
+
+    <environment_variables>
+        <!-- Sort uppercase letters before lowercase (required by UCSC tools) -->
+        <environment_variable name="LC_COLLATE">C</environment_variable>
+    </environment_variables>
+
     <configfiles>
         <configfile name="json_file">
 import json
